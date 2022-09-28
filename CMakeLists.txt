@@ -23,6 +23,8 @@ target_link_libraries(${PROJECT_NAME}
     freetype
     m
     pthread
+    mongocxx
+    bsoncxx
 )
  
 # Specify includes
@@ -30,6 +32,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     libs/DPP/include 
     libs/include
     src/commands/include
+    /usr/local/include/mongocxx/v_noabi
+    /usr/local/include/libmongoc-1.0
+    /usr/local/include/bsoncxx/v_noabi
+    /usr/local/include/libbson-1.0
 )
  
 # Set C++ version
