@@ -10,7 +10,6 @@ add_subdirectory(libs/DPP)
 # Create an executable
 add_executable(${PROJECT_NAME}
     src/main.cpp
-    src/commands/test1.cpp
     src/commands/send_image.cpp
 )
  

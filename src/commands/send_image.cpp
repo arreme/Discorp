@@ -1,5 +1,4 @@
 #include <send_image.h>
-#include <test1.h>
 
 SendImage::SendImage() 
 {

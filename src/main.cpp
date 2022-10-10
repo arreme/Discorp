@@ -1,7 +1,6 @@
 #include <dpp/dpp.h>
 #include <gd.h>
 #include <stdio.h>
-#include <test1.h>
 #include <send_image.h>
 
 #include <cstdint>
@@ -28,11 +27,10 @@ const std::string BOT_TOKEN = "OTk5NjAyMDc1OTAwMDU1NjMz.GbkJI5.xcgdebavt3vZw827Z
 int main()
 {
 
-      mongocxx::instance inst{};
+    mongocxx::instance inst{};
     const auto uri = mongocxx::uri{"mongodb://localhost:27017"};
     mongocxx::client conn{uri};
     mongocxx::database db = conn["firstdb"];
-
     auto builder = bsoncxx::builder::stream::document{};
     bsoncxx::document::value doc_value = builder
         << "name" << "MongoDB3"
@@ -48,26 +46,24 @@ int main()
         << bsoncxx::builder::stream::finalize;
     auto col = db["user"];
     col.insert_one(doc_value.view());
-  /* Create bot cluster */
-  uint64_t intents = dpp::i_default_intents | dpp::i_message_content;
-  dpp::cluster bot(BOT_TOKEN,intents);
+    /* Create bot cluster */
+    uint64_t intents = dpp::i_default_intents | dpp::i_message_content;
+    dpp::cluster bot(BOT_TOKEN,intents);
 
-  /* Output simple log messages to stdout */
-  bot.on_log(dpp::utility::cout_logger());
+    /* Output simple log messages to stdout */
+    bot.on_log(dpp::utility::cout_logger());
 
-  dpp::commandhandler command_handler(&bot);
-  command_handler.add_prefix("/");
-  test1 com1;
-  SendImage sendimg;
-  /* Register slash command here in on_ready */
-  bot.on_ready([&command_handler, &com1,&sendimg](const dpp::ready_t& event) {
-      com1.CreateCommand(&command_handler);
-      sendimg.CreateCommand(&command_handler);
-      command_handler.register_commands();
-  });
+    dpp::commandhandler command_handler(&bot);
+    command_handler.add_prefix("/");
+    SendImage sendimg;
+    /* Register slash command here in on_ready */
+    bot.on_ready([&command_handler,&sendimg](const dpp::ready_t& event) {
+        sendimg.CreateCommand(&command_handler);
+        command_handler.register_commands();
+    });
 
-  /* Start the bot */
-  bot.start(false);
-  //change
-  return 0;
+    /* Start the bot */
+    bot.start(false);
+
+    return 0;
 }
