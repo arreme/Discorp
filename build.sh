@@ -1,3 +1,3 @@
 #!/bin/sh
-cmake -B build -S .
-make -C build
+cmake -B build/Discorp -S . -DBUILD_TEST=OFF
+make -C build/Discorp

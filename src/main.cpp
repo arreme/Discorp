@@ -26,9 +26,8 @@ const std::string BOT_TOKEN = "OTk5NjAyMDc1OTAwMDU1NjMz.GbkJI5.xcgdebavt3vZw827Z
 
 int main()
 {
-
     mongocxx::instance inst{};
-    const auto uri = mongocxx::uri{"mongodb://localhost:27017"};
+    const auto uri = mongocxx::uri{"mongodb://192.168.1.33:27017"};
     mongocxx::client conn{uri};
     mongocxx::database db = conn["firstdb"];
     auto builder = bsoncxx::builder::stream::document{};
@@ -45,7 +44,7 @@ int main()
         << bsoncxx::builder::stream::close_document
         << bsoncxx::builder::stream::finalize;
     auto col = db["user"];
-    col.insert_one(doc_value.view());
+    auto result = col.insert_one(doc_value.view());
     /* Create bot cluster */
     uint64_t intents = dpp::i_default_intents | dpp::i_message_content;
     dpp::cluster bot(BOT_TOKEN,intents);
