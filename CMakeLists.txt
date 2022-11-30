@@ -34,9 +34,7 @@ else()
 
     add_executable(${PROJECT_NAME}
         src/main.cpp
-        src/commands/login.cpp
-        src/commands/send_image.cpp
-
+        src/api/command_bootstrap.cpp
     )
     target_link_libraries(${PROJECT_NAME}
         dpp
@@ -52,8 +50,8 @@ else()
 
     target_include_directories(${PROJECT_NAME} PRIVATE
         libs/DPP/include 
-        libs/include
-        src/commands/include
+        src/api/include
+        src/entities
         /usr/local/include/mongocxx/v_noabi
         /usr/local/include/libmongoc-1.0
         /usr/local/include/bsoncxx/v_noabi
