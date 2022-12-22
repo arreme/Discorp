@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <cstdint>
 #include "command_bootstrap.hpp"
+#include <db_instance.hpp>
+#include <db_access.hpp>
 
 const std::string BOT_TOKEN = "OTk5NjAyMDc1OTAwMDU1NjMz.GbkJI5.xcgdebavt3vZw827Z3dMnLg0m3fwSytJdi4COA";
 
@@ -15,6 +17,9 @@ int main(int argc, char *argv[])
             delete_commands = true;
         }
     }
+
+    MongoDBInstance::GetInstance()->createPool("mongodb://192.168.1.33:27017");
+    
     uint64_t intents = dpp::i_default_intents | dpp::i_message_content;
     dpp::cluster bot(BOT_TOKEN,intents);
 

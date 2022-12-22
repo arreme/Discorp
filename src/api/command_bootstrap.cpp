@@ -3,21 +3,22 @@
 CommandBootstrap::CommandBootstrap(dpp::cluster *bot) 
 {
     this->bot = bot;
-    command_list.push_back(new LoginCommand(bot->me.id));
+    command_list.insert({"login",new LoginCommand(bot->me.id)});
 }
 
 void CommandBootstrap::RegisterCommands() 
 {
-    for(std::vector<Command *>::iterator it = command_list.begin(); it != command_list.end(); ++it) 
+    for(std::map<std::string, Command *>::iterator it = command_list.begin(); it != command_list.end(); ++it) 
     {
-        if ((*it)->isGlobal) 
+        Command* current = it->second;
+        if (current->isGlobal) 
         {
-            bot->global_command_create((*it)->command);
+            bot->global_command_create(current->command);
         }
     }
 }
 
 Command *CommandBootstrap::Find(std::string command_name) 
 {
-    return command_list[0];
+    return command_list.at(command_name);
 }

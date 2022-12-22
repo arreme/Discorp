@@ -1,6 +1,7 @@
 #pragma once
 #include <dpp.h>
 #include <memory>
+#include <game_manager.hpp>
 
 class Command 
 {
@@ -31,7 +32,26 @@ public:
 
     void HandleCommand(const dpp::slashcommand_t *event) 
     {
+        
         std::string animal = std::get<std::string>(event->get_parameter("animal"));
         event->reply(std::string("Blep! You chose") + animal);
     }
+};
+
+class StartCommand : public Command 
+{
+public:
+    const std::string COMMAND_NAME = "login";
+    StartCommand(dpp::snowflake appid) 
+    {
+        isGlobal = true;
+        command = dpp::slashcommand(COMMAND_NAME,"Start new discorp session",appid);
+    }
+
+    void HandleCommand(const dpp::slashcommand_t *event) 
+    {
+        dpp::user target = event->command.get_issuing_user();
+        gm::CreateGame(target.id,target.username);
+    }
+
 };

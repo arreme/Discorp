@@ -7,7 +7,7 @@ class CommandBootstrap
 {
 private:
     dpp::cluster *bot;
-    std::vector<Command *> command_list;
+    std::map<std::string,Command *> command_list;
 public:
     CommandBootstrap(dpp::cluster *bot);
     void RegisterCommands();
