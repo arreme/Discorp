@@ -14,8 +14,8 @@ namespace db_user
         auto access = MongoDBAccess(*dbClient,"testdb","user");
         json j;
         j["discord_id"] = user_id;
-        int result = access.delete_one(to_string(j));
-        return result==0;
+        int result = access.DeleteOne(to_string(j));
+        return result > 0;
     }
 
     bool SaveUser(User user) 
@@ -25,7 +25,7 @@ namespace db_user
         json j;
         j["discord_id"] = user.GetId();
         j["user_name"] = user.GetUserName();
-        int result = access.insert_one(to_string(j));
+        int result = access.InsertOne(to_string(j));
         return result==0;
     }
 
@@ -35,15 +35,26 @@ namespace db_user
         auto access = MongoDBAccess(*dbClient,"testdb","user");
         json j;
         j["discord_id"] = user_id;
-        std::string result = access.find_one(to_string(j));
+        std::string result = access.FindOne(to_string(j));
         
         if (!result.empty()) 
         {
-            json o = result;
+            json o = json::parse(result);
             std::string user_name = o["user_name"];
             return std::make_unique<User>(User(user_id,user_name));
         }
 
         return nullptr;
+    }
+
+    std::unique_ptr<User[]> FindUsersById(uint64_t user_id) 
+    {
+        auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
+        auto access = MongoDBAccess(*dbClient,"testdb","user");
+        json j;
+        j["discord_id"] = user_id;
+        auto result = access.FindMany(to_string(j));
+        return {};
+        //TODO: For each vector create an user
     }
 } // namespace db_user

@@ -25,7 +25,7 @@ public:
         m_collection = m_db[collName_];
     }
 
-    int insert_one (std::string &&jsonDoc_) 
+    int InsertOne(std::string &&jsonDoc_) 
     {
         try 
         {
@@ -39,7 +39,7 @@ public:
             std::string errInfo = std::string("Error in converting JSONdata,Err Msg : ") + e.what();
             return -1;
         }
-        catch (mongocxx::write_exception e) 
+        catch (mongocxx::bulk_write_exception e) 
         {
             std::string errInfo = std::string("Error in inserting document, Err Msg : ") + e.what();
             return -1;
@@ -47,7 +47,7 @@ public:
         return 0;
     }
 
-    int delete_one(std::string &&jsonDoc_) 
+    int DeleteOne(std::string &&jsonDoc_) 
     {
         try 
         {
@@ -55,21 +55,23 @@ public:
             auto doc_value = bsoncxx::from_json(jsonDoc_);
             //Insert the document
             auto result = m_collection.delete_one(std::move(doc_value));
+            if (result) 
+            {
+                return result->deleted_count();
+            }
         }
         catch(const bsoncxx::exception& e) 
         {
             std::string errInfo = std::string("Error in converting JSONdata,Err Msg : ") + e.what();
-            return -1;
         }
-        catch (mongocxx::write_exception e) 
+        catch (mongocxx::bulk_write_exception e) 
         {
             std::string errInfo = std::string("Error in deleting document, Err Msg : ") + e.what();
-            return -1;
         }
-        return 0;
+        return {};
     }
 
-    std::string find_one(std::string &&jsonDoc_) 
+    std::string FindOne(std::string &&jsonDoc_) 
     {
         try 
         {
@@ -81,6 +83,36 @@ public:
             {
                 return bsoncxx::to_json(result->view());
             }
+        }
+        catch(const bsoncxx::exception& e) 
+        {
+            std::string errInfo = std::string("Error in converting JSONdata,Err Msg : ") + e.what();
+        }
+        catch (mongocxx::query_exception e) 
+        {
+            std::string errInfo = std::string("Error in query operation, Err Msg : ") + e.what();
+        }
+        return {};
+    }
+
+    std::vector<std::string> FindMany(std::string &&filter)  
+    {
+        try 
+        {
+            // Convert JSON data to document
+            auto doc_value = bsoncxx::from_json(filter);
+            //Insert the document
+            mongocxx::cursor result = m_collection.find(std::move(doc_value));
+            
+            std::vector<std::string> documents;
+
+            for (auto doc : result) 
+            {
+                documents.push_back(bsoncxx::to_json(doc));
+            }
+
+            return documents;
+
         }
         catch(const bsoncxx::exception& e) 
         {
