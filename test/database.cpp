@@ -35,6 +35,16 @@ SCENARIO("Database basic testing for user","[db]")
                 REQUIRE_FALSE(db_user::SaveUser(user));
             }
         }
+        WHEN("Finding a an existing user") 
+        {
+            uint64_t id = 0;
+            auto result = db_user::FindUserById(id);
+            THEN("Result should be null") 
+            {
+                REQUIRE(result);
+                REQUIRE(result->GetUserName() == "test_user");
+            }
+        }
         WHEN("Removing a user from the database")
         {
             uint64_t id = 0;

@@ -4,66 +4,76 @@ cmake_minimum_required(VERSION 3.15)
 option(BUILD_TEST "You want to check if tests pass" OFF)
 option(DEBUG_MODE "You want to create a debug build" OFF)
 
+# list of exes that are shared from the two builds
+set (COMMON_EXES
+    "src/business/game_manager.cpp"
+    "src/business/plant_manager.cpp"
+    "src/entities/user.cpp"
+    "src/database/db_access.cpp"
+    "src/database/db_user_handler.cpp"
+)
+
+set (COMMON_LIBS
+    "gd"
+    "png"
+    "z"
+    "freetype"
+    "m"
+    "pthread"
+    "mongocxx"
+    "bsoncxx"
+)
+
+set (COMMON_INCLUDES
+    "/usr/local/include/mongocxx/v_noabi"
+    "/usr/local/include/libmongoc-1.0"
+    "/usr/local/include/bsoncxx/v_noabi"
+    "/usr/local/include/libbson-1.0"
+    "libs/json"
+    "src/database/include"
+    "src/business/include"
+    "src/entities/include"
+    "src/"
+)
+
 if(BUILD_TEST)
     project(DisTest VERSION 0.1 DESCRIPTION "Distest")
     add_subdirectory(libs/Catch2)
     add_executable(${PROJECT_NAME}
-        test/test.cpp
-        test/start_command.cpp
-        src/entities/user.cpp
+        ${COMMON_EXES}
+        test/setup.cpp
+        test/database.cpp
     )
 
     target_link_libraries(${PROJECT_NAME}
-        gd
-        png
-        z
-        freetype
-        m
-        pthread
-        mongocxx
-        bsoncxx
+        ${COMMON_LIBS}
         Catch2WithMain
     )
+
     target_include_directories(${PROJECT_NAME} PRIVATE
-        /usr/local/include/mongocxx/v_noabi
-        /usr/local/include/libmongoc-1.0
-        /usr/local/include/bsoncxx/v_noabi
-        /usr/local/include/libbson-1.0
-        libs/json
-        src/database/
-        src/game_manager/
-        src/entities/
-    )   
+        ${COMMON_INCLUDES}
+    )
+    
+    add_definitions( -DTEST_BUILD)
 else()
     project(Discorp VERSION 0.1 DESCRIPTION "Discorp")
 
     add_subdirectory(libs/DPP)
 
     add_executable(${PROJECT_NAME}
+        ${COMMON_EXES}
         src/main.cpp
         src/api/command_bootstrap.cpp
     )
     target_link_libraries(${PROJECT_NAME}
+        ${COMMON_LIBS}
         dpp
-        gd
-        png
-        z
-        freetype
-        m
-        pthread
-        mongocxx
-        bsoncxx
     )
 
     target_include_directories(${PROJECT_NAME} PRIVATE
+        ${COMMON_INCLUDES}
         libs/DPP/include 
         src/api/include
-        src/entities
-        /usr/local/include/mongocxx/v_noabi
-        /usr/local/include/libmongoc-1.0
-        /usr/local/include/bsoncxx/v_noabi
-        /usr/local/include/libbson-1.0
-        libs/json
     )
 endif()
 
