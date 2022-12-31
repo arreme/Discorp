@@ -3,31 +3,28 @@
 bool db_user::DeleteUser(uint64_t user_id) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
-    auto access = MongoDBAccess(*dbClient,DATABASE_NAME,"user");
+    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
     json j;
     j["discord_id"] = user_id;
-    int result = access.DeleteOne(to_string(j));
+    int result = access.DeleteOne(to_string(j),"farmer");
     return result > 0;
 }
 
 bool db_user::SaveUser(User user) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
-    auto access = MongoDBAccess(*dbClient,DATABASE_NAME,"user");
-    json j;
-    j["discord_id"] = user.GetId();
-    j["user_name"] = user.GetUserName();
-    int result = access.InsertOne(to_string(j));
+    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
+    int result = access.InsertOne(user.ToJson(), "farmer");
     return result==0;
 }
 
 std::unique_ptr<User> db_user::FindUserById(uint64_t user_id) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
-    auto access = MongoDBAccess(*dbClient,DATABASE_NAME,"user");
+    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
     json j;
     j["discord_id"] = user_id;
-    std::string result = access.FindOne(to_string(j));
+    std::string result = access.FindOne(to_string(j),"farmer");
     
     if (!result.empty()) 
     {
@@ -42,10 +39,10 @@ std::unique_ptr<User> db_user::FindUserById(uint64_t user_id)
 std::unique_ptr<User[]> db_user::FindUsersById(uint64_t user_id) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
-    auto access = MongoDBAccess(*dbClient,DATABASE_NAME,"user");
+    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
     json j;
     j["discord_id"] = user_id;
-    auto result = access.FindMany(to_string(j));
+    auto result = access.FindMany(to_string(j),"farmer");
     return {};
     //TODO: For each vector create an user
 }

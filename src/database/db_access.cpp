@@ -1,20 +1,19 @@
 #include <db_access.hpp>
 
-MongoDBAccess::MongoDBAccess(mongocxx::client &client, std::string dbName_, std::string collName_) 
-: m_client(client), m_dbName(dbName_), m_collectionName(collName_) 
+MongoDBAccess::MongoDBAccess(mongocxx::client &client, std::string dbName_) 
+: m_client(client), m_dbName(dbName_)
 {
     m_db = m_client[dbName_];
-    m_collection = m_db[collName_];
 };
 
-int MongoDBAccess::InsertOne(std::string &&jsonDoc_) 
+int MongoDBAccess::InsertOne(std::string &&jsonDoc_, std::string colName) 
 {
     try 
     {
         // Convert JSON data to document
         auto doc_value = bsoncxx::from_json(jsonDoc_);
         //Insert the document
-        auto result = m_collection.insert_one(std::move(doc_value));
+        auto result = m_db[colName].insert_one(std::move(doc_value));
     }
     catch(const bsoncxx::exception& e) 
     {
@@ -29,14 +28,14 @@ int MongoDBAccess::InsertOne(std::string &&jsonDoc_)
     return 0;
 };
 
-int MongoDBAccess::DeleteOne(std::string &&jsonDoc_) 
+int MongoDBAccess::DeleteOne(std::string &&jsonDoc_, std::string colName) 
 {
     try 
     {
         // Convert JSON data to document
         auto doc_value = bsoncxx::from_json(jsonDoc_);
         //Insert the document
-        auto result = m_collection.delete_one(std::move(doc_value));
+        auto result = m_db[colName].delete_one(std::move(doc_value));
         if (result) 
         {
             return result->deleted_count();
@@ -53,14 +52,14 @@ int MongoDBAccess::DeleteOne(std::string &&jsonDoc_)
     return {};
 };
 
-std::string MongoDBAccess::FindOne(std::string &&jsonDoc_) 
+std::string MongoDBAccess::FindOne(std::string &&jsonDoc_, std::string colName) 
 {
     try 
     {
         // Convert JSON data to document
         auto doc_value = bsoncxx::from_json(jsonDoc_);
         //Insert the document
-        bsoncxx::stdx::optional<bsoncxx::document::value> result = m_collection.find_one(std::move(doc_value));
+        bsoncxx::stdx::optional<bsoncxx::document::value> result = m_db[colName].find_one(std::move(doc_value));
         if (result) 
         {
             return bsoncxx::to_json(result->view());
@@ -77,14 +76,14 @@ std::string MongoDBAccess::FindOne(std::string &&jsonDoc_)
     return {};
 };
 
-std::vector<std::string> MongoDBAccess::FindMany(std::string &&filter)  
+std::vector<std::string> MongoDBAccess::FindMany(std::string &&filter, std::string colName)  
 {
     try 
     {
         // Convert JSON data to document
         auto doc_value = bsoncxx::from_json(filter);
         //Insert the document
-        mongocxx::cursor result = m_collection.find(std::move(doc_value));
+        mongocxx::cursor result = m_db[colName].find(std::move(doc_value));
         
         std::vector<std::string> documents;
 

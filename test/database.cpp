@@ -1,11 +1,11 @@
 #include <catch2/catch_test_macros.hpp>
-#include <db_instance.hpp>
 #include <db_user_handler.hpp>
 
 SCENARIO("Database basic testing for user","[db]") 
 {
     GIVEN("A new empty user collection database") 
     {
+        
         WHEN("FindingUserById with an empty database") 
         {
             uint64_t id = 0;
@@ -25,7 +25,7 @@ SCENARIO("Database basic testing for user","[db]")
                 REQUIRE(db_user::SaveUser(user));
             }
         }
-        WHEN("Adding the same user id to the database")
+        AND_WHEN("Adding the same user id to the database")
         {
             uint64_t id = 0;
             std::string user_name = "test_user";
@@ -35,7 +35,7 @@ SCENARIO("Database basic testing for user","[db]")
                 REQUIRE_FALSE(db_user::SaveUser(user));
             }
         }
-        WHEN("Finding a an existing user") 
+        WHEN("Finding an existing user") 
         {
             uint64_t id = 0;
             auto result = db_user::FindUserById(id);

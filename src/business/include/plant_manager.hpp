@@ -2,7 +2,7 @@
 
 namespace pm 
 {
-    typedef enum PM_ERR_CODE
+    typedef enum
     {
         SUCCESS = 0,
         NO_PLANT = -1,
