@@ -16,7 +16,8 @@ gm::gm_err_code gm::CreateGame(uint64_t discord_id, std::string user_name)
     auto insertFarm = InsertOneOperation("farm",farm.ToJson());
     t.AddOperation(&insertUser);
     t.AddOperation(&insertFarm);
-    if (access.MakeTransaction(t)) 
+    DB_ERR err_code = access.ExecuteTransaction(t);
+    if (err_code == DB_ERR::SUCCESS) 
     {
         return gm_err_code::SUCCESS;
     }

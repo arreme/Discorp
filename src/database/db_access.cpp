@@ -1,107 +1,50 @@
 #include <db_access.hpp>
 
 MongoDBAccess::MongoDBAccess(mongocxx::client &client, std::string dbName_) 
-: m_client(client), m_dbName(dbName_)
+: m_client(client)
 {
     m_db = m_client[dbName_];
 };
 
-int MongoDBAccess::InsertOne(std::string &&jsonDoc_, std::string colName) 
+FindOneOperation::FindOneOperation(const std::string &&colName, const std::string &&json)
 {
-    try 
-    {
-        // Convert JSON data to document
-        auto doc_value = bsoncxx::from_json(jsonDoc_);
-        //Insert the document
-        auto result = m_db[colName].insert_one(std::move(doc_value));
-    }
-    catch(const bsoncxx::exception& e) 
-    {
-        std::string errInfo = std::string("Error in converting JSONdata,Err Msg : ") + e.what();
-        return -1;
-    }
-    catch (mongocxx::bulk_write_exception e) 
-    {
-        std::string errInfo = std::string("Error in inserting document, Err Msg : ") + e.what();
-        return -1;
-    }
-    return 0;
-};
+    m_json = json;
+    m_colName = colName;
+    m_result = "";
+}
 
-int MongoDBAccess::DeleteOne(std::string &&jsonDoc_, std::string colName) 
+DB_ERR FindOneOperation::ExecuteOperation(const mongocxx::database &db) 
 {
     try 
     {
         // Convert JSON data to document
-        auto doc_value = bsoncxx::from_json(jsonDoc_);
+        auto doc_value = bsoncxx::from_json(m_json);
         //Insert the document
-        auto result = m_db[colName].delete_one(std::move(doc_value));
+        auto result = db[m_colName].find_one(doc_value.view());
         if (result) 
         {
-            return result->deleted_count();
+            m_result = std::move(bsoncxx::to_json(result->view()));
         }
     }
     catch(const bsoncxx::exception& e) 
     {
         std::string errInfo = std::string("Error in converting JSONdata,Err Msg : ") + e.what();
-    }
-    catch (mongocxx::bulk_write_exception e) 
-    {
-        std::string errInfo = std::string("Error in deleting document, Err Msg : ") + e.what();
-    }
-    return {};
-};
-
-std::string MongoDBAccess::FindOne(std::string &&jsonDoc_, std::string colName) 
-{
-    try 
-    {
-        // Convert JSON data to document
-        auto doc_value = bsoncxx::from_json(jsonDoc_);
-        //Insert the document
-        bsoncxx::stdx::optional<bsoncxx::document::value> result = m_db[colName].find_one(std::move(doc_value));
-        if (result) 
-        {
-            return bsoncxx::to_json(result->view());
-        }
-    }
-    catch(const bsoncxx::exception& e) 
-    {
-        std::string errInfo = std::string("Error in converting JSONdata,Err Msg : ") + e.what();
+        return PARSE_ERR;
     }
     catch (mongocxx::query_exception e) 
     {
         std::string errInfo = std::string("Error in query operation, Err Msg : ") + e.what();
+        return GENERAL_ERR;
     }
-    return {};
-};
+    return SUCCESS;
+}
 
-std::vector<std::string> MongoDBAccess::FindMany(std::string &&filter, std::string colName)  
+bool FindOneOperation::IsResult() 
 {
-    try 
-    {
-        // Convert JSON data to document
-        auto doc_value = bsoncxx::from_json(filter);
-        //Insert the document
-        mongocxx::cursor result = m_db[colName].find(std::move(doc_value));
-        
-        std::vector<std::string> documents;
+    return !m_result.empty();
+}
 
-        for (auto doc : result) 
-        {
-            documents.push_back(bsoncxx::to_json(doc));
-        }
-
-        return documents;
-
-    }
-    catch(const bsoncxx::exception& e) 
-    {
-        std::string errInfo = std::string("Error in converting JSONdata,Err Msg : ") + e.what();
-    }
-    catch (mongocxx::query_exception e) 
-    {
-        std::string errInfo = std::string("Error in query operation, Err Msg : ") + e.what();
-    }
-    return {};
-};
+std::string FindOneOperation::GetResult() 
+{
+    return m_result;
+}

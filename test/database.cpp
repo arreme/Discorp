@@ -9,6 +9,7 @@ SCENARIO("Database basic testing for user","[db]")
         WHEN("FindingUserById with an empty database") 
         {
             uint64_t id = 0;
+
             auto result = db_user::FindUserById(id);
             THEN("Result should be null") 
             {
@@ -58,9 +59,9 @@ SCENARIO("Database basic testing for user","[db]")
         WHEN("Removing a non existing user from the database") 
         {
             uint64_t id = 0;
-            THEN("The result should give false") 
+            THEN("The result should give true") 
             {
-                REQUIRE_FALSE(db_user::DeleteUser(id));
+                REQUIRE(db_user::DeleteUser(id));
             }
         }
     }

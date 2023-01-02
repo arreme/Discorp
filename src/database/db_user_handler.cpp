@@ -6,16 +6,18 @@ bool db_user::DeleteUser(uint64_t user_id)
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
     json j;
     j["discord_id"] = user_id;
-    int result = access.DeleteOne(to_string(j),"farmer");
-    return result > 0;
+    DeleteOneOperation op = DeleteOneOperation("farmer",to_string(j));
+    DB_ERR err = access.ExecuteOperation(op);
+    return err == DB_ERR::SUCCESS;
 }
 
 bool db_user::SaveUser(User user) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
-    int result = access.InsertOne(user.ToJson(), "farmer");
-    return result==0;
+    InsertOneOperation op = InsertOneOperation("farmer",user.ToJson());
+    DB_ERR err = access.ExecuteOperation(op);
+    return err == DB_ERR::SUCCESS;
 }
 
 std::unique_ptr<User> db_user::FindUserById(uint64_t user_id) 
@@ -24,11 +26,12 @@ std::unique_ptr<User> db_user::FindUserById(uint64_t user_id)
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
     json j;
     j["discord_id"] = user_id;
-    std::string result = access.FindOne(to_string(j),"farmer");
+    FindOneOperation op = FindOneOperation("farmer",to_string(j));
+    access.ExecuteOperation(op);
     
-    if (!result.empty()) 
+    if (op.IsResult()) 
     {
-        json o = json::parse(result);
+        json o = json::parse(op.GetResult());
         std::string user_name = o["user_name"];
         return std::make_unique<User>(User(user_id,user_name));
     }
@@ -42,7 +45,8 @@ std::unique_ptr<User[]> db_user::FindUsersById(uint64_t user_id)
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
     json j;
     j["discord_id"] = user_id;
-    auto result = access.FindMany(to_string(j),"farmer");
+
+    //auto result = access.FindMany(to_string(j),"farmer");
     return {};
     //TODO: For each vector create an user
 }

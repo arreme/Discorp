@@ -13,7 +13,6 @@ set (COMMON_EXES
     "src/database/db_access.cpp"
     "src/database/db_user_handler.cpp"
     "src/database/db_farm_handler.cpp"
-
 )
 
 set (COMMON_LIBS

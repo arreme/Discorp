@@ -17,6 +17,7 @@ SCENARIO("Game state tests and setup, [db] [user]")
 
         WHEN("/dc plant carrotos 1") 
         {
+
             THEN("Error: User has not registered to the game") 
             {
 
@@ -28,24 +29,12 @@ SCENARIO("Game state tests and setup, [db] [user]")
             gm::gm_err_code code = gm::CreateGame(id, name);
             THEN("Initial user should be created in database") 
             {
-                auto result = db_user::FindUserById(id);
-                REQUIRE(result);
-            }
-            THEN("Initial farm should be created in database") 
-            {
-                auto result = db_farm::FindFarmByUserId(id);
-                REQUIRE(result);
+                auto userRes = db_user::FindUserById(id);
+                REQUIRE(userRes);
+                auto farmRes = db_farm::FindFarmByUserId(id);
+                REQUIRE(farmRes);
             }
         }
-        // WHEN("/dc start") 
-        // {
-        //     gm::gm_err_code code = gm::CreateGame(id, name);
-        //     THEN("Error: user already registered") 
-        //     {
-        //         REQUIRE(code == gm::gm_err_code::USER_ALREADY_ADDED);
-        //     }
-        // }
-
 
     }
 
