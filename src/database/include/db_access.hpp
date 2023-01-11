@@ -32,7 +32,7 @@ class InsertOneOperation : public Operation
 {
     
 public:
-    InsertOneOperation(const std::string &&colName, const std::string &&json)
+    InsertOneOperation(std::string &&colName, std::string &&json)
     {
         m_json = json;
         m_colName = colName;
@@ -102,7 +102,7 @@ public:
 class DeleteOneOperation : public Operation
 {
 public:
-    DeleteOneOperation(const std::string &&colName, const std::string &&json)
+    DeleteOneOperation(std::string &&colName, std::string &&json)
     {
         m_json = json;
         m_colName = colName;
@@ -158,7 +158,7 @@ class FindOneOperation : public Operation
 private:
     std::string m_result;
 public:
-    FindOneOperation(const std::string &&colName, const std::string &&json);
+    FindOneOperation(std::string &&colName, std::string &&json);
 
     DB_ERR ExecuteOperation(const mongocxx::database &db);
 
@@ -218,16 +218,16 @@ public:
 class Transaction 
 {
 private:
-    std::vector<Operation *> opList;
+    std::vector<Operation *> m_opList;
 public:
-    void AddOperation(Operation *opList) 
+    void AddOperation(Operation &op) 
     {
-        this->opList.push_back(opList);
+        this->m_opList.push_back(&op);
     }
 
     DB_ERR ExecuteTransaction(mongocxx::database &db, mongocxx::v_noabi::client_session &session) 
     {
-        for (auto op : opList)
+        for (auto op : m_opList)
         {
             DB_ERR err = op->ExecuteTransactionOperation(db,session);
             if (err != SUCCESS) return err;
@@ -275,7 +275,6 @@ public:
         return SUCCESS;
 
     }
-    
 };
 
 // class MongoDBThread 

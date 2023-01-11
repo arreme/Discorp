@@ -14,6 +14,7 @@ bool db_user::DeleteUser(uint64_t user_id)
 bool db_user::SaveUser(User user) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
+    auto db = (*dbClient)["daw"];
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
     InsertOneOperation op = InsertOneOperation("farmer",user.ToJson());
     DB_ERR err = access.ExecuteOperation(op);

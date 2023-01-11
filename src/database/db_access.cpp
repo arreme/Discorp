@@ -6,7 +6,7 @@ MongoDBAccess::MongoDBAccess(mongocxx::client &client, std::string dbName_)
     m_db = m_client[dbName_];
 };
 
-FindOneOperation::FindOneOperation(const std::string &&colName, const std::string &&json)
+FindOneOperation::FindOneOperation(std::string &&colName, std::string &&json)
 {
     m_json = json;
     m_colName = colName;
