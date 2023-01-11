@@ -6,45 +6,32 @@ MongoDBAccess::MongoDBAccess(mongocxx::client &client, std::string dbName_)
     m_db = m_client[dbName_];
 };
 
-FindOneOperation::FindOneOperation(std::string &&colName, std::string &&json)
+RW_ERR MongoDBAccess::ExecuteOperation(Operation &op)
 {
-    m_json = json;
-    m_colName = colName;
-    m_result = "";
+    return op.ExecuteOperation(m_db);
 }
 
-DB_ERR FindOneOperation::ExecuteOperation(const mongocxx::database &db) 
+RW_ERR MongoDBAccess::ExecuteTransaction(Transaction &t) 
 {
-    try 
+    auto session = m_client.start_session();
+    session.start_transaction();
+    RW_ERR err;
+    try
     {
-        // Convert JSON data to document
-        auto doc_value = bsoncxx::from_json(m_json);
-        //Insert the document
-        auto result = db[m_colName].find_one(doc_value.view());
-        if (result) 
+        err = t.ExecuteTransaction(m_db, session);
+        if (err != RW_ERR::SUCCESS) 
         {
-            m_result = std::move(bsoncxx::to_json(result->view()));
+            session.abort_transaction();
+            return err;
         }
     }
-    catch(const bsoncxx::exception& e) 
-    {
-        std::string errInfo = std::string("Error in converting JSONdata,Err Msg : ") + e.what();
-        return PARSE_ERR;
+    catch (std::exception& e)
+    {     
+        std::cerr << "Transaction Exception " << e.what() << std::endl;
+        session.abort_transaction();
+        return RW_ERR::GENERAL_ERR;
     }
-    catch (mongocxx::query_exception e) 
-    {
-        std::string errInfo = std::string("Error in query operation, Err Msg : ") + e.what();
-        return GENERAL_ERR;
-    }
-    return SUCCESS;
-}
 
-bool FindOneOperation::IsResult() 
-{
-    return !m_result.empty();
-}
-
-std::string FindOneOperation::GetResult() 
-{
-    return m_result;
+    session.commit_transaction();
+    return RW_ERR::SUCCESS;
 }

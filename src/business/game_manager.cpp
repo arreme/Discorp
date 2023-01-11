@@ -1,31 +1,26 @@
 #include <game_manager.hpp>
 #include <user.hpp>
-#include <farm.hpp>
-#include <db_access.hpp>
 #include <db_instance.hpp>
 #include <discorp_config.hpp>
 
-gm::gm_err_code gm::CreateGame(uint64_t discord_id, std::string user_name) 
+using namespace gm;
+
+
+g_enums::Errors CreateGame(uint64_t discord_id, std::string user_name) 
 {
-    auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
-    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
+    //Find user if user can't be found create user and initialize all game
+    
+    //User could be found, creating a new player if there are enough slots
+
+    //User could not be found, initializing brand new game
     User user = User(discord_id,user_name);
-    Farm farm = Farm(discord_id);
-    Transaction t;
-    auto insertUser = InsertOneOperation("farmer",user.ToJson());
-    auto insertFarm = InsertOneOperation("farm",farm.ToJson());
-    t.AddOperation(&insertUser);
-    t.AddOperation(&insertFarm);
-    DB_ERR err_code = access.ExecuteTransaction(t);
-    if (err_code == DB_ERR::SUCCESS) 
-    {
-        return gm_err_code::SUCCESS;
-    }
-    return gm_err_code::FORMAT_ERROR;
+    
+
+    return g_enums::Errors::SUCCESS;
 }
 
-gm::gm_err_code gm::DeleteGame(uint64_t discord_id) 
+g_enums::Errors DeleteGame(uint64_t discord_id) 
 {
-    return gm_err_code::SUCCESS;
+    return g_enums::Errors::SUCCESS;
 }
 

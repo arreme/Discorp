@@ -1,5 +1,4 @@
 #pragma once
-#include <db_access.hpp>
 #include <db_instance.hpp>
 #include <json.hpp>
 #include <user.hpp>
@@ -16,4 +15,4 @@ namespace db_user
     std::unique_ptr<User> FindUserById(uint64_t user_id);
 
     std::unique_ptr<User[]> FindUsersById(uint64_t user_id);
-} // namespace db_user
+}

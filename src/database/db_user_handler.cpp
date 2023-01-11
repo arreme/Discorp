@@ -24,9 +24,11 @@ bool db_user::SaveUser(User user)
 std::unique_ptr<User> db_user::FindUserById(uint64_t user_id) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
-    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
+    mongocxx::client &client = MongoDBAccess
+    auto db = client[DATABASE_NAME];
     json j;
     j["discord_id"] = user_id;
+    
     FindOneOperation op = FindOneOperation("farmer",to_string(j));
     access.ExecuteOperation(op);
     
