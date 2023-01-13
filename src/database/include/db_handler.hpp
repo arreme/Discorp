@@ -12,5 +12,7 @@ using json = nlohmann::json;
 
 namespace db 
 {
-    int CreateGameTransaction(User user, Player player);
+    bool CreateGameTransaction(User user, Player player);
+
+    std::unique_ptr<User> FindUser(uint64_t id);
 }

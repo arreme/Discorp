@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <mongocxx/database.hpp>
 #include <mongocxx/pool.hpp>
 #include <mongocxx/client.hpp>
 #include <mongocxx/exception/bulk_write_exception.hpp>
@@ -10,15 +9,6 @@
 #include <bsoncxx/exception/exception.hpp>
 #include <db_rw.hpp>
 
-class Operation 
-{
-protected:
-    std::string m_colName;
-    std::string m_json;
-public:
-    virtual RW_ERR ExecuteOperation(const mongocxx::database &db) = 0;
-};
-
 class MongoDBAccess 
 {
 private:
@@ -27,10 +17,13 @@ private:
 public:
     MongoDBAccess (mongocxx::client &client, std::string dbName_);
 
-    RW_ERR ExecuteOperation(Operation &op);
+    bool ExecuteOperation(Operation &op) noexcept;
 
-    RW_ERR ExecuteTransaction(Transaction &t);
+    bool ExecuteTransaction(Transaction &t) noexcept;
+
+    std::string FindOne(std::string &&filter, std::string &&collection, const mongocxx::options::find & options = mongocxx::options::find()) noexcept;
 };
+
 
 // class MongoDBThread 
 // {

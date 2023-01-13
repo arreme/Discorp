@@ -2,10 +2,13 @@
 #include <vector>
 #include <iostream>
 #include <game_constants.hpp>
+#include <db_handler.hpp>
+
+using namespace g_enums;
 
 namespace gm 
 {
-    g_enums::Errors CreateGame(uint64_t discord_id, std::string user_name);
+    Errors CreateGame(uint64_t discord_id, std::string user_name);
 
-    g_enums::Errors DeleteGame(uint64_t discord_id);
+    Errors DeleteGame(uint64_t discord_id);
 }

@@ -6,32 +6,55 @@ MongoDBAccess::MongoDBAccess(mongocxx::client &client, std::string dbName_)
     m_db = m_client[dbName_];
 };
 
-RW_ERR MongoDBAccess::ExecuteOperation(Operation &op)
+bool MongoDBAccess::ExecuteOperation(Operation &op) noexcept
 {
-    return op.ExecuteOperation(m_db);
+    try 
+    {
+        op.ExecuteOperation(m_db);
+        return true;
+    } catch(bsoncxx::exception e) {
+        op.m_err = DB_ERR::PARSE_ERROR;
+    } catch(std::exception e) {
+        op.m_err = DB_ERR::BULK_WRITE_ERROR;
+    }
+    return false;
 }
 
-RW_ERR MongoDBAccess::ExecuteTransaction(Transaction &t) 
+bool MongoDBAccess::ExecuteTransaction(Transaction &t) noexcept
 {
     auto session = m_client.start_session();
     session.start_transaction();
-    RW_ERR err;
     try
     {
-        err = t.ExecuteTransaction(m_db, session);
-        if (err != RW_ERR::SUCCESS) 
-        {
-            session.abort_transaction();
-            return err;
-        }
+        t.ExecuteTransaction(m_db, session);
+        session.commit_transaction();
+        return true;
     }
     catch (std::exception& e)
     {     
         std::cerr << "Transaction Exception " << e.what() << std::endl;
         session.abort_transaction();
-        return RW_ERR::GENERAL_ERR;
     }
+    return false;
+}
 
-    session.commit_transaction();
-    return RW_ERR::SUCCESS;
+std::string MongoDBAccess::FindOne(std::string &&filter, std::string &&collection, const mongocxx::options::find & options = mongocxx::options::find()) noexcept
+{
+    try
+    {
+        //Convert JSON data to document
+        auto doc_value = bsoncxx::from_json(filter);
+        //Insert the document
+        auto result = m_db[collection].find_one(doc_value.view());
+        if (result) 
+        {
+            return bsoncxx::to_json(result->view());
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
+    return {};
 }
