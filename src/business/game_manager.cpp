@@ -1,15 +1,11 @@
 #include <game_manager.hpp>
-#include <user.hpp>
-#include <db_instance.hpp>
-#include <discorp_config.hpp>
 
-using namespace gm;
 using namespace g_enums;
 
-Errors CreateGame(uint64_t discord_id, std::string user_name) 
+Errors gm::CreateGame(uint64_t discord_id, std::string user_name) 
 {
     //Find user if user can't be found create user and initialize all game
-    auto usr_res = db::FindUser(discord_id);
+    auto usr_res = db::FindUserById(discord_id);
     if(usr_res) 
     {
         //TODO: User could be found, creating a new player if there are enough slots
@@ -23,11 +19,11 @@ Errors CreateGame(uint64_t discord_id, std::string user_name)
     {
         return Errors::SUCCESS;
     }
-    
+
     return Errors::GENERAL_ERROR;
 }
 
-Errors DeleteGame(uint64_t discord_id) 
+Errors gm::DeleteGame(uint64_t discord_id) 
 {
     return Errors::SUCCESS;
 }

@@ -38,7 +38,7 @@ bool MongoDBAccess::ExecuteTransaction(Transaction &t) noexcept
     return false;
 }
 
-std::string MongoDBAccess::FindOne(std::string &&filter, std::string &&collection, const mongocxx::options::find & options = mongocxx::options::find()) noexcept
+std::string MongoDBAccess::FindOne(std::string &&collection, std::string &&filter, const mongocxx::options::find &options /*= mongocxx::options::find()*/) noexcept
 {
     try
     {

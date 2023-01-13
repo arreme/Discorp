@@ -40,6 +40,21 @@ public:
     void ExecuteTransactionOperation(const mongocxx::database &db, const mongocxx::v_noabi::client_session &session) override;
 };
 
+class DeleteManyOperation : public TransactionalOperation 
+{
+private:
+    mongocxx::options::delete_options m_delete_opt;
+    bool m_has_options;
+public:
+    DeleteManyOperation(std::string &&colName, std::string &&json);
+
+    DeleteManyOperation(std::string &&colName, std::string &&json, mongocxx::options::delete_options delete_opt);
+
+    void ExecuteOperation(const mongocxx::database &db) override;
+
+    void ExecuteTransactionOperation(const mongocxx::database &db, const mongocxx::v_noabi::client_session &session) override;
+};
+
 class Transaction 
 {
 private:

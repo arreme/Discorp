@@ -7,7 +7,7 @@
 #include <mongocxx/exception/query_exception.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/exception/exception.hpp>
-#include <db_rw.hpp>
+#include <db_write.hpp>
 
 class MongoDBAccess 
 {
@@ -21,7 +21,7 @@ public:
 
     bool ExecuteTransaction(Transaction &t) noexcept;
 
-    std::string FindOne(std::string &&filter, std::string &&collection, const mongocxx::options::find & options = mongocxx::options::find()) noexcept;
+    std::string FindOne(std::string &&collection, std::string &&filter, const mongocxx::options::find & options = mongocxx::options::find()) noexcept;
 };
 
 

@@ -1,4 +1,4 @@
-#include <db_rw.hpp>
+#include <db_write.hpp>
 
 InsertOneOperation::InsertOneOperation(std::string &&colName, std::string &&json)
 {
@@ -22,8 +22,8 @@ void InsertOneOperation::ExecuteOperation(const mongocxx::database &db)
     if (!result) throw std::exception();
     if (result->result().inserted_count() != 1) 
     {
-        m_err = DB_ERR::NOT_EXECUTED;
-        throw NoActionException();
+        m_err = DB_ERR::NO_ACTION_ERROR;
+        throw NoActionException("Could not insert, duplicated id");
     }
     m_err = DB_ERR::SUCCESS;
 }
@@ -36,8 +36,8 @@ void InsertOneOperation::ExecuteTransactionOperation(const mongocxx::database &d
     if (!result) throw std::exception();
     if (result->result().inserted_count() != 1) 
     {
-        m_err = DB_ERR::NOT_EXECUTED;
-        throw NoActionException();
+        m_err = DB_ERR::NO_ACTION_ERROR;
+        throw NoActionException("Could not insert, duplicated id");
     }
     m_err = DB_ERR::SUCCESS;
 }
@@ -73,6 +73,43 @@ void DeleteOneOperation::ExecuteTransactionOperation(const mongocxx::database &d
     auto doc_value = bsoncxx::from_json(m_json);
     //Insert the document
     auto result = db[m_colName].delete_one(session, doc_value.view());
+    if (!result) throw std::exception();
+    //If it hasn't deleted any document, throw
+    m_err = DB_ERR::SUCCESS;
+}
+
+//DELETE_MANY_CLASS
+DeleteManyOperation::DeleteManyOperation(std::string &&colName, std::string &&json)
+{
+    m_json = json;
+    m_colName = colName;
+}
+
+DeleteManyOperation::DeleteManyOperation(std::string &&colName, std::string &&json, mongocxx::options::delete_options delete_opt)
+{
+    m_json = json;
+    m_colName = colName;
+    m_has_options = true;
+    m_delete_opt = delete_opt;
+}
+
+void DeleteManyOperation::ExecuteOperation(const mongocxx::database &db)
+{
+    // Convert JSON data to document
+    auto doc_value = bsoncxx::from_json(m_json);
+    //Delete document
+    auto result = db[m_colName].delete_many(doc_value.view());
+    if (!result) throw std::exception();
+    //If it hasn't deleted any document, throw
+    m_err = DB_ERR::SUCCESS;
+}
+
+void DeleteManyOperation::ExecuteTransactionOperation(const mongocxx::database &db, const mongocxx::v_noabi::client_session &session)
+{
+    // Convert JSON data to document
+    auto doc_value = bsoncxx::from_json(m_json);
+    //Insert the document
+    auto result = db[m_colName].delete_many(session, doc_value.view());
     if (!result) throw std::exception();
     //If it hasn't deleted any document, throw
     m_err = DB_ERR::SUCCESS;

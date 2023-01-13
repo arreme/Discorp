@@ -1,8 +1,6 @@
 #include <db_handler.hpp>
 
-using namespace db;
-
-bool CreateGameTransaction(User user, Player player) 
+bool db::CreateGameTransaction(User user, Player player) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
@@ -15,7 +13,7 @@ bool CreateGameTransaction(User user, Player player)
     return access.ExecuteTransaction(t);
 }
 
-std::unique_ptr<User> FindUser(uint64_t id) 
+std::unique_ptr<User> db::FindUserById(uint64_t id) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);

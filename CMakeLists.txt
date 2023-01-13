@@ -8,7 +8,10 @@ option(DEBUG_MODE "You want to create a debug build" OFF)
 set (COMMON_EXES
     "src/business/game_manager.cpp"
     "src/entities/user.cpp"
-    "src/database/db_user_handler.cpp"
+    "src/entities/player.cpp"
+    "src/database/db_access.cpp"
+    "src/database/db_handler.cpp"
+    "src/database/db_write.cpp"
 )
 
 set (COMMON_LIBS

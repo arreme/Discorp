@@ -17,7 +17,7 @@ private:
 public:
     User(uint64_t id, std::string user_name);
 
-    User::User(std::string user);
+    User(std::string user);
 
     uint64_t GetId();
 
