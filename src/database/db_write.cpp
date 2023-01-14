@@ -1,23 +1,19 @@
 #include <db_write.hpp>
 
-InsertOneOperation::InsertOneOperation(std::string &&colName, std::string &&json)
-{
-    m_json = json;
-    m_colName = colName;
-}
+InsertOneOperation::InsertOneOperation(std::string &&colName, bsoncxx::document::value bson)
+: TransactionalOperation(std::forward<std::string>(colName),bson)
+{}
 
-InsertOneOperation::InsertOneOperation(std::string &&colName, std::string &&json, mongocxx::options::insert insert_opt)
+InsertOneOperation::InsertOneOperation(std::string &&colName, bsoncxx::document::value bson, mongocxx::options::insert insert_opt)
+: TransactionalOperation(std::forward<std::string>(colName),bson)
 {
-    m_json = json;
-    m_colName = colName;
     m_has_options = true;
     m_insert_opt = insert_opt;
 }
 
 void InsertOneOperation::ExecuteOperation(const mongocxx::database &db)
 {
-    auto doc_value = bsoncxx::from_json(m_json);
-    auto result = db[m_colName].insert_one(doc_value.view());
+    auto result = db[m_colName].insert_one(m_bson.view());
     //check if the operation was successfull
     if (!result) throw std::exception();
     if (result->result().inserted_count() != 1) 
@@ -30,8 +26,7 @@ void InsertOneOperation::ExecuteOperation(const mongocxx::database &db)
 
 void InsertOneOperation::ExecuteTransactionOperation(const mongocxx::database &db, const mongocxx::v_noabi::client_session &session)
 {
-    auto doc_value = bsoncxx::from_json(m_json);
-    auto result = db[m_colName].insert_one(session, doc_value.view());
+    auto result = db[m_colName].insert_one(session, m_bson.view());
     //check if the operation was successfull
     if (!result) throw std::exception();
     if (result->result().inserted_count() != 1) 
@@ -42,26 +37,21 @@ void InsertOneOperation::ExecuteTransactionOperation(const mongocxx::database &d
     m_err = DB_ERR::SUCCESS;
 }
 
-DeleteOneOperation::DeleteOneOperation(std::string &&colName, std::string &&json)
-{
-    m_json = json;
-    m_colName = colName;
-}
+DeleteOneOperation::DeleteOneOperation(std::string &&colName, bsoncxx::document::value bson)
+: TransactionalOperation(std::forward<std::string>(colName),bson)
+{}
 
-DeleteOneOperation::DeleteOneOperation(std::string &&colName, std::string &&json, mongocxx::options::delete_options delete_opt)
+DeleteOneOperation::DeleteOneOperation(std::string &&colName, bsoncxx::document::value bson, mongocxx::options::delete_options delete_opt)
+: TransactionalOperation(std::forward<std::string>(colName),bson)
 {
-    m_json = json;
-    m_colName = colName;
     m_has_options = true;
     m_delete_opt = delete_opt;
 }
 
 void DeleteOneOperation::ExecuteOperation(const mongocxx::database &db)
 {
-    // Convert JSON data to document
-    auto doc_value = bsoncxx::from_json(m_json);
     //Delete document
-    auto result = db[m_colName].delete_one(doc_value.view());
+    auto result = db[m_colName].delete_one(m_bson.view());
     if (!result) throw std::exception();
     //If it hasn't deleted any document, throw
     m_err = DB_ERR::SUCCESS;
@@ -69,48 +59,40 @@ void DeleteOneOperation::ExecuteOperation(const mongocxx::database &db)
 
 void DeleteOneOperation::ExecuteTransactionOperation(const mongocxx::database &db, const mongocxx::v_noabi::client_session &session)
 {
-    // Convert JSON data to document
-    auto doc_value = bsoncxx::from_json(m_json);
     //Insert the document
-    auto result = db[m_colName].delete_one(session, doc_value.view());
+    auto result = db[m_colName].delete_one(session, m_bson.view());
     if (!result) throw std::exception();
     //If it hasn't deleted any document, throw
     m_err = DB_ERR::SUCCESS;
 }
 
 //DELETE_MANY_CLASS
-DeleteManyOperation::DeleteManyOperation(std::string &&colName, std::string &&json)
-{
-    m_json = json;
-    m_colName = colName;
-}
+DeleteManyOperation::DeleteManyOperation(std::string &&colName, bsoncxx::document::value bson)
+: TransactionalOperation(std::forward<std::string>(colName),bson)
+{}
 
-DeleteManyOperation::DeleteManyOperation(std::string &&colName, std::string &&json, mongocxx::options::delete_options delete_opt)
+DeleteManyOperation::DeleteManyOperation(std::string &&colName, bsoncxx::document::value bson, mongocxx::options::delete_options delete_opt)
+: TransactionalOperation(std::forward<std::string>(colName),bson)
 {
-    m_json = json;
-    m_colName = colName;
     m_has_options = true;
     m_delete_opt = delete_opt;
 }
 
 void DeleteManyOperation::ExecuteOperation(const mongocxx::database &db)
 {
-    // Convert JSON data to document
-    auto doc_value = bsoncxx::from_json(m_json);
     //Delete document
-    auto result = db[m_colName].delete_many(doc_value.view());
+    auto result = db[m_colName].delete_many(m_bson.view());
     if (!result) throw std::exception();
-    //If it hasn't deleted any document, throw
+
+    //If there is no result, something happened.
     m_err = DB_ERR::SUCCESS;
 }
 
 void DeleteManyOperation::ExecuteTransactionOperation(const mongocxx::database &db, const mongocxx::v_noabi::client_session &session)
 {
-    // Convert JSON data to document
-    auto doc_value = bsoncxx::from_json(m_json);
-    //Insert the document
-    auto result = db[m_colName].delete_many(session, doc_value.view());
+    auto result = db[m_colName].delete_many(m_bson.view());
     if (!result) throw std::exception();
-    //If it hasn't deleted any document, throw
+
+    //If there is no result, something happened.
     m_err = DB_ERR::SUCCESS;
 }

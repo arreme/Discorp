@@ -7,6 +7,8 @@
 class TransactionalOperation : public Operation
 {
 public:
+    TransactionalOperation(std::string &&colName, bsoncxx::v_noabi::document::value bson)
+    : Operation(std::forward<std::string>(colName),bson) {}; 
     virtual void ExecuteTransactionOperation(const mongocxx::database &db, const mongocxx::v_noabi::client_session &session) = 0;
 };
 
@@ -16,9 +18,9 @@ private:
     mongocxx::options::insert m_insert_opt;
     bool m_has_options;
 public:
-    InsertOneOperation(std::string &&colName, std::string &&json);
+    InsertOneOperation(std::string &&colName, bsoncxx::v_noabi::document::value bson);
 
-    InsertOneOperation(std::string &&colName, std::string &&json, mongocxx::options::insert insert_opt);
+    InsertOneOperation(std::string &&colName, bsoncxx::v_noabi::document::value bson, mongocxx::options::insert insert_opt);
 
     void ExecuteOperation(const mongocxx::database &db) override;
 
@@ -31,9 +33,9 @@ private:
     mongocxx::options::delete_options m_delete_opt;
     bool m_has_options;
 public:
-    DeleteOneOperation(std::string &&colName, std::string &&json);
+    DeleteOneOperation(std::string &&colName, bsoncxx::document::value bson);
 
-    DeleteOneOperation(std::string &&colName, std::string &&json, mongocxx::options::delete_options delete_opt);
+    DeleteOneOperation(std::string &&colName, bsoncxx::document::value bson, mongocxx::options::delete_options delete_opt);
 
     void ExecuteOperation(const mongocxx::database &db) override;
 
@@ -46,9 +48,9 @@ private:
     mongocxx::options::delete_options m_delete_opt;
     bool m_has_options;
 public:
-    DeleteManyOperation(std::string &&colName, std::string &&json);
+    DeleteManyOperation(std::string &&colName, bsoncxx::document::value bson);
 
-    DeleteManyOperation(std::string &&colName, std::string &&json, mongocxx::options::delete_options delete_opt);
+    DeleteManyOperation(std::string &&colName, bsoncxx::document::value bson, mongocxx::options::delete_options delete_opt);
 
     void ExecuteOperation(const mongocxx::database &db) override;
 

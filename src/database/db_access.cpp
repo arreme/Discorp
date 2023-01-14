@@ -38,18 +38,12 @@ bool MongoDBAccess::ExecuteTransaction(Transaction &t) noexcept
     return false;
 }
 
-std::string MongoDBAccess::FindOne(std::string &&collection, std::string &&filter, const mongocxx::options::find &options /*= mongocxx::options::find()*/) noexcept
+core::v1::optional<bsoncxx::v_noabi::document::value> MongoDBAccess::FindOne(std::string &&collection, bsoncxx::document::value filter, const mongocxx::options::find &options /*= mongocxx::options::find()*/) noexcept
 {
     try
     {
-        //Convert JSON data to document
-        auto doc_value = bsoncxx::from_json(filter);
         //Insert the document
-        auto result = m_db[collection].find_one(doc_value.view());
-        if (result) 
-        {
-            return bsoncxx::to_json(result->view());
-        }
+        return m_db[collection].find_one(filter.view());
     }
     catch(const std::exception& e)
     {

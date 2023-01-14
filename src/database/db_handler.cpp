@@ -7,9 +7,9 @@ bool db::CreateGameTransaction(User user, Player player)
 
     Transaction t;
     InsertOneOperation usr_op = InsertOneOperation("users", user.ToJson());
-    InsertOneOperation plr_op = InsertOneOperation("players", player.ToJson());
+    //InsertOneOperation plr_op = InsertOneOperation("players", player.ToJson());
     t.AddOperation(usr_op);
-    t.AddOperation(plr_op);
+    //t.AddOperation(plr_op);
     return access.ExecuteTransaction(t);
 }
 
@@ -18,12 +18,11 @@ std::unique_ptr<User> db::FindUserById(uint64_t id)
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
 
-    json j;
-    j["discord_id"] = id;
-    std::string user_str = access.FindOne(to_string(j),"users");
-    if (!user_str.empty()) 
+    auto doc = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
+    auto user_str = access.FindOne("users",doc);
+    if (user_str)
     {
-        return std::make_unique<User>(User(user_str));
+        return std::make_unique<User>(User(user_str->view()));
     }
     return nullptr;
 }

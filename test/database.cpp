@@ -2,10 +2,8 @@
 #include <db_access.hpp>
 #include <db_instance.hpp>
 #include <discorp_config.hpp>
+#include <bsoncxx/builder/basic/document.hpp>
 #include <user.hpp>
-#include <json.hpp>
-
-using json = nlohmann::json;
 
 SCENARIO("Testing write to database","[db]") 
 {
@@ -14,17 +12,17 @@ SCENARIO("Testing write to database","[db]")
         auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
         auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
 
-        DeleteManyOperation op = DeleteManyOperation("users", {});
+        auto doc = bsoncxx::builder::basic::make_document();
+        DeleteManyOperation op = DeleteManyOperation("users", doc);
         REQUIRE(access.ExecuteOperation(op));
         
         WHEN("FindingUserById with an empty database") 
         {
-            json j;
-            j["discord_id"] = 0;
-            std::string user_str = access.FindOne("users",to_string(j));
+            auto doc = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
+            auto user_str = access.FindOne("users",doc);
             THEN("Result should be null") 
             {
-                REQUIRE(user_str.empty());
+                REQUIRE_FALSE(user_str);
             }
         }
         WHEN("Adding a new user to the database") 
@@ -41,10 +39,9 @@ SCENARIO("Testing write to database","[db]")
         }
         WHEN("Removing a non existing user from the database") 
         {
-            json j;
-            j["discord_id"] = 0;
+            auto doc = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
 
-            DeleteOneOperation del_user = DeleteOneOperation("users", to_string(j));
+            DeleteOneOperation del_user = DeleteOneOperation("users",doc);
             THEN("The result should give true") 
             {
                 REQUIRE(access.ExecuteOperation(del_user));
@@ -54,6 +51,14 @@ SCENARIO("Testing write to database","[db]")
 
     GIVEN("A database with an user") 
     {
+        auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
+        auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
+
+        User user = User(0,"test_user");
+
+        InsertOneOperation op = InsertOneOperation("users",user.ToJson());
+        access.ExecuteOperation(op);
+
         // AND_WHEN("Adding the same user id to the database")
         // {
         //     uint64_t id = 0;

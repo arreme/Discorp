@@ -21,7 +21,7 @@ public:
 
     bool ExecuteTransaction(Transaction &t) noexcept;
 
-    std::string FindOne(std::string &&collection, std::string &&filter, const mongocxx::options::find & options = mongocxx::options::find()) noexcept;
+    core::v1::optional<bsoncxx::v_noabi::document::value> FindOne(std::string &&collection, bsoncxx::document::value filter, const mongocxx::options::find & options = mongocxx::options::find()) noexcept;
 };
 
 
