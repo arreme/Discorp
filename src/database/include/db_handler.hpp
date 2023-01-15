@@ -5,10 +5,7 @@
 #include <db_write.hpp>
 #include <user.hpp>
 #include <player.hpp>
-#include <json.hpp>
-
-
-using json = nlohmann::json;
+#include <db_query.hpp>
 
 namespace db 
 {

@@ -12,6 +12,7 @@ set (COMMON_EXES
     "src/database/db_access.cpp"
     "src/database/db_handler.cpp"
     "src/database/db_write.cpp"
+    "src/database/db_query.cpp"
 )
 
 set (COMMON_LIBS
@@ -30,7 +31,6 @@ set (COMMON_INCLUDES
     "/usr/local/include/libmongoc-1.0"
     "/usr/local/include/bsoncxx/v_noabi"
     "/usr/local/include/libbson-1.0"
-    "libs/json"
     "src/database/include"
     "src/business/include"
     "src/entities/include"

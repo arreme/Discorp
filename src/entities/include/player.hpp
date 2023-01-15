@@ -1,10 +1,11 @@
 #pragma once
 #include <iostream>
-#include <json.hpp>
 #include <time.h>
 #include <game_constants.hpp>
-
-using json = nlohmann::json;
+#include <bsoncxx/json.hpp>
+#include <bsoncxx/builder/basic/kvp.hpp>
+#include <bsoncxx/builder/basic/document.hpp>
+#include <bsoncxx/types.hpp>
 
 struct Stats
 {
@@ -40,7 +41,7 @@ private:
 public:
     Player(uint64_t discord_id, std::string player_name, uint8_t player_id);
 
-    Player(std::string player);
+    Player(bsoncxx::document::view player);
 
-    std::string ToJson();
+    bsoncxx::document::value ToJson();
 };

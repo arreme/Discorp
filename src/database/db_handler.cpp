@@ -19,10 +19,11 @@ std::unique_ptr<User> db::FindUserById(uint64_t id)
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
 
     auto doc = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
-    auto user_str = access.FindOne("users",doc);
-    if (user_str)
+    FindOneOperation op = FindOneOperation("users",doc);
+    access.ExecuteOperation(op);
+    if (op.result)
     {
-        return std::make_unique<User>(User(user_str->view()));
+        return std::make_unique<User>(User(op.result->view()));
     }
     return nullptr;
 }

@@ -37,18 +37,3 @@ bool MongoDBAccess::ExecuteTransaction(Transaction &t) noexcept
     }
     return false;
 }
-
-core::v1::optional<bsoncxx::v_noabi::document::value> MongoDBAccess::FindOne(std::string &&collection, bsoncxx::document::value filter, const mongocxx::options::find &options /*= mongocxx::options::find()*/) noexcept
-{
-    try
-    {
-        //Insert the document
-        return m_db[collection].find_one(filter.view());
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    
-    return {};
-}

@@ -1,6 +1,6 @@
 #include <user.hpp>
 
-using namespace bsoncxx::builder::basic;
+using bsoncxx::builder::basic::kvp;
 
 User::User(uint64_t id, std::string user_name)
 : m_discord_id(id), m_user_name(user_name) 

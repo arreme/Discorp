@@ -20,8 +20,6 @@ public:
     bool ExecuteOperation(Operation &op) noexcept;
 
     bool ExecuteTransaction(Transaction &t) noexcept;
-
-    core::v1::optional<bsoncxx::v_noabi::document::value> FindOne(std::string &&collection, bsoncxx::document::value filter, const mongocxx::options::find & options = mongocxx::options::find()) noexcept;
 };
 
 
