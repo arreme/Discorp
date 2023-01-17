@@ -5,8 +5,8 @@ using bsoncxx::builder::basic::kvp;
 User::User(uint64_t id, std::string user_name)
 : m_discord_id(id), m_user_name(user_name) 
 {
-    m_current_player = 0;
-    m_current_max_player = 0;
+    m_current_player = 1;
+    m_current_max_player = 1;
     m_last_active = std::chrono::system_clock::now();
 };
 
@@ -39,8 +39,6 @@ std::string User::GetUserName()
 {
     return m_user_name;
 }
-
-
 
 bsoncxx::document::value User::ToJson() 
 {

@@ -9,6 +9,7 @@ Errors gm::CreateGame(uint64_t discord_id, std::string user_name)
     if(usr_res) 
     {
         //TODO: User could be found, creating a new player if there are enough slots
+        
         return Errors::DUPLICATED_PK_ERROR;
     }
     
@@ -24,6 +25,11 @@ Errors gm::CreateGame(uint64_t discord_id, std::string user_name)
 }
 
 Errors gm::DeleteGame(uint64_t discord_id) 
+{
+    return Errors::SUCCESS;
+}
+
+Errors gm::SetActivePlayer(uint64_t discord_id, uint8_t active_player) 
 {
     return Errors::SUCCESS;
 }
