@@ -15,7 +15,7 @@ Errors gm::CreateGame(uint64_t discord_id, std::string user_name)
     
     //User could not be found, initializing brand new game
     User user = User(discord_id,user_name);
-    Player player = Player(discord_id,user_name,0);
+    Player player = Player(discord_id,0);
     if(db::CreateGameTransaction(user,player)) 
     {
         return Errors::SUCCESS;

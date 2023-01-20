@@ -6,100 +6,103 @@
 #include <user.hpp>
 #include <db_query.hpp>
 #include <player.hpp>
+#include <location.hpp>
 
 SCENARIO("Testing write to database","[db]") 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
-    GIVEN("A new empty user collection database") 
+    GIVEN("1.- A new empty user collection database") 
     {
-        auto doc = bsoncxx::builder::basic::make_document();
-        DeleteManyOperation op = DeleteManyOperation("users", doc);
-        REQUIRE(access.ExecuteOperation(op));
+        auto doc_1 = bsoncxx::builder::basic::make_document();
+        DeleteManyOperation del_op_1 = DeleteManyOperation("users", doc_1);
+        access.ExecuteOperation(del_op_1);
         
-        WHEN("FindingUser with an empty database") 
+        WHEN("1.1.- FindingUser with an empty database") 
         {
-            auto doc = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
-            FindOneOperation op = FindOneOperation("users",doc);
-            access.ExecuteOperation(op);
+            auto doc_1_1 = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
+            FindOneOperation find_op_1_1 = FindOneOperation("users",doc_1_1);
+            access.ExecuteOperation(find_op_1_1);
             THEN("Result should be null") 
             {
-                REQUIRE_FALSE(op.result);
+                REQUIRE_FALSE(find_op_1_1.result);
             }
         }
-        WHEN("Adding a new user to the database") 
+        WHEN("1.2.- Adding a new user to the database") 
         {
-            uint64_t id = 0;
-            std::string user_name = "test_user";
-            User user(id, user_name);
-            
-            InsertOneOperation usr_op = InsertOneOperation("users", user.ToJson());
+            User user_1_2(0, "test_user");
+            InsertOneOperation ins_op_1_2 = InsertOneOperation("users", user_1_2.ToJson());
             THEN("Result should be true") 
             {
-                REQUIRE(access.ExecuteOperation(usr_op));
+                REQUIRE(access.ExecuteOperation(ins_op_1_2));
             }
         }
-        WHEN("Removing a non existing user from the database") 
+        WHEN("1.3.- Removing a non existing user from the database") 
         {
-            auto doc = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
+            auto doc_1_3 = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
 
-            DeleteOneOperation del_user = DeleteOneOperation("users",doc);
+            DeleteOneOperation del_op_1_3 = DeleteOneOperation("users",doc_1_3);
             THEN("The result should give true") 
             {
-                REQUIRE(access.ExecuteOperation(del_user));
+                REQUIRE(access.ExecuteOperation(del_op_1_3));
             }
         }
     }
 
-    GIVEN("A database with an user") 
+    GIVEN("2.- A database with an user") 
     {
-        User user = User(0,"test_user");
+        User user_2 = User(1,"test_user2");
 
-        InsertOneOperation op = InsertOneOperation("users",user.ToJson());
-        access.ExecuteOperation(op);
+        InsertOneOperation ins_op_2 = InsertOneOperation("users",user_2.ToJson());
+        access.ExecuteOperation(ins_op_2);
 
-        WHEN("Adding the same user id to the database")
+        WHEN("2.1- Adding the same user id to the database")
         {
+            InsertOneOperation ins_op_2_1 = InsertOneOperation("users",user_2.ToJson());
             THEN("Result should be false") 
             {
-                REQUIRE_FALSE(access.ExecuteOperation(op));
+                REQUIRE_FALSE(access.ExecuteOperation(ins_op_2_1));
             }
         }
-        WHEN("Finding an existing user") 
+        WHEN("2.2.- Finding an existing user") 
         {
-            auto doc = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
-            FindOneOperation usr_op = FindOneOperation("users", doc);
-            access.ExecuteOperation(usr_op);
+            auto doc_2_2 = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",1));
+            FindOneOperation find_op_2_2 = FindOneOperation("users", doc_2_2);
+            access.ExecuteOperation(find_op_2_2);
             THEN("Result should not be null") 
             {
-                REQUIRE(usr_op.result);
-                User found_user = User(usr_op.result.value().view());
-                REQUIRE(found_user.GetId() == 0);
+                REQUIRE(find_op_2_2.result);
+                User found_user_2_2 = User(find_op_2_2.result.value().view());
+                REQUIRE(found_user_2_2.GetId() == 1);
             }
         }
-        WHEN("Removing a user from the database")
+        WHEN("2.3.- Removing a user from the database")
         {
-            auto doc = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
-            DeleteOneOperation usr_del_op = DeleteOneOperation("users",doc);
+            auto doc_2_3 = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",1));
+            DeleteOneOperation del_op_2_3 = DeleteOneOperation("users",doc_2_3);
             THEN("The user should have been deleted") 
             {
-                REQUIRE(access.ExecuteOperation(usr_del_op));
+                REQUIRE(access.ExecuteOperation(del_op_2_3));
+                auto doc_2_3 = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",1));
+                FindOneOperation find_op_2_3 = FindOneOperation("users", doc_2_3);
+                access.ExecuteOperation(find_op_2_3);
+                REQUIRE_FALSE(find_op_2_3.result);
             }
         }
     }
 
-    GIVEN("A new empty player collection database") 
+    GIVEN("3.- A new empty player collection database") 
     {
-        auto doc = bsoncxx::builder::basic::make_document();
-        DeleteManyOperation op = DeleteManyOperation("players", doc);
-        //REQUIRE(access.ExecuteOperation(op));
-        WHEN("Adding a new player to the database") 
+        auto doc_3 = bsoncxx::builder::basic::make_document();
+        DeleteManyOperation del_op_3 = DeleteManyOperation("players", doc_3);
+        access.ExecuteOperation(del_op_3);
+        WHEN("3.1.- Adding a new player to the database") 
         {
-            Player pl = Player(0,"my_player",0);
-            InsertOneOperation pl_op = InsertOneOperation("players",pl.ToJson());
+            Player pl_3_1(0,0);
+            InsertOneOperation ins_op_3_1 = InsertOneOperation("players",pl_3_1.ToJson());
             THEN("Result should be true") 
             {
-                access.ExecuteOperation(pl_op);
+                access.ExecuteOperation(ins_op_3_1);
             }
         }
     }

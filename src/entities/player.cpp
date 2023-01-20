@@ -2,11 +2,11 @@
 
 using bsoncxx::builder::basic::kvp;
 
-Player::Player(uint64_t discord_id, std::string player_name, uint8_t player_id) 
-: m_discord_id(discord_id), m_player_name(player_name), m_player_id(player_id)
+Player::Player(uint64_t discord_id, uint8_t player_id) 
+: m_discord_id(discord_id), m_player_id(player_id)
 {
-    m_current_location = g_enums::GameLocations::MAIN_BASE;
     uint64_t m_guild_id = 0;
+    m_current_location = Location::LocationBuilder(g_enums::GameLocations::MAIN_BASE);
     m_player_stats = {20,20,1,1,1,false};
     m_player_skills = {1,0,1,0,1,0};
 }
@@ -14,10 +14,8 @@ Player::Player(uint64_t discord_id, std::string player_name, uint8_t player_id)
 Player::Player(bsoncxx::document::view player)
 {
     m_discord_id = player["discord_id"].get_int64();
-    m_player_name = player["player_name"].get_utf8().value.to_string();
     m_player_id = player["player_id"].get_int32();
-    m_current_location = static_cast<g_enums::GameLocations>(player["current_location"].get_int32().value);
-    
+    m_current_location = Location(player["locations"].get_document().value);
     m_player_stats = 
     {
         player["stats"]["max_health"].get_int32(),
@@ -44,9 +42,11 @@ bsoncxx::document::value Player::ToJson()
 {
     auto doc = bsoncxx::builder::basic::document{};
     doc.append(kvp("discord_id",bsoncxx::types::b_int64(m_discord_id)));
-    doc.append(kvp("player_name",bsoncxx::types::b_utf8(m_player_name)));
     doc.append(kvp("player_id",bsoncxx::types::b_int32(m_player_id)));
-    doc.append(kvp("current_location",bsoncxx::types::b_int32(static_cast<int>(m_current_location))));
+    auto loc = &m_current_location;
+    doc.append(kvp("locations",[loc](bsoncxx::builder::basic::sub_array sub) {
+        sub.append(loc->ToJson());
+    }));
     auto stats = bsoncxx::builder::basic::document{};
     stats.append(kvp("max_health",bsoncxx::types::b_int32(m_player_stats.m_max_health)));
     stats.append(kvp("current_health",bsoncxx::types::b_int32(m_player_stats.m_current_health)));

@@ -6,6 +6,7 @@
 #include <bsoncxx/builder/basic/kvp.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/types.hpp>
+#include <location.hpp>
 
 struct Stats
 {
@@ -32,14 +33,17 @@ class Player
 {
 private:
     uint64_t m_discord_id;
-    std::string m_player_name;
     uint8_t m_player_id;
-    g_enums::GameLocations m_current_location;
+    Location m_current_location;
     uint64_t m_guild_id;
     Stats m_player_stats;
     Skills m_player_skills;
+
+    
+    //std::vector<Equipables> m_equipables;
+
 public:
-    Player(uint64_t discord_id, std::string player_name, uint8_t player_id);
+    Player(uint64_t discord_id, uint8_t player_id);
 
     Player(bsoncxx::document::view player);
 

@@ -15,7 +15,10 @@ void InsertOneOperation::ExecuteOperation(const mongocxx::database &db)
 {
     auto result = db[m_colName].insert_one(m_bson.view());
     //check if the operation was successfull
-    if (!result) throw std::exception();
+    if (!result) 
+    {
+        throw std::exception();
+    }
     if (result->result().inserted_count() != 1) 
     {
         m_err = DB_ERR::NO_ACTION_ERROR;

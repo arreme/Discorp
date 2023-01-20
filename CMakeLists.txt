@@ -13,6 +13,7 @@ set (COMMON_EXES
     "src/database/db_handler.cpp"
     "src/database/db_write.cpp"
     "src/database/db_query.cpp"
+    "src/entities/location.cpp"
 )
 
 set (COMMON_LIBS
@@ -44,7 +45,6 @@ if(BUILD_TEST)
         ${COMMON_EXES}
         test/setup.cpp
         test/database.cpp
-        test/game.cpp
     )
 
     target_link_libraries(${PROJECT_NAME}

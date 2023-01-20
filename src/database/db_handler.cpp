@@ -31,5 +31,5 @@ std::unique_ptr<User> db::FindUserById(uint64_t id)
 std::tuple<User,Player,Location> FindPlayerUserAndLocation(uint64_t discord_id) 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
-    auto access = MongoDBAccess(*dbClient,DATABASE_NAME); 
+    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
 }
