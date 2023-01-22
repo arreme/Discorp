@@ -34,7 +34,7 @@ class Player
 private:
     uint64_t m_discord_id;
     uint8_t m_player_id;
-    Location m_current_location;
+    std::vector<Location> m_current_location;
     uint64_t m_guild_id;
     Stats m_player_stats;
     Skills m_player_skills;

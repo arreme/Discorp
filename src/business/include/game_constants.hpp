@@ -4,11 +4,12 @@ namespace g_enums
 {
     enum class GameLocations 
     {
+        ERROR_LOCATION = -1,
         MAIN_BASE = 0,
         FOREST = 1,
-        TOWN = 3,
-        INTERNET = 4,
-        MINES = 5,
+        TOWN = 2,
+        INTERNET = 3,
+        MINES_1 = 4,
     };
 
     enum class Errors 

@@ -10,7 +10,7 @@
 
 using bsoncxx::builder::basic::kvp;
 
-SCENARIO("Database handlers and queries, [db] [user]") 
+SCENARIO("Database handlers and queries, [db]") 
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
@@ -19,7 +19,7 @@ SCENARIO("Database handlers and queries, [db] [user]")
         Player pl_1(1,0);
         InsertOneOperation ins_op_1 = InsertOneOperation("players",pl_1.ToJson());
         access.ExecuteOperation(ins_op_1);
-        WHEN("4.1.- Pushing a new location") 
+        WHEN("1.1.- Pushing a new location") 
         {
             auto loc_doc = bsoncxx::builder::basic::make_document(kvp("locations",Location::LocationBuilder(g_enums::GameLocations::FOREST).ToJson()));
             auto update_doc = bsoncxx::builder::basic::document{};
@@ -30,7 +30,7 @@ SCENARIO("Database handlers and queries, [db] [user]")
             UpdateOneOperation op = UpdateOneOperation("players",query_doc.extract(),update_doc.extract());
             access.ExecuteOperation(op);
         }
-        WHEN("4.2.- Finding") 
+        WHEN("4.2.- Returning player with current location") 
         {
 
         }

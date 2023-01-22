@@ -6,7 +6,7 @@ Player::Player(uint64_t discord_id, uint8_t player_id)
 : m_discord_id(discord_id), m_player_id(player_id)
 {
     uint64_t m_guild_id = 0;
-    m_current_location = Location::LocationBuilder(g_enums::GameLocations::MAIN_BASE);
+    m_current_location.push_back(Location::LocationBuilder(g_enums::GameLocations::MAIN_BASE));
     m_player_stats = {20,20,1,1,1,false};
     m_player_skills = {1,0,1,0,1,0};
 }
@@ -15,7 +15,12 @@ Player::Player(bsoncxx::document::view player)
 {
     m_discord_id = player["discord_id"].get_int64();
     m_player_id = player["player_id"].get_int32();
-    m_current_location = Location(player["locations"].get_document().value);
+    auto loc_array = player["locations"].get_array().value;
+    for (auto loc : loc_array)
+    {
+        m_current_location.push_back(Location(loc.get_document()));
+    }
+    
     m_player_stats = 
     {
         player["stats"]["max_health"].get_int32(),
@@ -43,9 +48,12 @@ bsoncxx::document::value Player::ToJson()
     auto doc = bsoncxx::builder::basic::document{};
     doc.append(kvp("discord_id",bsoncxx::types::b_int64(m_discord_id)));
     doc.append(kvp("player_id",bsoncxx::types::b_int32(m_player_id)));
-    auto loc = &m_current_location;
-    doc.append(kvp("locations",[loc](bsoncxx::builder::basic::sub_array sub) {
-        sub.append(loc->ToJson());
+    auto array_loc = &m_current_location;
+    doc.append(kvp("locations",[array_loc](bsoncxx::builder::basic::sub_array sub) {
+        for (auto loc : *array_loc)
+        {
+            sub.append(loc.ToJson());
+        }
     }));
     auto stats = bsoncxx::builder::basic::document{};
     stats.append(kvp("max_health",bsoncxx::types::b_int32(m_player_stats.m_max_health)));

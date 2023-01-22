@@ -28,7 +28,7 @@ public:
 class Location 
 {
 private:
-    g_enums::GameLocations m_location_id;
+    g_enums::GameLocations m_location_id = g_enums::GameLocations::ERROR_LOCATION;
     std::unordered_map<uint8_t,Post> m_location_posts;
 public:
     static Location LocationBuilder(g_enums::GameLocations loc_id);

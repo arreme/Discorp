@@ -15,5 +15,5 @@ namespace db
 
     std::unique_ptr<User> FindUserById(uint64_t id);
 
-    std::tuple<User,Player,Location> FindPlayerUserAndLocation(uint64_t discord_id);
+    std::unique_ptr<Player> FindPlayerCurrentLocationOnly(uint64_t id, uint8_t player_id);
 }

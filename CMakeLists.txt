@@ -45,6 +45,7 @@ if(BUILD_TEST)
         ${COMMON_EXES}
         test/setup.cpp
         test/database.cpp
+        test/dbhandler.cpp
     )
 
     target_link_libraries(${PROJECT_NAME}
