@@ -7,8 +7,8 @@
 class TransactionalOperation : public Operation
 {
 public:
-    TransactionalOperation(std::string &&colName, bsoncxx::v_noabi::document::value bson)
-    : Operation(std::forward<std::string>(colName),bson) {}; 
+    TransactionalOperation(std::string &&colName, bsoncxx::v_noabi::document::value &&bson)
+    : Operation(std::forward<std::string>(colName),std::forward<bsoncxx::document::value>(bson)) {}; 
     virtual void ExecuteTransactionOperation(const mongocxx::database &db, const mongocxx::v_noabi::client_session &session) = 0;
 };
 
@@ -18,9 +18,9 @@ private:
     mongocxx::options::insert m_insert_opt;
     bool m_has_options;
 public:
-    InsertOneOperation(std::string &&colName, bsoncxx::v_noabi::document::value bson);
+    InsertOneOperation(std::string &&colName, bsoncxx::v_noabi::document::value &&bson);
 
-    InsertOneOperation(std::string &&colName, bsoncxx::v_noabi::document::value bson, mongocxx::options::insert insert_opt);
+    InsertOneOperation(std::string &&colName, bsoncxx::v_noabi::document::value &&bson, mongocxx::options::insert insert_opt);
 
     void ExecuteOperation(const mongocxx::database &db) override;
 
@@ -29,13 +29,8 @@ public:
 
 class DeleteOneOperation : public TransactionalOperation
 {
-private:
-    mongocxx::options::delete_options m_delete_opt;
-    bool m_has_options;
 public:
-    DeleteOneOperation(std::string &&colName, bsoncxx::document::value bson);
-
-    DeleteOneOperation(std::string &&colName, bsoncxx::document::value bson, mongocxx::options::delete_options delete_opt);
+    DeleteOneOperation(std::string &&colName, bsoncxx::document::value &&bson);
 
     void ExecuteOperation(const mongocxx::database &db) override;
 
@@ -44,13 +39,22 @@ public:
 
 class DeleteManyOperation : public TransactionalOperation 
 {
+public:
+    DeleteManyOperation(std::string &&colName, bsoncxx::document::value &&bson);
+
+    void ExecuteOperation(const mongocxx::database &db) override;
+
+    void ExecuteTransactionOperation(const mongocxx::database &db, const mongocxx::v_noabi::client_session &session) override;
+};
+
+class UpdateOneOperation : public TransactionalOperation 
+{
 private:
-    mongocxx::options::delete_options m_delete_opt;
+    bsoncxx::document::value m_update_query;
+    mongocxx::options::update m_update_opts;
     bool m_has_options;
 public:
-    DeleteManyOperation(std::string &&colName, bsoncxx::document::value bson);
-
-    DeleteManyOperation(std::string &&colName, bsoncxx::document::value bson, mongocxx::options::delete_options delete_opt);
+    UpdateOneOperation(std::string &&colName, bsoncxx::document::value &&filter, bsoncxx::document::value &&update_query);
 
     void ExecuteOperation(const mongocxx::database &db) override;
 

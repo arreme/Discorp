@@ -9,7 +9,7 @@ Location::Location(std::unordered_map<uint8_t,Post> &&locations_post)
 Location::Location(bsoncxx::document::view doc) 
 {
     m_location_id = static_cast<g_enums::GameLocations>(doc["location_id"].get_int32().value);
-    auto loc_array = doc["locations"].get_array();
+    auto loc_array = doc["posts"].get_array();
     uint8_t postId = 0;
     for (auto member : loc_array.value)
     {
@@ -28,7 +28,7 @@ bsoncxx::document::value Location::ToJson()
     bsoncxx::builder::basic::document doc{};
     doc.append(kvp("location_id",static_cast<int>(m_location_id)));
     auto loc_maps = &m_location_posts;
-    doc.append(kvp("locations",[loc_maps](bsoncxx::builder::basic::sub_array sub) 
+    doc.append(kvp("posts",[loc_maps](bsoncxx::builder::basic::sub_array sub) 
     {
         for (auto loc : *loc_maps)
         {

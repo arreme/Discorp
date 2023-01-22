@@ -6,7 +6,7 @@
 enum class DB_ERR 
 {
     SUCCESS = 1,
-    NOT_EXECUTED = 0,
+    NO_ERROR = 0,
     PARSE_ERROR = -1,
     BULK_WRITE_ERROR = -2,
     NO_ACTION_ERROR = -3,
@@ -18,9 +18,9 @@ protected:
     std::string m_colName;
     bsoncxx::document::value m_bson;
 public:
-    Operation(std::string &&colName, bsoncxx::v_noabi::document::value bson)
+    Operation(std::string &&colName, bsoncxx::v_noabi::document::value &&bson)
     :m_colName(colName),m_bson(bson) {};
-    DB_ERR m_err = DB_ERR::NOT_EXECUTED;
+    DB_ERR m_err = DB_ERR::NO_ERROR;
     virtual void ExecuteOperation(const mongocxx::database &db) = 0;
 };
 

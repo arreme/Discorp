@@ -17,9 +17,8 @@ std::unique_ptr<User> db::FindUserById(uint64_t id)
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
-
-    auto doc = bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0));
-    FindOneOperation op = FindOneOperation("users",doc);
+    
+    FindOneOperation op = FindOneOperation("users",bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0)));
     access.ExecuteOperation(op);
     if (op.result)
     {

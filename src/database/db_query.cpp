@@ -1,7 +1,7 @@
 #include <db_query.hpp>
 
-FindOneOperation::FindOneOperation(std::string &&colName, bsoncxx::document::value filter)
-: Operation(std::forward<std::string>(colName),filter)
+FindOneOperation::FindOneOperation(std::string &&colName, bsoncxx::document::value &&filter)
+: Operation(std::forward<std::string>(colName),std::forward<bsoncxx::document::value>(filter))
 {}
 
 void FindOneOperation::SetOptions(mongocxx::options::find &&find_opts) 
