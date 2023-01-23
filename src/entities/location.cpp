@@ -2,13 +2,10 @@
 
 using bsoncxx::builder::basic::kvp;
 
-Location::Location(std::unordered_map<uint8_t,Post> &&locations_post) 
-: m_location_posts(locations_post)
-{}
-
 Location::Location(bsoncxx::document::view doc) 
 {
     m_location_id = static_cast<g_enums::GameLocations>(doc["location_id"].get_int32().value);
+    m_is_unlocked = doc["is_unlocked"].get_bool();
     auto loc_array = doc["posts"].get_array();
     uint8_t postId = 0;
     for (auto member : loc_array.value)
@@ -27,6 +24,7 @@ bsoncxx::document::value Location::ToJson()
 {
     bsoncxx::builder::basic::document doc{};
     doc.append(kvp("location_id",static_cast<int>(m_location_id)));
+    doc.append(kvp("is_unlocked",bsoncxx::types::b_bool(m_is_unlocked)));
     auto loc_maps = &m_location_posts;
     doc.append(kvp("posts",[loc_maps](bsoncxx::builder::basic::sub_array sub) 
     {
@@ -58,7 +56,7 @@ Post::Post(bsoncxx::document::view doc)
         m_last_updated = std::chrono::system_clock::now();
     }
 
-    auto resource = doc["resource_stored"];
+    auto resource = doc["current_stored"];
     if(resource) {
         m_resource_stored = resource.get_double();
     } else {
@@ -97,6 +95,5 @@ Location Location::LocationBuilder(g_enums::GameLocations id)
         }
         current++;
     }
-
-    return Location{};
+    throw std::exception();
 }

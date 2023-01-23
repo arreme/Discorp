@@ -34,7 +34,8 @@ class Player
 private:
     uint64_t m_discord_id;
     uint8_t m_player_id;
-    std::vector<Location> m_current_location;
+    g_enums::GameLocations m_current_loc;
+    std::vector<Location> m_locations;
     uint64_t m_guild_id;
     Stats m_player_stats;
     Skills m_player_skills;
@@ -48,4 +49,6 @@ public:
     Player(bsoncxx::document::view player);
 
     bsoncxx::document::value ToJson();
+
+    std::vector<Location> GetLocations();
 };

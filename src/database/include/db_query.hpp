@@ -15,3 +15,19 @@ public:
 
     void ExecuteOperation(const mongocxx::database &db) override;
 };
+
+class AggregateOperation : public Operation 
+{
+private:
+    mongocxx::pipeline m_p;
+    bool m_has_options;
+    mongocxx::options::aggregate m_find_opts;
+public:
+    core::v1::optional<mongocxx::cursor> result;
+    
+    AggregateOperation(std::string &&colName, mongocxx::pipeline &&pipeline);
+
+    void SetOptions(mongocxx::options::aggregate &&find_opts);
+
+    void ExecuteOperation(const mongocxx::database &db) override;
+};

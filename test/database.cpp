@@ -13,12 +13,12 @@ SCENARIO("Testing database basic operations","[db]")
 {
     auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
-    GIVEN("1.- A new empty user collection database") 
+    GIVEN("1.- A new empty user collection collection") 
     {
         DeleteManyOperation del_op_1 = DeleteManyOperation("users", bsoncxx::builder::basic::make_document());
         access.ExecuteOperation(del_op_1);
         
-        WHEN("1.1.- FindingUser with an empty database") 
+        WHEN("1.1.- FindingUser with an empty collection") 
         {
             FindOneOperation find_op_1_1 = FindOneOperation("users",bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0)));
             access.ExecuteOperation(find_op_1_1);
@@ -27,7 +27,7 @@ SCENARIO("Testing database basic operations","[db]")
                 REQUIRE_FALSE(find_op_1_1.result);
             }
         }
-        WHEN("1.2.- Adding a new user to the database") 
+        WHEN("1.2.- Adding a new user to the collection") 
         {
             User user_1_2(0, "test_user");
             InsertOneOperation ins_op_1_2 = InsertOneOperation("users", user_1_2.ToJson());
@@ -36,7 +36,7 @@ SCENARIO("Testing database basic operations","[db]")
                 REQUIRE(access.ExecuteOperation(ins_op_1_2));
             }
         }
-        WHEN("1.3.- Removing a non existing user from the database") 
+        WHEN("1.3.- Removing a non existing user from the collection") 
         {
             DeleteOneOperation del_op_1_3 = DeleteOneOperation("users",bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",0)));
             THEN("The result should give true") 
@@ -53,7 +53,7 @@ SCENARIO("Testing database basic operations","[db]")
         InsertOneOperation ins_op_2 = InsertOneOperation("users",user_2.ToJson());
         access.ExecuteOperation(ins_op_2);
 
-        WHEN("2.1- Adding the same user id to the database")
+        WHEN("2.1- Adding the same user id to the collection")
         {
             InsertOneOperation ins_op_2_1 = InsertOneOperation("users",user_2.ToJson());
             THEN("Result should be false") 
@@ -72,7 +72,7 @@ SCENARIO("Testing database basic operations","[db]")
                 REQUIRE(found_user_2_2.GetId() == 1);
             }
         }
-        WHEN("2.3.- Removing a user from the database")
+        WHEN("2.3.- Removing a user from the collection")
         {
             DeleteOneOperation del_op_2_3 = DeleteOneOperation("users",bsoncxx::builder::basic::make_document(bsoncxx::builder::basic::kvp("discord_id",1)));
             THEN("The user should have been deleted") 
@@ -98,5 +98,6 @@ SCENARIO("Testing database basic operations","[db]")
                 REQUIRE(access.ExecuteOperation(ins_op_3_1));
             }
         }
+        access.ExecuteOperation(del_op_3);
     }
 }
