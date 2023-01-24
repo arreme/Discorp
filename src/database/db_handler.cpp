@@ -69,3 +69,20 @@ bool db::UnlockNewLocation(uint64_t id, uint8_t player_id, g_enums::GameLocation
     UpdateOneOperation op = UpdateOneOperation("players",query_doc.extract(),update_doc.extract());
     return access.ExecuteOperation(op);
 }
+
+std::unique_ptr<Player> db::FindPlayerByIdAndCurrent(uint64_t discord_id, uint8_t player_id) 
+{
+    auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
+    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
+
+    auto query_doc = bsoncxx::builder::basic::document{};
+    query_doc.append(kvp("discord_id",bsoncxx::types::b_int64(discord_id)));
+    query_doc.append(kvp("player_id",bsoncxx::types::b_int32(player_id)));
+    FindOneOperation op = FindOneOperation("players",query_doc.extract());
+    access.ExecuteOperation(op);
+    if (op.result)
+    {
+        return std::make_unique<Player>(op.result->view());
+    }
+    return nullptr;
+}

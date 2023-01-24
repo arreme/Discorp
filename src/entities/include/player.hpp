@@ -48,7 +48,11 @@ public:
 
     Player(bsoncxx::document::view player);
 
-    bsoncxx::document::value ToJson();
+    bsoncxx::document::value ToJson() const;
 
-    std::vector<Location> GetLocations();
+    std::vector<Location>* const GetLocations();
+
+    Skills* const GetSkills();
+
+    Stats* const GetStats();
 };

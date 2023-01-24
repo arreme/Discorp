@@ -46,6 +46,7 @@ if(BUILD_TEST)
         test/setup.cpp
         test/database.cpp
         test/dbhandler.cpp
+        test/gametests.cpp
     )
 
     target_link_libraries(${PROJECT_NAME}

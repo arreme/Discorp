@@ -33,7 +33,7 @@ SCENARIO("Database handlers and transactions, [db]")
             THEN("Player should exist with only the current location") 
             {
                 REQUIRE(result);
-                REQUIRE(result->GetLocations().size() == 1);
+                REQUIRE(result->GetLocations()->size() == 1);
             }
         }
         DeleteManyOperation del_op_1 = DeleteManyOperation("players", bsoncxx::builder::basic::make_document());

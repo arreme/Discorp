@@ -22,7 +22,7 @@ private:
 public:
     Post(std::string post_name,uint8_t capacity_lvl,uint8_t generation_lvl, uint8_t fortune_lvl, uint8_t auto_collect_lvl);
     Post(bsoncxx::document::view doc);
-    bsoncxx::document::value ToJson();
+    bsoncxx::document::value ToJson() const;
 };
 
 class Location 
@@ -37,6 +37,8 @@ public:
     //void Image();
     void MinePost(uint8_t id);
 
-    bsoncxx::document::value ToJson();
+    bsoncxx::document::value ToJson() const;
+
+    g_enums::GameLocations GetLocId() const;
 };
 

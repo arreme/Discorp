@@ -20,7 +20,7 @@ void Location::MinePost(uint8_t id)
 
 }
 
-bsoncxx::document::value Location::ToJson() 
+bsoncxx::document::value Location::ToJson() const
 {
     bsoncxx::builder::basic::document doc{};
     doc.append(kvp("location_id",static_cast<int>(m_location_id)));
@@ -66,7 +66,7 @@ Post::Post(bsoncxx::document::view doc)
     
 }
 
-bsoncxx::document::value Post::ToJson() 
+bsoncxx::document::value Post::ToJson() const
 {
     bsoncxx::builder::basic::document doc{};
     doc.append(kvp("post_name",bsoncxx::types::b_utf8(m_post_name)));
@@ -96,4 +96,9 @@ Location Location::LocationBuilder(g_enums::GameLocations id)
         current++;
     }
     throw std::exception();
+}
+
+g_enums::GameLocations Location::GetLocId() const 
+{
+    return m_location_id;
 }

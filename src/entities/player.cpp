@@ -17,7 +17,14 @@ Player::Player(bsoncxx::document::view player)
     m_discord_id = player["discord_id"].get_int64();
     m_player_id = player["player_id"].get_int32();
     m_current_loc = static_cast<g_enums::GameLocations>(player["current_loc"].get_int32().value);
-    auto loc_array = player["locations_project"].get_array().value;
+    bsoncxx::v_noabi::array::view loc_array;
+    auto get_array = player["locations_project"];
+    if (get_array) {
+        loc_array = get_array.get_array().value;
+    } else {
+        loc_array = player["locations"].get_array().value;
+    }
+    
     for (auto loc : loc_array)
     {
         m_locations.push_back(Location(loc.get_document()));
@@ -45,7 +52,7 @@ Player::Player(bsoncxx::document::view player)
 
 }
 
-bsoncxx::document::value Player::ToJson() 
+bsoncxx::document::value Player::ToJson() const
 {
     auto doc = bsoncxx::builder::basic::document{};
     doc.append(kvp("discord_id",bsoncxx::types::b_int64(m_discord_id)));
@@ -77,7 +84,17 @@ bsoncxx::document::value Player::ToJson()
     return doc.extract();
 }
 
-std::vector<Location> Player::GetLocations() 
+std::vector<Location>* const Player::GetLocations() 
 {
-    return m_locations;
+    return &m_locations;
+}
+
+Skills* const Player::GetSkills() 
+{
+    return &m_player_skills;
+}
+
+Stats* const Player::GetStats() 
+{
+    return &m_player_stats;
 }

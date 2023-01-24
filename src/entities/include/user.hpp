@@ -20,13 +20,17 @@ public:
 
     User(bsoncxx::document::view user);
 
-    uint64_t GetId();
+    uint64_t GetId() const;
 
-    std::string GetUserName();
+    std::string GetUserName() const;
 
     void ChangeCurrentPlayer(uint8_t current_player);
 
     void UpdateTime();
 
-    bsoncxx::document::value ToJson();
+    bsoncxx::document::value ToJson() const;
+
+    uint8_t GetCurrentPlayer() const;
+
+    bool HasDLC() const;
 };

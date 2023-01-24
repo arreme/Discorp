@@ -16,7 +16,7 @@ User::User(bsoncxx::document::view user)
     m_has_dlc1 = user["has_dlc1"].get_bool();
 }
 
-uint64_t User::GetId() 
+uint64_t User::GetId() const
 {
     return m_discord_id;
 }
@@ -31,12 +31,12 @@ void User::ChangeCurrentPlayer(uint8_t current_player)
     m_current_player = current_player;
 }
 
-std::string User::GetUserName() 
+std::string User::GetUserName() const
 {
     return m_user_name;
 }
 
-bsoncxx::document::value User::ToJson() 
+bsoncxx::document::value User::ToJson() const
 {
     bsoncxx::builder::basic::document doc{};
     doc.append(kvp("discord_id",bsoncxx::types::b_int64(m_discord_id)));
@@ -46,4 +46,14 @@ bsoncxx::document::value User::ToJson()
     doc.append(kvp("current_max_player",bsoncxx::types::b_int32(m_current_max_player)));
     doc.append(kvp("has_dlc1",bsoncxx::types::b_bool(m_has_dlc1)));
     return doc.extract();
+}
+
+uint8_t User::GetCurrentPlayer() const
+{
+    return m_current_player;
+}
+
+bool User::HasDLC() const
+{
+    return m_has_dlc1;
 }
