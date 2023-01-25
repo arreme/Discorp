@@ -6,8 +6,7 @@
 #include <bsoncxx/builder/basic/kvp.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/types.hpp>
-#include <filesystem>
-#include <fstream>
+#include <resource_loader.hpp>
 
 class Post 
 {

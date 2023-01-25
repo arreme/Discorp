@@ -3,7 +3,7 @@
 #include <iostream>
 #include <game_constants.hpp>
 #include <db_handler.hpp>
-
+#include <resource_loader.hpp>
 using namespace g_enums;
 
 namespace gm 
@@ -15,4 +15,6 @@ namespace gm
     Errors SetActivePlayer(uint64_t discord_id, uint8_t active_player);
 
     Errors GoToZone(uint64_t discord_id, g_enums::GameLocations location);
+
+    Errors PhotoCurrentLocation(uint64_t discord_id);
 }

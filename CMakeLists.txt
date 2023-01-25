@@ -14,6 +14,7 @@ set (COMMON_EXES
     "src/database/db_write.cpp"
     "src/database/db_query.cpp"
     "src/entities/location.cpp"
+    "src/util/resource_loader.cpp"
 )
 
 set (COMMON_LIBS
@@ -35,7 +36,7 @@ set (COMMON_INCLUDES
     "src/database/include"
     "src/business/include"
     "src/entities/include"
-    "src/"
+    "src/util"
 )
 
 if(BUILD_TEST)

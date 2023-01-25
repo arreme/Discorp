@@ -87,20 +87,9 @@ bsoncxx::document::value Post::ToJson() const
 
 Location Location::LocationBuilder(g_enums::GameLocations id) 
 {
-    std::string path = "resources/data/locations";
-    int current = 0;
-    int target = static_cast<int>(id);
-    for (const auto & entry : std::filesystem::directory_iterator(path))
-    {
-        if (current == target)
-        {
-            std::ifstream t(entry.path());
-            std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-            return Location{bsoncxx::from_json(str)};
-        }
-        current++;
-    }
-    throw std::exception();
+    auto res = utils::LoadLocationInfo(id);
+    if(res.view().length() == 0) throw std::exception();
+    return Location{res.view()};
 }
 
 g_enums::GameLocations Location::GetLocId() const 

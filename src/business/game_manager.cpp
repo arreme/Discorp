@@ -84,7 +84,38 @@ Errors gm::GoToZone(uint64_t discord_id, g_enums::GameLocations location)
         
     }
 
-    return Errors::ILLEGAL_ACTION;
-    
+    return Errors::ILLEGAL_ACTION;   
+}
+
+Errors gm::PhotoCurrentLocation(uint64_t discord_id) 
+{
+    auto usr_res = db::FindUserById(discord_id);
+    if(!usr_res) return Errors::USER_NOT_FOUND;
+
+    auto plyr_res = db::FindPlayerCurrentLocationOnly(discord_id,usr_res->GetCurrentPlayer());
+
+    auto loc_id = plyr_res->GetLocations()->at(0).GetLocId();
+
+    auto loc_doc = utils::LoadLocationInfo(loc_id);
+
+    if(loc_doc.view().length() > 0) 
+    {
+        auto img_array = loc_doc.view()["images"].get_array().value;
+        //calculate loc_doc image
+        gdImagePtr img_ptr = utils::ImageLoader("resources/assets/locations/"+img_array[0].get_utf8().value.to_string());
+        if(img_ptr != NULL) 
+        {
+            FILE *fp;
+	        fp = fopen("resources/results/res01.png", "wb");
+            gdImagePng(img_ptr,fp);
+            fclose(fp);
+            gdImageDestroy(img_ptr);
+            return Errors::SUCCESS;
+        }
+    }
+
+    return Errors::GENERAL_ERROR;
+
+
 }
 

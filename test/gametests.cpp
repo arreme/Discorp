@@ -50,7 +50,14 @@ SCENARIO("/start", "[command]")
 
 SCENARIO("/photo", "[command]") 
 {
+    WHEN("Player is in Main Zone") 
+    {
+        gm::PhotoCurrentLocation(3);
+        THEN("A photo of the main zone should be generated") 
+        {
 
+        }
+    }
 }
 
 SCENARIO("/mine <post_name>", "[command]") 
