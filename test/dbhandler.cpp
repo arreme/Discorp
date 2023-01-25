@@ -36,6 +36,15 @@ SCENARIO("Database handlers and transactions, [db]")
                 REQUIRE(result->GetLocations()->size() == 1);
             }
         }
+        WHEN("1.3.- Getting player locations") 
+        {
+            auto result = db::FindPlayerLocations(1,0);
+            THEN("We should get a vector with the current locations") 
+            {
+                REQUIRE(result);
+                REQUIRE((*result)[0].GetLocId() == g_enums::GameLocations::MAIN_BASE);
+            }
+        }
         DeleteManyOperation del_op_1 = DeleteManyOperation("players", bsoncxx::builder::basic::make_document());
         access.ExecuteOperation(del_op_1);
     }

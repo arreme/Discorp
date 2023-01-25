@@ -19,6 +19,8 @@ namespace g_enums
         FORMAT_ERROR = -2,
         GENERAL_ERROR = -3,
         DATABASE_CONNECTION_ERROR = -4,
+        USER_NOT_FOUND = -5,
+        ILLEGAL_ACTION = -6,
     };
 }
 

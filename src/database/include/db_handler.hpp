@@ -20,4 +20,8 @@ namespace db
     bool UnlockNewLocation(uint64_t id, uint8_t player_id, g_enums::GameLocations new_location);
 
     std::unique_ptr<Player> FindPlayerByIdAndCurrent(uint64_t discord_id, uint8_t player_id);
+
+    std::unique_ptr<std::vector<Location>> FindPlayerLocations(uint64_t discord_id, uint8_t player_id);
+
+    bool UpdateCurrentLoc(uint64_t discord_id, uint8_t player_id, g_enums::GameLocations location);
 }

@@ -29,7 +29,7 @@ class Location
 {
 private:
     g_enums::GameLocations m_location_id = g_enums::GameLocations::ERROR_LOCATION;
-    bool m_is_unlocked = true;
+    //bool m_is_unlocked = true;
     std::unordered_map<uint8_t,Post> m_location_posts;
 public:
     static Location LocationBuilder(g_enums::GameLocations loc_id);

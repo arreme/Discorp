@@ -86,3 +86,49 @@ std::unique_ptr<Player> db::FindPlayerByIdAndCurrent(uint64_t discord_id, uint8_
     }
     return nullptr;
 }
+
+std::unique_ptr<std::vector<Location>> db::FindPlayerLocations(uint64_t discord_id, uint8_t player_id) 
+{
+    auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
+    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
+
+
+    FindOneOperation op = FindOneOperation("players",make_document(kvp("discord_id",bsoncxx::types::b_int64(discord_id)), kvp("player_id",bsoncxx::types::b_int32(player_id))));
+    mongocxx::options::find opts{};
+    opts.projection(
+        make_document(
+            kvp("locations.posts",0),
+            kvp("skills",0),
+            kvp("stats",0)
+    ));
+    op.SetOptions(std::move(opts));
+    access.ExecuteOperation(op);
+    if (op.result)
+    {
+        std::vector<Location> loc_res;
+        auto doc = op.result->view();
+        auto array = doc["locations"].get_array().value;
+        for(auto elem : array) 
+        {
+            loc_res.push_back(Location(elem.get_document().view()));
+        }
+        return std::make_unique<std::vector<Location>>(loc_res);
+    }
+    
+    return nullptr;
+}
+
+bool db::UpdateCurrentLoc(uint64_t discord_id, uint8_t player_id, g_enums::GameLocations location) {
+    auto dbClient = MongoDBInstance::GetInstance()->getClientFromPool();
+    auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
+
+    UpdateOneOperation op = UpdateOneOperation(
+    "players",
+    make_document(
+        kvp("discord_id",bsoncxx::types::b_int64(discord_id)),
+        kvp("player_id",bsoncxx::types::b_int32(player_id))),
+    make_document(
+        kvp("current_loc",bsoncxx::types::b_int32(static_cast<int>(location)))));
+
+    access.ExecuteOperation(op);
+}

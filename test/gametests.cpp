@@ -14,15 +14,15 @@ SCENARIO("/start", "[command]")
         access.ExecuteOperation(del_op_usr);
         WHEN("Issuing the command") 
         {
-            auto result = db::CreateGameTransaction(User(3,"user_test"),Player(3,1));
+            auto result = gm::CreateGame(3,"game_player");
             THEN("The result should be true and initial state should be loaded") 
             {
-                REQUIRE(result);
+                REQUIRE(result == Errors::SUCCESS);
 
                 auto usr_res = db::FindUserById(3);
                 REQUIRE(usr_res);
                 REQUIRE(usr_res->GetId() == 3);
-                REQUIRE(usr_res->GetUserName() == "user_test");
+                REQUIRE(usr_res->GetUserName() == "game_player");
                 REQUIRE(usr_res->GetCurrentPlayer() == 1);
                 REQUIRE_FALSE(usr_res->HasDLC());
 
@@ -39,16 +39,21 @@ SCENARIO("/start", "[command]")
     {
         WHEN("Issuing the command") 
         {
-            auto result = db::CreateGameTransaction(User(3,"user_test"),Player(3,1));
-            THEN("The result should be false") 
+            auto result = gm::CreateGame(3,"game_player");
+            THEN("TEMPORAL: The result should be false") 
             {
-                REQUIRE_FALSE(result);
+                REQUIRE(result == Errors::DUPLICATED_PK_ERROR);
             }
         }
     }
 }
 
-SCENARIO("/goto <zone_name>", "[command]") 
+SCENARIO("/photo", "[command]") 
+{
+
+}
+
+SCENARIO("/mine <post_name>", "[command]") 
 {
 
 }
@@ -58,17 +63,18 @@ SCENARIO("/unlock <zone_name>", "[command]")
 
 }
 
+SCENARIO("/goto <zone_name>", "[command]") 
+{
+    GIVEN("The Zone is unlocked")
+    {
+        WHEN("/goto Forest")
+        {
+            
+        }
+    }
+}
+
 SCENARIO("/unlock check <zone_name>", "[command]") 
-{
-
-}
-
-SCENARIO("/photo", "[command]") 
-{
-
-}
-
-SCENARIO("/mine <post_name>", "[command]") 
 {
 
 }
