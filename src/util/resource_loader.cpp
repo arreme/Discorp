@@ -27,8 +27,9 @@ bsoncxx::document::value utils::LoadPostInfo(std::string fileName)
     return bsoncxx::from_json(str);
 };
 
-gdImagePtr utils::ImageLoader(std::string path)
+assetPointer utils::ImageLoader(std::string path)
 {
+    std::function<void(gdImage *)> func = [](gdImage *img) { gdImageDestroy(img); };
     FILE *fp;
     gdImagePtr im;
     const char *name = path.c_str();
@@ -36,10 +37,11 @@ gdImagePtr utils::ImageLoader(std::string path)
     if (!fp) 
     {
         fprintf(stderr, "Can't open jpeg file\n");
-        return NULL;
+        return assetPointer(nullptr,func);
     }
 
     im = gdImageCreateFromPng(fp);
     fclose(fp);
-    return im;
+
+    return assetPointer(im,func);
 }

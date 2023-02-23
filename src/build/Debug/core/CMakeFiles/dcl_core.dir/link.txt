@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libdcl_core.so -o libdcl_core.so CMakeFiles/dcl_core.dir/src/core_func.cpp.o 

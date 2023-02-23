@@ -102,14 +102,22 @@ Errors gm::PhotoCurrentLocation(uint64_t discord_id)
     {
         auto img_array = loc_doc.view()["images"].get_array().value;
         //calculate loc_doc image
-        gdImagePtr img_ptr = utils::ImageLoader("resources/assets/locations/"+img_array[0].get_utf8().value.to_string());
-        if(img_ptr != NULL) 
+        auto img_ptr = utils::ImageLoader("resources/assets/locations/"+img_array[0].get_utf8().value.to_string());
+        if(img_ptr) 
         {
             FILE *fp;
 	        fp = fopen("resources/results/res01.png", "wb");
-            gdImagePng(img_ptr,fp);
+            for (auto post : loc_doc.view()["posts"].get_array().value)
+            {
+                auto x = post["posX"].get_int32();
+                auto y = post["posY"].get_int32();
+                auto postInfo = utils::LoadPostInfo(post["post_name"].get_utf8().value.to_string());
+                auto post_ptr = utils::ImageLoader("resources/assets/posts/"+postInfo.view()["images"].get_array().value[0].get_utf8().value.to_string());
+                gdImageCopy(img_ptr.get(),post_ptr.get(),x,y,0,0,32,32);
+            }
+            
+            gdImagePng(img_ptr.get(),fp);
             fclose(fp);
-            gdImageDestroy(img_ptr);
             return Errors::SUCCESS;
         }
     }

@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/dcl_bot.dir/main2.cpp.o -o dcl_bot  -Wl,-rpath,/home/arreme/TFG/Discorp/src/build/Debug/core core/libdcl_core.so 
