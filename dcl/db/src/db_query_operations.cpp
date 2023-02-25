@@ -1,4 +1,4 @@
-#include <db_query.hpp>
+#include <db_query_operations.hpp>
 
 FindOneOperation::FindOneOperation(std::string &&colName, bsoncxx::document::value &&filter)
 : Operation(std::forward<std::string>(colName),std::forward<bsoncxx::document::value>(filter))

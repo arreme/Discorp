@@ -7,7 +7,7 @@ private:
     bool has_options;
     mongocxx::options::find m_find_opts;
 public:
-    std::optional<bsoncxx::v_noabi::document::value> result;
+    std::optional<bsoncxx::document::value> result;
     
     FindOneOperation(std::string &&colName, bsoncxx::document::value &&filter);
 
