@@ -1,4 +1,4 @@
-/build
-/libs
-/.vscode
-/tests/build
+build
+libs
+.vscode
+tests/build

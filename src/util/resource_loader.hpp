@@ -2,6 +2,7 @@
 #include <iostream>
 #include <bsoncxx/json.hpp>
 #include <filesystem>
+#include <functional>
 #include <fstream>
 #include <game_constants.hpp>
 #include "gd.h"

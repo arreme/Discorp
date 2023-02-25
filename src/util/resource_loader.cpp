@@ -34,6 +34,7 @@ assetPointer utils::ImageLoader(std::string path)
     gdImagePtr im;
     const char *name = path.c_str();
     fp = fopen(name, "rb");
+    
     if (!fp) 
     {
         fprintf(stderr, "Can't open jpeg file\n");

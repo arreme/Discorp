@@ -7,7 +7,7 @@ private:
     bool has_options;
     mongocxx::options::find m_find_opts;
 public:
-    core::v1::optional<bsoncxx::v_noabi::document::value> result;
+    std::optional<bsoncxx::v_noabi::document::value> result;
     
     FindOneOperation(std::string &&colName, bsoncxx::document::value &&filter);
 
@@ -23,7 +23,7 @@ private:
     bool m_has_options;
     mongocxx::options::aggregate m_find_opts;
 public:
-    core::v1::optional<mongocxx::cursor> result;
+    std::optional<mongocxx::cursor> result;
     
     AggregateOperation(std::string &&colName, mongocxx::pipeline &&pipeline);
 

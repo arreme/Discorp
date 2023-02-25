@@ -4,6 +4,11 @@
 #include <game_constants.hpp>
 #include <db_handler.hpp>
 #include <resource_loader.hpp>
+#include <iostream>
+#include <time.h>
+#include <string>
+#include <game_constants.hpp>
+#include <resource_loader.hpp>
 using namespace g_enums;
 
 namespace gm 

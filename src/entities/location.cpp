@@ -48,7 +48,7 @@ Post::Post(std::string post_name,uint8_t capacity_lvl,uint8_t generation_lvl, ui
 
 Post::Post(bsoncxx::document::view doc) 
 {
-    m_post_name = doc["post_name"].get_utf8().value.to_string();
+    m_post_name = doc["post_name"].get_string();
     m_capacity_lvl = doc["capacity_lvl"].get_int32();
     m_gen_second_lvl = doc["generation_lvl"].get_int32();
     m_fortune_lvl = doc["fortune_lvl"].get_int32();

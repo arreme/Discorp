@@ -1,5 +1,18 @@
 #include <game_manager.hpp>
+#include <string>
+#include <iostream>
+#include <bsoncxx/json.hpp>
+#include <filesystem>
+#include <functional>
+#include <fstream>
+#include <game_constants.hpp>
+#include "gd.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <bsoncxx/types.hpp>
+#include <string_view>
 
+std::string bsoncxx::to_string(bsoncxx::type rhs);
 using namespace g_enums;
 using namespace bsoncxx::builder::basic;
 
@@ -102,17 +115,21 @@ Errors gm::PhotoCurrentLocation(uint64_t discord_id)
     {
         auto img_array = loc_doc.view()["images"].get_array().value;
         //calculate loc_doc image
-        auto img_ptr = utils::ImageLoader("resources/assets/locations/"+img_array[0].get_utf8().value.to_string());
+        std::string_view temp = img_array[0].get_string();
+        auto a = std::string(temp);
+        auto img_ptr = utils::ImageLoader("resources/assets/locations/"+a);
         if(img_ptr) 
         {
             FILE *fp;
 	        fp = fopen("resources/results/res01.png", "wb");
-            for (auto post : loc_doc.view()["posts"].get_array().value)
+            for (auto post : loc_doc["posts"].get_array().value)
             {
                 auto x = post["posX"].get_int32();
                 auto y = post["posY"].get_int32();
-                auto postInfo = utils::LoadPostInfo(post["post_name"].get_utf8().value.to_string());
-                auto post_ptr = utils::ImageLoader("resources/assets/posts/"+postInfo.view()["images"].get_array().value[0].get_utf8().value.to_string());
+                std::string_view hey = post["post_name"].get_string();
+                auto postInfo = utils::LoadPostInfo(std::string(hey) );
+                std::string_view hey2 = postInfo.view()["images"].get_array().value[0].get_string();
+                auto post_ptr = utils::ImageLoader("resources/assets/posts/"+std::string(hey2));
                 gdImageCopy(img_ptr.get(),post_ptr.get(),x,y,0,0,32,32);
             }
             
