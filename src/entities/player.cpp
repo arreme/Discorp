@@ -55,9 +55,9 @@ Player::Player(bsoncxx::document::view player)
 bsoncxx::document::value Player::ToJson() const
 {
     auto doc = bsoncxx::builder::basic::document{};
-    doc.append(kvp("discord_id",bsoncxx::types::b_int64(m_discord_id)));
-    doc.append(kvp("player_id",bsoncxx::types::b_int32(m_player_id)));
-    doc.append(kvp("current_loc",bsoncxx::types::b_int32(static_cast<int>(m_current_loc))));
+    doc.append(kvp("discord_id",m_discord_id));
+    doc.append(kvp("player_id",m_player_id));
+    doc.append(kvp("current_loc",bsoncxx::types::b_int32{static_cast<int>(m_current_loc)}));
     auto array_loc = &m_locations;
     doc.append(kvp("locations",[array_loc](bsoncxx::builder::basic::sub_array sub) {
         for (auto loc : *array_loc)

@@ -1,11 +1,11 @@
 #pragma once
 #include <db_instance.hpp>
-#include <db_access.hpp>
-#include <discorp_config.hpp>
+//#include <db_access.hpp>
+//#include <discorp_config.hpp>
 #include <db_write.hpp>
 #include <user.hpp>
 #include <player.hpp>
-#include <db_query.hpp>
+//#include <db_query.hpp>
 #include <location.hpp>
 #include <mongocxx/pipeline.hpp>
 

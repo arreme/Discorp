@@ -14,6 +14,8 @@ enum class OperationState
     PARSE_ERROR = -1,
     BULK_WRITE_ERROR = -2,
     NO_ACTION_ERROR = -3,
+    DUPLICATED_ID = -4,
+    GENERAL_ERROR = -5,
 };
 
 class Operation 
@@ -28,16 +30,30 @@ public:
 
     OperationState GetState() { return m_db_state; }
 
-    virtual void ExecuteOperation(const mongocxx::database &db) = 0;
+    virtual void ExecuteOperation() noexcept = 0; 
+};
+
+class TransactionalOperation : public Operation
+{
+public:
+    TransactionalOperation(std::string &&colName, std::unique_ptr<document::value> bson)
+    : Operation(std::forward<std::string>(colName),std::forward<bsoncxx::document::value>(bson)) {}; 
+    
     virtual void ExecuteOperation(const mongocxx::database &db, const mongocxx::client_session &session) = 0;
 };
 
 class Transaction 
 {
 protected:
-    std::vector<Operation *> m_operations;
+    std::vector<TransactionalOperation *> m_operations;
 public:
-    bool ExecuteTransaction() 
+
+    void AddOperation(TransactionalOperation *op) 
+    {
+        m_operations.push_back(op);
+    }
+
+    void ExecuteTransaction() 
     {
         auto client = MongoDBInstance::GetInstance()->getClientFromPool();
         auto session = client->start_session();
@@ -57,15 +73,13 @@ public:
         {     
             std::cerr << "Transaction Exception " << e.what() << std::endl;
             session.abort_transaction();
-            return false;
         }
-        return true;
     }
 };
 
-// class NoActionException : std::runtime_error 
-// {
-// public:
-//     NoActionException(const std::string& message) : std::runtime_error(message) 
-//     {};
-// };
+class NoActionException : std::runtime_error 
+{
+public:
+    NoActionException(const std::string& message) : std::runtime_error(message) 
+    {};
+};

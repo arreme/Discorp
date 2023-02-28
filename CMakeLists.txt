@@ -1,93 +1,44 @@
-# minimum CMake version required
-cmake_minimum_required(VERSION 3.15)
-# Project name, version and description
-option(BUILD_TEST "You want to check if tests pass" OFF)
-option(DEBUG_MODE "You want to create a debug build" OFF)
+cmake_minimum_required(VERSION 3.22)
 
-# list of exes that are shared from the two builds
-set (COMMON_EXES
-    "src/business/game_manager.cpp"
-    "src/entities/user.cpp"
-    "src/entities/player.cpp"
-    "src/database/db_access.cpp"
-    "src/database/db_handler.cpp"
-    "src/database/db_write.cpp"
-    "src/database/db_query.cpp"
-    "src/entities/location.cpp"
-    "src/util/resource_loader.cpp"
-)
+option(DEBUG_MODE "Activate debug build" OFF)
+option(BUILD_TESTS "Activate test project" OFF)
 
-set (COMMON_LIBS
-    "gd"
-    "png"
-    "z"
-    "freetype"
-    "m"
-    "pthread"
-    "mongocxx"
-    "bsoncxx"
-)
-
-set (COMMON_INCLUDES
-    "/usr/local/include/mongocxx/v_noabi"
-    "/usr/local/include/libmongoc-1.0"
-    "/usr/local/include/bsoncxx/v_noabi"
-    "/usr/local/include/libbson-1.0"
-    "src/database/include"
-    "src/business/include"
-    "src/entities/include"
-    "src/util"
-)
-
-if(BUILD_TEST)
-    project(DisTest VERSION 0.1 DESCRIPTION "Distest")
-    add_subdirectory(libs/Catch2)
-    add_executable(${PROJECT_NAME}
-        ${COMMON_EXES}
-        test/setup.cpp
-        test/database.cpp
-        test/dbhandler.cpp
-        test/gametests.cpp
+if(BUILD_TESTS)
+    project(dcl_test VERSION 1.0.0 DESCRIPTION "Main Bot For DiscLand")
+    add_executable(${PROJECT_NAME} test/setup.cpp test/db_test.cpp)
+    find_package(Catch2 3 REQUIRED)
+    find_package(bsoncxx 3.7.0 REQUIRED)
+    find_package(mongocxx 3.7.0 REQUIRED)
+    add_subdirectory(dcl/db)
+    target_link_libraries(
+        ${PROJECT_NAME}
+        PRIVATE Catch2::Catch2WithMain
+        dcl_db
+        bsoncxx
+        mongocxx
+        pthread
     )
 
-    target_link_libraries(${PROJECT_NAME}
-        ${COMMON_LIBS}
-        Catch2WithMain
+    target_include_directories(
+        ${PROJECT_NAME}
+        PRIVATE "/usr/local/include/catch2" 
+        PRIVATE "dcl/db/include"
+        PRIVATE "/usr/local/include/mongocxx/v_noabi"
+        PRIVATE "/usr/local/include/bsoncxx/v_noabi"
     )
-
-    target_include_directories(${PROJECT_NAME} PRIVATE
-        ${COMMON_INCLUDES}
-    )
-    
-    add_definitions( -DTEST_BUILD)
 else()
-    project(Discorp VERSION 0.1 DESCRIPTION "Discorp")
 
-    add_subdirectory(libs/DPP)
-
-    add_executable(${PROJECT_NAME}
-        ${COMMON_EXES}
-        src/main.cpp
-        src/api/command_bootstrap.cpp
-    )
-    target_link_libraries(${PROJECT_NAME}
-        ${COMMON_LIBS}
-        dpp
-    )
-
-    target_include_directories(${PROJECT_NAME} PRIVATE
-        ${COMMON_INCLUDES}
-        libs/DPP/include 
-        src/api/include
-    )
 endif()
 
-if(DEBUG_MODE)
-    set(CMAKE_BUILD_TYPE Debug)
-    set(CMAKE_BUILD_TYPE RelWithDebInfo)
-endif()
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    CXX_STANDARD 20
+set_target_properties(
+    ${PROJECT_NAME} PROPERTIES
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
+
+if(DEBUG_MODE)
+    message(STATUS "DEBUG")
+    set(CMAKE_BUILD_TYPE Debug)
+else()
+    set(CMAKE_BUILD_TYPE Release)
+endif()

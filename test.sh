@@ -1,3 +1,9 @@
 #!/bin/sh
-cmake -B build/DisTest -S . -DBUILD_TEST=ON -DDEBUG_MODE=ON
-make -C build/DisTest -j 6
+cmake -B build/test -S . -DBUILD_TESTS=ON -DDEBUG_MODE=OFF
+make -C build/test -j 6
+
+echo "**********************"
+echo "** Executing tests! **"
+echo "**********************"
+
+./build/test/dcl_test

@@ -35,13 +35,13 @@ std::unique_ptr<Player> db::FindPlayerCurrentLocationOnly(uint64_t id, uint8_t p
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
 
     mongocxx::pipeline p{};
-    p.match(make_document(kvp("discord_id",bsoncxx::types::b_int64(id)),kvp("player_id",bsoncxx::types::b_int32(player_id))));
+    p.match(make_document(kvp("discord_id",id),kvp("player_id",bsoncxx::types::b_int32(player_id))));
     bsoncxx::builder::basic::array array;
     bsoncxx::builder::basic::array arrayElement;
     arrayElement.append("$locations");
     arrayElement.append(make_document(kvp("$getField",bsoncxx::types::b_utf8("current_loc"))));
     array.append(make_document(kvp("$arrayElemAt",arrayElement)));
-    p.add_fields(make_document(kvp("locations_project",bsoncxx::types::b_array(array))));
+    p.add_fields(make_document(kvp("locations_project",array)));
     p.project(make_document(kvp("locations",0)));
 
     AggregateOperation op = AggregateOperation("players",std::move(p));
