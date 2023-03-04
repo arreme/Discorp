@@ -1,5 +1,7 @@
 #include <db_query_operations.hpp>
 
+using namespace db;
+
 /************************
  *  FIND ONE OPERATION  *
  ************************/

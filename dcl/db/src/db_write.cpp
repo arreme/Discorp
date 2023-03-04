@@ -1,11 +1,13 @@
 #include <db_write.hpp>
 
+using namespace db;
+
 /**************************
  *  INSERT ONE OPERATION  *
  **************************/
 
-InsertOneOperation::InsertOneOperation(std::string &&colName, std::unique_ptr<document::value> bson)
-: TransactionalOperation(std::forward<std::string>(colName),bson)
+InsertOneOperation::InsertOneOperation(std::string &&colName, bsoncxx::document::value &&bson)
+: TransactionalOperation(std::forward<std::string>(colName),std::forward<bsoncxx::document::value>(bson))
 {}
 
 InsertOneOperation::InsertOneOperation(std::string &&colName, bsoncxx::document::value &&bson, mongocxx::options::insert insert_opt)
@@ -29,13 +31,10 @@ void InsertOneOperation::ExecuteOperation() noexcept
         if (!result) 
         {
             m_db_state = OperationState::NOT_EXECUTED;
-        } else if (result->result().inserted_count() != 1) 
-        {
-            m_db_state = OperationState::DUPLICATED_ID;
         }
     }
     catch(const mongocxx::bulk_write_exception e) {
-        m_db_state = OperationState::BULK_WRITE_ERROR;
+        m_db_state = OperationState::DUPLICATED_ID;
     } catch (const std::exception e) {
         m_db_state = OperationState::GENERAL_ERROR;
     }

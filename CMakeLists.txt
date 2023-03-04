@@ -6,6 +6,7 @@ option(BUILD_TESTS "Activate test project" OFF)
 if(BUILD_TESTS)
     project(dcl_test VERSION 1.0.0 DESCRIPTION "Main Bot For DiscLand")
     add_executable(${PROJECT_NAME} test/setup.cpp test/db_test.cpp)
+    add_definitions(-DTEST_DATABASE)
     find_package(Catch2 3 REQUIRED)
     find_package(bsoncxx 3.7.0 REQUIRED)
     find_package(mongocxx 3.7.0 REQUIRED)
@@ -32,7 +33,7 @@ endif()
 
 set_target_properties(
     ${PROJECT_NAME} PROPERTIES
-    CXX_STANDARD 17
+    CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
 )
 
