@@ -1,4 +1,4 @@
-#include <user.hpp>
+#include <entities/user.hpp>
 
 using bsoncxx::builder::basic::kvp;
 

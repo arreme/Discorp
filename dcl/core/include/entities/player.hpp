@@ -6,7 +6,6 @@
 #include <bsoncxx/builder/basic/kvp.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/types.hpp>
-#include <location.hpp>
 
 struct Stats
 {
@@ -40,19 +39,16 @@ struct Skills
     bsoncxx::document::value ToJson() const noexcept;
 };
 
-
 class Player 
 {
 private:
     uint64_t m_discord_id;
     int32_t m_player_id;
     g_enums::GameLocations m_current_loc;
-    std::map<g_enums::GameLocations, Location> m_active_locations;
-    uint64_t m_guild_id;
+    uint64_t m_guild_id = 0;
     Stats m_player_stats;
     Skills m_player_skills;
 
-    
     //std::vector<Equipables> m_equipables;
 
 public:
@@ -62,7 +58,7 @@ public:
 
     bsoncxx::document::value ToJson() const;
 
-    std::vector<Location>* const GetLocations() noexcept;
+    g_enums::GameLocations GetLocation() const noexcept;
 
     Skills* const GetSkills() noexcept;
 

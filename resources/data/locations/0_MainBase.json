@@ -1,29 +1,15 @@
 {
     "location_id": 0,
-    "is_unlocked" : false,
     "images" : 
     [
         "main_base_0.png"
     ],
-    "posts": 
+    "interactions": 
     [
         {
             "post_name":"pebbles",
             "posX": 50,
-            "posY": 50,
-            "capacity_lvl" : 0,
-            "generation_lvl" : 0,
-            "fortune_lvl" : 0,
-            "autocollect_lvl" : 0
-        },
-        {
-            "post_name":"bushes",
-            "posX": 100,
-            "posY": 100,
-            "capacity_lvl" : 0,
-            "generation_lvl" : 0,
-            "fortune_lvl" : 0,
-            "autocollect_lvl" : 0
+            "posY": 50
         }
     ]
 }

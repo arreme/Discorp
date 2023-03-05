@@ -7,12 +7,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 project(dcl_core VERSION 0.0.1 DESCRIPTION "The core machinery for discland")
-add_library(${PROJECT_NAME} SHARED "src/db_write.cpp" "src/db_query_operations.cpp")
+add_library(${PROJECT_NAME} SHARED "src/entities/player.cpp" "src/entities/user.cpp" "src/entities/location.cpp" "src/resource_loader.cpp")
 
 include_directories(
     PUBLIC "/usr/local/include/mongocxx/v_noabi"
     PUBLIC "/usr/local/include/bsoncxx/v_noabi"
-    PUBLIC "/include"
+    PUBLIC "include"
     PUBLIC "../db/include"
 )
 

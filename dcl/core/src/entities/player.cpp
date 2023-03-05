@@ -1,4 +1,4 @@
-#include <player.hpp>
+#include <entities/player.hpp>
 
 using bsoncxx::builder::basic::kvp;
 using namespace bsoncxx::types;
@@ -8,37 +8,17 @@ using namespace bsoncxx::types;
  * that Players should be initialized by using the database
 */
 Player::Player(uint64_t discord_id, uint8_t player_id) 
-: m_discord_id(discord_id), m_player_id(player_id)
-{
-    uint64_t m_guild_id = 0;
-    m_current_loc = g_enums::GameLocations::MAIN_BASE;
-    m_active_locations.push_back(Location::LocationBuilder(m_current_loc));
-}
+: m_discord_id(discord_id), m_player_id(player_id), m_current_loc(g_enums::GameLocations::MAIN_BASE)
+{}
 
 Player::Player(bsoncxx::document::view player)
 {
     m_discord_id = static_cast<uint64_t>(player["discord_id"].get_int64());
     m_player_id = player["player_id"].get_int32();
-
-    m_current_loc = static_cast<g_enums::GameLocations>(player["current_loc"].get_int32().value);
-    bsoncxx::v_noabi::array::view loc_array;
-    auto get_array = player["locations_p"];
-    if (get_array) {
-        loc_array = get_array.get_array().value;
-    } else {
-        loc_array = player["locations"].get_array().value;
-    }
-    
-    for (auto loc : loc_array)
-    {
-        m_active_locations.push_back(Location(loc.get_document()));
-    }
-    
     m_guild_id = static_cast<uint64_t>(player["guild_id"].get_int64());
-
+    m_current_loc = static_cast<g_enums::GameLocations>(player["current_loc"].get_int32().value);
     m_player_stats = {player["stats"]};
     m_player_skills = {player["skills"]};
-
 }
 
 Stats::Stats(bsoncxx::document::element element) : 
@@ -69,16 +49,7 @@ bsoncxx::document::value Player::ToJson() const
 
     doc.append(kvp("discord_id",bsoncxx::types::b_int64{static_cast<int64_t>(m_discord_id)}));
     doc.append(kvp("player_id",bsoncxx::types::b_int32{m_player_id}));
-    doc.append(kvp("current_loc",bsoncxx::types::b_int32{static_cast<int>(m_current_loc)}));
-    
-    auto array_loc = &m_active_locations;
-    doc.append(kvp("locations",[array_loc](bsoncxx::builder::basic::sub_array sub) {
-        for (auto loc : *array_loc)
-        {
-            sub.append(loc.ToJson());
-        }
-    }));
-
+    doc.append(kvp("current_loc_id",bsoncxx::types::b_int32{static_cast<int32_t>(m_current_loc)}));
 
     doc.append(kvp("stats",m_player_stats.ToJson()));
 
@@ -119,9 +90,9 @@ bsoncxx::document::value Skills::ToJson() const noexcept
     return skills.extract();
 }
 
-std::vector<Location>* const Player::GetLocations() noexcept
+g_enums::GameLocations Player::GetLocation() const noexcept
 {
-    return &m_active_locations;
+    return m_current_loc;
 }
 
 Skills* const Player::GetSkills() noexcept
