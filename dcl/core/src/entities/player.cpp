@@ -1,24 +1,28 @@
 #include <player.hpp>
 
 using bsoncxx::builder::basic::kvp;
+using namespace bsoncxx::types;
 
+/**
+ * Only should be called once for first initializing a player. After 
+ * that Players should be initialized by using the database
+*/
 Player::Player(uint64_t discord_id, uint8_t player_id) 
 : m_discord_id(discord_id), m_player_id(player_id)
 {
     uint64_t m_guild_id = 0;
     m_current_loc = g_enums::GameLocations::MAIN_BASE;
-    m_locations.push_back(Location::LocationBuilder(m_current_loc));
-    m_player_stats = {20,20,1,1,1,false};
-    m_player_skills = {1,0,1,0,1,0};
+    m_active_locations.push_back(Location::LocationBuilder(m_current_loc));
 }
 
 Player::Player(bsoncxx::document::view player)
 {
-    m_discord_id = player["discord_id"].get_int64();
+    m_discord_id = static_cast<uint64_t>(player["discord_id"].get_int64());
     m_player_id = player["player_id"].get_int32();
+
     m_current_loc = static_cast<g_enums::GameLocations>(player["current_loc"].get_int32().value);
     bsoncxx::v_noabi::array::view loc_array;
-    auto get_array = player["locations_project"];
+    auto get_array = player["locations_p"];
     if (get_array) {
         loc_array = get_array.get_array().value;
     } else {
@@ -27,74 +31,105 @@ Player::Player(bsoncxx::document::view player)
     
     for (auto loc : loc_array)
     {
-        m_locations.push_back(Location(loc.get_document()));
+        m_active_locations.push_back(Location(loc.get_document()));
     }
     
-    m_player_stats = 
-    {
-        player["stats"]["max_health"].get_int32(),
-        player["stats"]["current_health"].get_int32(),
-        player["stats"]["strength"].get_int32(),
-        player["stats"]["defense"].get_int32(),
-        player["stats"]["precision"].get_int32(),
-        player["stats"]["is_dirty"].get_bool(),
-    };
+    m_guild_id = static_cast<uint64_t>(player["guild_id"].get_int64());
 
-    m_player_skills =
-    {
-        player["skills"]["forage_lvl"].get_int32(),
-        player["skills"]["forage_xp"].get_int32(),
-        player["skills"]["mining_lvl"].get_int32(),
-        player["skills"]["mining_xp"].get_int32(),
-        player["skills"]["combat_lvl"].get_int32(),
-        player["skills"]["combat_xp"].get_int32(),
-    };
+    m_player_stats = {player["stats"]};
+    m_player_skills = {player["skills"]};
 
 }
+
+Stats::Stats(bsoncxx::document::element element) : 
+m_max_health(static_cast<uint32_t>(element["max_health"].get_int32())),
+m_current_health(static_cast<uint32_t>(element["current_health"].get_int32())),
+m_strength(element["strength"].get_int32()),
+m_defense(element["defense"].get_int32()),
+m_precision(element["precision"].get_int32()),
+m_speed(element["speed"].get_int32()),
+m_luck(element["luck"].get_int32()),
+m_is_dirty(element["is_dirty"].get_bool())
+{}
+
+Skills::Skills(bsoncxx::document::element element) : 
+m_forage_lvl(static_cast<uint32_t>(element["forage_lvl"].get_int32())),
+m_forage_xp(static_cast<uint32_t>(element["forage_xp"].get_int32())),
+m_mining_lvl(static_cast<uint32_t>(element["mining_lvl"].get_int32())),
+m_mining_xp(static_cast<uint32_t>(element["mining_xp"].get_int32())),
+m_combat_lvl(static_cast<uint32_t>(element["combat_lvl"].get_int32())),
+m_combat_xp(static_cast<uint32_t>(element["combat_xp"].get_int32())),
+m_athletics_lvl(static_cast<uint32_t>(element["athletics_lvl"].get_int32())),
+m_athletics_xp(static_cast<uint32_t>(element["athletics_xp"].get_int32()))
+{}
 
 bsoncxx::document::value Player::ToJson() const
 {
     auto doc = bsoncxx::builder::basic::document{};
-    doc.append(kvp("discord_id",m_discord_id));
-    doc.append(kvp("player_id",m_player_id));
+
+    doc.append(kvp("discord_id",bsoncxx::types::b_int64{static_cast<int64_t>(m_discord_id)}));
+    doc.append(kvp("player_id",bsoncxx::types::b_int32{m_player_id}));
     doc.append(kvp("current_loc",bsoncxx::types::b_int32{static_cast<int>(m_current_loc)}));
-    auto array_loc = &m_locations;
+    
+    auto array_loc = &m_active_locations;
     doc.append(kvp("locations",[array_loc](bsoncxx::builder::basic::sub_array sub) {
         for (auto loc : *array_loc)
         {
             sub.append(loc.ToJson());
         }
     }));
-    auto stats = bsoncxx::builder::basic::document{};
-    stats.append(kvp("max_health",bsoncxx::types::b_int32(m_player_stats.m_max_health)));
-    stats.append(kvp("current_health",bsoncxx::types::b_int32(m_player_stats.m_current_health)));
-    stats.append(kvp("strength",bsoncxx::types::b_int32(m_player_stats.m_strength)));
-    stats.append(kvp("defense",bsoncxx::types::b_int32(m_player_stats.m_defense)));
-    stats.append(kvp("precision",bsoncxx::types::b_int32(m_player_stats.precision)));
-    stats.append(kvp("is_dirty",bsoncxx::types::b_bool(m_player_stats.m_is_dirty)));
-    doc.append(kvp("stats",stats));
-    auto skills = bsoncxx::builder::basic::document{};
-    skills.append(kvp("forage_lvl",bsoncxx::types::b_int32(m_player_skills.m_forage_lvl)));
-    skills.append(kvp("forage_xp",bsoncxx::types::b_int32(m_player_skills.m_forage_xp)));
-    skills.append(kvp("mining_lvl",bsoncxx::types::b_int32(m_player_skills.m_mining_lvl)));
-    skills.append(kvp("mining_xp",bsoncxx::types::b_int32(m_player_skills.m_mining_xp)));
-    skills.append(kvp("combat_lvl",bsoncxx::types::b_int32(m_player_skills.m_combat_lvl)));
-    skills.append(kvp("combat_xp",bsoncxx::types::b_int32(m_player_skills.m_combat_xp)));
-    doc.append(kvp("skills",skills));
+
+
+    doc.append(kvp("stats",m_player_stats.ToJson()));
+
+    doc.append(kvp("skills",m_player_skills.ToJson()));
+
     return doc.extract();
 }
 
-std::vector<Location>* const Player::GetLocations() 
+bsoncxx::document::value Stats::ToJson() const noexcept
 {
-    return &m_locations;
+    auto stats = bsoncxx::builder::basic::document{};
+
+    stats.append(kvp("max_health",b_int32{static_cast<int32_t>(m_max_health)}));
+    stats.append(kvp("current_health",b_int32{static_cast<int32_t>(m_current_health)}));
+    stats.append(kvp("strength",b_int32{m_strength}));
+    stats.append(kvp("defense",b_int32{m_defense}));
+    stats.append(kvp("precision",b_int32{m_precision}));
+    stats.append(kvp("speed",b_int32{m_speed}));
+    stats.append(kvp("luck",b_int32{m_luck}));
+    stats.append(kvp("is_dirty",b_bool{m_is_dirty}));
+
+    return stats.extract();
 }
 
-Skills* const Player::GetSkills() 
+bsoncxx::document::value Skills::ToJson() const noexcept 
+{
+    auto skills = bsoncxx::builder::basic::document{};
+
+    skills.append(kvp("forage_lvl",b_int32{static_cast<int32_t>(m_forage_lvl)}));
+    skills.append(kvp("forage_xp",b_int32{static_cast<int32_t>(m_forage_xp)}));
+    skills.append(kvp("mining_lvl",b_int32{static_cast<int32_t>(m_mining_lvl)}));
+    skills.append(kvp("mining_xp",b_int32{static_cast<int32_t>(m_mining_xp)}));
+    skills.append(kvp("combat_lvl",b_int32{static_cast<int32_t>(m_combat_lvl)}));
+    skills.append(kvp("combat_xp",b_int32{static_cast<int32_t>(m_combat_xp)}));
+    skills.append(kvp("athletics_lvl",b_int32{static_cast<int32_t>(m_athletics_lvl)}));
+    skills.append(kvp("athletics_xp",b_int32{static_cast<int32_t>(m_athletics_xp)}));
+
+    return skills.extract();
+}
+
+std::vector<Location>* const Player::GetLocations() noexcept
+{
+    return &m_active_locations;
+}
+
+Skills* const Player::GetSkills() noexcept
 {
     return &m_player_skills;
 }
 
-Stats* const Player::GetStats() 
+Stats* const Player::GetStats() noexcept
 {
     return &m_player_stats;
 }

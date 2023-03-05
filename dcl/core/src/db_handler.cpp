@@ -35,7 +35,7 @@ std::unique_ptr<Player> db::FindPlayerCurrentLocationOnly(uint64_t id, uint8_t p
     auto access = MongoDBAccess(*dbClient,DATABASE_NAME);
 
     mongocxx::pipeline p{};
-    p.match(make_document(kvp("discord_id",id),kvp("player_id",bsoncxx::types::b_int32(player_id))));
+    p.match(make_document(kvp("discord_id",id),kvp("player_id",player_id)));
     bsoncxx::builder::basic::array array;
     bsoncxx::builder::basic::array arrayElement;
     arrayElement.append("$locations");

@@ -16,12 +16,13 @@ private:
     uint8_t m_gen_second_lvl;
     uint8_t m_fortune_lvl;
     uint8_t m_auto_collect_lvl;
-    std::chrono::system_clock::time_point m_last_updated;
+    std::chrono::system_clock::time_point m_last_collected;
     double m_resource_stored = 0.0f;
 public:
     Post(std::string post_name,uint8_t capacity_lvl,uint8_t generation_lvl, uint8_t fortune_lvl, uint8_t auto_collect_lvl);
     Post(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const;
+    void CollectPost(Player &player);
 };
 
 class Location 

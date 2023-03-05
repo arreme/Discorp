@@ -10,22 +10,34 @@
 
 struct Stats
 {
-    uint32_t m_max_health;
-    uint32_t m_current_health;
-    int32_t m_strength;
-    int32_t m_defense;
-    int32_t precision;
-    bool m_is_dirty;
+    uint32_t m_max_health = 20;
+    uint32_t m_current_health = 20;
+    int32_t m_strength = 1;
+    int32_t m_defense = 1;
+    int32_t m_precision = 1;
+    int32_t m_speed = 1;
+    int32_t m_luck = 1;
+    bool m_is_dirty = false;
+
+    Stats() = default;
+    Stats(bsoncxx::document::element element);
+    bsoncxx::document::value ToJson() const noexcept;
 };
 
 struct Skills
 {
-    uint16_t m_forage_lvl;
-    uint32_t m_forage_xp;
-    uint16_t m_mining_lvl;
-    uint32_t m_mining_xp;
-    uint16_t m_combat_lvl;
-    uint32_t m_combat_xp;
+    uint32_t m_forage_lvl = 1;
+    uint32_t m_forage_xp = 0;
+    uint32_t m_mining_lvl = 1;
+    uint32_t m_mining_xp = 0;
+    uint32_t m_combat_lvl = 1;
+    uint32_t m_combat_xp = 0;
+    uint32_t m_athletics_lvl = 1;
+    uint32_t m_athletics_xp = 0;
+
+    Skills() = default;
+    Skills(bsoncxx::document::element element);
+    bsoncxx::document::value ToJson() const noexcept;
 };
 
 
@@ -33,9 +45,9 @@ class Player
 {
 private:
     uint64_t m_discord_id;
-    uint8_t m_player_id;
+    int32_t m_player_id;
     g_enums::GameLocations m_current_loc;
-    std::vector<Location> m_locations;
+    std::map<g_enums::GameLocations, Location> m_active_locations;
     uint64_t m_guild_id;
     Stats m_player_stats;
     Skills m_player_skills;
@@ -50,9 +62,9 @@ public:
 
     bsoncxx::document::value ToJson() const;
 
-    std::vector<Location>* const GetLocations();
+    std::vector<Location>* const GetLocations() noexcept;
 
-    Skills* const GetSkills();
+    Skills* const GetSkills() noexcept;
 
-    Stats* const GetStats();
+    Stats* const GetStats() noexcept;
 };

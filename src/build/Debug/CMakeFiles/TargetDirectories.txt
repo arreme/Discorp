@@ -1,6 +1,0 @@
-/home/arreme/TFG/Discorp/src/build/Debug/CMakeFiles/dcl_bot.dir
-/home/arreme/TFG/Discorp/src/build/Debug/CMakeFiles/edit_cache.dir
-/home/arreme/TFG/Discorp/src/build/Debug/CMakeFiles/rebuild_cache.dir
-/home/arreme/TFG/Discorp/src/build/Debug/core/CMakeFiles/dcl_core.dir
-/home/arreme/TFG/Discorp/src/build/Debug/core/CMakeFiles/edit_cache.dir
-/home/arreme/TFG/Discorp/src/build/Debug/core/CMakeFiles/rebuild_cache.dir
