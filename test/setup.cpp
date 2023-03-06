@@ -1,9 +1,9 @@
 #include <catch2/reporters/catch_reporter_event_listener.hpp>
 #include <catch2/reporters/catch_reporter_registrars.hpp>
 #include <iostream>
-#include <db_instance.hpp>
+#include <db/db_instance.hpp>
 
-MongoDBInstance *instance = MongoDBInstance::GetInstance();
+db::MongoDBInstance *instance = db::MongoDBInstance::GetInstance();
 
 class testRunListener : public Catch::EventListenerBase {
 public:

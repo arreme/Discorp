@@ -1,3 +1,3 @@
 #!/bin/sh
-cmake -B build/Release -S . -DBUILD_TEST=OFF -DDEBUG_MODE=OFF
-make -C build/Release -j 6
+cmake -B build/Disland -S . -DBUILD_TEST=OFF
+make -C build/Disland -j 6
