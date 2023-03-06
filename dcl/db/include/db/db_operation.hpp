@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-#include <db_instance.hpp>
-#include <db_config.hpp>
+#include <db/db_instance.hpp>
+#include <db/db_config.hpp>
 #include <mongocxx/database.hpp>
 #include <mongocxx/pool.hpp>
 #include <mongocxx/client.hpp>

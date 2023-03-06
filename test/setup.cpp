@@ -1,7 +1,7 @@
 #include <catch2/reporters/catch_reporter_event_listener.hpp>
 #include <catch2/reporters/catch_reporter_registrars.hpp>
 #include <iostream>
-#include <db_instance.hpp>
+#include <db/db_instance.hpp>
 
 db::MongoDBInstance *instance = db::MongoDBInstance::GetInstance();
 
@@ -10,7 +10,7 @@ public:
     using Catch::EventListenerBase::EventListenerBase;
 
     void testRunStarting(Catch::TestRunInfo const&) override {
-        instance->createPool("mongodb://192.168.1.33:27017");
+        instance->createPool("mongodb://192.168.0.23:27017");
     }
 };
 

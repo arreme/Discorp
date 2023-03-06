@@ -5,20 +5,20 @@ option(BUILD_TESTS "Activate test project" OFF)
 
 if(BUILD_TESTS)
     project(dcl_test VERSION 1.0.0 DESCRIPTION "Main Bot For DiscLand")
-    add_executable(${PROJECT_NAME} test/setup.cpp test/db_test.cpp test/)
+    add_executable(${PROJECT_NAME} 
+        test/setup.cpp 
+        test/db_test.cpp 
+        test/db_handler_test.cpp
+    )
     add_definitions(-DTEST_DATABASE)
     find_package(Catch2 3 REQUIRED)
-    find_package(bsoncxx 3.7.0 REQUIRED)
-    find_package(mongocxx 3.7.0 REQUIRED)
     add_subdirectory(dcl/db)
-    add_subdirectory(dcl/core)
+    add_subdirectory(dcl/db_handler)
     target_link_libraries(
         ${PROJECT_NAME}
         PRIVATE Catch2::Catch2WithMain
         dcl_db
-        dcl_core
-        bsoncxx
-        mongocxx
+        dcl_db_handler
         pthread
     )
 
@@ -26,9 +26,7 @@ if(BUILD_TESTS)
         ${PROJECT_NAME}
         PRIVATE "/usr/local/include/catch2" 
         PRIVATE "dcl/db/include"
-        PRIVATE "dcl/core/include"
-        PRIVATE "/usr/local/include/mongocxx/v_noabi"
-        PRIVATE "/usr/local/include/bsoncxx/v_noabi"
+        PRIVATE "dcl/db_handler/include"
     )
 else()
 

@@ -1,9 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/json.hpp>
-#include <db_operation.hpp>
-#include <db_write.hpp>
-#include <db_query_operations.hpp>
+#include <db/db_operation.hpp>
+#include <db/db_write.hpp>
+#include <db/db_query_operations.hpp>
 
 using bsoncxx::builder::basic::kvp;
 using namespace bsoncxx::types;

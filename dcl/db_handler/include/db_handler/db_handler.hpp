@@ -3,10 +3,10 @@
 //#include <db_access.hpp>
 //#include <discorp_config.hpp>
 #include <db_write.hpp>
-#include <user.hpp>
-#include <player.hpp>
+#include <db_handler/entities/user.hpp>
+#include <db_handler/entities/player.hpp>
 //#include <db_query.hpp>
-#include <location.hpp>
+#include <db_handler/entities/interaction.hpp>
 #include <mongocxx/pipeline.hpp>
 
 namespace db 
@@ -21,7 +21,7 @@ namespace db
 
     std::unique_ptr<Player> FindPlayerByIdAndCurrent(uint64_t discord_id, uint8_t player_id);
 
-    std::unique_ptr<std::vector<Location>> FindPlayerLocations(uint64_t discord_id, uint8_t player_id);
+    //std::unique_ptr<std::vector<Location>> FindPlayerLocations(uint64_t discord_id, uint8_t player_id);
 
     bool UpdateCurrentLoc(uint64_t discord_id, uint8_t player_id, g_enums::GameLocations location);
 }

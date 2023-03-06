@@ -3,9 +3,9 @@
 #include <mongocxx/database.hpp>
 #include <mongocxx/exception/bulk_write_exception.hpp>
 #include <bsoncxx/json.hpp>
-#include <db_operation.hpp>
-#include <db_instance.hpp>
-#include <db_config.hpp>
+#include <db/db_operation.hpp>
+#include <db/db_instance.hpp>
+#include <db/db_config.hpp>
 
 using namespace bsoncxx::v_noabi;
 

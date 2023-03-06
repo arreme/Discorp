@@ -1,12 +1,11 @@
 #pragma once
 #include <iostream>
 #include <time.h>
-#include <game_constants.hpp>
+#include <db_handler/game_constants.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/builder/basic/kvp.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
 #include <bsoncxx/types.hpp>
-#include <resource_loader.hpp>
 
 enum class InteractionType
 {
@@ -15,16 +14,16 @@ enum class InteractionType
     ZONE_ACCESS = 1
 };
 
-class Interaction 
+class InteractionInfo 
 {
 protected:
-    InteractionType m_type = InteractionType::NOT_DEFINED; //database
-    uint32_t m_id; //database
+    uint32_t m_id;
+    InteractionType m_type = InteractionType::NOT_DEFINED;
 public:
     virtual bsoncxx::document::value ToJson() const = 0;
 };
 
-class Post : public Interaction
+class PostInfo : public InteractionInfo
 {
 private:
     int32_t m_capacity_lvl = 0;
@@ -34,17 +33,16 @@ private:
     std::chrono::system_clock::time_point m_last_collected = std::chrono::system_clock::now();;
     double m_resource_stored = 0.0f;
 public:
-    Post(bsoncxx::document::view doc);
+    PostInfo(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const override;
 };
 
-class ZoneAccess : public Interaction 
+class ZoneAccessInfo : public InteractionInfo 
 {
 private:
-    bool m_is_unlocked = false; //database
+    bool m_is_unlocked = false;
 public:
-    ZoneAccess(bsoncxx::document::view doc);
-    void Unlock(/*Inventory?*/);
+    ZoneAccessInfo(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const override;
 };
 
