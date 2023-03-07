@@ -33,6 +33,7 @@ private:
     std::chrono::system_clock::time_point m_last_collected = std::chrono::system_clock::now();;
     double m_resource_stored = 0.0f;
 public:
+    PostInfo(uint32_t id);
     PostInfo(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const override;
 };
@@ -42,6 +43,7 @@ class ZoneAccessInfo : public InteractionInfo
 private:
     bool m_is_unlocked = false;
 public:
+    ZoneAccessInfo(uint32_t id);
     ZoneAccessInfo(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const override;
 };

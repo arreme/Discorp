@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.22)
 
 project(dcl_db_handler VERSION 0.0.1 DESCRIPTION "The database entities for interacting with the database")
-add_library(${PROJECT_NAME} SHARED "src/entities/player.cpp" "src/entities/user.cpp" "src/entities/interaction.cpp")
+add_library(${PROJECT_NAME} SHARED "src/entities/player.cpp" "src/entities/user.cpp" "src/entities/interaction.cpp" "src/db_handler.cpp")
 
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC "include"
+    PRIVATE "../db/include"
 )
 
 target_link_libraries(

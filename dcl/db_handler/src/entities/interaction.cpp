@@ -2,8 +2,16 @@
 
 using bsoncxx::builder::basic::kvp;
 
+PostInfo::PostInfo(uint32_t id) 
+{
+    m_id = id;
+    m_type = InteractionType::POST;
+}
+
 PostInfo::PostInfo(bsoncxx::document::view doc) 
 {
+    m_type = InteractionType::POST;
+    m_id = doc["interaction_id"].get_int32();
     m_capacity_lvl = doc["capacity_lvl"].get_int32();
     m_gen_second_lvl = doc["generation_lvl"].get_int32();
     m_fortune_lvl = doc["fortune_lvl"].get_int32();
@@ -26,6 +34,19 @@ bsoncxx::document::value PostInfo::ToJson() const
     return doc.extract();
 }
 
+ZoneAccessInfo::ZoneAccessInfo(uint32_t id) 
+{
+    m_id = id;
+    m_type = InteractionType::ZONE_ACCESS;
+}
+
+ZoneAccessInfo::ZoneAccessInfo(bsoncxx::document::view doc) 
+{
+    m_type = InteractionType::ZONE_ACCESS;
+    m_id = doc["interaction_id"].get_int32();
+    m_is_unlocked = doc["is_unlocked"].get_bool();
+}
+
 bsoncxx::document::value ZoneAccessInfo::ToJson() const 
 {
     bsoncxx::builder::basic::document doc{};
@@ -33,9 +54,4 @@ bsoncxx::document::value ZoneAccessInfo::ToJson() const
     doc.append(kvp("is_unlocked",bsoncxx::types::b_bool{m_is_unlocked}));
 
     return doc.extract();
-}
-
-ZoneAccessInfo::ZoneAccessInfo(bsoncxx::document::view doc) 
-{
-    m_is_unlocked = doc["is_unlocked"].get_bool();
 }

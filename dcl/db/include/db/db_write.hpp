@@ -53,7 +53,7 @@ namespace db
         mongocxx::options::update m_update_opts;
         bool m_has_options;
     public:
-        UpdateOneOperation(std::string &&colName, document::value &&filter, bsoncxx::document::value &&update_query);
+        UpdateOneOperation(std::string &&colName, document::value &&filter, document::value &&update_query);
 
         void ExecuteOperation() noexcept override;
 

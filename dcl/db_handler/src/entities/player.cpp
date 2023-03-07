@@ -17,8 +17,8 @@ Player::Player(bsoncxx::document::view player)
     m_player_id = player["player_id"].get_int32();
     m_guild_id = static_cast<uint64_t>(player["guild_id"].get_int64());
     m_current_loc = static_cast<g_enums::GameLocations>(player["current_loc"].get_int32().value);
-    m_player_stats = {player["stats"]};
-    m_player_skills = {player["skills"]};
+    m_stats = {player["stats"]};
+    m_skills = {player["skills"]};
 }
 
 Stats::Stats(bsoncxx::document::element element) : 
@@ -49,11 +49,11 @@ bsoncxx::document::value Player::ToJson() const
 
     doc.append(kvp("discord_id",bsoncxx::types::b_int64{static_cast<int64_t>(m_discord_id)}));
     doc.append(kvp("player_id",bsoncxx::types::b_int32{m_player_id}));
-    doc.append(kvp("current_loc_id",bsoncxx::types::b_int32{static_cast<int32_t>(m_current_loc)}));
-
-    doc.append(kvp("stats",m_player_stats.ToJson()));
-
-    doc.append(kvp("skills",m_player_skills.ToJson()));
+    doc.append(kvp("current_loc",bsoncxx::types::b_int32{static_cast<int32_t>(m_current_loc)}));
+    doc.append(kvp("guild_id",bsoncxx::types::b_int64{static_cast<int64_t>(m_guild_id)}));
+    
+    doc.append(kvp("stats",m_stats.ToJson()));
+    doc.append(kvp("skills",m_skills.ToJson()));
 
     return doc.extract();
 }
@@ -95,12 +95,17 @@ g_enums::GameLocations Player::GetLocation() const noexcept
     return m_current_loc;
 }
 
+int Player::GetLocationInt() const noexcept
+{
+    return static_cast<int>(m_current_loc);
+}
+
 Skills* const Player::GetSkills() noexcept
 {
-    return &m_player_skills;
+    return &m_skills;
 }
 
 Stats* const Player::GetStats() noexcept
 {
-    return &m_player_stats;
+    return &m_stats;
 }

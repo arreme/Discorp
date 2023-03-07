@@ -11,11 +11,11 @@ struct Stats
 {
     uint32_t m_max_health = 20;
     uint32_t m_current_health = 20;
-    int32_t m_strength = 1;
-    int32_t m_defense = 1;
-    int32_t m_precision = 1;
-    int32_t m_speed = 1;
-    int32_t m_luck = 1;
+    int32_t m_strength = 0;
+    int32_t m_defense = 0;
+    int32_t m_precision = 0;
+    int32_t m_speed = 0;
+    int32_t m_luck = 0;
     bool m_is_dirty = false;
 
     Stats() = default;
@@ -46,8 +46,8 @@ private:
     int32_t m_player_id;
     g_enums::GameLocations m_current_loc;
     uint64_t m_guild_id = 0;
-    Stats m_player_stats;
-    Skills m_player_skills;
+    Stats m_stats;
+    Skills m_skills;
 
     //std::vector<Equipables> m_equipables;
 
@@ -59,6 +59,8 @@ public:
     bsoncxx::document::value ToJson() const;
 
     g_enums::GameLocations GetLocation() const noexcept;
+
+    int GetLocationInt() const noexcept;
 
     Skills* const GetSkills() noexcept;
 
