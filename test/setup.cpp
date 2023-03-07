@@ -10,8 +10,7 @@ public:
     using Catch::EventListenerBase::EventListenerBase;
 
     void testRunStarting(Catch::TestRunInfo const&) override {
-        instance->createPool("mongodb://192.168.1.33:27017");
-        
+        instance->createPool("mongodb://192.168.43.244:27017");
     }
 };
 

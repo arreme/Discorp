@@ -17,10 +17,12 @@ enum class InteractionType
 class InteractionInfo 
 {
 protected:
-    uint32_t m_id;
     InteractionType m_type = InteractionType::NOT_DEFINED;
 public:
+    InteractionType GetType();
     virtual bsoncxx::document::value ToJson() const = 0;
+    static std::vector<std::unique_ptr<InteractionInfo>> CreateInteractions(bsoncxx::document::view doc);
+    static std::unique_ptr<InteractionInfo> CreateInteraction(bsoncxx::document::view doc);
 };
 
 class PostInfo : public InteractionInfo
@@ -30,10 +32,9 @@ private:
     int32_t m_gen_second_lvl = 0;
     int32_t m_fortune_lvl = 0;
     int32_t m_auto_collect_lvl = 0;
-    std::chrono::system_clock::time_point m_last_collected = std::chrono::system_clock::now();;
-    double m_resource_stored = 0.0f;
+    std::chrono::system_clock::time_point m_last_collected = std::chrono::system_clock::now();
 public:
-    PostInfo(uint32_t id);
+    PostInfo();
     PostInfo(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const override;
 };
@@ -43,7 +44,7 @@ class ZoneAccessInfo : public InteractionInfo
 private:
     bool m_is_unlocked = false;
 public:
-    ZoneAccessInfo(uint32_t id);
+    ZoneAccessInfo();
     ZoneAccessInfo(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const override;
 };

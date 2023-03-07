@@ -99,9 +99,11 @@ std::optional<bsoncxx::document::view> FindManyOperation::GetResult() noexcept
  *  AGGREGATE OPERATION  *
  *************************/
 
-AggregateOperation::AggregateOperation(std::string &&colName)
+AggregateOperation::AggregateOperation(std::string &&colName, mongocxx::pipeline &&p)
 : Operation(std::forward<std::string>(colName),bsoncxx::builder::basic::make_document())
-{}
+{
+    m_p = std::move(p);
+}
 
 void AggregateOperation::SetOptions(mongocxx::options::aggregate &&find_opts) 
 {

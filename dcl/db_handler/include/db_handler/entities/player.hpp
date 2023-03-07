@@ -48,7 +48,6 @@ private:
     uint64_t m_guild_id = 0;
     Stats m_stats;
     Skills m_skills;
-
     //std::vector<Equipables> m_equipables;
 
 public:

@@ -44,20 +44,12 @@ namespace db
         mongocxx::options::aggregate m_find_opts;
         std::optional<mongocxx::cursor> m_result;
     public:
-        
-        AggregateOperation(std::string &&colName);
+        AggregateOperation(std::string &&colName, mongocxx::pipeline &&p);
 
         void SetOptions(mongocxx::options::aggregate &&find_opts);
 
         void ExecuteOperation() noexcept override;
 
         std::optional<bsoncxx::document::view> GetResult() noexcept;
-
-        void Match(bsoncxx::document::value &&match);
-
-        void AddFields(bsoncxx::document::value &&addFields);
-
-        void Projection(bsoncxx::document::value &&projection);
-
     };
 }
