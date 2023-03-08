@@ -140,57 +140,77 @@ SCENARIO("Player testing","[db][player]")
     }
 }
 
-SCENARIO("Database handler","[db][handler]") 
+TEST_CASE("Database Handler: Change Active Player and Find User","[handler][change_player]") 
 {
-    db::DeleteManyOperation del_op = db::DeleteManyOperation{"players", make_document()};
-    GIVEN("1.- A user with no locations") 
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    del_op_usr.ExecuteOperation();
+    uint64_t discord_id = 1;
+    int32_t newPlayer = 10;
+    SECTION("No user registered") 
     {
-        uint64_t discord_id = 2;
-        int32_t player_id = 0;
-        Player player{2,0};
-
-        std::vector<InteractionInfo *> interactionInfo;
-        PostInfo post{};
-        ZoneAccessInfo zoneAccessInfo{};
-        interactionInfo.push_back(&post);
-        interactionInfo.push_back(&zoneAccessInfo);
-        interactionInfo.push_back(&post);
-        WHEN("1.1.- Registering and finding a current interactions") 
-        {
-            auto result = db_handler::RegisterPlayerToDatabase(player,interactionInfo);
-            THEN("Result should be true") 
-            {
-                REQUIRE(result);
-                auto res = db_handler::FindPlayerCurrentLocationInteractions(discord_id,player_id);
-                REQUIRE(res);
-                REQUIRE(res.value().first.GetLocation() == g_enums::GameLocations::MAIN_BASE);
-                REQUIRE(res.value().second.size() == 3);
-                REQUIRE(res.value().second[0].get()->GetType() == InteractionType::POST);
-                
-            }
-        }
-
-        WHEN("1.2.- Registering and finding only one interaction") 
-        {
-            auto result = db_handler::RegisterPlayerToDatabase(player,interactionInfo);
-            THEN("Result should be true") 
-            {
-                REQUIRE(result);
-                auto res = db_handler::FindPlayerCurrentInteraction(discord_id,player_id,1);
-                REQUIRE(res);
-                REQUIRE(res.value().first.GetLocation() == g_enums::GameLocations::MAIN_BASE);
-                REQUIRE(res.value().second.get()->GetType() == InteractionType::ZONE_ACCESS);
-            }
-        }
-
-        del_op.ExecuteOperation();
-
+        REQUIRE_FALSE(db_handler::ChangeActivePlayer(discord_id,newPlayer));
+        REQUIRE_FALSE(db_handler::FindUserById(discord_id));
+    }
+    SECTION("User registered") 
+    {
+        User user{discord_id,"Arreme"};
+        db::InsertOneOperation ins_op{"users",user.ToJson()};
+        ins_op.ExecuteOperation();
+        REQUIRE(ins_op.GetState() == db::OperationState::SUCCESS);
+        REQUIRE(db_handler::ChangeActivePlayer(discord_id,newPlayer));
+        auto result = db_handler::FindUserById(discord_id);
+        REQUIRE(result);
+        REQUIRE(result->GetUserName() == "Arreme");
+        REQUIRE(result->GetCurrentPlayer() == newPlayer);
     }
 
-    GIVEN("2.- A user with MAIN BASE location and One interaction") 
-    {
+    del_op_usr.ExecuteOperation();
+}
 
+TEST_CASE("Database Handler: Register Player To Database and Find interactions", "[handler][player_register]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+
+    uint64_t discord_id = 2;
+    User user{discord_id,"Arreme"};
+    Player player{discord_id,user.GetCurrentPlayer()};
+
+    std::vector<InteractionInfo *> interactionInfo;
+    PostInfo post{};
+    ZoneAccessInfo zoneAccessInfo{};
+    interactionInfo.push_back(&post);
+    interactionInfo.push_back(&zoneAccessInfo);
+    interactionInfo.push_back(&post);
+
+    auto result = db_handler::RegisterPlayerToDatabase(user, player,interactionInfo);
+    REQUIRE(result);
+    SECTION("FindPlayerInteractions") 
+    {
+        auto res = db_handler::FindPlayerCurrentLocationInteractions(discord_id,user.GetCurrentPlayer());
+        auto usr = db_handler::FindUserById(discord_id);
+        REQUIRE(usr);
+        REQUIRE(usr.value().GetUserName() == "Arreme");
+        REQUIRE(res);
+        REQUIRE(res.value().first.GetLocation() == g_enums::GameLocations::MAIN_BASE);
+        REQUIRE(res.value().second.size() == 3);
+        REQUIRE(res.value().second[0].get()->GetType() == InteractionType::POST);
+    }
+    SECTION("FindPlayerCurrentInteraction") 
+    {
+        REQUIRE(result);
+        auto res = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),1);
+        REQUIRE(res);
+        REQUIRE(res.value().first.GetLocation() == g_enums::GameLocations::MAIN_BASE);
+        REQUIRE(res.value().second.get()->GetType() == InteractionType::ZONE_ACCESS);
     }
 
     
+
+    
+
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
 }

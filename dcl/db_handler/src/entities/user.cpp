@@ -25,7 +25,7 @@ void User::UpdateTime() noexcept
     m_last_active = std::chrono::system_clock::now();
 }
 
-bool User::ChangeCurrentPlayer(int32_t current_player) noexcept
+bool User::SetCurrentPlayer(int32_t current_player) noexcept
 {
     if (m_current_player > (m_has_dlc1 ? MAX_USERS_DLC1 : MAX_USERS_NO_DLC1))
     {
@@ -51,7 +51,7 @@ bsoncxx::document::value User::ToJson() const noexcept
     return doc.extract();
 }
 
-uint8_t User::GetCurrentPlayer() const noexcept
+int32_t User::GetCurrentPlayer() const noexcept
 {
     return m_current_player;
 }

@@ -176,15 +176,14 @@ void UpdateOneOperation::ExecuteOperation() noexcept
         if (!result) 
         {
             //No operation was returned
-            OperationState::NOT_EXECUTED;
+            m_db_state = OperationState::NOT_EXECUTED;
         } else if (result->modified_count() == 0) 
         {
             //The delete was not successful
-            OperationState::NOT_EXECUTED;
+            m_db_state = OperationState::NOT_EXECUTED;
         }
     }
-    catch(const mongocxx::bulk_write_exception e)
-    {
+    catch(const mongocxx::bulk_write_exception e) {
         m_db_state = OperationState::BULK_WRITE_ERROR;
     } catch (const std::exception e) {
         m_db_state = OperationState::GENERAL_ERROR;

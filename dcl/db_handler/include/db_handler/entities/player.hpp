@@ -51,7 +51,7 @@ private:
     //std::vector<Equipables> m_equipables;
 
 public:
-    Player(uint64_t discord_id, uint8_t player_id);
+    Player(uint64_t discord_id, int32_t player_id);
 
     Player(bsoncxx::document::view player);
 
@@ -64,4 +64,8 @@ public:
     Skills* const GetSkills() noexcept;
 
     Stats* const GetStats() noexcept;
+
+    uint64_t GetId();
+
+    int32_t GetPlayerId();
 };

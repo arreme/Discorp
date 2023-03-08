@@ -1,6 +1,7 @@
 #pragma once
 #include <db/db_write.hpp>
 #include <db/db_query_operations.hpp>
+#include <db_handler/entities/user.hpp>
 #include <db_handler/entities/interaction.hpp>
 #include <db_handler/entities/player.hpp>
 
@@ -8,15 +9,33 @@ namespace db_handler
 {
     typedef std::pair<Player,std::vector<std::unique_ptr<InteractionInfo>>> playerInteractions;
 
-    bool RegisterPlayerToDatabase(Player &player, std::vector<InteractionInfo *> &info);
+    /**
+     * Something
+    */
+    bool ChangeActivePlayer(uint64_t discord_id, int32_t newPlayerSlot);
 
-    //bool NewLocationUnlocked(std::vector<InteractionInfo *> &info);
+    bool RegisterPlayerToDatabase(User &user, Player &player, std::vector<InteractionInfo *> &info);
 
-    //FindPlayerCurrentInteraction();
+    std::optional<User> FindUserById(uint64_t discord_id);
+    /**
+     * Sets current location atribute to the desired
+    */
+    bool db_handler::GoToLocation(uint64_t discord_id, int32_t player_id, g_enums::GameLocations new_location);
+
+    /**
+     * Sets specific zone access interaction to true
+    */
+    bool UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<InteractionInfo *> &info);
+    
+    PostInfo CollectAndUpdatePost(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
+
+    bool ImprovePost(uint64_t discord_id, int32_t player_id, int32_t interaction_id, std::string_view update_name);
 
     std::optional<playerInteractions> FindPlayerCurrentLocationInteractions(uint64_t discord_id, int32_t player_id);
 
     std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> FindPlayerCurrentInteraction(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
+
+    bsoncxx::array::value FillInteracionsDocument(std::vector<InteractionInfo *> &info);
 
     mongocxx::pipeline PlayerCurrentLocationInteractions_Pipeline(uint64_t discord_id, int32_t player_id);
 

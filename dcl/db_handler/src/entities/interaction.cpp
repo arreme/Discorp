@@ -103,7 +103,6 @@ std::unique_ptr<InteractionInfo> InteractionInfo::CreateInteraction(bsoncxx::doc
             return std::unique_ptr<InteractionInfo>(new ZoneAccessInfo{interaction});
             break;
         default:
-            return nullptr;
             break;
     }
 

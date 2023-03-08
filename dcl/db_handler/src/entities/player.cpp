@@ -7,7 +7,7 @@ using namespace bsoncxx::types;
  * Only should be called once for first initializing a player. After 
  * that Players should be initialized by using the database
 */
-Player::Player(uint64_t discord_id, uint8_t player_id) 
+Player::Player(uint64_t discord_id, int32_t player_id) 
 : m_discord_id(discord_id), m_player_id(player_id), m_current_loc(g_enums::GameLocations::MAIN_BASE)
 {}
 
@@ -108,4 +108,14 @@ Skills* const Player::GetSkills() noexcept
 Stats* const Player::GetStats() noexcept
 {
     return &m_stats;
+}
+
+uint64_t Player::GetId() 
+{
+    return m_discord_id;
+}
+
+int32_t Player::GetPlayerId() 
+{
+    return m_player_id;
 }

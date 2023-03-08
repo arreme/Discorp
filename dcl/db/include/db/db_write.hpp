@@ -17,9 +17,9 @@ namespace db
         mongocxx::options::insert m_insert_opt;
         bool m_has_options;
     public:
-        InsertOneOperation(std::string &&colName, document::value &&bson);
+        InsertOneOperation(std::string &&colName, bsoncxx::document::value &&bson);
 
-        InsertOneOperation(std::string &&colName, document::value &&bson, mongocxx::options::insert insert_opt);
+        InsertOneOperation(std::string &&colName, bsoncxx::document::value &&bson, mongocxx::options::insert insert_opt);
 
         void ExecuteOperation() noexcept override;
 
@@ -29,7 +29,7 @@ namespace db
     class DeleteOneOperation : public TransactionalOperation
     {
     public:
-        DeleteOneOperation(std::string &&colName, document::value &&bson);
+        DeleteOneOperation(std::string &&colName, bsoncxx::document::value &&bson);
 
         void ExecuteOperation() noexcept override;
 
@@ -39,7 +39,7 @@ namespace db
     class DeleteManyOperation : public TransactionalOperation 
     {
     public:
-        DeleteManyOperation(std::string &&colName, document::value &&bson);
+        DeleteManyOperation(std::string &&colName, bsoncxx::document::value &&bson);
 
         void ExecuteOperation() noexcept override;
 
@@ -53,7 +53,7 @@ namespace db
         mongocxx::options::update m_update_opts;
         bool m_has_options;
     public:
-        UpdateOneOperation(std::string &&colName, document::value &&filter, document::value &&update_query);
+        UpdateOneOperation(std::string &&colName, bsoncxx::document::value &&filter, bsoncxx::document::value &&update_query);
 
         void ExecuteOperation() noexcept override;
 

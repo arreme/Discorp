@@ -3,7 +3,20 @@
 using namespace bsoncxx::builder::basic;
 using namespace bsoncxx::types;
 
-bool db_handler::RegisterPlayerToDatabase(Player &player, std::vector<InteractionInfo *> &info) 
+bool db_handler::ChangeActivePlayer(uint64_t discord_id, int32_t newPlayerSlot) 
+{
+    db::UpdateOneOperation update_op{"users",
+        make_document(kvp("discord_id", b_int64{static_cast<int64_t>(discord_id)})),
+        make_document(kvp("$set",make_document(
+            kvp("current_player",b_int32{newPlayerSlot})
+        )))
+    };
+
+    update_op.ExecuteOperation();
+    return update_op.GetState() == db::OperationState::SUCCESS;
+}
+
+bool db_handler::RegisterPlayerToDatabase(User &user, Player &player, std::vector<InteractionInfo *> &info) 
 {
     bsoncxx::builder::basic::document insert{};
     auto doc = player.ToJson();
@@ -12,17 +25,77 @@ bool db_handler::RegisterPlayerToDatabase(Player &player, std::vector<Interactio
         insert.append(kvp(elem.key(),elem.get_value()));
     }
     bsoncxx::builder::basic::array locations{};
-    bsoncxx::builder::basic::array current_loc{};
-    for (auto elem : info)
-    {
-        current_loc.append(elem->ToJson());
-    }
-    locations.append(current_loc.extract());
+
+    locations.append(FillInteracionsDocument(info));
     insert.append(kvp("locations",locations.extract()));
 
+    db::Transaction t{};
     db::InsertOneOperation insert_op{"players",insert.extract()};
-    insert_op.ExecuteOperation();
-    return insert_op.GetState() == db::OperationState::SUCCESS;
+    t.AddOperation(&insert_op);
+    db::InsertOneOperation insert_op_usrs{"users",user.ToJson()};
+    t.AddOperation(&insert_op_usrs);
+
+    t.ExecuteTransaction();
+
+    return t.GetState() == db::OperationState::SUCCESS;
+}
+
+std::optional<User> db_handler::FindUserById(uint64_t discord_id) 
+{
+    db::FindOneOperation find_op{"users",make_document(kvp("discord_id",b_int64{static_cast<int64_t>(discord_id)}))};
+    find_op.ExecuteOperation();
+    if (find_op.m_result) 
+    {
+        return User{find_op.m_result.value().view()};
+    }
+
+    return std::nullopt;
+}
+
+bool db_handler::GoToLocation(uint64_t discord_id, int32_t player_id, g_enums::GameLocations new_location) 
+{
+    db::UpdateOneOperation update_op{"players",
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id",b_int32{player_id})
+        ),
+        make_document(kvp("$set",make_document(
+            kvp("current_loc",b_int32{static_cast<int>(new_location)})
+        )))
+    };
+
+    update_op.ExecuteOperation();
+    return update_op.GetState() == db::OperationState::SUCCESS;
+}
+
+bool db_handler::UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<InteractionInfo *> &info)
+{
+    std::string unlocking_array = "locations." + std::to_string(player.GetLocationInt()) + "." + std::to_string(interaction_id) + ".is_unlocked";
+    std::string unlocked_location = "locations." + std::to_string(unlocked_location);
+    db::UpdateOneOperation update_op{"players",
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
+            kvp("player_id",b_int32{player.GetPlayerId()})
+        ),
+        make_document(kvp("$set",make_document(
+            kvp(unlocking_array, b_bool{true}),
+            kvp(unlocked_location,FillInteracionsDocument(info))
+        )))
+    };
+
+    update_op.ExecuteOperation();
+
+    return update_op.GetState() == db::OperationState::SUCCESS;
+}
+
+PostInfo db_handler::CollectAndUpdatePost(uint64_t discord_id, int32_t player_id, int32_t interaction_id)
+{
+
+}
+
+bool db_handler::ImprovePost(uint64_t discord_id, int32_t player_id, int32_t interaction_id, std::string_view update_name)
+{
+
 }
 
 std::optional<db_handler::playerInteractions> db_handler::FindPlayerCurrentLocationInteractions(uint64_t discord_id, int32_t player_id) 
@@ -55,6 +128,18 @@ std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> db_handler::Fi
         }   
     }
     return std::nullopt;
+}
+
+bsoncxx::array::value db_handler::FillInteracionsDocument(std::vector<InteractionInfo *> &info) 
+{
+    bsoncxx::builder::basic::array interactions{};
+
+    for (auto curr : info)
+    {
+        interactions.append(curr->ToJson());
+    }
+
+    return interactions.extract();
 }
 
 mongocxx::pipeline db_handler::PlayerCurrentLocationInteractions_Pipeline(uint64_t discord_id, int32_t player_id) 

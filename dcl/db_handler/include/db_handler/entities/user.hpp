@@ -30,13 +30,13 @@ public:
      * @return true if was able to change current player.
      * false otherwise.
     */
-    bool ChangeCurrentPlayer(int32_t current_player) noexcept;
+    bool SetCurrentPlayer(int32_t current_player) noexcept;
 
     void UpdateTime() noexcept;
 
     bsoncxx::document::value ToJson() const noexcept;
 
-    uint8_t GetCurrentPlayer() const noexcept;
+    int32_t GetCurrentPlayer() const noexcept;
 
     bool HasDLC() const noexcept;
 };
