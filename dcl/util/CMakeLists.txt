@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(dcl_core VERSION 0.0.1 DESCRIPTION "The core information of the dcl bot")
+project(dcl_util VERSION 0.0.1 DESCRIPTION "Utility functions and some other helpers")
 add_library(${PROJECT_NAME} SHARED "")
 
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC "include"
-    PRIVATE "../util/include"
 )
 
 target_link_libraries(

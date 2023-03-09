@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <time.h>
-#include <db_handler/game_constants.hpp>
+#include <util/game_constants.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/builder/basic/kvp.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
