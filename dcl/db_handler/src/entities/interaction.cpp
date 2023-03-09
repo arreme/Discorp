@@ -17,7 +17,6 @@ PostInfo::PostInfo(bsoncxx::document::view doc)
     m_capacity_lvl = doc["capacity_lvl"].get_int32();
     m_gen_second_lvl = doc["generation_lvl"].get_int32();
     m_fortune_lvl = doc["fortune_lvl"].get_int32();
-    m_auto_collect_lvl = doc["autocollect_lvl"].get_int32();
     m_last_collected = doc["last_updated"].get_date();
 }
 
@@ -29,10 +28,22 @@ bsoncxx::document::value PostInfo::ToJson() const
     doc.append(kvp("capacity_lvl",bsoncxx::types::b_int32{m_capacity_lvl}));
     doc.append(kvp("generation_lvl",bsoncxx::types::b_int32{m_gen_second_lvl}));
     doc.append(kvp("fortune_lvl",bsoncxx::types::b_int32{m_fortune_lvl}));
-    doc.append(kvp("autocollect_lvl",bsoncxx::types::b_int32{m_auto_collect_lvl}));
     doc.append(kvp("last_updated", bsoncxx::types::b_date{m_last_collected}));
 
     return doc.extract();
+}
+
+int32_t PostInfo::GetCapacityLvl() 
+{
+    return m_capacity_lvl;
+}
+int32_t PostInfo::GetGenSecondLvl()
+{
+    return m_gen_second_lvl;
+}
+int32_t PostInfo::GetFortuneLvl()
+{
+    return m_fortune_lvl;
 }
 
 /**********************
@@ -56,6 +67,11 @@ bsoncxx::document::value ZoneAccessInfo::ToJson() const
     doc.append(kvp("type", bsoncxx::types::b_int32{static_cast<int>(m_type)}));
     doc.append(kvp("is_unlocked",bsoncxx::types::b_bool{m_is_unlocked}));
     return doc.extract();
+}
+
+bool ZoneAccessInfo::IsUnlocked() 
+{
+    return m_is_unlocked;
 }
 
 /**********************

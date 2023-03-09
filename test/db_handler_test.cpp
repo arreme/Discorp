@@ -207,9 +207,68 @@ TEST_CASE("Database Handler: Register Player To Database and Find interactions",
         REQUIRE(res.value().second.get()->GetType() == InteractionType::ZONE_ACCESS);
     }
 
-    
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+}
 
+TEST_CASE("Database Handler: Go to location and unlock location","[handler][unlock_location]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+
+    uint64_t discord_id = 2;
+    User user{discord_id,"Arreme"};
+    Player player{discord_id,user.GetCurrentPlayer()};
+
+    std::vector<InteractionInfo *> interactionInfo;
+    PostInfo post{};
+    ZoneAccessInfo zoneAccessInfo{};
+    interactionInfo.push_back(&post);
+    interactionInfo.push_back(&zoneAccessInfo);
+    interactionInfo.push_back(&post);
+
+    auto result = db_handler::RegisterPlayerToDatabase(user, player,interactionInfo);
+    REQUIRE(result);
+
+    std::vector<InteractionInfo *> newInteractionInfo;
     
+    newInteractionInfo.push_back(&zoneAccessInfo);
+    newInteractionInfo.push_back(&post);
+    newInteractionInfo.push_back(&zoneAccessInfo);
+    newInteractionInfo.push_back(&post);
+    REQUIRE(db_handler::UnlockLocation(player,1,g_enums::GameLocations::FOREST,newInteractionInfo));
+    REQUIRE(db_handler::GoToLocation(player,g_enums::GameLocations::FOREST));
+
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+}
+
+TEST_CASE("Database Handler: Collect a post and upgrade a post","[handler][update_post]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+
+    uint64_t discord_id = 2;
+    User user{discord_id,"Arreme"};
+    Player player{discord_id,user.GetCurrentPlayer()};
+
+    std::vector<InteractionInfo *> interactionInfo;
+    PostInfo post{};
+    ZoneAccessInfo zoneAccessInfo{};
+    interactionInfo.push_back(&post);
+    interactionInfo.push_back(&zoneAccessInfo);
+    interactionInfo.push_back(&post);
+    auto result = db_handler::RegisterPlayerToDatabase(user, player, interactionInfo);
+    REQUIRE(result);
+    REQUIRE(db_handler::CollectPost(player,0));
+    REQUIRE(db_handler::ImprovePost(player,0,"capacity_lvl"));
+    auto interaction_res = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),0);
+    auto post_result = static_cast<PostInfo *>(interaction_res->second.get());
+    REQUIRE(post_result->GetCapacityLvl() == 1);
 
     del_op_pla.ExecuteOperation();
     del_op_usr.ExecuteOperation();

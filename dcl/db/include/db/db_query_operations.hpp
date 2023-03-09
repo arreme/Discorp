@@ -52,4 +52,18 @@ namespace db
 
         std::optional<bsoncxx::document::view> GetResult() noexcept;
     };
+
+    class FindOneAndUpdateOperation : public Operation 
+    {
+    private:
+        bsoncxx::document::value m_update_bson;
+    public:
+        std::optional<bsoncxx::document::value> m_result;
+
+        FindOneAndUpdateOperation(std::string &&colName, bsoncxx::document::value &&filter, bsoncxx::document::value &&update_bson);
+        
+        void ExecuteOperation() noexcept override;
+
+        std::optional<bsoncxx::document::view> GetResult() noexcept;
+    };
 }

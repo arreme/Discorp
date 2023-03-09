@@ -31,12 +31,15 @@ private:
     int32_t m_capacity_lvl = 0;
     int32_t m_gen_second_lvl = 0;
     int32_t m_fortune_lvl = 0;
-    int32_t m_auto_collect_lvl = 0;
     std::chrono::system_clock::time_point m_last_collected = std::chrono::system_clock::now();
 public:
     PostInfo();
     PostInfo(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const override;
+
+    int32_t GetCapacityLvl();
+    int32_t GetGenSecondLvl();
+    int32_t GetFortuneLvl();
 };
 
 class ZoneAccessInfo : public InteractionInfo 
@@ -47,5 +50,6 @@ public:
     ZoneAccessInfo();
     ZoneAccessInfo(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const override;
+    bool IsUnlocked();
 };
 

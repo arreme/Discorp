@@ -153,3 +153,32 @@ std::optional<bsoncxx::document::view> AggregateOperation::GetResult() noexcept
     }
     return std::nullopt;
 }
+
+/***********************************
+ *  FIND ONE AND UPDATE OPERATION  *
+ ***********************************/
+
+FindOneAndUpdateOperation::FindOneAndUpdateOperation(std::string &&colName, bsoncxx::document::value &&filter, bsoncxx::document::value &&update_bson)
+: Operation(std::forward<std::string>(colName),std::forward<bsoncxx::document::value>(filter)) , m_update_bson(std::forward<bsoncxx::document::value>(update_bson))
+{}
+
+void FindOneAndUpdateOperation::ExecuteOperation() noexcept 
+{
+    try
+    {
+        auto client = MongoDBInstance::GetInstance()->getClientFromPool();
+        auto db = (*client)[DATABASE_NAME];
+        
+        m_result = db[m_colName].find_one_and_update(m_bson.view(),m_update_bson.view());
+
+        m_db_state = OperationState::SUCCESS;
+    }
+    catch(std::exception e)
+    {
+        m_db_state = OperationState::GENERAL_ERROR;
+    }
+}
+
+std::optional<bsoncxx::document::view> FindOneAndUpdateOperation::GetResult() noexcept {
+
+}

@@ -20,16 +20,16 @@ namespace db_handler
     /**
      * Sets current location atribute to the desired
     */
-    bool db_handler::GoToLocation(uint64_t discord_id, int32_t player_id, g_enums::GameLocations new_location);
+    bool GoToLocation(Player &player, g_enums::GameLocations new_location);
 
     /**
      * Sets specific zone access interaction to true
     */
-    bool UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<InteractionInfo *> &info);
+    bool UnlockLocation(Player &player, int32_t interaction_id, g_enums::GameLocations unlocked_location, std::vector<InteractionInfo *> &info);
     
-    PostInfo CollectAndUpdatePost(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
+    bool CollectPost(Player &player, int32_t interaction_id);
 
-    bool ImprovePost(uint64_t discord_id, int32_t player_id, int32_t interaction_id, std::string_view update_name);
+    bool ImprovePost(Player &player, int32_t interaction_id, std::string_view update_name);
 
     std::optional<playerInteractions> FindPlayerCurrentLocationInteractions(uint64_t discord_id, int32_t player_id);
 
