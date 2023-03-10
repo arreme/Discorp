@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+enum PBItems 
+{
+    STICK                   = 0;
+    PEBBLE                  = 1;
+}

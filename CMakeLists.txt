@@ -9,16 +9,20 @@ if(BUILD_TESTS)
         test/setup.cpp 
         test/db_test.cpp 
         test/db_handler_test.cpp
+        test/db_proto_test.cpp
     )
     add_definitions(-DTEST_DATABASE)
     find_package(Catch2 3 REQUIRED)
     add_subdirectory(dcl/db)
     add_subdirectory(dcl/db_handler)
+    add_subdirectory(dcl/core)
     target_link_libraries(
         ${PROJECT_NAME}
         PRIVATE Catch2::Catch2WithMain
         dcl_db
         dcl_db_handler
+        dcl_core
+        protobuf
         pthread
     )
 
@@ -27,6 +31,8 @@ if(BUILD_TESTS)
         PRIVATE "/usr/local/include/catch2" 
         PRIVATE "dcl/db/include"
         PRIVATE "dcl/db_handler/include"
+        PRIVATE "dcl/core/include"
+        PRIVATE "dcl/util/include"
     )
 else()
 

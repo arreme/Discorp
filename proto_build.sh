@@ -1,0 +1,1 @@
+protoc -I=resources/proto --cpp_out=dcl/core/include/core/pb resources/proto/*.proto

@@ -7,5 +7,8 @@ Errors gm::CreateGame(uint64_t discord_id, std::string user_name)
 
     std::vector<InteractionInfo *> info; //Get Info protobuf 
 
-    db_handler::RegisterPlayerToDatabase(user, player, info);
+    if (!db_handler::RegisterPlayerToDatabase(user, player, info)) 
+        return Errors::DUPLICATED_PK_ERROR;
+
+    return Errors::SUCCESS;
 }

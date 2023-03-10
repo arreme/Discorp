@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+import "location.proto";
+import "item.proto";
+
+message PBItemData 
+{
+    PBItems itemID                          = 1;
+    int32 quantity                          = 2;    
+}
+
+message PBUpgradeInfo 
+{
+    PBUpgradeType statName                  = 1;
+    int32 currentLevel                      = 2;
+    int32 currentStat                       = 3;
+    repeated PBItemData requirements        = 4;
+}
+
+message PBInteraction 
+{
+    PBInteractionType type                  = 1;
+    int32 posX                              = 2;
+    int32 posY                              = 3;
+    PBLocationID nextLoc                    = 4;
+    repeated string imagePaths              = 5;
+    repeated PBUpgradeInfo upgradeInfo      = 6;
+    string interactionName                  = 7;
+}
+
+message PBLocation 
+{
+    PBLocationID locID                      = 1;
+    repeated PBInteraction interactions     = 2;
+    string locImage                         = 3;
+}
+
+enum PBInteractionType 
+{
+    POST                                    = 0;
+    ZONE_ACCESS                             = 1;
+    DECORATION                              = 2;
+}
+
+enum PBUpgradeType 
+{
+    CAPACITY                                = 0;
+    GEN_SECOND                              = 1;
+    FORTUNE                                 = 2;
+}
+
+

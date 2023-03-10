@@ -6,13 +6,13 @@ add_library(${PROJECT_NAME} SHARED "src/entities/player.cpp" "src/entities/user.
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC "include"
-    PRIVATE "../db/include"
+    PUBLIC "../db/include"
     PRIVATE "../util/include"
 )
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PRIVATE dcl_db
+    PUBLIC dcl_db
 )
 
 set(CMAKE_BUILD_TYPE Release)

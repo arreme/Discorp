@@ -1,17 +1,28 @@
 cmake_minimum_required(VERSION 3.22)
 
 project(dcl_core VERSION 0.0.1 DESCRIPTION "The core information of the dcl bot")
-add_library(${PROJECT_NAME} SHARED "")
+
+find_package(Protobuf REQUIRED)
+
+add_library(${PROJECT_NAME} SHARED 
+    "src/game_manager.cpp" 
+    "include/core/pb/item.pb.cc"
+    "include/core/pb/location.pb.cc"
+    "include/core/pb/map.pb.cc"
+)
 
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC "include"
     PRIVATE "../util/include"
+    PRIVATE ${PROTOBUF_INCLUDE_DIR}
 )
 
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE dcl_db_handler
+    PRIVATE ${PROTOBUF_LIBRARY}
+
 )
 
 set(CMAKE_BUILD_TYPE Release)
