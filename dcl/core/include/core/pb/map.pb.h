@@ -570,15 +570,17 @@ class PBInteraction PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kImagePathsFieldNumber = 5,
-    kUpgradeInfoFieldNumber = 6,
-    kInteractionNameFieldNumber = 7,
+    kImagePathsFieldNumber = 6,
+    kUpgradeInfoFieldNumber = 7,
+    kInteractionNameFieldNumber = 8,
     kTypeFieldNumber = 1,
-    kPosXFieldNumber = 2,
-    kPosYFieldNumber = 3,
-    kNextLocFieldNumber = 4,
+    kDatabaseIdFieldNumber = 2,
+    kPosXFieldNumber = 3,
+    kPosYFieldNumber = 4,
+    kNextLocFieldNumber = 5,
+    kResourceFieldNumber = 9,
   };
-  // repeated string imagePaths = 5;
+  // repeated string imagePaths = 6;
   int imagepaths_size() const;
   private:
   int _internal_imagepaths_size() const;
@@ -602,7 +604,7 @@ class PBInteraction PROTOBUF_FINAL :
   std::string* _internal_add_imagepaths();
   public:
 
-  // repeated .PBUpgradeInfo upgradeInfo = 6;
+  // repeated .PBUpgradeInfo upgradeInfo = 7;
   int upgradeinfo_size() const;
   private:
   int _internal_upgradeinfo_size() const;
@@ -620,7 +622,7 @@ class PBInteraction PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
       upgradeinfo() const;
 
-  // string interactionName = 7;
+  // string interactionName = 8;
   void clear_interactionname();
   const std::string& interactionname() const;
   void set_interactionname(const std::string& value);
@@ -654,7 +656,16 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_type(::PBInteractionType value);
   public:
 
-  // int32 posX = 2;
+  // int32 databaseId = 2;
+  void clear_databaseid();
+  ::PROTOBUF_NAMESPACE_ID::int32 databaseid() const;
+  void set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_databaseid() const;
+  void _internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 posX = 3;
   void clear_posx();
   ::PROTOBUF_NAMESPACE_ID::int32 posx() const;
   void set_posx(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -663,7 +674,7 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_posx(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 posY = 3;
+  // int32 posY = 4;
   void clear_posy();
   ::PROTOBUF_NAMESPACE_ID::int32 posy() const;
   void set_posy(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -672,13 +683,22 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_posy(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // .PBLocationID nextLoc = 4;
+  // .PBLocationID nextLoc = 5;
   void clear_nextloc();
   ::PBLocationID nextloc() const;
   void set_nextloc(::PBLocationID value);
   private:
   ::PBLocationID _internal_nextloc() const;
   void _internal_set_nextloc(::PBLocationID value);
+  public:
+
+  // .PBItems resource = 9;
+  void clear_resource();
+  ::PBItems resource() const;
+  void set_resource(::PBItems value);
+  private:
+  ::PBItems _internal_resource() const;
+  void _internal_set_resource(::PBItems value);
   public:
 
   // @@protoc_insertion_point(class_scope:PBInteraction)
@@ -692,9 +712,11 @@ class PBInteraction PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo > upgradeinfo_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr interactionname_;
   int type_;
+  ::PROTOBUF_NAMESPACE_ID::int32 databaseid_;
   ::PROTOBUF_NAMESPACE_ID::int32 posx_;
   ::PROTOBUF_NAMESPACE_ID::int32 posy_;
   int nextloc_;
+  int resource_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_map_2eproto;
 };
@@ -1060,7 +1082,27 @@ inline void PBInteraction::set_type(::PBInteractionType value) {
   // @@protoc_insertion_point(field_set:PBInteraction.type)
 }
 
-// int32 posX = 2;
+// int32 databaseId = 2;
+inline void PBInteraction::clear_databaseid() {
+  databaseid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_databaseid() const {
+  return databaseid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::databaseid() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.databaseId)
+  return _internal_databaseid();
+}
+inline void PBInteraction::_internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  databaseid_ = value;
+}
+inline void PBInteraction::set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_databaseid(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.databaseId)
+}
+
+// int32 posX = 3;
 inline void PBInteraction::clear_posx() {
   posx_ = 0;
 }
@@ -1080,7 +1122,7 @@ inline void PBInteraction::set_posx(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:PBInteraction.posX)
 }
 
-// int32 posY = 3;
+// int32 posY = 4;
 inline void PBInteraction::clear_posy() {
   posy_ = 0;
 }
@@ -1100,7 +1142,7 @@ inline void PBInteraction::set_posy(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:PBInteraction.posY)
 }
 
-// .PBLocationID nextLoc = 4;
+// .PBLocationID nextLoc = 5;
 inline void PBInteraction::clear_nextloc() {
   nextloc_ = 0;
 }
@@ -1120,7 +1162,7 @@ inline void PBInteraction::set_nextloc(::PBLocationID value) {
   // @@protoc_insertion_point(field_set:PBInteraction.nextLoc)
 }
 
-// repeated string imagePaths = 5;
+// repeated string imagePaths = 6;
 inline int PBInteraction::_internal_imagepaths_size() const {
   return imagepaths_.size();
 }
@@ -1194,7 +1236,7 @@ PBInteraction::mutable_imagepaths() {
   return &imagepaths_;
 }
 
-// repeated .PBUpgradeInfo upgradeInfo = 6;
+// repeated .PBUpgradeInfo upgradeInfo = 7;
 inline int PBInteraction::_internal_upgradeinfo_size() const {
   return upgradeinfo_.size();
 }
@@ -1233,7 +1275,7 @@ PBInteraction::upgradeinfo() const {
   return upgradeinfo_;
 }
 
-// string interactionName = 7;
+// string interactionName = 8;
 inline void PBInteraction::clear_interactionname() {
   interactionname_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
@@ -1312,6 +1354,26 @@ inline void PBInteraction::unsafe_arena_set_allocated_interactionname(
   interactionname_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       interactionname, GetArena());
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBInteraction.interactionName)
+}
+
+// .PBItems resource = 9;
+inline void PBInteraction::clear_resource() {
+  resource_ = 0;
+}
+inline ::PBItems PBInteraction::_internal_resource() const {
+  return static_cast< ::PBItems >(resource_);
+}
+inline ::PBItems PBInteraction::resource() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.resource)
+  return _internal_resource();
+}
+inline void PBInteraction::_internal_set_resource(::PBItems value) {
+  
+  resource_ = value;
+}
+inline void PBInteraction::set_resource(::PBItems value) {
+  _internal_set_resource(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.resource)
 }
 
 // -------------------------------------------------------------------

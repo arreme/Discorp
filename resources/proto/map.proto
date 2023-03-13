@@ -20,12 +20,14 @@ message PBUpgradeInfo
 message PBInteraction 
 {
     PBInteractionType type                  = 1;
-    int32 posX                              = 2;
-    int32 posY                              = 3;
-    PBLocationID nextLoc                    = 4;
-    repeated string imagePaths              = 5;
-    repeated PBUpgradeInfo upgradeInfo      = 6;
-    string interactionName                  = 7;
+    int32 databaseId                        = 2;
+    int32 posX                              = 3;
+    int32 posY                              = 4;
+    PBLocationID nextLoc                    = 5;
+    repeated string imagePaths              = 6;
+    repeated PBUpgradeInfo upgradeInfo      = 7;
+    string interactionName                  = 8;
+    PBItems resource                        = 9;
 }
 
 message PBLocation 

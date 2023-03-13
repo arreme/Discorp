@@ -57,13 +57,14 @@ PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
 
 enum PBItems : int {
-  STICK = 0,
-  PEBBLE = 1,
+  NO_ITEM = 0,
+  STICK = 1,
+  PEBBLE = 2,
   PBItems_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PBItems_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PBItems_IsValid(int value);
-constexpr PBItems PBItems_MIN = STICK;
+constexpr PBItems PBItems_MIN = NO_ITEM;
 constexpr PBItems PBItems_MAX = PEBBLE;
 constexpr int PBItems_ARRAYSIZE = PBItems_MAX + 1;
 

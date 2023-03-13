@@ -9,6 +9,7 @@ add_library(${PROJECT_NAME} SHARED
     "include/core/pb/item.pb.cc"
     "include/core/pb/location.pb.cc"
     "include/core/pb/map.pb.cc"
+    "src/dcl_map.cpp"
 )
 
 target_include_directories(
