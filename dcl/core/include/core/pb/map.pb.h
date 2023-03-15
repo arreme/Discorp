@@ -570,17 +570,17 @@ class PBInteraction PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kImagePathsFieldNumber = 6,
-    kUpgradeInfoFieldNumber = 7,
-    kInteractionNameFieldNumber = 8,
+    kImagePathsFieldNumber = 7,
+    kUpgradeInfoFieldNumber = 9,
+    kInteractionNameFieldNumber = 2,
     kTypeFieldNumber = 1,
-    kDatabaseIdFieldNumber = 2,
-    kPosXFieldNumber = 3,
-    kPosYFieldNumber = 4,
-    kNextLocFieldNumber = 5,
-    kResourceFieldNumber = 9,
+    kResourceFieldNumber = 3,
+    kDatabaseIdFieldNumber = 4,
+    kPosXFieldNumber = 5,
+    kPosYFieldNumber = 6,
+    kNextLocFieldNumber = 8,
   };
-  // repeated string imagePaths = 6;
+  // repeated string imagePaths = 7;
   int imagepaths_size() const;
   private:
   int _internal_imagepaths_size() const;
@@ -604,7 +604,7 @@ class PBInteraction PROTOBUF_FINAL :
   std::string* _internal_add_imagepaths();
   public:
 
-  // repeated .PBUpgradeInfo upgradeInfo = 7;
+  // repeated .PBUpgradeInfo upgradeInfo = 9;
   int upgradeinfo_size() const;
   private:
   int _internal_upgradeinfo_size() const;
@@ -622,7 +622,7 @@ class PBInteraction PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
       upgradeinfo() const;
 
-  // string interactionName = 8;
+  // string interactionName = 2;
   void clear_interactionname();
   const std::string& interactionname() const;
   void set_interactionname(const std::string& value);
@@ -656,7 +656,16 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_type(::PBInteractionType value);
   public:
 
-  // int32 databaseId = 2;
+  // .PBItems resource = 3;
+  void clear_resource();
+  ::PBItems resource() const;
+  void set_resource(::PBItems value);
+  private:
+  ::PBItems _internal_resource() const;
+  void _internal_set_resource(::PBItems value);
+  public:
+
+  // int32 databaseId = 4;
   void clear_databaseid();
   ::PROTOBUF_NAMESPACE_ID::int32 databaseid() const;
   void set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -665,7 +674,7 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 posX = 3;
+  // int32 posX = 5;
   void clear_posx();
   ::PROTOBUF_NAMESPACE_ID::int32 posx() const;
   void set_posx(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -674,7 +683,7 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_posx(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 posY = 4;
+  // int32 posY = 6;
   void clear_posy();
   ::PROTOBUF_NAMESPACE_ID::int32 posy() const;
   void set_posy(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -683,22 +692,13 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_posy(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // .PBLocationID nextLoc = 5;
+  // .PBLocationID nextLoc = 8;
   void clear_nextloc();
   ::PBLocationID nextloc() const;
   void set_nextloc(::PBLocationID value);
   private:
   ::PBLocationID _internal_nextloc() const;
   void _internal_set_nextloc(::PBLocationID value);
-  public:
-
-  // .PBItems resource = 9;
-  void clear_resource();
-  ::PBItems resource() const;
-  void set_resource(::PBItems value);
-  private:
-  ::PBItems _internal_resource() const;
-  void _internal_set_resource(::PBItems value);
   public:
 
   // @@protoc_insertion_point(class_scope:PBInteraction)
@@ -712,11 +712,11 @@ class PBInteraction PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo > upgradeinfo_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr interactionname_;
   int type_;
+  int resource_;
   ::PROTOBUF_NAMESPACE_ID::int32 databaseid_;
   ::PROTOBUF_NAMESPACE_ID::int32 posx_;
   ::PROTOBUF_NAMESPACE_ID::int32 posy_;
   int nextloc_;
-  int resource_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_map_2eproto;
 };
@@ -835,11 +835,12 @@ class PBLocation PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kInteractionsFieldNumber = 2,
-    kLocImageFieldNumber = 3,
+    kInteractionsFieldNumber = 3,
+    kLocImageFieldNumber = 4,
     kLocIDFieldNumber = 1,
+    kDatabaseIdFieldNumber = 2,
   };
-  // repeated .PBInteraction interactions = 2;
+  // repeated .PBInteraction interactions = 3;
   int interactions_size() const;
   private:
   int _internal_interactions_size() const;
@@ -857,7 +858,7 @@ class PBLocation PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBInteraction >&
       interactions() const;
 
-  // string locImage = 3;
+  // string locImage = 4;
   void clear_locimage();
   const std::string& locimage() const;
   void set_locimage(const std::string& value);
@@ -891,6 +892,15 @@ class PBLocation PROTOBUF_FINAL :
   void _internal_set_locid(::PBLocationID value);
   public:
 
+  // int32 databaseId = 2;
+  void clear_databaseid();
+  ::PROTOBUF_NAMESPACE_ID::int32 databaseid() const;
+  void set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_databaseid() const;
+  void _internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:PBLocation)
  private:
   class _Internal;
@@ -901,6 +911,7 @@ class PBLocation PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBInteraction > interactions_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr locimage_;
   int locid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 databaseid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_map_2eproto;
 };
@@ -1082,200 +1093,7 @@ inline void PBInteraction::set_type(::PBInteractionType value) {
   // @@protoc_insertion_point(field_set:PBInteraction.type)
 }
 
-// int32 databaseId = 2;
-inline void PBInteraction::clear_databaseid() {
-  databaseid_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_databaseid() const {
-  return databaseid_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::databaseid() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.databaseId)
-  return _internal_databaseid();
-}
-inline void PBInteraction::_internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  databaseid_ = value;
-}
-inline void PBInteraction::set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_databaseid(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.databaseId)
-}
-
-// int32 posX = 3;
-inline void PBInteraction::clear_posx() {
-  posx_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_posx() const {
-  return posx_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::posx() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.posX)
-  return _internal_posx();
-}
-inline void PBInteraction::_internal_set_posx(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  posx_ = value;
-}
-inline void PBInteraction::set_posx(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_posx(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.posX)
-}
-
-// int32 posY = 4;
-inline void PBInteraction::clear_posy() {
-  posy_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_posy() const {
-  return posy_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::posy() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.posY)
-  return _internal_posy();
-}
-inline void PBInteraction::_internal_set_posy(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  posy_ = value;
-}
-inline void PBInteraction::set_posy(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_posy(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.posY)
-}
-
-// .PBLocationID nextLoc = 5;
-inline void PBInteraction::clear_nextloc() {
-  nextloc_ = 0;
-}
-inline ::PBLocationID PBInteraction::_internal_nextloc() const {
-  return static_cast< ::PBLocationID >(nextloc_);
-}
-inline ::PBLocationID PBInteraction::nextloc() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.nextLoc)
-  return _internal_nextloc();
-}
-inline void PBInteraction::_internal_set_nextloc(::PBLocationID value) {
-  
-  nextloc_ = value;
-}
-inline void PBInteraction::set_nextloc(::PBLocationID value) {
-  _internal_set_nextloc(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.nextLoc)
-}
-
-// repeated string imagePaths = 6;
-inline int PBInteraction::_internal_imagepaths_size() const {
-  return imagepaths_.size();
-}
-inline int PBInteraction::imagepaths_size() const {
-  return _internal_imagepaths_size();
-}
-inline void PBInteraction::clear_imagepaths() {
-  imagepaths_.Clear();
-}
-inline std::string* PBInteraction::add_imagepaths() {
-  // @@protoc_insertion_point(field_add_mutable:PBInteraction.imagePaths)
-  return _internal_add_imagepaths();
-}
-inline const std::string& PBInteraction::_internal_imagepaths(int index) const {
-  return imagepaths_.Get(index);
-}
-inline const std::string& PBInteraction::imagepaths(int index) const {
-  // @@protoc_insertion_point(field_get:PBInteraction.imagePaths)
-  return _internal_imagepaths(index);
-}
-inline std::string* PBInteraction::mutable_imagepaths(int index) {
-  // @@protoc_insertion_point(field_mutable:PBInteraction.imagePaths)
-  return imagepaths_.Mutable(index);
-}
-inline void PBInteraction::set_imagepaths(int index, const std::string& value) {
-  // @@protoc_insertion_point(field_set:PBInteraction.imagePaths)
-  imagepaths_.Mutable(index)->assign(value);
-}
-inline void PBInteraction::set_imagepaths(int index, std::string&& value) {
-  // @@protoc_insertion_point(field_set:PBInteraction.imagePaths)
-  imagepaths_.Mutable(index)->assign(std::move(value));
-}
-inline void PBInteraction::set_imagepaths(int index, const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  imagepaths_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:PBInteraction.imagePaths)
-}
-inline void PBInteraction::set_imagepaths(int index, const char* value, size_t size) {
-  imagepaths_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:PBInteraction.imagePaths)
-}
-inline std::string* PBInteraction::_internal_add_imagepaths() {
-  return imagepaths_.Add();
-}
-inline void PBInteraction::add_imagepaths(const std::string& value) {
-  imagepaths_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:PBInteraction.imagePaths)
-}
-inline void PBInteraction::add_imagepaths(std::string&& value) {
-  imagepaths_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:PBInteraction.imagePaths)
-}
-inline void PBInteraction::add_imagepaths(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  imagepaths_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:PBInteraction.imagePaths)
-}
-inline void PBInteraction::add_imagepaths(const char* value, size_t size) {
-  imagepaths_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:PBInteraction.imagePaths)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-PBInteraction::imagepaths() const {
-  // @@protoc_insertion_point(field_list:PBInteraction.imagePaths)
-  return imagepaths_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-PBInteraction::mutable_imagepaths() {
-  // @@protoc_insertion_point(field_mutable_list:PBInteraction.imagePaths)
-  return &imagepaths_;
-}
-
-// repeated .PBUpgradeInfo upgradeInfo = 7;
-inline int PBInteraction::_internal_upgradeinfo_size() const {
-  return upgradeinfo_.size();
-}
-inline int PBInteraction::upgradeinfo_size() const {
-  return _internal_upgradeinfo_size();
-}
-inline void PBInteraction::clear_upgradeinfo() {
-  upgradeinfo_.Clear();
-}
-inline ::PBUpgradeInfo* PBInteraction::mutable_upgradeinfo(int index) {
-  // @@protoc_insertion_point(field_mutable:PBInteraction.upgradeInfo)
-  return upgradeinfo_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >*
-PBInteraction::mutable_upgradeinfo() {
-  // @@protoc_insertion_point(field_mutable_list:PBInteraction.upgradeInfo)
-  return &upgradeinfo_;
-}
-inline const ::PBUpgradeInfo& PBInteraction::_internal_upgradeinfo(int index) const {
-  return upgradeinfo_.Get(index);
-}
-inline const ::PBUpgradeInfo& PBInteraction::upgradeinfo(int index) const {
-  // @@protoc_insertion_point(field_get:PBInteraction.upgradeInfo)
-  return _internal_upgradeinfo(index);
-}
-inline ::PBUpgradeInfo* PBInteraction::_internal_add_upgradeinfo() {
-  return upgradeinfo_.Add();
-}
-inline ::PBUpgradeInfo* PBInteraction::add_upgradeinfo() {
-  // @@protoc_insertion_point(field_add:PBInteraction.upgradeInfo)
-  return _internal_add_upgradeinfo();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
-PBInteraction::upgradeinfo() const {
-  // @@protoc_insertion_point(field_list:PBInteraction.upgradeInfo)
-  return upgradeinfo_;
-}
-
-// string interactionName = 8;
+// string interactionName = 2;
 inline void PBInteraction::clear_interactionname() {
   interactionname_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
@@ -1356,7 +1174,7 @@ inline void PBInteraction::unsafe_arena_set_allocated_interactionname(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBInteraction.interactionName)
 }
 
-// .PBItems resource = 9;
+// .PBItems resource = 3;
 inline void PBInteraction::clear_resource() {
   resource_ = 0;
 }
@@ -1374,6 +1192,199 @@ inline void PBInteraction::_internal_set_resource(::PBItems value) {
 inline void PBInteraction::set_resource(::PBItems value) {
   _internal_set_resource(value);
   // @@protoc_insertion_point(field_set:PBInteraction.resource)
+}
+
+// int32 databaseId = 4;
+inline void PBInteraction::clear_databaseid() {
+  databaseid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_databaseid() const {
+  return databaseid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::databaseid() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.databaseId)
+  return _internal_databaseid();
+}
+inline void PBInteraction::_internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  databaseid_ = value;
+}
+inline void PBInteraction::set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_databaseid(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.databaseId)
+}
+
+// int32 posX = 5;
+inline void PBInteraction::clear_posx() {
+  posx_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_posx() const {
+  return posx_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::posx() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.posX)
+  return _internal_posx();
+}
+inline void PBInteraction::_internal_set_posx(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  posx_ = value;
+}
+inline void PBInteraction::set_posx(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_posx(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.posX)
+}
+
+// int32 posY = 6;
+inline void PBInteraction::clear_posy() {
+  posy_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_posy() const {
+  return posy_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::posy() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.posY)
+  return _internal_posy();
+}
+inline void PBInteraction::_internal_set_posy(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  posy_ = value;
+}
+inline void PBInteraction::set_posy(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_posy(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.posY)
+}
+
+// repeated string imagePaths = 7;
+inline int PBInteraction::_internal_imagepaths_size() const {
+  return imagepaths_.size();
+}
+inline int PBInteraction::imagepaths_size() const {
+  return _internal_imagepaths_size();
+}
+inline void PBInteraction::clear_imagepaths() {
+  imagepaths_.Clear();
+}
+inline std::string* PBInteraction::add_imagepaths() {
+  // @@protoc_insertion_point(field_add_mutable:PBInteraction.imagePaths)
+  return _internal_add_imagepaths();
+}
+inline const std::string& PBInteraction::_internal_imagepaths(int index) const {
+  return imagepaths_.Get(index);
+}
+inline const std::string& PBInteraction::imagepaths(int index) const {
+  // @@protoc_insertion_point(field_get:PBInteraction.imagePaths)
+  return _internal_imagepaths(index);
+}
+inline std::string* PBInteraction::mutable_imagepaths(int index) {
+  // @@protoc_insertion_point(field_mutable:PBInteraction.imagePaths)
+  return imagepaths_.Mutable(index);
+}
+inline void PBInteraction::set_imagepaths(int index, const std::string& value) {
+  // @@protoc_insertion_point(field_set:PBInteraction.imagePaths)
+  imagepaths_.Mutable(index)->assign(value);
+}
+inline void PBInteraction::set_imagepaths(int index, std::string&& value) {
+  // @@protoc_insertion_point(field_set:PBInteraction.imagePaths)
+  imagepaths_.Mutable(index)->assign(std::move(value));
+}
+inline void PBInteraction::set_imagepaths(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  imagepaths_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:PBInteraction.imagePaths)
+}
+inline void PBInteraction::set_imagepaths(int index, const char* value, size_t size) {
+  imagepaths_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:PBInteraction.imagePaths)
+}
+inline std::string* PBInteraction::_internal_add_imagepaths() {
+  return imagepaths_.Add();
+}
+inline void PBInteraction::add_imagepaths(const std::string& value) {
+  imagepaths_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:PBInteraction.imagePaths)
+}
+inline void PBInteraction::add_imagepaths(std::string&& value) {
+  imagepaths_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:PBInteraction.imagePaths)
+}
+inline void PBInteraction::add_imagepaths(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  imagepaths_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:PBInteraction.imagePaths)
+}
+inline void PBInteraction::add_imagepaths(const char* value, size_t size) {
+  imagepaths_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:PBInteraction.imagePaths)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+PBInteraction::imagepaths() const {
+  // @@protoc_insertion_point(field_list:PBInteraction.imagePaths)
+  return imagepaths_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+PBInteraction::mutable_imagepaths() {
+  // @@protoc_insertion_point(field_mutable_list:PBInteraction.imagePaths)
+  return &imagepaths_;
+}
+
+// .PBLocationID nextLoc = 8;
+inline void PBInteraction::clear_nextloc() {
+  nextloc_ = 0;
+}
+inline ::PBLocationID PBInteraction::_internal_nextloc() const {
+  return static_cast< ::PBLocationID >(nextloc_);
+}
+inline ::PBLocationID PBInteraction::nextloc() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.nextLoc)
+  return _internal_nextloc();
+}
+inline void PBInteraction::_internal_set_nextloc(::PBLocationID value) {
+  
+  nextloc_ = value;
+}
+inline void PBInteraction::set_nextloc(::PBLocationID value) {
+  _internal_set_nextloc(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.nextLoc)
+}
+
+// repeated .PBUpgradeInfo upgradeInfo = 9;
+inline int PBInteraction::_internal_upgradeinfo_size() const {
+  return upgradeinfo_.size();
+}
+inline int PBInteraction::upgradeinfo_size() const {
+  return _internal_upgradeinfo_size();
+}
+inline void PBInteraction::clear_upgradeinfo() {
+  upgradeinfo_.Clear();
+}
+inline ::PBUpgradeInfo* PBInteraction::mutable_upgradeinfo(int index) {
+  // @@protoc_insertion_point(field_mutable:PBInteraction.upgradeInfo)
+  return upgradeinfo_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >*
+PBInteraction::mutable_upgradeinfo() {
+  // @@protoc_insertion_point(field_mutable_list:PBInteraction.upgradeInfo)
+  return &upgradeinfo_;
+}
+inline const ::PBUpgradeInfo& PBInteraction::_internal_upgradeinfo(int index) const {
+  return upgradeinfo_.Get(index);
+}
+inline const ::PBUpgradeInfo& PBInteraction::upgradeinfo(int index) const {
+  // @@protoc_insertion_point(field_get:PBInteraction.upgradeInfo)
+  return _internal_upgradeinfo(index);
+}
+inline ::PBUpgradeInfo* PBInteraction::_internal_add_upgradeinfo() {
+  return upgradeinfo_.Add();
+}
+inline ::PBUpgradeInfo* PBInteraction::add_upgradeinfo() {
+  // @@protoc_insertion_point(field_add:PBInteraction.upgradeInfo)
+  return _internal_add_upgradeinfo();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
+PBInteraction::upgradeinfo() const {
+  // @@protoc_insertion_point(field_list:PBInteraction.upgradeInfo)
+  return upgradeinfo_;
 }
 
 // -------------------------------------------------------------------
@@ -1400,7 +1411,27 @@ inline void PBLocation::set_locid(::PBLocationID value) {
   // @@protoc_insertion_point(field_set:PBLocation.locID)
 }
 
-// repeated .PBInteraction interactions = 2;
+// int32 databaseId = 2;
+inline void PBLocation::clear_databaseid() {
+  databaseid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBLocation::_internal_databaseid() const {
+  return databaseid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBLocation::databaseid() const {
+  // @@protoc_insertion_point(field_get:PBLocation.databaseId)
+  return _internal_databaseid();
+}
+inline void PBLocation::_internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  databaseid_ = value;
+}
+inline void PBLocation::set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_databaseid(value);
+  // @@protoc_insertion_point(field_set:PBLocation.databaseId)
+}
+
+// repeated .PBInteraction interactions = 3;
 inline int PBLocation::_internal_interactions_size() const {
   return interactions_.size();
 }
@@ -1439,7 +1470,7 @@ PBLocation::interactions() const {
   return interactions_;
 }
 
-// string locImage = 3;
+// string locImage = 4;
 inline void PBLocation::clear_locimage() {
   locimage_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }

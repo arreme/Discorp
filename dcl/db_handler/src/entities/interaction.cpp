@@ -37,10 +37,12 @@ int32_t PostInfo::GetCapacityLvl()
 {
     return m_capacity_lvl;
 }
+
 int32_t PostInfo::GetGenSecondLvl()
 {
     return m_gen_second_lvl;
 }
+
 int32_t PostInfo::GetFortuneLvl()
 {
     return m_fortune_lvl;

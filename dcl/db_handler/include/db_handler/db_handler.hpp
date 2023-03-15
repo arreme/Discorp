@@ -20,12 +20,12 @@ namespace db_handler
     /**
      * Sets current location atribute to the desired
     */
-    bool GoToLocation(Player &player, g_enums::GameLocations new_location);
+    bool GoToLocation(Player &player, int32_t new_location);
 
     /**
      * Sets specific zone access interaction to true
     */
-    bool UnlockLocation(Player &player, int32_t interaction_id, g_enums::GameLocations unlocked_location, std::vector<InteractionInfo *> &info);
+    bool UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<InteractionInfo *> &info);
     
     bool CollectPost(Player &player, int32_t interaction_id);
 

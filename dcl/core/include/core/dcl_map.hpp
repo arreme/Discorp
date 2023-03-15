@@ -48,8 +48,9 @@ namespace GameMap
         }
 
         DCLLocation(PBLocation&& loc_data)
-        : m_loc_data(loc_data) 
-        {}
+        {
+            loc_data.Swap(&m_loc_data);
+        }
 
         PBLocationID GetLocId() const 
         {

@@ -1,1 +1,1 @@
-{"locID":"MAIN_BASE","interactions":[{"posX":10,"posY":10,"imagePaths":["assets/posts/bush_0.png"],"upgradeInfo":[{"currentStat":50,"requirements":[{"itemID":"STICK","quantity":3}]}],"interactionName":"bushes","resource":"STICK"}],"locImage":"assets/locations/main_base_0.png"}
+{"interactions":[{"interactionName":"bushes","resource":"STICK","posX":10,"posY":10,"imagePaths":["assets/posts/bush_0.png"],"upgradeInfo":[{"currentStat":50,"requirements":[{"itemID":"STICK","quantity":3}]}]}],"locImage":"assets/locations/main_base_0.png"}

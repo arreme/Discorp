@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <time.h>
-#include <util/game_constants.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/builder/basic/kvp.hpp>
 #include <bsoncxx/builder/basic/document.hpp>
@@ -44,22 +43,20 @@ class Player
 private:
     uint64_t m_discord_id;
     int32_t m_player_id;
-    g_enums::GameLocations m_current_loc;
+    int m_current_loc;
     uint64_t m_guild_id = 0;
     Stats m_stats;
     Skills m_skills;
     //std::vector<Equipables> m_equipables;
 
 public:
-    Player(uint64_t discord_id, int32_t player_id);
+    Player(uint64_t discord_id, int32_t player_id, int32_t init_loc);
 
     Player(bsoncxx::document::view player);
 
     bsoncxx::document::value ToJson() const;
 
-    g_enums::GameLocations GetLocation() const noexcept;
-
-    int GetLocationInt() const noexcept;
+    int GetLocation() const noexcept;
 
     Skills* const GetSkills() noexcept;
 

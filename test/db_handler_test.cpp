@@ -5,6 +5,7 @@
 #include <db/db_query_operations.hpp>
 #include <db_handler/entities/interaction.hpp>
 #include <db_handler/db_handler.hpp>
+#include <core/pb/location.pb.h>
 
 
 using namespace bsoncxx::types;
@@ -89,7 +90,7 @@ SCENARIO("Player testing","[db][player]")
         {
             uint64_t discord_id = 1;
             int32_t player_id = 0;
-            Player player{1,0};
+            Player player{1,0,PBLocationID::MAIN_BASE};
 
             db::InsertOneOperation ins_op_1{"players",player.ToJson()};
             THEN("Result should be true") 
@@ -105,7 +106,7 @@ SCENARIO("Player testing","[db][player]")
     {
         uint64_t discord_id = 2;
         int32_t player_id = 0;
-        Player player{2,0};
+        Player player{2,0,PBLocationID::MAIN_BASE};
 
         db::InsertOneOperation ins_op_2{"players",player.ToJson()};
         ins_op_2.ExecuteOperation();
@@ -130,7 +131,7 @@ SCENARIO("Player testing","[db][player]")
                 find_op_2_2.ExecuteOperation();
                 REQUIRE(find_op_2_2.m_result);
                 Player player_2{find_op_2_2.m_result->view()};
-                REQUIRE(player_2.GetLocation() == g_enums::GameLocations::MAIN_BASE);
+                REQUIRE(player_2.GetLocation() == PBLocationID::MAIN_BASE);
                 REQUIRE(player_2.GetSkills()->m_forage_lvl == 1);
                 REQUIRE(player_2.GetStats()->m_luck == 0);
             }
@@ -176,7 +177,7 @@ TEST_CASE("Database Handler: Register Player To Database and Find interactions",
 
     uint64_t discord_id = 2;
     User user{discord_id,"Arreme"};
-    Player player{discord_id,user.GetCurrentPlayer()};
+    Player player{discord_id,user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
 
     std::vector<InteractionInfo *> interactionInfo;
     PostInfo post{};
@@ -194,7 +195,7 @@ TEST_CASE("Database Handler: Register Player To Database and Find interactions",
         REQUIRE(usr);
         REQUIRE(usr.value().GetUserName() == "Arreme");
         REQUIRE(res);
-        REQUIRE(res.value().first.GetLocation() == g_enums::GameLocations::MAIN_BASE);
+        REQUIRE(static_cast<PBLocationID>(res.value().first.GetLocation()) == PBLocationID::MAIN_BASE);
         REQUIRE(res.value().second.size() == 3);
         REQUIRE(res.value().second[0].get()->GetType() == InteractionType::POST);
     }
@@ -203,7 +204,7 @@ TEST_CASE("Database Handler: Register Player To Database and Find interactions",
         REQUIRE(result);
         auto res = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),1);
         REQUIRE(res);
-        REQUIRE(res.value().first.GetLocation() == g_enums::GameLocations::MAIN_BASE);
+        REQUIRE(res.value().first.GetLocation() == PBLocationID::MAIN_BASE);
         REQUIRE(res.value().second.get()->GetType() == InteractionType::ZONE_ACCESS);
     }
 
@@ -220,7 +221,7 @@ TEST_CASE("Database Handler: Go to location and unlock location","[handler][unlo
 
     uint64_t discord_id = 2;
     User user{discord_id,"Arreme"};
-    Player player{discord_id,user.GetCurrentPlayer()};
+    Player player{discord_id,user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
 
     std::vector<InteractionInfo *> interactionInfo;
     PostInfo post{};
@@ -238,8 +239,8 @@ TEST_CASE("Database Handler: Go to location and unlock location","[handler][unlo
     newInteractionInfo.push_back(&post);
     newInteractionInfo.push_back(&zoneAccessInfo);
     newInteractionInfo.push_back(&post);
-    REQUIRE(db_handler::UnlockLocation(player,1,g_enums::GameLocations::FOREST,newInteractionInfo));
-    REQUIRE(db_handler::GoToLocation(player,g_enums::GameLocations::FOREST));
+    REQUIRE(db_handler::UnlockLocation(player,1,PBLocationID::FOREST,newInteractionInfo));
+    REQUIRE(db_handler::GoToLocation(player,PBLocationID::FOREST));
 
     del_op_pla.ExecuteOperation();
     del_op_usr.ExecuteOperation();
@@ -254,7 +255,7 @@ TEST_CASE("Database Handler: Collect a post and upgrade a post","[handler][updat
 
     uint64_t discord_id = 2;
     User user{discord_id,"Arreme"};
-    Player player{discord_id,user.GetCurrentPlayer()};
+    Player player{discord_id,user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
 
     std::vector<InteractionInfo *> interactionInfo;
     PostInfo post{};

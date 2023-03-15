@@ -52,7 +52,7 @@ std::optional<User> db_handler::FindUserById(uint64_t discord_id)
     return std::nullopt;
 }
 
-bool db_handler::GoToLocation(Player &player, g_enums::GameLocations new_location) 
+bool db_handler::GoToLocation(Player &player, int32_t new_location) 
 {
     db::UpdateOneOperation update_op{"players",
         make_document(
@@ -60,7 +60,7 @@ bool db_handler::GoToLocation(Player &player, g_enums::GameLocations new_locatio
             kvp("player_id",b_int32{player.GetPlayerId()})
         ),
         make_document(kvp("$set",make_document(
-            kvp("current_loc",b_int32{static_cast<int>(new_location)})
+            kvp("current_loc",b_int32{new_location})
         )))
     };
 
@@ -68,10 +68,10 @@ bool db_handler::GoToLocation(Player &player, g_enums::GameLocations new_locatio
     return update_op.GetState() == db::OperationState::SUCCESS;
 }
 
-bool db_handler::UnlockLocation(Player &player, int32_t interaction_id, g_enums::GameLocations unlocked_location, std::vector<InteractionInfo *> &info)
+bool db_handler::UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<InteractionInfo *> &info)
 {
-    std::string array_update_query = "locations." + std::to_string(player.GetLocationInt()) + "." + std::to_string(interaction_id) + ".is_unlocked";
-    std::string location_update_query = "locations." + std::to_string(static_cast<int>(unlocked_location));
+    std::string array_update_query = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".is_unlocked";
+    std::string location_update_query = "locations." + std::to_string(unlocked_location);
     db::UpdateOneOperation update_op{"players",
         make_document(
             kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
@@ -90,7 +90,7 @@ bool db_handler::UnlockLocation(Player &player, int32_t interaction_id, g_enums:
 
 bool db_handler::CollectPost(Player &player,  int32_t interaction_id)
 {
-    std::string array_update_query = "locations." + std::to_string(player.GetLocationInt()) + "." + std::to_string(interaction_id) + ".last_updated";
+    std::string array_update_query = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".last_updated";
     db::UpdateOneOperation update_op{"players",
         make_document(
             kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
@@ -108,7 +108,7 @@ bool db_handler::CollectPost(Player &player,  int32_t interaction_id)
 
 bool db_handler::ImprovePost(Player &player, int32_t interaction_id, std::string_view update_name)
 {
-    std::string array_update_query = "locations." + std::to_string(player.GetLocationInt()) + "." + std::to_string(interaction_id) + "."+update_name.data();
+    std::string array_update_query = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + "."+update_name.data();
     db::UpdateOneOperation update_op{"players",
         make_document(
             kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),

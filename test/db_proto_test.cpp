@@ -9,7 +9,7 @@
 TEST_CASE("Protobuffers: Creating data","[proto]") 
 {
     auto loc_data = PBLocation{};
-    loc_data.set_locid(PBLocationID::FOREST);
+    loc_data.set_locid(PBLocationID::MAIN_BASE);
     loc_data.set_locimage("assets/locations/main_base_0.png");
     auto inter_0 = loc_data.add_interactions();
     inter_0->set_type(PBInteractionType::POST);
@@ -39,7 +39,7 @@ TEST_CASE("Protobuffers: Reading data","[proto]")
     auto loc_data = PBLocation{};
     google::protobuf::util::JsonStringToMessage(buffer.str(),&loc_data);
 
-    REQUIRE(loc_data.locid() == PBLocationID::FOREST);
+    REQUIRE(loc_data.locid() == PBLocationID::MAIN_BASE);
     REQUIRE(loc_data.interactions()[0].databaseid() == 0);
     REQUIRE(loc_data.interactions()[0].resource() == PBItems::STICK);
     REQUIRE(loc_data.interactions()[0].upgradeinfo()[0].statname() == PBUpgradeType::CAPACITY);

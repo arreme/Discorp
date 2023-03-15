@@ -7,8 +7,8 @@ using namespace bsoncxx::types;
  * Only should be called once for first initializing a player. After 
  * that Players should be initialized by using the database
 */
-Player::Player(uint64_t discord_id, int32_t player_id) 
-: m_discord_id(discord_id), m_player_id(player_id), m_current_loc(g_enums::GameLocations::MAIN_BASE)
+Player::Player(uint64_t discord_id, int32_t player_id, int32_t init_loc) 
+: m_discord_id(discord_id), m_player_id(player_id), m_current_loc(init_loc)
 {}
 
 Player::Player(bsoncxx::document::view player)
@@ -16,7 +16,7 @@ Player::Player(bsoncxx::document::view player)
     m_discord_id = static_cast<uint64_t>(player["discord_id"].get_int64());
     m_player_id = player["player_id"].get_int32();
     m_guild_id = static_cast<uint64_t>(player["guild_id"].get_int64());
-    m_current_loc = static_cast<g_enums::GameLocations>(player["current_loc"].get_int32().value);
+    m_current_loc = player["current_loc"].get_int32().value;
     m_stats = {player["stats"]};
     m_skills = {player["skills"]};
 }
@@ -49,7 +49,7 @@ bsoncxx::document::value Player::ToJson() const
 
     doc.append(kvp("discord_id",bsoncxx::types::b_int64{static_cast<int64_t>(m_discord_id)}));
     doc.append(kvp("player_id",bsoncxx::types::b_int32{m_player_id}));
-    doc.append(kvp("current_loc",bsoncxx::types::b_int32{static_cast<int32_t>(m_current_loc)}));
+    doc.append(kvp("current_loc",bsoncxx::types::b_int32{m_current_loc}));
     doc.append(kvp("guild_id",bsoncxx::types::b_int64{static_cast<int64_t>(m_guild_id)}));
     
     doc.append(kvp("stats",m_stats.ToJson()));
@@ -90,14 +90,9 @@ bsoncxx::document::value Skills::ToJson() const noexcept
     return skills.extract();
 }
 
-g_enums::GameLocations Player::GetLocation() const noexcept
+int Player::GetLocation() const noexcept
 {
     return m_current_loc;
-}
-
-int Player::GetLocationInt() const noexcept
-{
-    return static_cast<int>(m_current_loc);
 }
 
 Skills* const Player::GetSkills() noexcept

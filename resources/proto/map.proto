@@ -20,21 +20,23 @@ message PBUpgradeInfo
 message PBInteraction 
 {
     PBInteractionType type                  = 1;
-    int32 databaseId                        = 2;
-    int32 posX                              = 3;
-    int32 posY                              = 4;
-    PBLocationID nextLoc                    = 5;
-    repeated string imagePaths              = 6;
-    repeated PBUpgradeInfo upgradeInfo      = 7;
-    string interactionName                  = 8;
-    PBItems resource                        = 9;
+    string interactionName                  = 2;
+    PBItems resource                        = 3;
+    int32 databaseId                        = 4;
+    int32 posX                              = 5;
+    int32 posY                              = 6;
+    repeated string imagePaths              = 7;
+
+    PBLocationID nextLoc                    = 8;
+    repeated PBUpgradeInfo upgradeInfo      = 9;
 }
 
 message PBLocation 
 {
     PBLocationID locID                      = 1;
-    repeated PBInteraction interactions     = 2;
-    string locImage                         = 3;
+    int32 databaseId                        = 2;
+    repeated PBInteraction interactions     = 3;
+    string locImage                         = 4;
 }
 
 enum PBInteractionType 
