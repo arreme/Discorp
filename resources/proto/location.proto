@@ -5,4 +5,5 @@ enum PBLocationID
     MAIN_BASE               = 0;
     FOREST                  = 1;
     TOWN                    = 2;
+    MINES_ENTRANCE          = 3;
 }

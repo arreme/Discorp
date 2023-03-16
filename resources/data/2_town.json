@@ -1,0 +1,28 @@
+{
+    "locID":"TOWN",
+    "databaseId":-1,
+    "interactions": [
+        {
+            "type":"ZONE_ACCESS",
+            "interactionName": "GoToForest",
+            "databaseId": -1,
+            "posX": 20,
+            "posY": 20,
+            "imagePaths": [
+                "assets/zone_access/goto.png"
+            ],
+            "nextLoc":"FOREST",
+            "upgradeInfo": [
+                {
+                    "statName":"ZONE_UNLOCK",
+                    "info": [
+                        {
+                            "currentStat": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "locImage": "assets/locations/town.png"
+}

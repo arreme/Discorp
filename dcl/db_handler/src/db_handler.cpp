@@ -16,7 +16,7 @@ bool db_handler::ChangeActivePlayer(uint64_t discord_id, int32_t newPlayerSlot)
     return update_op.GetState() == db::OperationState::SUCCESS;
 }
 
-bool db_handler::RegisterPlayerToDatabase(User &user, Player &player, std::vector<InteractionInfo *> &info) 
+bool db_handler::RegisterPlayerToDatabase(User &user, Player &player, std::vector<std::reference_wrapper<InteractionInfo>> &info) 
 {
     bsoncxx::builder::basic::document insert{};
     auto doc = player.ToJson();
@@ -68,7 +68,7 @@ bool db_handler::GoToLocation(Player &player, int32_t new_location)
     return update_op.GetState() == db::OperationState::SUCCESS;
 }
 
-bool db_handler::UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<InteractionInfo *> &info)
+bool db_handler::UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info)
 {
     std::string array_update_query = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".is_unlocked";
     std::string location_update_query = "locations." + std::to_string(unlocked_location);
@@ -156,13 +156,13 @@ std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> db_handler::Fi
     return std::nullopt;
 }
 
-bsoncxx::array::value db_handler::FillInteracionsDocument(std::vector<InteractionInfo *> &info) 
+bsoncxx::array::value db_handler::FillInteracionsDocument(std::vector<std::reference_wrapper<InteractionInfo>> &info) 
 {
     bsoncxx::builder::basic::array interactions{};
 
     for (auto curr : info)
     {
-        interactions.append(curr->ToJson());
+        interactions.append(curr.get().ToJson());
     }
 
     return interactions.extract();

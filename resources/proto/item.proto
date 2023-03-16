@@ -2,7 +2,6 @@ syntax = "proto3";
 
 enum PBItems 
 {
-    NO_ITEM                 = 0;
-    STICK                   = 1;
-    PEBBLE                  = 2;
+    STICK                   = 0;
+    PEBBLE                  = 1;
 }

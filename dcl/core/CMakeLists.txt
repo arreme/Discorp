@@ -15,7 +15,6 @@ add_library(${PROJECT_NAME} SHARED
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC "include"
-    PRIVATE "../util/include"
     PRIVATE ${PROTOBUF_INCLUDE_DIR}
 )
 

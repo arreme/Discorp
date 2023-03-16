@@ -22,7 +22,7 @@ namespace GameMap
     private:
         PBLocation m_loc_data;
     public:
-        std::vector<std::reference_wrapper<InteractionInfo>> LocationBuilder() 
+        std::vector<std::reference_wrapper<InteractionInfo>> LocationBuilder() const
         {
             std::vector<std::reference_wrapper<InteractionInfo>> vector;
             for (auto const& curr_int : m_loc_data.interactions())
@@ -49,12 +49,36 @@ namespace GameMap
 
         DCLLocation(PBLocation&& loc_data)
         {
-            loc_data.Swap(&m_loc_data);
+            loc_data.Swap(&m_loc_data);          
         }
 
         PBLocationID GetLocId() const 
         {
             return m_loc_data.locid();
+        }
+
+        int32_t GetDatabaseID() const 
+        {
+            return m_loc_data.databaseid();
+        }
+
+        int32_t GetInteractionDatabaseID(int id)
+        {
+            return m_loc_data.interactions(id).databaseid();
+        }
+
+        std::optional<PBLocationID> GetZoneAccessNextLoc(int id) 
+        {
+            auto interaction = m_loc_data.interactions(id);
+            if (interaction.type() != PBInteractionType::ZONE_ACCESS) {return std::nullopt;}
+            return interaction.nextloc();
+        }
+
+        std::optional<bool> GetZoneAccessUnlocked(int id,int build_level = 0) 
+        {
+            auto interaction = m_loc_data.interactions(id);
+            if (interaction.type() != PBInteractionType::ZONE_ACCESS) {return std::nullopt;}
+            return interaction.upgradeinfo(0).info(build_level).currentstat() == 1;
         }
     };
 
@@ -72,7 +96,10 @@ namespace GameMap
                 buffer << t.rdbuf();
                 auto loc_data = PBLocation{};
                 google::protobuf::util::JsonStringToMessage(buffer.str(),&loc_data);
-                m_locations.emplace(loc_data.locid(),DCLLocation{std::move(loc_data)});
+                PBLocationID loc_id = loc_data.locid();
+                std::cout << "LocID: " + std::to_string(loc_id) << std::endl;
+                std::cout << entry.path() << std::endl;
+                m_locations.emplace(loc_id,DCLLocation{std::move(loc_data)});
             }
         }
 
@@ -95,12 +122,9 @@ namespace GameMap
             return nullptr;
         }
 
-        DCLMap(DCLMap const&)               = delete;
+        DCLMap(DCLMap const&)          = delete;
         void operator=(DCLMap const&)  = delete;
     };
-
-
-
 
 }
 

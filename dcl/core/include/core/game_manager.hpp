@@ -4,9 +4,12 @@
 #include <db_handler/entities/player.hpp>
 #include <db_handler/entities/user.hpp>
 #include <db_handler/entities/interaction.hpp>
+#include <core/dcl_map.hpp>
 
 namespace gm 
 {
+    PBLocationID startLocation = PBLocationID::MAIN_BASE;
+
     enum class Errors 
     {
         SUCCESS = 0,

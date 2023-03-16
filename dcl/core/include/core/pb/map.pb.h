@@ -50,7 +50,7 @@ struct TableStruct_map_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -69,11 +69,15 @@ extern PBLocationDefaultTypeInternal _PBLocation_default_instance_;
 class PBUpgradeInfo;
 class PBUpgradeInfoDefaultTypeInternal;
 extern PBUpgradeInfoDefaultTypeInternal _PBUpgradeInfo_default_instance_;
+class PBUpgrades;
+class PBUpgradesDefaultTypeInternal;
+extern PBUpgradesDefaultTypeInternal _PBUpgrades_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::PBInteraction* Arena::CreateMaybeMessage<::PBInteraction>(Arena*);
 template<> ::PBItemData* Arena::CreateMaybeMessage<::PBItemData>(Arena*);
 template<> ::PBLocation* Arena::CreateMaybeMessage<::PBLocation>(Arena*);
 template<> ::PBUpgradeInfo* Arena::CreateMaybeMessage<::PBUpgradeInfo>(Arena*);
+template<> ::PBUpgrades* Arena::CreateMaybeMessage<::PBUpgrades>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 enum PBInteractionType : int {
@@ -106,12 +110,13 @@ enum PBUpgradeType : int {
   CAPACITY = 0,
   GEN_SECOND = 1,
   FORTUNE = 2,
+  ZONE_UNLOCK = 3,
   PBUpgradeType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PBUpgradeType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PBUpgradeType_IsValid(int value);
 constexpr PBUpgradeType PBUpgradeType_MIN = CAPACITY;
-constexpr PBUpgradeType PBUpgradeType_MAX = FORTUNE;
+constexpr PBUpgradeType PBUpgradeType_MAX = ZONE_UNLOCK;
 constexpr int PBUpgradeType_ARRAYSIZE = PBUpgradeType_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBUpgradeType_descriptor();
@@ -391,46 +396,26 @@ class PBUpgradeInfo PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kRequirementsFieldNumber = 4,
-    kStatNameFieldNumber = 1,
-    kCurrentLevelFieldNumber = 2,
+    kUpRequirementsFieldNumber = 4,
     kCurrentStatFieldNumber = 3,
   };
-  // repeated .PBItemData requirements = 4;
-  int requirements_size() const;
+  // repeated .PBItemData upRequirements = 4;
+  int uprequirements_size() const;
   private:
-  int _internal_requirements_size() const;
+  int _internal_uprequirements_size() const;
   public:
-  void clear_requirements();
-  ::PBItemData* mutable_requirements(int index);
+  void clear_uprequirements();
+  ::PBItemData* mutable_uprequirements(int index);
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >*
-      mutable_requirements();
+      mutable_uprequirements();
   private:
-  const ::PBItemData& _internal_requirements(int index) const;
-  ::PBItemData* _internal_add_requirements();
+  const ::PBItemData& _internal_uprequirements(int index) const;
+  ::PBItemData* _internal_add_uprequirements();
   public:
-  const ::PBItemData& requirements(int index) const;
-  ::PBItemData* add_requirements();
+  const ::PBItemData& uprequirements(int index) const;
+  ::PBItemData* add_uprequirements();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >&
-      requirements() const;
-
-  // .PBUpgradeType statName = 1;
-  void clear_statname();
-  ::PBUpgradeType statname() const;
-  void set_statname(::PBUpgradeType value);
-  private:
-  ::PBUpgradeType _internal_statname() const;
-  void _internal_set_statname(::PBUpgradeType value);
-  public:
-
-  // int32 currentLevel = 2;
-  void clear_currentlevel();
-  ::PROTOBUF_NAMESPACE_ID::int32 currentlevel() const;
-  void set_currentlevel(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_currentlevel() const;
-  void _internal_set_currentlevel(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
+      uprequirements() const;
 
   // int32 currentStat = 3;
   void clear_currentstat();
@@ -448,10 +433,165 @@ class PBUpgradeInfo PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData > requirements_;
-  int statname_;
-  ::PROTOBUF_NAMESPACE_ID::int32 currentlevel_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData > uprequirements_;
   ::PROTOBUF_NAMESPACE_ID::int32 currentstat_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_map_2eproto;
+};
+// -------------------------------------------------------------------
+
+class PBUpgrades PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:PBUpgrades) */ {
+ public:
+  inline PBUpgrades() : PBUpgrades(nullptr) {};
+  virtual ~PBUpgrades();
+
+  PBUpgrades(const PBUpgrades& from);
+  PBUpgrades(PBUpgrades&& from) noexcept
+    : PBUpgrades() {
+    *this = ::std::move(from);
+  }
+
+  inline PBUpgrades& operator=(const PBUpgrades& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PBUpgrades& operator=(PBUpgrades&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const PBUpgrades& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const PBUpgrades* internal_default_instance() {
+    return reinterpret_cast<const PBUpgrades*>(
+               &_PBUpgrades_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(PBUpgrades& a, PBUpgrades& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PBUpgrades* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PBUpgrades* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PBUpgrades* New() const final {
+    return CreateMaybeMessage<PBUpgrades>(nullptr);
+  }
+
+  PBUpgrades* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PBUpgrades>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const PBUpgrades& from);
+  void MergeFrom(const PBUpgrades& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PBUpgrades* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "PBUpgrades";
+  }
+  protected:
+  explicit PBUpgrades(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_map_2eproto);
+    return ::descriptor_table_map_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kInfoFieldNumber = 2,
+    kStatNameFieldNumber = 1,
+  };
+  // repeated .PBUpgradeInfo info = 2;
+  int info_size() const;
+  private:
+  int _internal_info_size() const;
+  public:
+  void clear_info();
+  ::PBUpgradeInfo* mutable_info(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >*
+      mutable_info();
+  private:
+  const ::PBUpgradeInfo& _internal_info(int index) const;
+  ::PBUpgradeInfo* _internal_add_info();
+  public:
+  const ::PBUpgradeInfo& info(int index) const;
+  ::PBUpgradeInfo* add_info();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
+      info() const;
+
+  // .PBUpgradeType statName = 1;
+  void clear_statname();
+  ::PBUpgradeType statname() const;
+  void set_statname(::PBUpgradeType value);
+  private:
+  ::PBUpgradeType _internal_statname() const;
+  void _internal_set_statname(::PBUpgradeType value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:PBUpgrades)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo > info_;
+  int statname_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_map_2eproto;
 };
@@ -499,7 +639,7 @@ class PBInteraction PROTOBUF_FINAL :
                &_PBInteraction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(PBInteraction& a, PBInteraction& b) {
     a.Swap(&b);
@@ -604,22 +744,22 @@ class PBInteraction PROTOBUF_FINAL :
   std::string* _internal_add_imagepaths();
   public:
 
-  // repeated .PBUpgradeInfo upgradeInfo = 9;
+  // repeated .PBUpgrades upgradeInfo = 9;
   int upgradeinfo_size() const;
   private:
   int _internal_upgradeinfo_size() const;
   public:
   void clear_upgradeinfo();
-  ::PBUpgradeInfo* mutable_upgradeinfo(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >*
+  ::PBUpgrades* mutable_upgradeinfo(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades >*
       mutable_upgradeinfo();
   private:
-  const ::PBUpgradeInfo& _internal_upgradeinfo(int index) const;
-  ::PBUpgradeInfo* _internal_add_upgradeinfo();
+  const ::PBUpgrades& _internal_upgradeinfo(int index) const;
+  ::PBUpgrades* _internal_add_upgradeinfo();
   public:
-  const ::PBUpgradeInfo& upgradeinfo(int index) const;
-  ::PBUpgradeInfo* add_upgradeinfo();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
+  const ::PBUpgrades& upgradeinfo(int index) const;
+  ::PBUpgrades* add_upgradeinfo();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades >&
       upgradeinfo() const;
 
   // string interactionName = 2;
@@ -709,7 +849,7 @@ class PBInteraction PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> imagepaths_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo > upgradeinfo_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades > upgradeinfo_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr interactionname_;
   int type_;
   int resource_;
@@ -764,7 +904,7 @@ class PBLocation PROTOBUF_FINAL :
                &_PBLocation_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(PBLocation& a, PBLocation& b) {
     a.Swap(&b);
@@ -970,46 +1110,6 @@ inline void PBItemData::set_quantity(::PROTOBUF_NAMESPACE_ID::int32 value) {
 
 // PBUpgradeInfo
 
-// .PBUpgradeType statName = 1;
-inline void PBUpgradeInfo::clear_statname() {
-  statname_ = 0;
-}
-inline ::PBUpgradeType PBUpgradeInfo::_internal_statname() const {
-  return static_cast< ::PBUpgradeType >(statname_);
-}
-inline ::PBUpgradeType PBUpgradeInfo::statname() const {
-  // @@protoc_insertion_point(field_get:PBUpgradeInfo.statName)
-  return _internal_statname();
-}
-inline void PBUpgradeInfo::_internal_set_statname(::PBUpgradeType value) {
-  
-  statname_ = value;
-}
-inline void PBUpgradeInfo::set_statname(::PBUpgradeType value) {
-  _internal_set_statname(value);
-  // @@protoc_insertion_point(field_set:PBUpgradeInfo.statName)
-}
-
-// int32 currentLevel = 2;
-inline void PBUpgradeInfo::clear_currentlevel() {
-  currentlevel_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBUpgradeInfo::_internal_currentlevel() const {
-  return currentlevel_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBUpgradeInfo::currentlevel() const {
-  // @@protoc_insertion_point(field_get:PBUpgradeInfo.currentLevel)
-  return _internal_currentlevel();
-}
-inline void PBUpgradeInfo::_internal_set_currentlevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  currentlevel_ = value;
-}
-inline void PBUpgradeInfo::set_currentlevel(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_currentlevel(value);
-  // @@protoc_insertion_point(field_set:PBUpgradeInfo.currentLevel)
-}
-
 // int32 currentStat = 3;
 inline void PBUpgradeInfo::clear_currentstat() {
   currentstat_ = 0;
@@ -1030,43 +1130,106 @@ inline void PBUpgradeInfo::set_currentstat(::PROTOBUF_NAMESPACE_ID::int32 value)
   // @@protoc_insertion_point(field_set:PBUpgradeInfo.currentStat)
 }
 
-// repeated .PBItemData requirements = 4;
-inline int PBUpgradeInfo::_internal_requirements_size() const {
-  return requirements_.size();
+// repeated .PBItemData upRequirements = 4;
+inline int PBUpgradeInfo::_internal_uprequirements_size() const {
+  return uprequirements_.size();
 }
-inline int PBUpgradeInfo::requirements_size() const {
-  return _internal_requirements_size();
+inline int PBUpgradeInfo::uprequirements_size() const {
+  return _internal_uprequirements_size();
 }
-inline void PBUpgradeInfo::clear_requirements() {
-  requirements_.Clear();
+inline void PBUpgradeInfo::clear_uprequirements() {
+  uprequirements_.Clear();
 }
-inline ::PBItemData* PBUpgradeInfo::mutable_requirements(int index) {
-  // @@protoc_insertion_point(field_mutable:PBUpgradeInfo.requirements)
-  return requirements_.Mutable(index);
+inline ::PBItemData* PBUpgradeInfo::mutable_uprequirements(int index) {
+  // @@protoc_insertion_point(field_mutable:PBUpgradeInfo.upRequirements)
+  return uprequirements_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >*
-PBUpgradeInfo::mutable_requirements() {
-  // @@protoc_insertion_point(field_mutable_list:PBUpgradeInfo.requirements)
-  return &requirements_;
+PBUpgradeInfo::mutable_uprequirements() {
+  // @@protoc_insertion_point(field_mutable_list:PBUpgradeInfo.upRequirements)
+  return &uprequirements_;
 }
-inline const ::PBItemData& PBUpgradeInfo::_internal_requirements(int index) const {
-  return requirements_.Get(index);
+inline const ::PBItemData& PBUpgradeInfo::_internal_uprequirements(int index) const {
+  return uprequirements_.Get(index);
 }
-inline const ::PBItemData& PBUpgradeInfo::requirements(int index) const {
-  // @@protoc_insertion_point(field_get:PBUpgradeInfo.requirements)
-  return _internal_requirements(index);
+inline const ::PBItemData& PBUpgradeInfo::uprequirements(int index) const {
+  // @@protoc_insertion_point(field_get:PBUpgradeInfo.upRequirements)
+  return _internal_uprequirements(index);
 }
-inline ::PBItemData* PBUpgradeInfo::_internal_add_requirements() {
-  return requirements_.Add();
+inline ::PBItemData* PBUpgradeInfo::_internal_add_uprequirements() {
+  return uprequirements_.Add();
 }
-inline ::PBItemData* PBUpgradeInfo::add_requirements() {
-  // @@protoc_insertion_point(field_add:PBUpgradeInfo.requirements)
-  return _internal_add_requirements();
+inline ::PBItemData* PBUpgradeInfo::add_uprequirements() {
+  // @@protoc_insertion_point(field_add:PBUpgradeInfo.upRequirements)
+  return _internal_add_uprequirements();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >&
-PBUpgradeInfo::requirements() const {
-  // @@protoc_insertion_point(field_list:PBUpgradeInfo.requirements)
-  return requirements_;
+PBUpgradeInfo::uprequirements() const {
+  // @@protoc_insertion_point(field_list:PBUpgradeInfo.upRequirements)
+  return uprequirements_;
+}
+
+// -------------------------------------------------------------------
+
+// PBUpgrades
+
+// .PBUpgradeType statName = 1;
+inline void PBUpgrades::clear_statname() {
+  statname_ = 0;
+}
+inline ::PBUpgradeType PBUpgrades::_internal_statname() const {
+  return static_cast< ::PBUpgradeType >(statname_);
+}
+inline ::PBUpgradeType PBUpgrades::statname() const {
+  // @@protoc_insertion_point(field_get:PBUpgrades.statName)
+  return _internal_statname();
+}
+inline void PBUpgrades::_internal_set_statname(::PBUpgradeType value) {
+  
+  statname_ = value;
+}
+inline void PBUpgrades::set_statname(::PBUpgradeType value) {
+  _internal_set_statname(value);
+  // @@protoc_insertion_point(field_set:PBUpgrades.statName)
+}
+
+// repeated .PBUpgradeInfo info = 2;
+inline int PBUpgrades::_internal_info_size() const {
+  return info_.size();
+}
+inline int PBUpgrades::info_size() const {
+  return _internal_info_size();
+}
+inline void PBUpgrades::clear_info() {
+  info_.Clear();
+}
+inline ::PBUpgradeInfo* PBUpgrades::mutable_info(int index) {
+  // @@protoc_insertion_point(field_mutable:PBUpgrades.info)
+  return info_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >*
+PBUpgrades::mutable_info() {
+  // @@protoc_insertion_point(field_mutable_list:PBUpgrades.info)
+  return &info_;
+}
+inline const ::PBUpgradeInfo& PBUpgrades::_internal_info(int index) const {
+  return info_.Get(index);
+}
+inline const ::PBUpgradeInfo& PBUpgrades::info(int index) const {
+  // @@protoc_insertion_point(field_get:PBUpgrades.info)
+  return _internal_info(index);
+}
+inline ::PBUpgradeInfo* PBUpgrades::_internal_add_info() {
+  return info_.Add();
+}
+inline ::PBUpgradeInfo* PBUpgrades::add_info() {
+  // @@protoc_insertion_point(field_add:PBUpgrades.info)
+  return _internal_add_info();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
+PBUpgrades::info() const {
+  // @@protoc_insertion_point(field_list:PBUpgrades.info)
+  return info_;
 }
 
 // -------------------------------------------------------------------
@@ -1348,7 +1511,7 @@ inline void PBInteraction::set_nextloc(::PBLocationID value) {
   // @@protoc_insertion_point(field_set:PBInteraction.nextLoc)
 }
 
-// repeated .PBUpgradeInfo upgradeInfo = 9;
+// repeated .PBUpgrades upgradeInfo = 9;
 inline int PBInteraction::_internal_upgradeinfo_size() const {
   return upgradeinfo_.size();
 }
@@ -1358,30 +1521,30 @@ inline int PBInteraction::upgradeinfo_size() const {
 inline void PBInteraction::clear_upgradeinfo() {
   upgradeinfo_.Clear();
 }
-inline ::PBUpgradeInfo* PBInteraction::mutable_upgradeinfo(int index) {
+inline ::PBUpgrades* PBInteraction::mutable_upgradeinfo(int index) {
   // @@protoc_insertion_point(field_mutable:PBInteraction.upgradeInfo)
   return upgradeinfo_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades >*
 PBInteraction::mutable_upgradeinfo() {
   // @@protoc_insertion_point(field_mutable_list:PBInteraction.upgradeInfo)
   return &upgradeinfo_;
 }
-inline const ::PBUpgradeInfo& PBInteraction::_internal_upgradeinfo(int index) const {
+inline const ::PBUpgrades& PBInteraction::_internal_upgradeinfo(int index) const {
   return upgradeinfo_.Get(index);
 }
-inline const ::PBUpgradeInfo& PBInteraction::upgradeinfo(int index) const {
+inline const ::PBUpgrades& PBInteraction::upgradeinfo(int index) const {
   // @@protoc_insertion_point(field_get:PBInteraction.upgradeInfo)
   return _internal_upgradeinfo(index);
 }
-inline ::PBUpgradeInfo* PBInteraction::_internal_add_upgradeinfo() {
+inline ::PBUpgrades* PBInteraction::_internal_add_upgradeinfo() {
   return upgradeinfo_.Add();
 }
-inline ::PBUpgradeInfo* PBInteraction::add_upgradeinfo() {
+inline ::PBUpgrades* PBInteraction::add_upgradeinfo() {
   // @@protoc_insertion_point(field_add:PBInteraction.upgradeInfo)
   return _internal_add_upgradeinfo();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades >&
 PBInteraction::upgradeinfo() const {
   // @@protoc_insertion_point(field_list:PBInteraction.upgradeInfo)
   return upgradeinfo_;
@@ -1554,6 +1717,8 @@ inline void PBLocation::unsafe_arena_set_allocated_locimage(
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

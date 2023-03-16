@@ -11,10 +11,14 @@ message PBItemData
 
 message PBUpgradeInfo 
 {
-    PBUpgradeType statName                  = 1;
-    int32 currentLevel                      = 2;
     int32 currentStat                       = 3;
-    repeated PBItemData requirements        = 4;
+    repeated PBItemData upRequirements      = 4;
+}
+
+message PBUpgrades 
+{
+    PBUpgradeType statName                  = 1;
+    repeated PBUpgradeInfo info             = 2;
 }
 
 message PBInteraction 
@@ -28,7 +32,7 @@ message PBInteraction
     repeated string imagePaths              = 7;
 
     PBLocationID nextLoc                    = 8;
-    repeated PBUpgradeInfo upgradeInfo      = 9;
+    repeated PBUpgrades upgradeInfo         = 9;
 }
 
 message PBLocation 
@@ -51,6 +55,7 @@ enum PBUpgradeType
     CAPACITY                                = 0;
     GEN_SECOND                              = 1;
     FORTUNE                                 = 2;
+    ZONE_UNLOCK                             = 3;
 }
 
 

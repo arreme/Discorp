@@ -17,6 +17,7 @@
 extern PROTOBUF_INTERNAL_EXPORT_map_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBInteraction_map_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_map_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBItemData_map_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_map_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBUpgradeInfo_map_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_map_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBUpgrades_map_2eproto;
 class PBItemDataDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PBItemData> _instance;
@@ -25,6 +26,10 @@ class PBUpgradeInfoDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PBUpgradeInfo> _instance;
 } _PBUpgradeInfo_default_instance_;
+class PBUpgradesDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PBUpgrades> _instance;
+} _PBUpgrades_default_instance_;
 class PBInteractionDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PBInteraction> _instance;
@@ -46,7 +51,7 @@ static void InitDefaultsscc_info_PBInteraction_map_2eproto() {
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBInteraction_map_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_PBInteraction_map_2eproto}, {
-      &scc_info_PBUpgradeInfo_map_2eproto.base,}};
+      &scc_info_PBUpgrades_map_2eproto.base,}};
 
 static void InitDefaultsscc_info_PBItemData_map_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -92,7 +97,22 @@ static void InitDefaultsscc_info_PBUpgradeInfo_map_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_PBUpgradeInfo_map_2eproto}, {
       &scc_info_PBItemData_map_2eproto.base,}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_map_2eproto[4];
+static void InitDefaultsscc_info_PBUpgrades_map_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_PBUpgrades_default_instance_;
+    new (ptr) ::PBUpgrades();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::PBUpgrades::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBUpgrades_map_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_PBUpgrades_map_2eproto}, {
+      &scc_info_PBUpgradeInfo_map_2eproto.base,}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_map_2eproto[5];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_map_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_map_2eproto = nullptr;
 
@@ -109,10 +129,15 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_map_2eproto::offsets[] PROTOBU
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::PBUpgradeInfo, statname_),
-  PROTOBUF_FIELD_OFFSET(::PBUpgradeInfo, currentlevel_),
   PROTOBUF_FIELD_OFFSET(::PBUpgradeInfo, currentstat_),
-  PROTOBUF_FIELD_OFFSET(::PBUpgradeInfo, requirements_),
+  PROTOBUF_FIELD_OFFSET(::PBUpgradeInfo, uprequirements_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::PBUpgrades, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::PBUpgrades, statname_),
+  PROTOBUF_FIELD_OFFSET(::PBUpgrades, info_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::PBInteraction, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -140,13 +165,15 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_map_2eproto::offsets[] PROTOBU
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::PBItemData)},
   { 7, -1, sizeof(::PBUpgradeInfo)},
-  { 16, -1, sizeof(::PBInteraction)},
-  { 30, -1, sizeof(::PBLocation)},
+  { 14, -1, sizeof(::PBUpgrades)},
+  { 21, -1, sizeof(::PBInteraction)},
+  { 35, -1, sizeof(::PBLocation)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBItemData_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBUpgradeInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBUpgrades_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBInteraction_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBLocation_default_instance_),
 };
@@ -154,39 +181,41 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_map_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\tmap.proto\032\016location.proto\032\nitem.proto\""
   "8\n\nPBItemData\022\030\n\006itemID\030\001 \001(\0162\010.PBItems\022"
-  "\020\n\010quantity\030\002 \001(\005\"\177\n\rPBUpgradeInfo\022 \n\010st"
-  "atName\030\001 \001(\0162\016.PBUpgradeType\022\024\n\014currentL"
-  "evel\030\002 \001(\005\022\023\n\013currentStat\030\003 \001(\005\022!\n\014requi"
-  "rements\030\004 \003(\0132\013.PBItemData\"\357\001\n\rPBInterac"
-  "tion\022 \n\004type\030\001 \001(\0162\022.PBInteractionType\022\027"
-  "\n\017interactionName\030\002 \001(\t\022\032\n\010resource\030\003 \001("
-  "\0162\010.PBItems\022\022\n\ndatabaseId\030\004 \001(\005\022\014\n\004posX\030"
-  "\005 \001(\005\022\014\n\004posY\030\006 \001(\005\022\022\n\nimagePaths\030\007 \003(\t\022"
-  "\036\n\007nextLoc\030\010 \001(\0162\r.PBLocationID\022#\n\013upgra"
-  "deInfo\030\t \003(\0132\016.PBUpgradeInfo\"v\n\nPBLocati"
-  "on\022\034\n\005locID\030\001 \001(\0162\r.PBLocationID\022\022\n\ndata"
-  "baseId\030\002 \001(\005\022$\n\014interactions\030\003 \003(\0132\016.PBI"
-  "nteraction\022\020\n\010locImage\030\004 \001(\t*>\n\021PBIntera"
-  "ctionType\022\010\n\004POST\020\000\022\017\n\013ZONE_ACCESS\020\001\022\016\n\n"
-  "DECORATION\020\002*:\n\rPBUpgradeType\022\014\n\010CAPACIT"
-  "Y\020\000\022\016\n\nGEN_SECOND\020\001\022\013\n\007FORTUNE\020\002b\006proto3"
+  "\020\n\010quantity\030\002 \001(\005\"I\n\rPBUpgradeInfo\022\023\n\013cu"
+  "rrentStat\030\003 \001(\005\022#\n\016upRequirements\030\004 \003(\0132"
+  "\013.PBItemData\"L\n\nPBUpgrades\022 \n\010statName\030\001"
+  " \001(\0162\016.PBUpgradeType\022\034\n\004info\030\002 \003(\0132\016.PBU"
+  "pgradeInfo\"\354\001\n\rPBInteraction\022 \n\004type\030\001 \001"
+  "(\0162\022.PBInteractionType\022\027\n\017interactionNam"
+  "e\030\002 \001(\t\022\032\n\010resource\030\003 \001(\0162\010.PBItems\022\022\n\nd"
+  "atabaseId\030\004 \001(\005\022\014\n\004posX\030\005 \001(\005\022\014\n\004posY\030\006 "
+  "\001(\005\022\022\n\nimagePaths\030\007 \003(\t\022\036\n\007nextLoc\030\010 \001(\016"
+  "2\r.PBLocationID\022 \n\013upgradeInfo\030\t \003(\0132\013.P"
+  "BUpgrades\"v\n\nPBLocation\022\034\n\005locID\030\001 \001(\0162\r"
+  ".PBLocationID\022\022\n\ndatabaseId\030\002 \001(\005\022$\n\014int"
+  "eractions\030\003 \003(\0132\016.PBInteraction\022\020\n\010locIm"
+  "age\030\004 \001(\t*>\n\021PBInteractionType\022\010\n\004POST\020\000"
+  "\022\017\n\013ZONE_ACCESS\020\001\022\016\n\nDECORATION\020\002*K\n\rPBU"
+  "pgradeType\022\014\n\010CAPACITY\020\000\022\016\n\nGEN_SECOND\020\001"
+  "\022\013\n\007FORTUNE\020\002\022\017\n\013ZONE_UNLOCK\020\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_map_2eproto_deps[2] = {
   &::descriptor_table_item_2eproto,
   &::descriptor_table_location_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_map_2eproto_sccs[4] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_map_2eproto_sccs[5] = {
   &scc_info_PBInteraction_map_2eproto.base,
   &scc_info_PBItemData_map_2eproto.base,
   &scc_info_PBLocation_map_2eproto.base,
   &scc_info_PBUpgradeInfo_map_2eproto.base,
+  &scc_info_PBUpgrades_map_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_map_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_map_2eproto = {
-  false, false, descriptor_table_protodef_map_2eproto, "map.proto", 720,
-  &descriptor_table_map_2eproto_once, descriptor_table_map_2eproto_sccs, descriptor_table_map_2eproto_deps, 4, 2,
+  false, false, descriptor_table_protodef_map_2eproto, "map.proto", 758,
+  &descriptor_table_map_2eproto_once, descriptor_table_map_2eproto_sccs, descriptor_table_map_2eproto_deps, 5, 2,
   schemas, file_default_instances, TableStruct_map_2eproto::offsets,
-  file_level_metadata_map_2eproto, 4, file_level_enum_descriptors_map_2eproto, file_level_service_descriptors_map_2eproto,
+  file_level_metadata_map_2eproto, 5, file_level_enum_descriptors_map_2eproto, file_level_service_descriptors_map_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -215,6 +244,7 @@ bool PBUpgradeType_IsValid(int value) {
     case 0:
     case 1:
     case 2:
+    case 3:
       return true;
     default:
       return false;
@@ -464,26 +494,22 @@ class PBUpgradeInfo::_Internal {
 
 PBUpgradeInfo::PBUpgradeInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena),
-  requirements_(arena) {
+  uprequirements_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:PBUpgradeInfo)
 }
 PBUpgradeInfo::PBUpgradeInfo(const PBUpgradeInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      requirements_(from.requirements_) {
+      uprequirements_(from.uprequirements_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&statname_, &from.statname_,
-    static_cast<size_t>(reinterpret_cast<char*>(&currentstat_) -
-    reinterpret_cast<char*>(&statname_)) + sizeof(currentstat_));
+  currentstat_ = from.currentstat_;
   // @@protoc_insertion_point(copy_constructor:PBUpgradeInfo)
 }
 
 void PBUpgradeInfo::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBUpgradeInfo_map_2eproto.base);
-  ::memset(&statname_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&currentstat_) -
-      reinterpret_cast<char*>(&statname_)) + sizeof(currentstat_));
+  currentstat_ = 0;
 }
 
 PBUpgradeInfo::~PBUpgradeInfo() {
@@ -517,10 +543,8 @@ void PBUpgradeInfo::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  requirements_.Clear();
-  ::memset(&statname_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&currentstat_) -
-      reinterpret_cast<char*>(&statname_)) + sizeof(currentstat_));
+  uprequirements_.Clear();
+  currentstat_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -532,21 +556,6 @@ const char* PBUpgradeInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // .PBUpgradeType statName = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_statname(static_cast<::PBUpgradeType>(val));
-        } else goto handle_unusual;
-        continue;
-      // int32 currentLevel = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          currentlevel_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
       // int32 currentStat = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
@@ -554,13 +563,13 @@ const char* PBUpgradeInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // repeated .PBItemData requirements = 4;
+      // repeated .PBItemData upRequirements = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_requirements(), ptr);
+            ptr = ctx->ParseMessage(_internal_add_uprequirements(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
@@ -594,31 +603,18 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .PBUpgradeType statName = 1;
-  if (this->statname() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      1, this->_internal_statname(), target);
-  }
-
-  // int32 currentLevel = 2;
-  if (this->currentlevel() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_currentlevel(), target);
-  }
-
   // int32 currentStat = 3;
   if (this->currentstat() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_currentstat(), target);
   }
 
-  // repeated .PBItemData requirements = 4;
+  // repeated .PBItemData upRequirements = 4;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->_internal_requirements_size()); i < n; i++) {
+      n = static_cast<unsigned int>(this->_internal_uprequirements_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(4, this->_internal_requirements(i), target, stream);
+      InternalWriteMessage(4, this->_internal_uprequirements(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -637,24 +633,11 @@ size_t PBUpgradeInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .PBItemData requirements = 4;
-  total_size += 1UL * this->_internal_requirements_size();
-  for (const auto& msg : this->requirements_) {
+  // repeated .PBItemData upRequirements = 4;
+  total_size += 1UL * this->_internal_uprequirements_size();
+  for (const auto& msg : this->uprequirements_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // .PBUpgradeType statName = 1;
-  if (this->statname() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_statname());
-  }
-
-  // int32 currentLevel = 2;
-  if (this->currentlevel() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_currentlevel());
   }
 
   // int32 currentStat = 3;
@@ -695,13 +678,7 @@ void PBUpgradeInfo::MergeFrom(const PBUpgradeInfo& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  requirements_.MergeFrom(from.requirements_);
-  if (from.statname() != 0) {
-    _internal_set_statname(from._internal_statname());
-  }
-  if (from.currentlevel() != 0) {
-    _internal_set_currentlevel(from._internal_currentlevel());
-  }
+  uprequirements_.MergeFrom(from.uprequirements_);
   if (from.currentstat() != 0) {
     _internal_set_currentstat(from._internal_currentstat());
   }
@@ -728,16 +705,242 @@ bool PBUpgradeInfo::IsInitialized() const {
 void PBUpgradeInfo::InternalSwap(PBUpgradeInfo* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  requirements_.InternalSwap(&other->requirements_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PBUpgradeInfo, currentstat_)
-      + sizeof(PBUpgradeInfo::currentstat_)
-      - PROTOBUF_FIELD_OFFSET(PBUpgradeInfo, statname_)>(
-          reinterpret_cast<char*>(&statname_),
-          reinterpret_cast<char*>(&other->statname_));
+  uprequirements_.InternalSwap(&other->uprequirements_);
+  swap(currentstat_, other->currentstat_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PBUpgradeInfo::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void PBUpgrades::InitAsDefaultInstance() {
+}
+class PBUpgrades::_Internal {
+ public:
+};
+
+PBUpgrades::PBUpgrades(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  info_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:PBUpgrades)
+}
+PBUpgrades::PBUpgrades(const PBUpgrades& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      info_(from.info_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  statname_ = from.statname_;
+  // @@protoc_insertion_point(copy_constructor:PBUpgrades)
+}
+
+void PBUpgrades::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBUpgrades_map_2eproto.base);
+  statname_ = 0;
+}
+
+PBUpgrades::~PBUpgrades() {
+  // @@protoc_insertion_point(destructor:PBUpgrades)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void PBUpgrades::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void PBUpgrades::ArenaDtor(void* object) {
+  PBUpgrades* _this = reinterpret_cast< PBUpgrades* >(object);
+  (void)_this;
+}
+void PBUpgrades::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void PBUpgrades::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const PBUpgrades& PBUpgrades::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_PBUpgrades_map_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void PBUpgrades::Clear() {
+// @@protoc_insertion_point(message_clear_start:PBUpgrades)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  info_.Clear();
+  statname_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* PBUpgrades::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // .PBUpgradeType statName = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_statname(static_cast<::PBUpgradeType>(val));
+        } else goto handle_unusual;
+        continue;
+      // repeated .PBUpgradeInfo info = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_info(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* PBUpgrades::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:PBUpgrades)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .PBUpgradeType statName = 1;
+  if (this->statname() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_statname(), target);
+  }
+
+  // repeated .PBUpgradeInfo info = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_info_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, this->_internal_info(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:PBUpgrades)
+  return target;
+}
+
+size_t PBUpgrades::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:PBUpgrades)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .PBUpgradeInfo info = 2;
+  total_size += 1UL * this->_internal_info_size();
+  for (const auto& msg : this->info_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // .PBUpgradeType statName = 1;
+  if (this->statname() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_statname());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void PBUpgrades::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:PBUpgrades)
+  GOOGLE_DCHECK_NE(&from, this);
+  const PBUpgrades* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<PBUpgrades>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:PBUpgrades)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:PBUpgrades)
+    MergeFrom(*source);
+  }
+}
+
+void PBUpgrades::MergeFrom(const PBUpgrades& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:PBUpgrades)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  info_.MergeFrom(from.info_);
+  if (from.statname() != 0) {
+    _internal_set_statname(from._internal_statname());
+  }
+}
+
+void PBUpgrades::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:PBUpgrades)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PBUpgrades::CopyFrom(const PBUpgrades& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:PBUpgrades)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PBUpgrades::IsInitialized() const {
+  return true;
+}
+
+void PBUpgrades::InternalSwap(PBUpgrades* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  info_.InternalSwap(&other->info_);
+  swap(statname_, other->statname_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PBUpgrades::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -899,7 +1102,7 @@ const char* PBInteraction::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
           _internal_set_nextloc(static_cast<::PBLocationID>(val));
         } else goto handle_unusual;
         continue;
-      // repeated .PBUpgradeInfo upgradeInfo = 9;
+      // repeated .PBUpgrades upgradeInfo = 9;
       case 9:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74)) {
           ptr -= 1;
@@ -998,7 +1201,7 @@ failure:
       8, this->_internal_nextloc(), target);
   }
 
-  // repeated .PBUpgradeInfo upgradeInfo = 9;
+  // repeated .PBUpgrades upgradeInfo = 9;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_upgradeinfo_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
@@ -1030,7 +1233,7 @@ size_t PBInteraction::ByteSizeLong() const {
       imagepaths_.Get(i));
   }
 
-  // repeated .PBUpgradeInfo upgradeInfo = 9;
+  // repeated .PBUpgrades upgradeInfo = 9;
   total_size += 1UL * this->_internal_upgradeinfo_size();
   for (const auto& msg : this->upgradeinfo_) {
     total_size +=
@@ -1486,6 +1689,9 @@ template<> PROTOBUF_NOINLINE ::PBItemData* Arena::CreateMaybeMessage< ::PBItemDa
 }
 template<> PROTOBUF_NOINLINE ::PBUpgradeInfo* Arena::CreateMaybeMessage< ::PBUpgradeInfo >(Arena* arena) {
   return Arena::CreateMessageInternal< ::PBUpgradeInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::PBUpgrades* Arena::CreateMaybeMessage< ::PBUpgrades >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::PBUpgrades >(arena);
 }
 template<> PROTOBUF_NOINLINE ::PBInteraction* Arena::CreateMaybeMessage< ::PBInteraction >(Arena* arena) {
   return Arena::CreateMessageInternal< ::PBInteraction >(arena);

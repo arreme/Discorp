@@ -20,14 +20,14 @@ TEST_CASE("Protobuffers: Creating data","[proto]")
     inter_0->add_imagepaths("assets/posts/bush_0.png");
     auto upgrade_0 = inter_0->add_upgradeinfo();
     upgrade_0->set_statname(PBUpgradeType::CAPACITY);
-    upgrade_0->set_currentlevel(0);
-    upgrade_0->set_currentstat(50);
-    auto itemData_0 = upgrade_0->add_requirements();
+    auto upg_info_0 = upgrade_0->add_info();
+    upg_info_0->set_currentstat(50);
+    auto itemData_0 = upg_info_0->add_uprequirements();
     itemData_0->set_itemid(PBItems::STICK);
     itemData_0->set_quantity(3);
     std::string output;
     google::protobuf::util::MessageToJsonString(loc_data,&output);
-    std::ofstream out("resources/data/0_main_base.json");
+    std::ofstream out("resources/test.json");
     out << output;
 }
 
@@ -49,6 +49,5 @@ TEST_CASE("Game Map: Initializing the map","[map]")
 {
     auto location = GameMap::DCLMap::getInstance().GetLocation(PBLocationID::MAIN_BASE);
     REQUIRE(location->GetLocId() == PBLocationID::MAIN_BASE);
-    auto location_nofail = GameMap::DCLMap::getInstance().GetLocation(PBLocationID::FOREST);
-    REQUIRE_FALSE(location_nofail);
+    
 }

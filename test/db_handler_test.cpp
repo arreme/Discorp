@@ -179,12 +179,12 @@ TEST_CASE("Database Handler: Register Player To Database and Find interactions",
     User user{discord_id,"Arreme"};
     Player player{discord_id,user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
 
-    std::vector<InteractionInfo *> interactionInfo;
+    std::vector<std::reference_wrapper<InteractionInfo>> interactionInfo;
     PostInfo post{};
     ZoneAccessInfo zoneAccessInfo{};
-    interactionInfo.push_back(&post);
-    interactionInfo.push_back(&zoneAccessInfo);
-    interactionInfo.push_back(&post);
+    interactionInfo.push_back(post);
+    interactionInfo.push_back(zoneAccessInfo);
+    interactionInfo.push_back(post);
 
     auto result = db_handler::RegisterPlayerToDatabase(user, player,interactionInfo);
     REQUIRE(result);
@@ -223,22 +223,22 @@ TEST_CASE("Database Handler: Go to location and unlock location","[handler][unlo
     User user{discord_id,"Arreme"};
     Player player{discord_id,user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
 
-    std::vector<InteractionInfo *> interactionInfo;
+    std::vector<std::reference_wrapper<InteractionInfo>> interactionInfo;
     PostInfo post{};
     ZoneAccessInfo zoneAccessInfo{};
-    interactionInfo.push_back(&post);
-    interactionInfo.push_back(&zoneAccessInfo);
-    interactionInfo.push_back(&post);
+    interactionInfo.push_back(post);
+    interactionInfo.push_back(zoneAccessInfo);
+    interactionInfo.push_back(post);
 
     auto result = db_handler::RegisterPlayerToDatabase(user, player,interactionInfo);
     REQUIRE(result);
 
-    std::vector<InteractionInfo *> newInteractionInfo;
+    std::vector<std::reference_wrapper<InteractionInfo>> newInteractionInfo;
     
-    newInteractionInfo.push_back(&zoneAccessInfo);
-    newInteractionInfo.push_back(&post);
-    newInteractionInfo.push_back(&zoneAccessInfo);
-    newInteractionInfo.push_back(&post);
+    newInteractionInfo.push_back(zoneAccessInfo);
+    newInteractionInfo.push_back(post);
+    newInteractionInfo.push_back(zoneAccessInfo);
+    newInteractionInfo.push_back(post);
     REQUIRE(db_handler::UnlockLocation(player,1,PBLocationID::FOREST,newInteractionInfo));
     REQUIRE(db_handler::GoToLocation(player,PBLocationID::FOREST));
 
@@ -257,12 +257,12 @@ TEST_CASE("Database Handler: Collect a post and upgrade a post","[handler][updat
     User user{discord_id,"Arreme"};
     Player player{discord_id,user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
 
-    std::vector<InteractionInfo *> interactionInfo;
+    std::vector<std::reference_wrapper<InteractionInfo>> interactionInfo;
     PostInfo post{};
     ZoneAccessInfo zoneAccessInfo{};
-    interactionInfo.push_back(&post);
-    interactionInfo.push_back(&zoneAccessInfo);
-    interactionInfo.push_back(&post);
+    interactionInfo.push_back(post);
+    interactionInfo.push_back(zoneAccessInfo);
+    interactionInfo.push_back(post);
     auto result = db_handler::RegisterPlayerToDatabase(user, player, interactionInfo);
     REQUIRE(result);
     REQUIRE(db_handler::CollectPost(player,0));

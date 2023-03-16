@@ -14,7 +14,7 @@ namespace db_handler
     */
     bool ChangeActivePlayer(uint64_t discord_id, int32_t newPlayerSlot);
 
-    bool RegisterPlayerToDatabase(User &user, Player &player, std::vector<InteractionInfo *> &info);
+    bool RegisterPlayerToDatabase(User &user, Player &player, std::vector<std::reference_wrapper<InteractionInfo>> &info);
 
     std::optional<User> FindUserById(uint64_t discord_id);
     /**
@@ -25,7 +25,7 @@ namespace db_handler
     /**
      * Sets specific zone access interaction to true
     */
-    bool UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<InteractionInfo *> &info);
+    bool UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info);
     
     bool CollectPost(Player &player, int32_t interaction_id);
 
@@ -35,7 +35,7 @@ namespace db_handler
 
     std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> FindPlayerCurrentInteraction(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
 
-    bsoncxx::array::value FillInteracionsDocument(std::vector<InteractionInfo *> &info);
+    bsoncxx::array::value FillInteracionsDocument(std::vector<std::reference_wrapper<InteractionInfo>> &info);
 
     mongocxx::pipeline PlayerCurrentLocationInteractions_Pipeline(uint64_t discord_id, int32_t player_id);
 

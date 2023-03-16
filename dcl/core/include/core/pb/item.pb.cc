@@ -22,8 +22,8 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = n
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_item_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nitem.proto*-\n\007PBItems\022\013\n\007NO_ITEM\020\000\022\t\n\005"
-  "STICK\020\001\022\n\n\006PEBBLE\020\002b\006proto3"
+  "\n\nitem.proto* \n\007PBItems\022\t\n\005STICK\020\000\022\n\n\006PE"
+  "BBLE\020\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_item_2eproto_deps[1] = {
 };
@@ -31,7 +31,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ite
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_item_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_item_2eproto = {
-  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 67,
+  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 54,
   &descriptor_table_item_2eproto_once, descriptor_table_item_2eproto_sccs, descriptor_table_item_2eproto_deps, 0, 0,
   schemas, file_default_instances, TableStruct_item_2eproto::offsets,
   file_level_metadata_item_2eproto, 0, file_level_enum_descriptors_item_2eproto, file_level_service_descriptors_item_2eproto,
@@ -47,7 +47,6 @@ bool PBItems_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
-    case 2:
       return true;
     default:
       return false;
