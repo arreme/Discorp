@@ -60,20 +60,20 @@ ZoneAccessInfo::ZoneAccessInfo()
 ZoneAccessInfo::ZoneAccessInfo(bsoncxx::document::view doc) 
 {
     m_type = InteractionType::ZONE_ACCESS;
-    m_is_unlocked = doc["is_unlocked"].get_bool();
+    m_unlocked_lvl = doc["unlocked_lvl"].get_int32();
 }
 
 bsoncxx::document::value ZoneAccessInfo::ToJson() const 
 {
     bsoncxx::builder::basic::document doc{};
     doc.append(kvp("type", bsoncxx::types::b_int32{static_cast<int>(m_type)}));
-    doc.append(kvp("is_unlocked",bsoncxx::types::b_bool{m_is_unlocked}));
+    doc.append(kvp("unlocked_lvl",bsoncxx::types::b_int32{m_unlocked_lvl}));
     return doc.extract();
 }
 
-bool ZoneAccessInfo::IsUnlocked() 
+int32_t ZoneAccessInfo::GetUnlockedLvl() 
 {
-    return m_is_unlocked;
+    return m_unlocked_lvl;
 }
 
 /**********************

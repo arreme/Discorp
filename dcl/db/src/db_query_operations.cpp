@@ -10,6 +10,12 @@ FindOneOperation::FindOneOperation(std::string &&colName, bsoncxx::document::val
 : Operation(std::forward<std::string>(colName),std::forward<bsoncxx::document::value>(filter))
 {}
 
+FindOneOperation::FindOneOperation(std::string &&colName, bsoncxx::document::value &&filter, mongocxx::options::find  &&opt)
+: FindOneOperation(std::forward<std::string>(colName),std::forward<bsoncxx::document::value>(filter))
+{
+    SetOptions(std::forward<mongocxx::options::find>(opt));
+}
+
 void FindOneOperation::SetOptions(mongocxx::options::find &&find_opts) 
 {
     m_has_options = true;
@@ -22,7 +28,6 @@ void FindOneOperation::ExecuteOperation() noexcept
     {
         auto client = MongoDBInstance::GetInstance()->getClientFromPool();
         auto db = (*client)[DATABASE_NAME];
-        
         if (m_has_options)
         {
             m_result = db[m_colName].find_one(m_bson.view(), m_find_opts);
@@ -177,8 +182,4 @@ void FindOneAndUpdateOperation::ExecuteOperation() noexcept
     {
         m_db_state = OperationState::GENERAL_ERROR;
     }
-}
-
-std::optional<bsoncxx::document::view> FindOneAndUpdateOperation::GetResult() noexcept {
-
 }

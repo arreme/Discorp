@@ -75,7 +75,6 @@ namespace db
             }
             catch (std::exception& e)
             {     
-                std::cerr << "Transaction Exception " << e.what() << std::endl;
                 session.abort_transaction();
                 m_db_state = OperationState::GENERAL_ERROR;
             }

@@ -239,7 +239,7 @@ TEST_CASE("Database Handler: Go to location and unlock location","[handler][unlo
     newInteractionInfo.push_back(post);
     newInteractionInfo.push_back(zoneAccessInfo);
     newInteractionInfo.push_back(post);
-    REQUIRE(db_handler::UnlockLocation(player,1,PBLocationID::FOREST,newInteractionInfo));
+    REQUIRE(db_handler::FillLocation(player,PBLocationID::FOREST,newInteractionInfo));
     REQUIRE(db_handler::GoToLocation(player,PBLocationID::FOREST));
 
     del_op_pla.ExecuteOperation();

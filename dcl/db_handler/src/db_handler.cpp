@@ -68,9 +68,8 @@ bool db_handler::GoToLocation(Player &player, int32_t new_location)
     return update_op.GetState() == db::OperationState::SUCCESS;
 }
 
-bool db_handler::UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info)
+bool db_handler::FillLocation(Player &player, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info)
 {
-    std::string array_update_query = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".is_unlocked";
     std::string location_update_query = "locations." + std::to_string(unlocked_location);
     db::UpdateOneOperation update_op{"players",
         make_document(
@@ -78,7 +77,6 @@ bool db_handler::UnlockLocation(Player &player, int32_t interaction_id, int32_t 
             kvp("player_id",b_int32{player.GetPlayerId()})
         ),
         make_document(kvp("$set",make_document(
-            kvp(array_update_query, b_bool{true}),
             kvp(location_update_query,FillInteracionsDocument(info))
         )))
     };
@@ -155,6 +153,57 @@ std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> db_handler::Fi
     }
     return std::nullopt;
 }
+
+int db_handler::CurrentPlayerLocation(uint64_t discord_id, int32_t player_id) 
+{
+    mongocxx::options::find find_opt{};
+    find_opt.projection(
+        make_document(
+            kvp("current_loc",1)
+        )
+    );
+    db::FindOneOperation find_one_op{"players", 
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id",b_int32{player_id})
+        ),
+        std::move(find_opt)
+    };
+
+    find_one_op.ExecuteOperation();
+    if (find_one_op.m_result) 
+    {
+        return find_one_op.m_result.value()["current_loc"].get_int32();
+    }
+
+    return -1;
+}
+
+bool db_handler::PlayerFirstTimeToLocation(Player &player,int32_t location_id) 
+{
+    mongocxx::options::find find_opt{};
+    find_opt.projection(
+        make_document(
+            kvp("_id",1)
+        )
+    );
+    db::FindOneOperation find_one_op{"players", 
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
+            kvp("player_id",b_int32{player.GetPlayerId()}),
+            kvp("locations."+std::to_string(location_id),
+                make_document(
+                    kvp("$type","array")
+                )
+            )
+        ),
+        std::move(find_opt)
+    };
+
+    find_one_op.ExecuteOperation();
+
+    return !find_one_op.m_result.has_value();
+};
 
 bsoncxx::array::value db_handler::FillInteracionsDocument(std::vector<std::reference_wrapper<InteractionInfo>> &info) 
 {

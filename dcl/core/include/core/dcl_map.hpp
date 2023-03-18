@@ -62,19 +62,36 @@ namespace GameMap
             return m_loc_data.databaseid();
         }
 
-        int32_t GetInteractionDatabaseID(int id)
+        std::optional<int32_t> GetInteractionDatabaseID(int id) const
         {
+            if (id >= m_loc_data.interactions().size())
+            {
+                return std::nullopt;
+            }
+            
             return m_loc_data.interactions(id).databaseid();
         }
 
-        std::optional<PBLocationID> GetZoneAccessNextLoc(int id) 
+        std::optional<PBInteractionType> GetInteractionType(int id) const
+        {
+            if (id >= m_loc_data.interactions().size())
+            {
+                return std::nullopt;
+            }
+            
+            return m_loc_data.interactions(id).type();
+        }
+
+        std::optional<PBLocationID> GetZoneAccessNextLoc(int id) const
         {
             auto interaction = m_loc_data.interactions(id);
             if (interaction.type() != PBInteractionType::ZONE_ACCESS) {return std::nullopt;}
             return interaction.nextloc();
         }
 
-        std::optional<bool> GetZoneAccessUnlocked(int id,int build_level = 0) 
+
+
+        std::optional<bool> GetZoneAccessUnlocked(int id,int build_level = 0) const
         {
             auto interaction = m_loc_data.interactions(id);
             if (interaction.type() != PBInteractionType::ZONE_ACCESS) {return std::nullopt;}

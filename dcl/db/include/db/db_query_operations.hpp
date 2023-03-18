@@ -13,7 +13,7 @@ namespace db
         std::optional<bsoncxx::document::value> m_result;
         
         FindOneOperation(std::string &&colName, bsoncxx::document::value &&filter);
-
+        FindOneOperation(std::string &&colName, bsoncxx::document::value &&filter, mongocxx::options::find  &&opt);
         void SetOptions(mongocxx::options::find &&find_opts);
 
         void ExecuteOperation() noexcept override;
@@ -63,7 +63,5 @@ namespace db
         FindOneAndUpdateOperation(std::string &&colName, bsoncxx::document::value &&filter, bsoncxx::document::value &&update_bson);
         
         void ExecuteOperation() noexcept override;
-
-        std::optional<bsoncxx::document::view> GetResult() noexcept;
     };
 }

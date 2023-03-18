@@ -44,7 +44,7 @@
                     "statName":"ZONE_UNLOCK",
                     "info": [
                         {
-                            "currentStat": 0,
+                            "currentStat": 1,
                             "upRequirements" : [
                                 {
                                     "itemID":"STICK",

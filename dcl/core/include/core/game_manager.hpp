@@ -19,6 +19,9 @@ namespace gm
         DATABASE_CONNECTION_ERROR = -4,
         USER_NOT_FOUND = -5,
         ILLEGAL_ACTION = -6,
+        FORBIDDEN_ACTION = -7,
+        INTERACTION_NOT_FOUND = -8,
+        LOCATION_LOCKED = -9
     };
 
     Errors CreateGame(uint64_t discord_id, std::string user_name);
@@ -27,7 +30,7 @@ namespace gm
 
     Errors SetActivePlayer(uint64_t discord_id, uint8_t active_player);
 
-    Errors GoToZone(uint64_t discord_id, int32_t location);
+    Errors GoToZone(uint64_t discord_id, int32_t interaction);
 
     //Errors PhotoCurrentLocation(uint64_t discord_id);
 }

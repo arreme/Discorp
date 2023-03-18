@@ -44,11 +44,11 @@ public:
 class ZoneAccessInfo : public InteractionInfo 
 {
 private:
-    bool m_is_unlocked = false;
+    int32_t m_unlocked_lvl = 0;
 public:
     ZoneAccessInfo();
     ZoneAccessInfo(bsoncxx::document::view doc);
     bsoncxx::document::value ToJson() const override;
-    bool IsUnlocked();
+    int32_t GetUnlockedLvl();
 };
 

@@ -25,7 +25,7 @@ namespace db_handler
     /**
      * Sets specific zone access interaction to true
     */
-    bool UnlockLocation(Player &player, int32_t interaction_id, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info);
+    bool FillLocation(Player &player, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info);
     
     bool CollectPost(Player &player, int32_t interaction_id);
 
@@ -34,6 +34,10 @@ namespace db_handler
     std::optional<playerInteractions> FindPlayerCurrentLocationInteractions(uint64_t discord_id, int32_t player_id);
 
     std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> FindPlayerCurrentInteraction(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
+
+    bool PlayerFirstTimeToLocation(Player &player,int32_t location_id);
+
+    int CurrentPlayerLocation(uint64_t discord_id, int32_t player_id);
 
     bsoncxx::array::value FillInteracionsDocument(std::vector<std::reference_wrapper<InteractionInfo>> &info);
 
