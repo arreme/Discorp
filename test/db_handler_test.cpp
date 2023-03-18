@@ -6,6 +6,8 @@
 #include <db_handler/entities/interaction.hpp>
 #include <db_handler/db_handler.hpp>
 #include <core/pb/location.pb.h>
+#include <core/pb/item.pb.h>
+#include <db_handler/entities/inventory.hpp>
 
 
 using namespace bsoncxx::types;
@@ -273,4 +275,33 @@ TEST_CASE("Database Handler: Collect a post and upgrade a post","[handler][updat
 
     del_op_pla.ExecuteOperation();
     del_op_usr.ExecuteOperation();
+}
+
+
+TEST_CASE("Inventory testing", "[inventory]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    db::DeleteManyOperation del_op_inv = db::DeleteManyOperation{"inventory", make_document()};
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
+    del_op_pla.ExecuteOperation();
+
+    REQUIRE_FALSE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
+    std::vector<std::reference_wrapper<InteractionInfo>> interactionInfo;
+    User user{0,"Arreme"};
+    Player player{0, user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
+    REQUIRE(db_handler::RegisterPlayerToDatabase(user,player,interactionInfo));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::PEBBLE,10));
+    auto item_result = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK);
+    REQUIRE(item_result);
+    REQUIRE(item_result.value().GetItemId() == PBResourceItems::STICK);
+    REQUIRE(item_result.value().GetQuantity() == 10);
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
+    auto item_result2 = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK);
+    REQUIRE(item_result2.value().GetQuantity() == 20);
+
+
+    //del_op_usr.ExecuteOperation();
 }

@@ -5,7 +5,7 @@ import "item.proto";
 
 message PBItemData 
 {
-    PBItems itemID                          = 1;
+    PBResourceItems itemID                  = 1;
     int32 quantity                          = 2;    
 }
 
@@ -25,7 +25,7 @@ message PBInteraction
 {
     PBInteractionType type                  = 1;
     string interactionName                  = 2;
-    PBItems resource                        = 3;
+    PBResourceItems resource                = 3;
     int32 databaseId                        = 4;
     int32 posX                              = 5;
     int32 posY                              = 6;

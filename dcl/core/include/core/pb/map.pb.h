@@ -251,13 +251,13 @@ class PBItemData PROTOBUF_FINAL :
     kItemIDFieldNumber = 1,
     kQuantityFieldNumber = 2,
   };
-  // .PBItems itemID = 1;
+  // .PBResourceItems itemID = 1;
   void clear_itemid();
-  ::PBItems itemid() const;
-  void set_itemid(::PBItems value);
+  ::PBResourceItems itemid() const;
+  void set_itemid(::PBResourceItems value);
   private:
-  ::PBItems _internal_itemid() const;
-  void _internal_set_itemid(::PBItems value);
+  ::PBResourceItems _internal_itemid() const;
+  void _internal_set_itemid(::PBResourceItems value);
   public:
 
   // int32 quantity = 2;
@@ -796,13 +796,13 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_type(::PBInteractionType value);
   public:
 
-  // .PBItems resource = 3;
+  // .PBResourceItems resource = 3;
   void clear_resource();
-  ::PBItems resource() const;
-  void set_resource(::PBItems value);
+  ::PBResourceItems resource() const;
+  void set_resource(::PBResourceItems value);
   private:
-  ::PBItems _internal_resource() const;
-  void _internal_set_resource(::PBItems value);
+  ::PBResourceItems _internal_resource() const;
+  void _internal_set_resource(::PBResourceItems value);
   public:
 
   // int32 databaseId = 4;
@@ -1066,22 +1066,22 @@ class PBLocation PROTOBUF_FINAL :
 #endif  // __GNUC__
 // PBItemData
 
-// .PBItems itemID = 1;
+// .PBResourceItems itemID = 1;
 inline void PBItemData::clear_itemid() {
   itemid_ = 0;
 }
-inline ::PBItems PBItemData::_internal_itemid() const {
-  return static_cast< ::PBItems >(itemid_);
+inline ::PBResourceItems PBItemData::_internal_itemid() const {
+  return static_cast< ::PBResourceItems >(itemid_);
 }
-inline ::PBItems PBItemData::itemid() const {
+inline ::PBResourceItems PBItemData::itemid() const {
   // @@protoc_insertion_point(field_get:PBItemData.itemID)
   return _internal_itemid();
 }
-inline void PBItemData::_internal_set_itemid(::PBItems value) {
+inline void PBItemData::_internal_set_itemid(::PBResourceItems value) {
   
   itemid_ = value;
 }
-inline void PBItemData::set_itemid(::PBItems value) {
+inline void PBItemData::set_itemid(::PBResourceItems value) {
   _internal_set_itemid(value);
   // @@protoc_insertion_point(field_set:PBItemData.itemID)
 }
@@ -1337,22 +1337,22 @@ inline void PBInteraction::unsafe_arena_set_allocated_interactionname(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBInteraction.interactionName)
 }
 
-// .PBItems resource = 3;
+// .PBResourceItems resource = 3;
 inline void PBInteraction::clear_resource() {
   resource_ = 0;
 }
-inline ::PBItems PBInteraction::_internal_resource() const {
-  return static_cast< ::PBItems >(resource_);
+inline ::PBResourceItems PBInteraction::_internal_resource() const {
+  return static_cast< ::PBResourceItems >(resource_);
 }
-inline ::PBItems PBInteraction::resource() const {
+inline ::PBResourceItems PBInteraction::resource() const {
   // @@protoc_insertion_point(field_get:PBInteraction.resource)
   return _internal_resource();
 }
-inline void PBInteraction::_internal_set_resource(::PBItems value) {
+inline void PBInteraction::_internal_set_resource(::PBResourceItems value) {
   
   resource_ = value;
 }
-inline void PBInteraction::set_resource(::PBItems value) {
+inline void PBInteraction::set_resource(::PBResourceItems value) {
   _internal_set_resource(value);
   // @@protoc_insertion_point(field_set:PBInteraction.resource)
 }

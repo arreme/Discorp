@@ -15,15 +15,17 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 static constexpr ::PROTOBUF_NAMESPACE_ID::Metadata* file_level_metadata_item_2eproto = nullptr;
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_item_2eproto[1];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_item_2eproto[3];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_item_2eproto = nullptr;
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_item_2eproto::offsets[1] = {};
 static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_item_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nitem.proto* \n\007PBItems\022\t\n\005STICK\020\000\022\n\n\006PE"
-  "BBLE\020\001b\006proto3"
+  "\n\nitem.proto*(\n\017PBResourceItems\022\t\n\005STICK"
+  "\020\000\022\n\n\006PEBBLE\020\001*5\n\017PBItemUtilities\022\021\n\rHEA"
+  "LTH_POTION\020\000\022\017\n\013MANA_POTION\020\001*%\n\020PBItemE"
+  "quipation\022\021\n\rWOODEN_HELMET\020\000b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_item_2eproto_deps[1] = {
 };
@@ -31,7 +33,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ite
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_item_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_item_2eproto = {
-  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 54,
+  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 156,
   &descriptor_table_item_2eproto_once, descriptor_table_item_2eproto_sccs, descriptor_table_item_2eproto_deps, 0, 0,
   schemas, file_default_instances, TableStruct_item_2eproto::offsets,
   file_level_metadata_item_2eproto, 0, file_level_enum_descriptors_item_2eproto, file_level_service_descriptors_item_2eproto,
@@ -39,14 +41,41 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_item_2
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_item_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_item_2eproto)), true);
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBItems_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBResourceItems_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_item_2eproto);
   return file_level_enum_descriptors_item_2eproto[0];
 }
-bool PBItems_IsValid(int value) {
+bool PBResourceItems_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBItemUtilities_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_item_2eproto);
+  return file_level_enum_descriptors_item_2eproto[1];
+}
+bool PBItemUtilities_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBItemEquipation_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_item_2eproto);
+  return file_level_enum_descriptors_item_2eproto[2];
+}
+bool PBItemEquipation_IsValid(int value) {
+  switch (value) {
+    case 0:
       return true;
     default:
       return false;

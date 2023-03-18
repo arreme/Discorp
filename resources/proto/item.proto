@@ -1,7 +1,18 @@
 syntax = "proto3";
 
-enum PBItems 
+enum PBResourceItems 
 {
     STICK                   = 0;
     PEBBLE                  = 1;
+}
+
+enum PBItemUtilities 
+{
+    HEALTH_POTION           = 0;
+    MANA_POTION             = 1;
+}
+
+enum PBItemEquipation
+{
+    WOODEN_HELMET           = 0;
 }

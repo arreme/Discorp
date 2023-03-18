@@ -33,4 +33,5 @@ TEST_CASE("/goto <location>", "[goto]")
     REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::FOREST);
     REQUIRE(gm::GoToZone(0,1) == gm::Errors::SUCCESS);
     REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::MAIN_BASE);
+    
 }

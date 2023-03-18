@@ -16,14 +16,14 @@ TEST_CASE("Protobuffers: Creating data","[proto]")
     inter_0->set_posy(10);
     inter_0->set_posx(10);
     inter_0->set_interactionname("bushes");
-    inter_0->set_resource(PBItems::STICK);
+    inter_0->set_resource(PBResourceItems::STICK);
     inter_0->add_imagepaths("assets/posts/bush_0.png");
     auto upgrade_0 = inter_0->add_upgradeinfo();
     upgrade_0->set_statname(PBUpgradeType::CAPACITY);
     auto upg_info_0 = upgrade_0->add_info();
     upg_info_0->set_currentstat(50);
     auto itemData_0 = upg_info_0->add_uprequirements();
-    itemData_0->set_itemid(PBItems::STICK);
+    itemData_0->set_itemid(PBResourceItems::STICK);
     itemData_0->set_quantity(3);
     std::string output;
     google::protobuf::util::MessageToJsonString(loc_data,&output);
@@ -41,7 +41,7 @@ TEST_CASE("Protobuffers: Reading data","[proto]")
 
     REQUIRE(loc_data.locid() == PBLocationID::MAIN_BASE);
     REQUIRE(loc_data.interactions()[0].databaseid() == 0);
-    REQUIRE(loc_data.interactions()[0].resource() == PBItems::STICK);
+    REQUIRE(loc_data.interactions()[0].resource() == PBResourceItems::STICK);
     REQUIRE(loc_data.interactions()[0].upgradeinfo()[0].statname() == PBUpgradeType::CAPACITY);
 }
 

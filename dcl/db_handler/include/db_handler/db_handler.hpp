@@ -4,6 +4,7 @@
 #include <db_handler/entities/user.hpp>
 #include <db_handler/entities/interaction.hpp>
 #include <db_handler/entities/player.hpp>
+#include <db_handler/entities/inventory.hpp>
 
 namespace db_handler
 {
@@ -44,4 +45,12 @@ namespace db_handler
     mongocxx::pipeline PlayerCurrentLocationInteractions_Pipeline(uint64_t discord_id, int32_t player_id);
 
     mongocxx::pipeline PlayerCurrentInteraction_Pipeline(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
+
+    //Inventory
+
+    bool ModifyItemQuantity(uint64_t discord_id, int32_t player_id, std::string category, int item_id, int quantity);
+
+    std::optional<Item> GetItem(uint64_t discord_id, int32_t player_id, std::string category, int item_id);
+
+    std::vector<Item> GetInventory(uint64_t discord_id, int32_t player_id, std::string category, int current_page);
 }

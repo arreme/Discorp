@@ -180,24 +180,25 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_map_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\tmap.proto\032\016location.proto\032\nitem.proto\""
-  "8\n\nPBItemData\022\030\n\006itemID\030\001 \001(\0162\010.PBItems\022"
-  "\020\n\010quantity\030\002 \001(\005\"I\n\rPBUpgradeInfo\022\023\n\013cu"
-  "rrentStat\030\003 \001(\005\022#\n\016upRequirements\030\004 \003(\0132"
-  "\013.PBItemData\"L\n\nPBUpgrades\022 \n\010statName\030\001"
-  " \001(\0162\016.PBUpgradeType\022\034\n\004info\030\002 \003(\0132\016.PBU"
-  "pgradeInfo\"\354\001\n\rPBInteraction\022 \n\004type\030\001 \001"
-  "(\0162\022.PBInteractionType\022\027\n\017interactionNam"
-  "e\030\002 \001(\t\022\032\n\010resource\030\003 \001(\0162\010.PBItems\022\022\n\nd"
-  "atabaseId\030\004 \001(\005\022\014\n\004posX\030\005 \001(\005\022\014\n\004posY\030\006 "
-  "\001(\005\022\022\n\nimagePaths\030\007 \003(\t\022\036\n\007nextLoc\030\010 \001(\016"
-  "2\r.PBLocationID\022 \n\013upgradeInfo\030\t \003(\0132\013.P"
-  "BUpgrades\"v\n\nPBLocation\022\034\n\005locID\030\001 \001(\0162\r"
-  ".PBLocationID\022\022\n\ndatabaseId\030\002 \001(\005\022$\n\014int"
-  "eractions\030\003 \003(\0132\016.PBInteraction\022\020\n\010locIm"
-  "age\030\004 \001(\t*>\n\021PBInteractionType\022\010\n\004POST\020\000"
-  "\022\017\n\013ZONE_ACCESS\020\001\022\016\n\nDECORATION\020\002*K\n\rPBU"
-  "pgradeType\022\014\n\010CAPACITY\020\000\022\016\n\nGEN_SECOND\020\001"
-  "\022\013\n\007FORTUNE\020\002\022\017\n\013ZONE_UNLOCK\020\003b\006proto3"
+  "@\n\nPBItemData\022 \n\006itemID\030\001 \001(\0162\020.PBResour"
+  "ceItems\022\020\n\010quantity\030\002 \001(\005\"I\n\rPBUpgradeIn"
+  "fo\022\023\n\013currentStat\030\003 \001(\005\022#\n\016upRequirement"
+  "s\030\004 \003(\0132\013.PBItemData\"L\n\nPBUpgrades\022 \n\010st"
+  "atName\030\001 \001(\0162\016.PBUpgradeType\022\034\n\004info\030\002 \003"
+  "(\0132\016.PBUpgradeInfo\"\364\001\n\rPBInteraction\022 \n\004"
+  "type\030\001 \001(\0162\022.PBInteractionType\022\027\n\017intera"
+  "ctionName\030\002 \001(\t\022\"\n\010resource\030\003 \001(\0162\020.PBRe"
+  "sourceItems\022\022\n\ndatabaseId\030\004 \001(\005\022\014\n\004posX\030"
+  "\005 \001(\005\022\014\n\004posY\030\006 \001(\005\022\022\n\nimagePaths\030\007 \003(\t\022"
+  "\036\n\007nextLoc\030\010 \001(\0162\r.PBLocationID\022 \n\013upgra"
+  "deInfo\030\t \003(\0132\013.PBUpgrades\"v\n\nPBLocation\022"
+  "\034\n\005locID\030\001 \001(\0162\r.PBLocationID\022\022\n\ndatabas"
+  "eId\030\002 \001(\005\022$\n\014interactions\030\003 \003(\0132\016.PBInte"
+  "raction\022\020\n\010locImage\030\004 \001(\t*>\n\021PBInteracti"
+  "onType\022\010\n\004POST\020\000\022\017\n\013ZONE_ACCESS\020\001\022\016\n\nDEC"
+  "ORATION\020\002*K\n\rPBUpgradeType\022\014\n\010CAPACITY\020\000"
+  "\022\016\n\nGEN_SECOND\020\001\022\013\n\007FORTUNE\020\002\022\017\n\013ZONE_UN"
+  "LOCK\020\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_map_2eproto_deps[2] = {
   &::descriptor_table_item_2eproto,
@@ -212,7 +213,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_map
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_map_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_map_2eproto = {
-  false, false, descriptor_table_protodef_map_2eproto, "map.proto", 758,
+  false, false, descriptor_table_protodef_map_2eproto, "map.proto", 774,
   &descriptor_table_map_2eproto_once, descriptor_table_map_2eproto_sccs, descriptor_table_map_2eproto_deps, 5, 2,
   schemas, file_default_instances, TableStruct_map_2eproto::offsets,
   file_level_metadata_map_2eproto, 5, file_level_enum_descriptors_map_2eproto, file_level_service_descriptors_map_2eproto,
@@ -326,12 +327,12 @@ const char* PBItemData::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // .PBItems itemID = 1;
+      // .PBResourceItems itemID = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          _internal_set_itemid(static_cast<::PBItems>(val));
+          _internal_set_itemid(static_cast<::PBResourceItems>(val));
         } else goto handle_unusual;
         continue;
       // int32 quantity = 2;
@@ -369,7 +370,7 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .PBItems itemID = 1;
+  // .PBResourceItems itemID = 1;
   if (this->itemid() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
@@ -398,7 +399,7 @@ size_t PBItemData::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .PBItems itemID = 1;
+  // .PBResourceItems itemID = 1;
   if (this->itemid() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_itemid());
@@ -1051,12 +1052,12 @@ const char* PBInteraction::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .PBItems resource = 3;
+      // .PBResourceItems resource = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          _internal_set_resource(static_cast<::PBItems>(val));
+          _internal_set_resource(static_cast<::PBResourceItems>(val));
         } else goto handle_unusual;
         continue;
       // int32 databaseId = 4;
@@ -1159,7 +1160,7 @@ failure:
         2, this->_internal_interactionname(), target);
   }
 
-  // .PBItems resource = 3;
+  // .PBResourceItems resource = 3;
   if (this->resource() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
@@ -1253,7 +1254,7 @@ size_t PBInteraction::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_type());
   }
 
-  // .PBItems resource = 3;
+  // .PBResourceItems resource = 3;
   if (this->resource() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_resource());

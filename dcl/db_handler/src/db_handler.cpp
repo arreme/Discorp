@@ -34,6 +34,16 @@ bool db_handler::RegisterPlayerToDatabase(User &user, Player &player, std::vecto
     t.AddOperation(&insert_op);
     db::InsertOneOperation insert_op_usrs{"users",user.ToJson()};
     t.AddOperation(&insert_op_usrs);
+    db::InsertOneOperation insert_inventory{"inventory",
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(user.GetId())}),
+            kvp("player_id",b_int32{player.GetPlayerId()}),
+            kvp(Item::RESOURCE_TYPE,b_array{}),
+            kvp(Item::UTILITIES_TYPE,b_array{}),
+            kvp(Item::EQUIPMENT_TYPE,b_array{})
+        )
+    };
+    t.AddOperation(&insert_inventory);
     
     t.ExecuteTransaction();
 
@@ -262,5 +272,61 @@ mongocxx::pipeline db_handler::PlayerCurrentInteraction_Pipeline(uint64_t discor
         kvp("$unset","locations")
     ));
     return p;
+}
+
+//INVENTORY
+
+bool db_handler::ModifyItemQuantity(uint64_t discord_id, int32_t player_id, std::string category, int item_id, int quantity) 
+{
+    db::UpdateOneOperation update_op{"inventory",
+        make_document(
+            kvp("discord_id", b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id", b_int32{player_id})
+        ),
+        make_document(
+            kvp("$set",make_document(
+                kvp(category+"."+std::to_string(item_id)+".item_id",b_int32{item_id})
+            )),
+            kvp("$inc",make_document(
+                kvp(category+"."+std::to_string(item_id)+".quantity",b_int32{quantity})
+            ))
+        )
+    };
+
+    update_op.ExecuteOperation();
+    return update_op.GetState() == db::OperationState::SUCCESS;
+}
+
+std::optional<Item> db_handler::GetItem(uint64_t discord_id, int32_t player_id, std::string category, int item_id) 
+{
+
+    mongocxx::options::find find_options{};
+    find_options.projection(
+        make_document(
+            kvp(category,make_document(
+                kvp("$slice",make_array(
+                    item_id,
+                    1
+                ))
+            ))
+        )
+    );
+
+    db::FindOneOperation find_op{"inventory",
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id", b_int32{player_id})
+        ),
+        std::move(find_options)
+    };
+    find_op.ExecuteOperation();
+    if (find_op.m_result) 
+    {
+        auto item_array = find_op.m_result.value()["resources"].get_array().value;
+        if (std::distance(item_array.begin(),item_array.end()) == 1)
+            return Item{item_array[0].get_document()};
+    }
+
+    return std::nullopt;
 }
 
