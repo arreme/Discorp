@@ -30,6 +30,7 @@ private:
     int32_t m_capacity_lvl = 0;
     int32_t m_gen_second_lvl = 0;
     int32_t m_fortune_lvl = 0;
+    int32_t m_resource_stored = 0;
     std::chrono::system_clock::time_point m_last_collected = std::chrono::system_clock::now();
 public:
     PostInfo();
@@ -39,6 +40,10 @@ public:
     int32_t GetCapacityLvl();
     int32_t GetGenSecondLvl();
     int32_t GetFortuneLvl();
+    int32_t GetResourceStored();
+    void SetResourceStored(int32_t resource_stored);
+    void ModifyLastCollected(int32_t seconds);
+    double GetDifferenceInSeconds(); 
 };
 
 class ZoneAccessInfo : public InteractionInfo 

@@ -51,3 +51,21 @@ TEST_CASE("Game Map: Initializing the map","[map]")
     REQUIRE(location->GetLocId() == PBLocationID::MAIN_BASE);
     
 }
+
+TEST_CASE("Getting Resources","[resources]") 
+{
+    auto location = GameMap::DCLMap::getInstance().GetLocation(PBLocationID::MAIN_BASE);
+    REQUIRE(location->GetLocId() == PBLocationID::MAIN_BASE);
+    PostInfo info{};
+    Stats stat{};
+    Skills skill{};
+    info.ModifyLastCollected(-10);
+    auto reward = location->CalculatePostRewards(0,&info,&stat,&skill);
+    CHECK(reward[0].GetQuantity() == 2);
+    REQUIRE(info.GetResourceStored() == 8);
+
+    auto reward_2 = location->CalculatePostRewards(0,&info,&stat,&skill);
+    CHECK(reward_2[0].GetQuantity() == 2);
+    REQUIRE(info.GetResourceStored() == 6);
+    REQUIRE(skill.m_forage_xp == 4);
+}

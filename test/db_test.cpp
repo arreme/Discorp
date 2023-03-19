@@ -8,7 +8,7 @@
 using bsoncxx::builder::basic::kvp;
 using namespace bsoncxx::types;
 
-SCENARIO("Testing database basic operations","[db]") 
+SCENARIO("Testing database basic operations","[db][database]") 
 {
     db::DeleteManyOperation del_op = db::DeleteManyOperation("test_col", bsoncxx::builder::basic::make_document());
     GIVEN("1.- A new empty user collection collection") 
@@ -17,7 +17,7 @@ SCENARIO("Testing database basic operations","[db]")
         
         WHEN("1.1.- FindOne Operation") 
         {
-            db::FindOneOperation find_op_1_1{"users",bsoncxx::builder::basic::make_document(kvp("discord_id",0))};
+            db::FindOneOperation find_op_1_1{"test_col",bsoncxx::builder::basic::make_document(kvp("id",0))};
             find_op_1_1.ExecuteOperation();
             THEN("Result should be null") 
             {
@@ -193,4 +193,78 @@ SCENARIO("Testing database basic operations","[db]")
             REQUIRE_FALSE(find_op_3_1.m_result);
         }
     }
+}
+
+TEST_CASE("Updating a document","[update][database]") 
+{
+    db::DeleteManyOperation del_op = db::DeleteManyOperation("test_col", bsoncxx::builder::basic::make_document());
+    uint64_t id = 0;
+    auto doc1 = bsoncxx::builder::basic::make_document(
+        kvp("id",b_int64{static_cast<int64_t>(id)}),
+        kvp("name",b_string{"John Doe"})
+    );
+
+    auto find_doc = bsoncxx::builder::basic::make_document(
+        kvp("id",b_int64{static_cast<int64_t>(id)}),
+        kvp("name",b_string{"John Doe"})
+    );
+
+    auto update_doc = bsoncxx::builder::basic::make_document(
+        kvp("$set",bsoncxx::builder::basic::make_document(
+            kvp("surname",b_string{"OMG"})
+        ))
+    );
+
+    db::InsertOneOperation ins_op{"test_col",std::move(doc1)};
+    ins_op.ExecuteOperation();
+    db::UpdateOneOperation upd_op{"test_col",std::move(find_doc),std::move(update_doc)};
+    upd_op.ExecuteOperation();
+
+    REQUIRE(upd_op.GetState() == db::OperationState::SUCCESS);
+
+    auto find_doc_2_3 = bsoncxx::builder::basic::make_document(
+        kvp("id",b_int64{static_cast<int64_t>(id)})
+    );
+
+    db::FindOneOperation find_op{"test_col",std::move(find_doc_2_3)};
+    find_op.ExecuteOperation();
+    REQUIRE(find_op.m_result);
+    REQUIRE(find_op.m_result->view()["surname"].get_string().value == "OMG");
+    del_op.ExecuteOperation();
+}
+
+TEST_CASE("Using projection on a find operation","[projection][database]") 
+{
+    db::DeleteManyOperation del_op = db::DeleteManyOperation("test_col", bsoncxx::builder::basic::make_document());
+    uint64_t id = 0;
+    auto doc1 = bsoncxx::builder::basic::make_document(
+        kvp("id",b_int64{static_cast<int64_t>(id)}),
+        kvp("name",b_string{"John Doe"})
+    );
+
+    auto find_doc = bsoncxx::builder::basic::make_document(
+        kvp("id",b_int64{static_cast<int64_t>(id)}),
+        kvp("name",b_string{"John Doe"})
+    );
+
+    db::InsertOneOperation ins_op{"test_col",std::move(doc1)};
+    ins_op.ExecuteOperation();
+
+    mongocxx::options::find find_opt{};
+    find_opt.projection(bsoncxx::builder::basic::make_document(
+        kvp("name",1)
+    ));
+
+    db::FindOneOperation find_one{"test_col",std::move(find_doc),std::move(find_opt)};
+    find_one.ExecuteOperation();
+
+    REQUIRE(find_one.m_result);
+    REQUIRE_FALSE(find_one.m_result->view()["id"]);
+    REQUIRE(find_one.m_result->view()["name"]);
+    del_op.ExecuteOperation();
+}
+
+TEST_CASE("Aggregation testing","[aggregation][database]") 
+{
+
 }

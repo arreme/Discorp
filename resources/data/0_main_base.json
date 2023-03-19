@@ -6,6 +6,8 @@
             "type":"POST",
             "interactionName": "Bushes",
             "resource": "STICK",
+            "postSkill":"FORAGE",
+            "interactXp": 1,
             "databaseId": 0,
             "posX": 10,
             "posY": 10,
@@ -18,6 +20,20 @@
                     "info": [
                         {
                             "currentStat": 50,
+                            "upRequirements" : [
+                                {
+                                    "itemID":"STICK",
+                                    "quantity":3
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "statName":"GEN_SECOND",
+                    "info": [
+                        {
+                            "currentStat": 1,
                             "upRequirements" : [
                                 {
                                     "itemID":"STICK",

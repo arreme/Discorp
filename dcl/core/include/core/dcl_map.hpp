@@ -1,10 +1,20 @@
 #pragma once
 #include <core/pb/map.pb.h>
 #include <db_handler/entities/interaction.hpp>
+#include <db_handler/entities/inventory.hpp>
+#include <db_handler/entities/player.hpp>
 #include <iostream>
 #include <filesystem>
 #include <fstream>
 #include <google/protobuf/util/json_util.h>
+#include <math.h>
+
+namespace GameLogic 
+{
+    bool CheckLevel(int xp, int lvl);
+    int CalculateModifier(PBPlayerSkills id, Stats *const plyr_stats, Skills *const plyr_skills);
+    void CalculateLevel(PBPlayerSkills id, int gathered, int resourceXp, Skills *const plyr_skills);
+}
 
 namespace GameMap 
 {
@@ -89,7 +99,26 @@ namespace GameMap
             return interaction.nextloc();
         }
 
-
+        std::vector<Item> CalculatePostRewards(int32_t id, InteractionInfo *post_db_info,Stats *const plyr_stats,Skills *const plyr_skills) const 
+        {
+            std::vector<Item> resources_to_add;
+            PostInfo *post_info = static_cast<PostInfo *>(post_db_info);
+            auto interaction = m_loc_data.interactions(id);
+            if (interaction.type() != PBInteractionType::POST) {return {};}
+            auto seconds = static_cast<int>(post_info->GetDifferenceInSeconds());
+            auto max_capacity = interaction.upgradeinfo(PBUpgradeType::CAPACITY).info(post_info->GetCapacityLvl()).currentstat();
+            auto gen_second = interaction.upgradeinfo(PBUpgradeType::GEN_SECOND).info(post_info->GetGenSecondLvl()).currentstat();
+            auto total = std::min((seconds * gen_second) + post_info->GetResourceStored(), max_capacity);
+            int modifier = GameLogic::CalculateModifier(interaction.postskill(),plyr_stats,plyr_skills);
+            
+            auto gathered = std::min(total, 1 + modifier);
+            post_info->SetResourceStored(std::max(total - gathered,0));
+            GameLogic::CalculateLevel(interaction.postskill(), gathered, interaction.interactxp(), plyr_skills);
+            auto prob = rand() % 100;
+            if (prob <= plyr_stats->m_luck + post_info->GetFortuneLvl()) gathered += 1 + gathered*0.2f;
+            resources_to_add.push_back(Item{interaction.resource(),gathered});
+            return resources_to_add;
+        }
 
         std::optional<bool> GetZoneAccessUnlocked(int id,int build_level = 0) const
         {
@@ -153,5 +182,7 @@ namespace GameMap
     };
 
 }
+
+
 
 

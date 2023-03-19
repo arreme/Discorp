@@ -17,6 +17,7 @@ PostInfo::PostInfo(bsoncxx::document::view doc)
     m_capacity_lvl = doc["capacity_lvl"].get_int32();
     m_gen_second_lvl = doc["generation_lvl"].get_int32();
     m_fortune_lvl = doc["fortune_lvl"].get_int32();
+    m_resource_stored = doc["resource_stored"].get_int32();
     m_last_collected = doc["last_updated"].get_date();
 }
 
@@ -28,6 +29,7 @@ bsoncxx::document::value PostInfo::ToJson() const
     doc.append(kvp("capacity_lvl",bsoncxx::types::b_int32{m_capacity_lvl}));
     doc.append(kvp("generation_lvl",bsoncxx::types::b_int32{m_gen_second_lvl}));
     doc.append(kvp("fortune_lvl",bsoncxx::types::b_int32{m_fortune_lvl}));
+    doc.append(kvp("resource_stored",bsoncxx::types::b_int32{m_resource_stored}));
     doc.append(kvp("last_updated", bsoncxx::types::b_date{m_last_collected}));
 
     return doc.extract();
@@ -46,6 +48,27 @@ int32_t PostInfo::GetGenSecondLvl()
 int32_t PostInfo::GetFortuneLvl()
 {
     return m_fortune_lvl;
+}
+
+int32_t PostInfo::GetResourceStored() 
+{
+    m_last_collected = std::chrono::system_clock::now();
+    return m_resource_stored;
+}
+
+void PostInfo::SetResourceStored(int32_t resource_stored) 
+{
+    m_resource_stored = resource_stored;
+}
+
+double PostInfo::GetDifferenceInSeconds() 
+{
+    return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - m_last_collected).count();
+}
+
+void PostInfo::ModifyLastCollected(int32_t seconds) 
+{
+    m_last_collected += std::chrono::seconds(seconds);
 }
 
 /**********************

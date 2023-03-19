@@ -133,6 +133,33 @@ inline bool PBUpgradeType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PBUpgradeType>(
     PBUpgradeType_descriptor(), name, value);
 }
+enum PBPlayerSkills : int {
+  FORAGE = 0,
+  MINING = 1,
+  COMBAT = 2,
+  ATHLETICS = 3,
+  PBPlayerSkills_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  PBPlayerSkills_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool PBPlayerSkills_IsValid(int value);
+constexpr PBPlayerSkills PBPlayerSkills_MIN = FORAGE;
+constexpr PBPlayerSkills PBPlayerSkills_MAX = ATHLETICS;
+constexpr int PBPlayerSkills_ARRAYSIZE = PBPlayerSkills_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBPlayerSkills_descriptor();
+template<typename T>
+inline const std::string& PBPlayerSkills_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, PBPlayerSkills>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function PBPlayerSkills_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    PBPlayerSkills_descriptor(), enum_t_value);
+}
+inline bool PBPlayerSkills_Parse(
+    const std::string& name, PBPlayerSkills* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PBPlayerSkills>(
+    PBPlayerSkills_descriptor(), name, value);
+}
 // ===================================================================
 
 class PBItemData PROTOBUF_FINAL :
@@ -710,17 +737,19 @@ class PBInteraction PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kImagePathsFieldNumber = 7,
-    kUpgradeInfoFieldNumber = 9,
+    kImagePathsFieldNumber = 9,
+    kUpgradeInfoFieldNumber = 11,
     kInteractionNameFieldNumber = 2,
     kTypeFieldNumber = 1,
     kResourceFieldNumber = 3,
-    kDatabaseIdFieldNumber = 4,
-    kPosXFieldNumber = 5,
-    kPosYFieldNumber = 6,
-    kNextLocFieldNumber = 8,
+    kPostSkillFieldNumber = 4,
+    kInteractXpFieldNumber = 5,
+    kDatabaseIdFieldNumber = 6,
+    kPosXFieldNumber = 7,
+    kPosYFieldNumber = 8,
+    kNextLocFieldNumber = 10,
   };
-  // repeated string imagePaths = 7;
+  // repeated string imagePaths = 9;
   int imagepaths_size() const;
   private:
   int _internal_imagepaths_size() const;
@@ -744,7 +773,7 @@ class PBInteraction PROTOBUF_FINAL :
   std::string* _internal_add_imagepaths();
   public:
 
-  // repeated .PBUpgrades upgradeInfo = 9;
+  // repeated .PBUpgrades upgradeInfo = 11;
   int upgradeinfo_size() const;
   private:
   int _internal_upgradeinfo_size() const;
@@ -805,7 +834,25 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_resource(::PBResourceItems value);
   public:
 
-  // int32 databaseId = 4;
+  // .PBPlayerSkills postSkill = 4;
+  void clear_postskill();
+  ::PBPlayerSkills postskill() const;
+  void set_postskill(::PBPlayerSkills value);
+  private:
+  ::PBPlayerSkills _internal_postskill() const;
+  void _internal_set_postskill(::PBPlayerSkills value);
+  public:
+
+  // int32 interactXp = 5;
+  void clear_interactxp();
+  ::PROTOBUF_NAMESPACE_ID::int32 interactxp() const;
+  void set_interactxp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_interactxp() const;
+  void _internal_set_interactxp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 databaseId = 6;
   void clear_databaseid();
   ::PROTOBUF_NAMESPACE_ID::int32 databaseid() const;
   void set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -814,7 +861,7 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 posX = 5;
+  // int32 posX = 7;
   void clear_posx();
   ::PROTOBUF_NAMESPACE_ID::int32 posx() const;
   void set_posx(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -823,7 +870,7 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_posx(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 posY = 6;
+  // int32 posY = 8;
   void clear_posy();
   ::PROTOBUF_NAMESPACE_ID::int32 posy() const;
   void set_posy(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -832,7 +879,7 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_posy(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // .PBLocationID nextLoc = 8;
+  // .PBLocationID nextLoc = 10;
   void clear_nextloc();
   ::PBLocationID nextloc() const;
   void set_nextloc(::PBLocationID value);
@@ -853,6 +900,8 @@ class PBInteraction PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr interactionname_;
   int type_;
   int resource_;
+  int postskill_;
+  ::PROTOBUF_NAMESPACE_ID::int32 interactxp_;
   ::PROTOBUF_NAMESPACE_ID::int32 databaseid_;
   ::PROTOBUF_NAMESPACE_ID::int32 posx_;
   ::PROTOBUF_NAMESPACE_ID::int32 posy_;
@@ -1357,7 +1406,47 @@ inline void PBInteraction::set_resource(::PBResourceItems value) {
   // @@protoc_insertion_point(field_set:PBInteraction.resource)
 }
 
-// int32 databaseId = 4;
+// .PBPlayerSkills postSkill = 4;
+inline void PBInteraction::clear_postskill() {
+  postskill_ = 0;
+}
+inline ::PBPlayerSkills PBInteraction::_internal_postskill() const {
+  return static_cast< ::PBPlayerSkills >(postskill_);
+}
+inline ::PBPlayerSkills PBInteraction::postskill() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.postSkill)
+  return _internal_postskill();
+}
+inline void PBInteraction::_internal_set_postskill(::PBPlayerSkills value) {
+  
+  postskill_ = value;
+}
+inline void PBInteraction::set_postskill(::PBPlayerSkills value) {
+  _internal_set_postskill(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.postSkill)
+}
+
+// int32 interactXp = 5;
+inline void PBInteraction::clear_interactxp() {
+  interactxp_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_interactxp() const {
+  return interactxp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::interactxp() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.interactXp)
+  return _internal_interactxp();
+}
+inline void PBInteraction::_internal_set_interactxp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  interactxp_ = value;
+}
+inline void PBInteraction::set_interactxp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_interactxp(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.interactXp)
+}
+
+// int32 databaseId = 6;
 inline void PBInteraction::clear_databaseid() {
   databaseid_ = 0;
 }
@@ -1377,7 +1466,7 @@ inline void PBInteraction::set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) 
   // @@protoc_insertion_point(field_set:PBInteraction.databaseId)
 }
 
-// int32 posX = 5;
+// int32 posX = 7;
 inline void PBInteraction::clear_posx() {
   posx_ = 0;
 }
@@ -1397,7 +1486,7 @@ inline void PBInteraction::set_posx(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:PBInteraction.posX)
 }
 
-// int32 posY = 6;
+// int32 posY = 8;
 inline void PBInteraction::clear_posy() {
   posy_ = 0;
 }
@@ -1417,7 +1506,7 @@ inline void PBInteraction::set_posy(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:PBInteraction.posY)
 }
 
-// repeated string imagePaths = 7;
+// repeated string imagePaths = 9;
 inline int PBInteraction::_internal_imagepaths_size() const {
   return imagepaths_.size();
 }
@@ -1491,7 +1580,7 @@ PBInteraction::mutable_imagepaths() {
   return &imagepaths_;
 }
 
-// .PBLocationID nextLoc = 8;
+// .PBLocationID nextLoc = 10;
 inline void PBInteraction::clear_nextloc() {
   nextloc_ = 0;
 }
@@ -1511,7 +1600,7 @@ inline void PBInteraction::set_nextloc(::PBLocationID value) {
   // @@protoc_insertion_point(field_set:PBInteraction.nextLoc)
 }
 
-// repeated .PBUpgrades upgradeInfo = 9;
+// repeated .PBUpgrades upgradeInfo = 11;
 inline int PBInteraction::_internal_upgradeinfo_size() const {
   return upgradeinfo_.size();
 }
@@ -1740,6 +1829,11 @@ template <> struct is_proto_enum< ::PBUpgradeType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::PBUpgradeType>() {
   return ::PBUpgradeType_descriptor();
+}
+template <> struct is_proto_enum< ::PBPlayerSkills> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::PBPlayerSkills>() {
+  return ::PBPlayerSkills_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

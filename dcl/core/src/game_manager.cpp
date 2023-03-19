@@ -116,5 +116,22 @@ gm::Errors gm::UnlockZone(uint64_t discord_id, int32_t interaction)
 
 gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction) 
 {
+    auto user = db_handler::FindUserById(discord_id);
+    if (!user) return Errors::USER_NOT_FOUND;
+
+    int location_id = db_handler::CurrentPlayerLocation(discord_id,user->GetCurrentPlayer());
+    if (!PBLocationID_IsValid(location_id)) return Errors::GENERAL_ERROR;
+    auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(location_id));
+
+    auto interaction_type = location->GetInteractionType(interaction);
+    if (!interaction_type.has_value()) return Errors::INTERACTION_NOT_FOUND;
+    if (interaction_type.value() != PBInteractionType::POST) return Errors::ILLEGAL_ACTION;
+
+    auto interaction_db = location->GetInteractionDatabaseID(interaction).value();
+    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db);
+    if (interaction_info) 
+    {
+        std::vector<Item> items_result = location->CalculatePostRewards(interaction,interaction_info->second.get(),interaction_info->first.GetStats(),interaction_info->first.GetSkills());
+    }
     
 }

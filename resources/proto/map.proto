@@ -26,13 +26,15 @@ message PBInteraction
     PBInteractionType type                  = 1;
     string interactionName                  = 2;
     PBResourceItems resource                = 3;
-    int32 databaseId                        = 4;
-    int32 posX                              = 5;
-    int32 posY                              = 6;
-    repeated string imagePaths              = 7;
+    PBPlayerSkills postSkill                = 4;
+    int32 interactXp                        = 5;
+    int32 databaseId                        = 6;
+    int32 posX                              = 7;
+    int32 posY                              = 8;
+    repeated string imagePaths              = 9;
 
-    PBLocationID nextLoc                    = 8;
-    repeated PBUpgrades upgradeInfo         = 9;
+    PBLocationID nextLoc                    = 10;
+    repeated PBUpgrades upgradeInfo         = 11;
 }
 
 message PBLocation 
@@ -56,6 +58,14 @@ enum PBUpgradeType
     GEN_SECOND                              = 1;
     FORTUNE                                 = 2;
     ZONE_UNLOCK                             = 3;
+}
+
+enum PBPlayerSkills 
+{
+    FORAGE                                  = 0;
+    MINING                                  = 1;
+    COMBAT                                  = 2;
+    ATHLETICS                               = 3;
 }
 
 
