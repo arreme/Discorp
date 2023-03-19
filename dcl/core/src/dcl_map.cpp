@@ -6,11 +6,11 @@ PostInfo GameMap::InteractionTemplates::post;
 
 ZoneAccessInfo GameMap::InteractionTemplates::zone;
 
-bool GameLogic::CheckLevel(int xp, int lvl) 
+int GameLogic::CheckLevel(int lvl) 
 {
     float exponent = 1.2f;
     float baseXP = 20;
-    return baseXP * (pow(lvl,exponent)) <= xp;
+    return baseXP * (pow(lvl,exponent));
 }
 
 int GameLogic::CalculateModifier(PBPlayerSkills id, Stats *const plyr_stats, Skills *const plyr_skills) 
@@ -26,24 +26,28 @@ int GameLogic::CalculateModifier(PBPlayerSkills id, Stats *const plyr_stats, Ski
     }
     return 0;
 }
+
 void GameLogic::CalculateLevel(PBPlayerSkills id, int gathered, int resourceXp, Skills *const plyr_skills) 
 {
+    auto requiredXP = 0;
     switch (id)
     {
     case PBPlayerSkills::FORAGE:
         plyr_skills->m_forage_xp += gathered * resourceXp;
-        if (GameLogic::CheckLevel(plyr_skills->m_forage_xp, plyr_skills->m_forage_lvl)) 
+        requiredXP = GameLogic::CheckLevel(plyr_skills->m_forage_lvl);
+        if (plyr_skills->m_forage_xp >= requiredXP) 
         {
-            plyr_skills->m_forage_xp = 0;
+            plyr_skills->m_forage_xp -= requiredXP;
             plyr_skills->m_forage_lvl += 1;
         }
         break;
     
     case PBPlayerSkills::MINING:
         plyr_skills->m_mining_xp += gathered * resourceXp;
-        if (GameLogic::CheckLevel(plyr_skills->m_mining_xp, plyr_skills->m_mining_lvl)) 
+        requiredXP = GameLogic::CheckLevel(plyr_skills->m_mining_lvl);
+        if (plyr_skills->m_mining_xp >= requiredXP) 
         {
-            plyr_skills->m_mining_xp = 0;
+            plyr_skills->m_mining_xp -= requiredXP;
             plyr_skills->m_mining_lvl += 1;
         }
         break;

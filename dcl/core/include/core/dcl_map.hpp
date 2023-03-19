@@ -11,7 +11,7 @@
 
 namespace GameLogic 
 {
-    bool CheckLevel(int xp, int lvl);
+    int CheckLevel(int lvl);
     int CalculateModifier(PBPlayerSkills id, Stats *const plyr_stats, Skills *const plyr_skills);
     void CalculateLevel(PBPlayerSkills id, int gathered, int resourceXp, Skills *const plyr_skills);
 }

@@ -114,22 +114,51 @@ bool db_handler::FillLocation(uint64_t discord_id, int32_t player_id, int32_t un
     return update_op.GetState() == db::OperationState::SUCCESS;
 }
 
-bool db_handler::CollectPost(Player &player,  int32_t interaction_id)
+bool db_handler::CollectPost(Player &player,  int32_t interaction_id, int32_t resource_stored, std::string category, std::vector<Item> &item_modifiers)
 {
-    std::string array_update_query = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".last_updated";
-    db::UpdateOneOperation update_op{"players",
+    db::Transaction t{};
+
+    std::string location_update_time = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".last_updated";
+    std::string location_update_resource = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".resource_stored";
+    db::UpdateOneOperation update_post{"players",
         make_document(
             kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
             kvp("player_id",b_int32{player.GetPlayerId()})
         ),
         make_document(kvp("$set",make_document(
-            kvp(array_update_query, b_date{std::chrono::system_clock::now()})
+            kvp("stats",b_document{player.GetStats()->ToJson()}),
+            kvp("skills",b_document{player.GetSkills()->ToJson()}),
+            kvp(location_update_time, b_date{std::chrono::system_clock::now()}),
+            kvp(location_update_resource, b_int32{resource_stored})
         )))
     };
 
-    update_op.ExecuteOperation();
+    bsoncxx::builder::basic::document set_doc{};
+    bsoncxx::builder::basic::document inc_doc{};
 
-    return update_op.GetState() == db::OperationState::SUCCESS;
+    for (auto &item : item_modifiers)
+    {
+        set_doc.append(kvp(category+"."+std::to_string(item.GetItemId())+".item_id",b_int32{item.GetItemId()}));
+        inc_doc.append(kvp(category+"."+std::to_string(item.GetItemId())+".quantity",b_int32{item.GetQuantity()}));
+    }
+    
+    db::UpdateOneOperation update_items{"inventory",
+        make_document(
+            kvp("discord_id", b_int64{static_cast<int64_t>(player.GetId())}),
+            kvp("player_id", b_int32{player.GetPlayerId()})
+        ),
+        make_document(
+            kvp("$set", set_doc.extract()),
+            kvp("$inc", inc_doc.extract())
+        )
+    };
+
+    t.AddOperation(&update_post);
+    t.AddOperation(&update_items);
+
+    t.ExecuteTransaction();
+
+    return t.GetState() == db::OperationState::SUCCESS;
 }
 
 bool db_handler::ImprovePost(Player &player, int32_t interaction_id, std::string_view update_name)

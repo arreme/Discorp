@@ -267,10 +267,9 @@ TEST_CASE("Database Handler: Collect a post and upgrade a post","[handler][updat
     interactionInfo.push_back(post);
     auto result = db_handler::RegisterPlayerToDatabase(user, player, interactionInfo);
     REQUIRE(result);
-    REQUIRE(db_handler::CollectPost(player,0));
     REQUIRE(db_handler::ImprovePost(player,0,"capacity_lvl"));
     auto interaction_res = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),0);
-    auto post_result = static_cast<PostInfo *>(interaction_res->second.get());
+    auto post_result = static_cast<PostInfo * const>(interaction_res->second.get());
     REQUIRE(post_result->GetCapacityLvl() == 1);
 
     del_op_pla.ExecuteOperation();
@@ -289,6 +288,8 @@ TEST_CASE("Inventory testing", "[inventory]")
 
     REQUIRE_FALSE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
     std::vector<std::reference_wrapper<InteractionInfo>> interactionInfo;
+    PostInfo postInfo{};
+    interactionInfo.push_back(postInfo);
     User user{0,"Arreme"};
     Player player{0, user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
     REQUIRE(db_handler::RegisterPlayerToDatabase(user,player,interactionInfo));
@@ -305,10 +306,39 @@ TEST_CASE("Inventory testing", "[inventory]")
     std::vector<Item> items;
     items.push_back(Item{PBResourceItems::PEBBLE,60});
     items.push_back(Item{PBResourceItems::STICK,30});
-
+    REQUIRE(db_handler::CollectPost(player,0,24,Item::RESOURCE_TYPE,items));
     REQUIRE(db_handler::ModifyItemsQuantity(0,1,Item::RESOURCE_TYPE,items));
+    auto returned_items = db_handler::GetItems(0,1,Item::RESOURCE_TYPE,items);
+    REQUIRE(returned_items.size() == 2);
+    REQUIRE(returned_items[0].GetItemId() == PBResourceItems::STICK);
+    REQUIRE(returned_items[1].GetItemId() == PBResourceItems::PEBBLE);
+}
+
+TEST_CASE("Unlock Location","[unlock]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    db::DeleteManyOperation del_op_inv = db::DeleteManyOperation{"inventory", make_document()};
     del_op_usr.ExecuteOperation();
     del_op_inv.ExecuteOperation();
     del_op_pla.ExecuteOperation();
 
+    REQUIRE_FALSE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
+    std::vector<std::reference_wrapper<InteractionInfo>> interactionInfo;
+    PostInfo post{};
+    ZoneAccessInfo zoneAccessInfo{};
+    interactionInfo.push_back(zoneAccessInfo);
+    User user{0,"Arreme"};
+    Player player{0, user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
+    REQUIRE(db_handler::RegisterPlayerToDatabase(user,player,interactionInfo));
+    REQUIRE(db_handler::UnlockLocation(player,PBLocationID::MAIN_BASE,0));
+
+    auto result = db_handler::FindPlayerCurrentInteraction(0,1,0);
+    REQUIRE(result);
+    auto zone_access = static_cast<ZoneAccessInfo * const>(result->second.get());
+    REQUIRE(zone_access->GetUnlockedLvl() == 1);
+
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
+    del_op_pla.ExecuteOperation();
 }

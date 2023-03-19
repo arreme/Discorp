@@ -42,7 +42,7 @@ gm::Errors gm::GoToZone(uint64_t discord_id, int32_t interaction)
     auto database_info = db_handler::FindPlayerCurrentInteraction(discord_id,user->GetCurrentPlayer(),databaseID.value());
     if (database_info) 
     {
-        auto zone_access = static_cast<ZoneAccessInfo *>(database_info->second.get());
+        auto zone_access = static_cast<ZoneAccessInfo * const>(database_info->second.get());
         int unlocked_level = zone_access->GetUnlockedLvl();
         auto is_unlocked = location->GetZoneAccessUnlocked(interaction,unlocked_level);
         if (!is_unlocked.has_value()) return Errors::ILLEGAL_ACTION;
@@ -83,7 +83,7 @@ gm::Errors gm::UnlockZone(uint64_t discord_id, int32_t interaction)
     if (!interaction_db.has_value()) return Errors::INTERACTION_ALREADY_UNLOCKED;
     auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db.value());
     if (!interaction_info.has_value()) return Errors::DATABASE_CONNECTION_ERROR;
-    auto zone_access = static_cast<ZoneAccessInfo *>(interaction_info->second.get());
+    auto zone_access = static_cast<ZoneAccessInfo * const>(interaction_info->second.get());
     auto is_unlocked = location->GetZoneAccessUnlocked(interaction,zone_access->GetUnlockedLvl());
     if (!is_unlocked.has_value()) return Errors::ILLEGAL_ACTION;
     if (is_unlocked.value()) return Errors::INTERACTION_ALREADY_UNLOCKED;
@@ -132,6 +132,7 @@ gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction)
     if (interaction_info) 
     {
         std::vector<Item> items_result = location->CalculatePostRewards(interaction,interaction_info->second.get(),interaction_info->first.GetStats(),interaction_info->first.GetSkills());
+        
     }
     
 }

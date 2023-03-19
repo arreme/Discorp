@@ -68,4 +68,11 @@ TEST_CASE("Getting Resources","[resources]")
     CHECK(reward_2[0].GetQuantity() == 2);
     REQUIRE(info.GetResourceStored() == 6);
     REQUIRE(skill.m_forage_xp == 4);
+    stat.m_speed = 15;
+    info.ModifyLastCollected(-20);
+    auto reward_3 = location->CalculatePostRewards(0,&info,&stat,&skill);
+    std::cout << reward_3[0].GetQuantity() << std::endl;
+    std::cout << info.GetResourceStored() << std::endl;
+    std::cout << skill.m_forage_xp << std::endl;
+    std::cout << skill.m_forage_lvl << std::endl;
 }

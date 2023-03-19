@@ -8,6 +8,7 @@
 
 namespace db_handler
 {
+
     typedef std::pair<Player,std::vector<std::unique_ptr<InteractionInfo>>> playerInteractions;
 
     /**
@@ -30,7 +31,7 @@ namespace db_handler
 
     bool FillLocation(uint64_t discord_id, int32_t player_id, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info);
     
-    bool CollectPost(Player &player, int32_t interaction_id);
+    bool CollectPost(Player &player,  int32_t interaction_id, int32_t resource_stored, std::string category, std::vector<Item> &item_modifiers);
 
     bool ImprovePost(Player &player, int32_t interaction_id, std::string_view update_name);
 
