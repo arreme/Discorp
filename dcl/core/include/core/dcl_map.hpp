@@ -6,7 +6,6 @@
 #include <fstream>
 #include <google/protobuf/util/json_util.h>
 
-
 namespace GameMap 
 {
     const std::string map_data_location = "resources/data";
@@ -64,6 +63,7 @@ namespace GameMap
 
         std::optional<int32_t> GetInteractionDatabaseID(int id) const
         {
+            
             if (id >= m_loc_data.interactions().size())
             {
                 return std::nullopt;
@@ -97,6 +97,15 @@ namespace GameMap
             if (interaction.type() != PBInteractionType::ZONE_ACCESS) {return std::nullopt;}
             return interaction.upgradeinfo(0).info(build_level).currentstat() == 1;
         }
+
+        std::vector<PBItemData> GetZoneAccessLevelRequirements(int32_t id, int build_level) const
+        {
+            auto interaction = m_loc_data.interactions(id);
+            if (interaction.type() != PBInteractionType::ZONE_ACCESS) {return {};}
+            auto repeated_field = interaction.upgradeinfo(0).info(build_level).uprequirements();
+            
+            return {repeated_field.begin(),repeated_field.end()};
+        };
     };
 
     class DCLMap 

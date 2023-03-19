@@ -241,8 +241,8 @@ TEST_CASE("Database Handler: Go to location and unlock location","[handler][unlo
     newInteractionInfo.push_back(post);
     newInteractionInfo.push_back(zoneAccessInfo);
     newInteractionInfo.push_back(post);
-    REQUIRE(db_handler::FillLocation(player,PBLocationID::FOREST,newInteractionInfo));
-    REQUIRE(db_handler::GoToLocation(player,PBLocationID::FOREST));
+    REQUIRE(db_handler::FillLocation(user.GetId(),user.GetCurrentPlayer(),PBLocationID::FOREST,newInteractionInfo));
+    REQUIRE(db_handler::GoToLocation(user.GetId(),user.GetCurrentPlayer(),PBLocationID::FOREST));
 
     del_op_pla.ExecuteOperation();
     del_op_usr.ExecuteOperation();
@@ -302,6 +302,13 @@ TEST_CASE("Inventory testing", "[inventory]")
     auto item_result2 = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK);
     REQUIRE(item_result2.value().GetQuantity() == 20);
 
+    std::vector<Item> items;
+    items.push_back(Item{PBResourceItems::PEBBLE,60});
+    items.push_back(Item{PBResourceItems::STICK,30});
 
-    //del_op_usr.ExecuteOperation();
+    REQUIRE(db_handler::ModifyItemsQuantity(0,1,Item::RESOURCE_TYPE,items));
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
+    del_op_pla.ExecuteOperation();
+
 }

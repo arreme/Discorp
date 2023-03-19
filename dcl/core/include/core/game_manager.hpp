@@ -21,7 +21,9 @@ namespace gm
         ILLEGAL_ACTION = -6,
         FORBIDDEN_ACTION = -7,
         INTERACTION_NOT_FOUND = -8,
-        LOCATION_LOCKED = -9
+        LOCATION_LOCKED = -9,
+        NOT_ENOUGH_RESOURCES = -10,
+        INTERACTION_ALREADY_UNLOCKED = -11
     };
 
     Errors CreateGame(uint64_t discord_id, std::string user_name);
@@ -31,6 +33,10 @@ namespace gm
     Errors SetActivePlayer(uint64_t discord_id, uint8_t active_player);
 
     Errors GoToZone(uint64_t discord_id, int32_t interaction);
+    
+    Errors UnlockZone(uint64_t discord_id, int32_t interaction);
+
+    Errors CollectPost(uint64_t discord_id, int32_t interaction);
 
     //Errors PhotoCurrentLocation(uint64_t discord_id);
 }

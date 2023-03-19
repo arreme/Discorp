@@ -170,7 +170,6 @@ void UpdateOneOperation::ExecuteOperation() noexcept
     {
         auto client = MongoDBInstance::GetInstance()->getClientFromPool();
         auto db = (*client)[DATABASE_NAME];
-
         auto result = db[m_colName].update_one(m_bson.view(), m_update_query.view());
         m_db_state = OperationState::SUCCESS;
         if (!result) 

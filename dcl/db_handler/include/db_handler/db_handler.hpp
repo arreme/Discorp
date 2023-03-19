@@ -21,12 +21,14 @@ namespace db_handler
     /**
      * Sets current location atribute to the desired
     */
-    bool GoToLocation(Player &player, int32_t new_location);
+    bool GoToLocation(uint64_t discord_id, int32_t player_id, int32_t new_location);
 
     /**
-     * Sets specific zone access interaction to true
+     * Sets specific zone access interaction to +1
     */
-    bool FillLocation(Player &player, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info);
+    bool UnlockLocation(Player &player,int32_t location_id, int32_t interaction);
+
+    bool FillLocation(uint64_t discord_id, int32_t player_id, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info);
     
     bool CollectPost(Player &player, int32_t interaction_id);
 
@@ -36,7 +38,7 @@ namespace db_handler
 
     std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> FindPlayerCurrentInteraction(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
 
-    bool PlayerFirstTimeToLocation(Player &player,int32_t location_id);
+    bool PlayerFirstTimeToLocation(uint64_t discord_id, int32_t player_id, int32_t location_id);
 
     int CurrentPlayerLocation(uint64_t discord_id, int32_t player_id);
 
@@ -50,7 +52,11 @@ namespace db_handler
 
     bool ModifyItemQuantity(uint64_t discord_id, int32_t player_id, std::string category, int item_id, int quantity);
 
+    bool ModifyItemsQuantity(uint64_t discord_id, int32_t player_id, std::string category, std::vector<Item> &item_modifiers, bool subtract = false);
+
     std::optional<Item> GetItem(uint64_t discord_id, int32_t player_id, std::string category, int item_id);
+
+    std::vector<Item> GetItems(uint64_t discord_id, int32_t player_id, std::string category, std::vector<Item> &item_ids);
 
     std::vector<Item> GetInventory(uint64_t discord_id, int32_t player_id, std::string category, int current_page);
 }

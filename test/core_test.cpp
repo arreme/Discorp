@@ -22,15 +22,29 @@ TEST_CASE("/goto <location>", "[goto]")
 {
     db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
     db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    db::DeleteManyOperation del_op_inv = db::DeleteManyOperation{"inventory", make_document()};
     del_op_pla.ExecuteOperation();
     del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
 
     REQUIRE(gm::GoToZone(0,1) == gm::Errors::USER_NOT_FOUND);
     gm::CreateGame(0,"Arreme");
     REQUIRE(gm::GoToZone(0,10) == gm::Errors::INTERACTION_NOT_FOUND);
     REQUIRE(gm::GoToZone(0,0) == gm::Errors::ILLEGAL_ACTION);
+    REQUIRE(gm::GoToZone(0,1) == gm::Errors::LOCATION_LOCKED);
+    REQUIRE(gm::UnlockZone(0,1) == gm::Errors::NOT_ENOUGH_RESOURCES);
+    db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,1);
+    REQUIRE(gm::UnlockZone(0,1) == gm::Errors::NOT_ENOUGH_RESOURCES);
+    db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10);
+    REQUIRE(gm::UnlockZone(0,1) == gm::Errors::SUCCESS);
     REQUIRE(gm::GoToZone(0,1) == gm::Errors::SUCCESS);
     REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::FOREST);
+    REQUIRE(gm::UnlockZone(0,2) == gm::Errors::SUCCESS);
+    REQUIRE(gm::GoToZone(0,2) == gm::Errors::SUCCESS);
+    REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::TOWN);
+    REQUIRE(gm::GoToZone(0,0) == gm::Errors::SUCCESS);
+    REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::FOREST);
+    REQUIRE(gm::GoToZone(0,0) == gm::Errors::ILLEGAL_ACTION);
     REQUIRE(gm::GoToZone(0,1) == gm::Errors::SUCCESS);
     REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::MAIN_BASE);
     

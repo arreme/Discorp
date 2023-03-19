@@ -62,12 +62,12 @@ std::optional<User> db_handler::FindUserById(uint64_t discord_id)
     return std::nullopt;
 }
 
-bool db_handler::GoToLocation(Player &player, int32_t new_location) 
+bool db_handler::GoToLocation(uint64_t discord_id, int32_t player_id, int32_t new_location) 
 {
     db::UpdateOneOperation update_op{"players",
         make_document(
-            kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
-            kvp("player_id",b_int32{player.GetPlayerId()})
+            kvp("discord_id",b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id",b_int32{player_id})
         ),
         make_document(kvp("$set",make_document(
             kvp("current_loc",b_int32{new_location})
@@ -78,13 +78,31 @@ bool db_handler::GoToLocation(Player &player, int32_t new_location)
     return update_op.GetState() == db::OperationState::SUCCESS;
 }
 
-bool db_handler::FillLocation(Player &player, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info)
+bool db_handler::UnlockLocation(Player &player,int32_t location_id, int32_t interaction) 
 {
-    std::string location_update_query = "locations." + std::to_string(unlocked_location);
+    std::string location_update_query = "locations."+std::to_string(location_id)+"." +std::to_string(interaction)+".unlocked_lvl";
     db::UpdateOneOperation update_op{"players",
         make_document(
             kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
             kvp("player_id",b_int32{player.GetPlayerId()})
+        ),
+        make_document(kvp("$inc",make_document(
+            kvp(location_update_query,1)
+        )))
+    };
+
+    update_op.ExecuteOperation();
+
+    return update_op.GetState() == db::OperationState::SUCCESS;
+}
+
+bool db_handler::FillLocation(uint64_t discord_id, int32_t player_id, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info)
+{
+    std::string location_update_query = "locations." + std::to_string(unlocked_location);
+    db::UpdateOneOperation update_op{"players",
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id",b_int32{player_id})
         ),
         make_document(kvp("$set",make_document(
             kvp(location_update_query,FillInteracionsDocument(info))
@@ -189,7 +207,7 @@ int db_handler::CurrentPlayerLocation(uint64_t discord_id, int32_t player_id)
     return -1;
 }
 
-bool db_handler::PlayerFirstTimeToLocation(Player &player,int32_t location_id) 
+bool db_handler::PlayerFirstTimeToLocation(uint64_t discord_id, int32_t player_id, int32_t location_id) 
 {
     mongocxx::options::find find_opt{};
     find_opt.projection(
@@ -199,8 +217,8 @@ bool db_handler::PlayerFirstTimeToLocation(Player &player,int32_t location_id)
     );
     db::FindOneOperation find_one_op{"players", 
         make_document(
-            kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
-            kvp("player_id",b_int32{player.GetPlayerId()}),
+            kvp("discord_id",b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id",b_int32{player_id}),
             kvp("locations."+std::to_string(location_id),
                 make_document(
                     kvp("$type","array")
@@ -278,6 +296,7 @@ mongocxx::pipeline db_handler::PlayerCurrentInteraction_Pipeline(uint64_t discor
 
 bool db_handler::ModifyItemQuantity(uint64_t discord_id, int32_t player_id, std::string category, int item_id, int quantity) 
 {
+
     db::UpdateOneOperation update_op{"inventory",
         make_document(
             kvp("discord_id", b_int64{static_cast<int64_t>(discord_id)}),
@@ -290,6 +309,33 @@ bool db_handler::ModifyItemQuantity(uint64_t discord_id, int32_t player_id, std:
             kvp("$inc",make_document(
                 kvp(category+"."+std::to_string(item_id)+".quantity",b_int32{quantity})
             ))
+        )
+    };
+
+    update_op.ExecuteOperation();
+    return update_op.GetState() == db::OperationState::SUCCESS;
+}
+
+bool db_handler::ModifyItemsQuantity(uint64_t discord_id, int32_t player_id, std::string category, std::vector<Item> &item_modifiers, bool subtract) 
+{
+
+    bsoncxx::builder::basic::document set_doc{};
+    bsoncxx::builder::basic::document inc_doc{};
+
+    for (auto &item : item_modifiers)
+    {
+        set_doc.append(kvp(category+"."+std::to_string(item.GetItemId())+".item_id",b_int32{item.GetItemId()}));
+        inc_doc.append(kvp(category+"."+std::to_string(item.GetItemId())+".quantity",b_int32{subtract ? -item.GetQuantity() : item.GetQuantity()}));
+    }
+    
+    db::UpdateOneOperation update_op{"inventory",
+        make_document(
+            kvp("discord_id", b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id", b_int32{player_id})
+        ),
+        make_document(
+            kvp("$set", set_doc.extract()),
+            kvp("$inc", inc_doc.extract())
         )
     };
 
@@ -330,3 +376,56 @@ std::optional<Item> db_handler::GetItem(uint64_t discord_id, int32_t player_id, 
     return std::nullopt;
 }
 
+std::vector<Item> db_handler::GetItems(uint64_t discord_id, int32_t player_id, std::string category, std::vector<Item> &item_ids) 
+{
+    bsoncxx::builder::basic::array ids{};
+
+    for (auto &item_id : item_ids)
+    {
+        ids.append(item_id.GetItemId());
+    }
+    
+    
+    mongocxx::options::find find_options{};
+    find_options.projection(
+        make_document(
+            kvp(category,make_document(
+                kvp("$filter",make_document(
+                    kvp("input","$"+category),
+                    kvp("as","item"),
+                    kvp("cond",make_document(
+                        kvp("$in",make_array(
+                            "$$item.item_id",
+                            ids.extract()
+                        ))
+                    ))
+                ))
+            ))
+        )
+    );
+
+    db::FindOneOperation find_op{"inventory",
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id", b_int32{player_id})
+        ),
+        std::move(find_options)
+    };
+    find_op.ExecuteOperation();
+    if (find_op.m_result) 
+    {
+        auto item_array = find_op.m_result.value()["resources"].get_array().value;
+        
+        if (std::distance(item_array.begin(),item_array.end()) >= 1) {
+            std::vector<Item> item_data;
+            for (auto &current : item_array)
+            {
+                item_data.push_back(Item{current.get_document().view()});
+            }
+
+            return item_data;
+            
+        }   
+    }
+    return {};
+}
