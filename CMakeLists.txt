@@ -12,6 +12,7 @@ if(BUILD_TESTS)
         test/proto_test.cpp
         test/core_test.cpp
         test/image_test.cpp
+        dcl/img/src/gd_io_stream.cpp
     )
     add_definitions(-DTEST_DATABASE)
     find_package(Catch2 3 REQUIRED)

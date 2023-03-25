@@ -23,7 +23,7 @@
 #define _gdpp_h
 #ifdef __cplusplus
 
-#include "gd_io_stream.h"
+#include <img/gd_io_stream.hpp>
 #include <string>
 
 /// namespace GD:: contains the C++ wrapper classes for libgd
@@ -1512,6 +1512,30 @@ public:
 	const gdImagePtr GetPtr() const {
 		return im;
 	}
+
+    operator bool() const
+    {
+        return im != 0;
+    }
+
+    bool operator== (const GD::Image& src) const
+    {
+        int res = gdImageCompare(im,src.im);
+        return res == 0;
+    }
+
+    void AddImageText(GD::TrueColor &color, GD::Point &p, int size, std::string &text, bool bold) {
+        std::string font;
+        if (bold)
+        {
+            font = "resources/bold.ttf";
+        } else {
+            font = "resources/regulat.ttf";
+        }
+        StringFT(nullptr,color.Int(),(char*)font.c_str(),size,0,p,text);
+    }
+
+
 
 protected:
 	/// Free the internal image pointer

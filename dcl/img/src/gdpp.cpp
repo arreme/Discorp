@@ -11,7 +11,7 @@
 	Notably includes the methods which determine the image file
 	format of a file before reading it into memory.
 */
-#include <img/gdpp/gdpp.h>
+#include <img/gdpp.hpp>
 
 namespace GD
 	{

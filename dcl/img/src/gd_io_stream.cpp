@@ -13,7 +13,7 @@
 	as an input stream has no need of output methods, and vice-versa.
 */
 
-#include <img/gdpp/gd_io_stream.h>
+#include <img/gd_io_stream.hpp>
 
 /**	Read into buffer from stream
 	Return the number of bytes successfully read.

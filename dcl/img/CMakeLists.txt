@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 project(dcl_img VERSION 0.0.1 DESCRIPTION "Image generation library wrapper for GD in C++")
-add_library(${PROJECT_NAME} SHARED "src/image.cpp" "src/gdpp/gdpp.cpp" "src/gdpp/gd_io_stream.cpp")
+add_library(${PROJECT_NAME} SHARED "src/renderer.cpp" "src/gdpp.cpp" "src/gd_io_stream.cpp")
 
 target_include_directories(
     ${PROJECT_NAME}
@@ -17,7 +17,6 @@ target_link_libraries(
     PRIVATE freetype
     PRIVATE m
 )
-
 
 set(CMAKE_BUILD_TYPE Release)
 set_target_properties(${PROJECT_NAME} PROPERTIES
