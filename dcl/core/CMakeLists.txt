@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
 project(dcl_core VERSION 0.0.1 DESCRIPTION "The core information of the dcl bot")
-
 find_package(Protobuf REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED 
@@ -20,7 +19,8 @@ target_include_directories(
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PRIVATE dcl_db_handler
+    PUBLIC dcl_db_handler
+    PUBLIC dcl_img
     PRIVATE ${PROTOBUF_LIBRARY}
 
 )

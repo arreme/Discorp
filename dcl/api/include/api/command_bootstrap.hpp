@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <dpp.h>
-#include "command.hpp"
+#include <api/command.hpp>
 
 class CommandBootstrap 
 {

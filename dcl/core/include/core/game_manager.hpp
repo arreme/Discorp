@@ -5,6 +5,7 @@
 #include <db_handler/entities/user.hpp>
 #include <db_handler/entities/interaction.hpp>
 #include <core/dcl_map.hpp>
+#include <img/renderer.hpp>
 
 namespace gm 
 {
@@ -38,5 +39,5 @@ namespace gm
 
     Errors CollectPost(uint64_t discord_id, int32_t interaction);
 
-    //Errors PhotoCurrentLocation(uint64_t discord_id);
+    std::unique_ptr<char, void(*)(char*)> PhotoCurrentLocation(uint64_t discord_id, int *size);
 }

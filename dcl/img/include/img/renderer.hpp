@@ -7,12 +7,17 @@ namespace Renderer
 {
     class LocationRender 
     {
+        int16_t interaction_number = 0;
+        GD::Image image;
     public:
-        LocationRender(std::string locationPath);
+        LocationRender(const std::string &locationPath);
 
+        void AddInteraction(int posX, int posY, const std::string &interaction_image);
+
+        std::unique_ptr<char, void(*)(char*)> RenderLocation(int *size);
     };
 
-    void RenderLocation(std::string &data);
+    
 
     void FreePointer(char * data) 
     {

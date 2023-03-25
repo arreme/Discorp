@@ -4,7 +4,7 @@ option(DEBUG_MODE "Activate debug build" OFF)
 option(BUILD_TESTS "Activate test project" OFF)
 
 if(BUILD_TESTS)
-    project(dcl_test VERSION 1.0.0 DESCRIPTION "Main Bot For DiscLand")
+    project(dcl_test VERSION 1.0.0 DESCRIPTION "Main Test executable")
     add_executable(${PROJECT_NAME} 
         test/setup.cpp 
         test/db_test.cpp 
@@ -40,6 +40,36 @@ if(BUILD_TESTS)
         PRIVATE "dcl/img/include"
     )
 else()
+    project(dcl_main VERSION 1.0.0 DESCRIPTION "Main Bot For DiscLand")
+    add_executable(${PROJECT_NAME} "dcl/main.cpp")
+    add_definitions(-DTEST_DATABASE)
+    add_subdirectory(libs/DPP)
+    add_subdirectory(dcl/db)
+    add_subdirectory(dcl/db_handler)
+    add_subdirectory(dcl/core)
+    add_subdirectory(dcl/img)
+    add_subdirectory(dcl/api)
+
+    target_link_libraries(
+        ${PROJECT_NAME}
+        dpp
+        dcl_api
+        dcl_db
+        dcl_db_handler
+        dcl_core
+        dcl_img
+        pthread
+    )
+
+    target_include_directories(
+        ${PROJECT_NAME}
+        PRIVATE "libs/DPP/include"
+        PRIVATE "dcl/api/include"
+        PRIVATE "dcl/db/include"
+        PRIVATE "dcl/db_handler/include"
+        PRIVATE "dcl/core/include"
+        PRIVATE "dcl/img/include"
+    )
 
 endif()
 

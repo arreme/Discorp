@@ -12,7 +12,7 @@
             "posX": 10,
             "posY": 10,
             "imagePaths": [
-                "assets/posts/bush_0.png"
+                "resources/assets/posts/bush_0.png"
             ],
             "upgradeInfo": [
                 {
@@ -49,10 +49,10 @@
             "type":"ZONE_ACCESS",
             "interactionName": "GoToForest",
             "databaseId": 1,
-            "posX": 40,
-            "posY": 40,
+            "posX": 80,
+            "posY": 80,
             "imagePaths": [
-                "assets/zone_access/goto.png"
+                "resources/assets/zone_access/goto.png"
             ],
             "nextLoc":"FOREST",
             "upgradeInfo": [
@@ -76,5 +76,5 @@
             ]
         }
     ],
-    "locImage": "assets/locations/main_base_0.png"
+    "locImage": "resources/assets/locations/main_base_0.png"
 }

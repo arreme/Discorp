@@ -76,3 +76,12 @@ TEST_CASE("Getting Resources","[resources]")
     std::cout << skill.m_forage_xp << std::endl;
     std::cout << skill.m_forage_lvl << std::endl;
 }
+
+TEST_CASE("Getting image path", "[image_data]") 
+{
+    auto location = GameMap::DCLMap::getInstance().GetLocation(PBLocationID::MAIN_BASE);
+    auto size = location->GetInteractionSize();
+    REQUIRE(size == 2);
+    auto img_path = location->GetInteractionsImage(0,0);
+    REQUIRE(img_path == "resources/assets/posts/bush_0.png");
+}

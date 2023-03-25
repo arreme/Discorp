@@ -7,7 +7,6 @@ target_include_directories(
     ${PROJECT_NAME}
     PUBLIC "include"
     PUBLIC "../db/include"
-    PRIVATE "../util/include"
 )
 
 target_link_libraries(

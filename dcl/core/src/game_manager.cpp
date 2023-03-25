@@ -134,5 +134,29 @@ gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction)
         std::vector<Item> items_result = location->CalculatePostRewards(interaction,interaction_info->second.get(),interaction_info->first.GetStats(),interaction_info->first.GetSkills());
         
     }
-    
+
+    return Errors::SUCCESS;
+}
+
+std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_id, int *size) 
+{
+    auto user = db_handler::FindUserById(discord_id);
+    if (!user) return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+
+    int location_id = db_handler::CurrentPlayerLocation(discord_id,user->GetCurrentPlayer());
+    if (!PBLocationID_IsValid(location_id)) return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+    auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(location_id));
+
+    Renderer::LocationRender location_img{location->GetImagePath()};
+    int interaction_count = location->GetInteractionSize();
+    int posX = 0;
+    int posY = 0;
+    for (size_t i = 0; i < interaction_count; i++)
+    {
+        posX = location->GetInteractionPosX(i);
+        posY = location->GetInteractionPosY(i);
+        location_img.AddInteraction(posX, posY, location->GetInteractionsImage(i,0));
+    }
+
+    return location_img.RenderLocation(size);
 }

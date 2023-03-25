@@ -135,6 +135,34 @@ namespace GameMap
             
             return {repeated_field.begin(),repeated_field.end()};
         };
+
+        int GetInteractionPosX(int id) const 
+        {
+            return m_loc_data.interactions(id).posx();
+        };
+
+        int GetInteractionPosY(int id) const 
+        {
+            return m_loc_data.interactions(id).posy();
+        };
+
+        const std::string &GetImagePath() const
+        {
+            return m_loc_data.locimage();
+        };
+
+        int GetInteractionSize() const 
+        {
+            return m_loc_data.interactions_size();
+        };
+
+        const std::string &GetInteractionsImage(int id, int level) const
+        {
+            const PBInteraction &target_int = m_loc_data.interactions(id);
+            int max_lvl = target_int.imagepaths_size();
+            if (level >= max_lvl) return target_int.imagepaths(max_lvl - 1);
+            return target_int.imagepaths(level);
+        };
     };
 
     class DCLMap 
