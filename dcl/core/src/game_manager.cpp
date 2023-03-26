@@ -114,7 +114,7 @@ gm::Errors gm::UnlockZone(uint64_t discord_id, int32_t interaction)
     return Errors::SUCCESS;
 }
 
-gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction) 
+gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction, std::string &output) 
 {
     auto user = db_handler::FindUserById(discord_id);
     if (!user) return Errors::USER_NOT_FOUND;
@@ -131,12 +131,40 @@ gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction)
     auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db);
     if (interaction_info) 
     {
-        std::vector<Item> items_result = location->CalculatePostRewards(interaction,interaction_info->second.get(),interaction_info->first.GetStats(),interaction_info->first.GetSkills());
-        
+        PostInfo *post_info = static_cast<PostInfo *>(interaction_info->second.get());
+        std::vector<Item> items_result = location->CalculatePostRewards(interaction,post_info,interaction_info->first.GetStats(),interaction_info->first.GetSkills());
+        std::cout << items_result[0].GetQuantity() << std::endl;
+        if (db_handler::CollectPost(interaction_info->first,interaction,post_info->GetResourceStored(),Item::RESOURCE_TYPE,items_result))
+        {
+            output += "\nSTORED: "+post_info->GetResourceStored();
+            for (auto& res : items_result)
+            {
+                auto name = PBResourceItems_Name(res.GetItemId());
+                output += "\n    -> "+name+" : "+ std::to_string(res.GetQuantity());
+            }
+            return Errors::SUCCESS;
+        }   
     }
 
-    return Errors::SUCCESS;
+    return Errors::DATABASE_CONNECTION_ERROR;
 }
+
+gm::Errors gm::ImprovePost(uint64_t discord_id, int32_t interaction_id, std::string upgrade_name)
+{
+    auto user = db_handler::FindUserById(discord_id);
+    if (!user) return Errors::USER_NOT_FOUND;
+
+    int location_id = db_handler::CurrentPlayerLocation(discord_id,user->GetCurrentPlayer());
+    if (!PBLocationID_IsValid(location_id)) return Errors::GENERAL_ERROR;
+    auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(location_id));
+
+    auto interaction_type = location->GetInteractionType(interaction_id);
+    if (!interaction_type.has_value()) return Errors::INTERACTION_NOT_FOUND;
+    if (interaction_type.value() != PBInteractionType::POST) return Errors::ILLEGAL_ACTION;
+
+
+}
+
 
 std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_id, int *size) 
 {
@@ -155,8 +183,24 @@ std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_
     {
         posX = location->GetInteractionPosX(i);
         posY = location->GetInteractionPosY(i);
+        //TODO decide image of post depending on level!
         location_img.AddInteraction(posX, posY, location->GetInteractionsImage(i,0));
     }
+    return location_img.RenderImage(size);
+}
 
-    return location_img.RenderLocation(size);
+
+std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, int *size) 
+{
+    return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+}
+
+std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentPost(uint64_t discord_id, int *size) 
+{
+    return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+}
+
+std::unique_ptr<char, void(*)(char*)> gm::PlayerInfo(uint64_t discord_id, int *size) 
+{
+    return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
 }

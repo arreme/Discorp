@@ -5,16 +5,22 @@
 
 namespace Renderer
 {
-    class LocationRender 
+    class ImageRenderer 
     {
-        int16_t interaction_number = 0;
+    protected:
         GD::Image image;
+    public:
+        std::unique_ptr<char, void(*)(char*)> RenderImage(int *size);
+    };
+
+    class LocationRender : public ImageRenderer
+    {
+    private:
+        int16_t interaction_number = 0;
     public:
         LocationRender(const std::string &locationPath);
 
         void AddInteraction(int posX, int posY, const std::string &interaction_image);
-
-        std::unique_ptr<char, void(*)(char*)> RenderLocation(int *size);
     };
 
     

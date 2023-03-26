@@ -458,3 +458,23 @@ std::vector<Item> db_handler::GetItems(uint64_t discord_id, int32_t player_id, s
     }
     return {};
 }
+
+bool db_handler_util::ModifyPostDate(Player &player, int32_t interaction_id, int32_t secondsToModify) 
+{
+    auto modifiedTime = std::chrono::system_clock::now();
+    modifiedTime += std::chrono::seconds(secondsToModify);
+    std::string location_update_time = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".last_updated";
+    db::UpdateOneOperation update_post{"players",
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
+            kvp("player_id",b_int32{player.GetPlayerId()})
+        ),
+        make_document(kvp("$set",make_document(
+            kvp(location_update_time, b_date{modifiedTime})
+        )))
+    };
+
+    update_post.ExecuteOperation();
+    
+    return update_post.GetState() == db::OperationState::SUCCESS;
+}

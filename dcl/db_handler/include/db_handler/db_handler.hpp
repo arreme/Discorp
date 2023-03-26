@@ -49,6 +49,8 @@ namespace db_handler
 
     mongocxx::pipeline PlayerCurrentInteraction_Pipeline(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
 
+
+
     //Inventory
 
     bool ModifyItemQuantity(uint64_t discord_id, int32_t player_id, std::string category, int item_id, int quantity);
@@ -60,4 +62,9 @@ namespace db_handler
     std::vector<Item> GetItems(uint64_t discord_id, int32_t player_id, std::string category, std::vector<Item> &item_ids);
 
     std::vector<Item> GetInventory(uint64_t discord_id, int32_t player_id, std::string category, int current_page);
+}
+
+namespace db_handler_util 
+{
+    bool ModifyPostDate(Player &player, int32_t interaction_id, int32_t secondsToModify);
 }

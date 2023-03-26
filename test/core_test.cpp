@@ -47,5 +47,29 @@ TEST_CASE("/goto <location>", "[goto]")
     REQUIRE(gm::GoToZone(0,0) == gm::Errors::ILLEGAL_ACTION);
     REQUIRE(gm::GoToZone(0,1) == gm::Errors::SUCCESS);
     REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::MAIN_BASE);
+
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
     
+}
+
+TEST_CASE("/collect post","[collect]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    db::DeleteManyOperation del_op_inv = db::DeleteManyOperation{"inventory", make_document()};
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
+
+    std::string output = "REWARDS COLLECTED\n-----------------";
+    REQUIRE(gm::CollectPost(0,0,output) == gm::Errors::USER_NOT_FOUND);
+    gm::CreateGame(0,"Arreme");
+    Player player{0, 1, PBLocationID::MAIN_BASE};
+    REQUIRE(db_handler_util::ModifyPostDate(player,0,-20));
+    gm::CollectPost(0,0,output);
+    std::cout << output << std::endl;
+    gm::CollectPost(0,0,output);
+
 }

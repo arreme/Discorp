@@ -99,10 +99,9 @@ namespace GameMap
             return interaction.nextloc();
         }
 
-        std::vector<Item> CalculatePostRewards(int32_t id, InteractionInfo *post_db_info,Stats *const plyr_stats,Skills *const plyr_skills) const 
+        std::vector<Item> CalculatePostRewards(int32_t id, PostInfo *post_info,Stats *const plyr_stats,Skills *const plyr_skills) const 
         {
             std::vector<Item> resources_to_add;
-            PostInfo *post_info = static_cast<PostInfo *>(post_db_info);
             auto interaction = m_loc_data.interactions(id);
             if (interaction.type() != PBInteractionType::POST) {return {};}
             auto seconds = static_cast<int>(post_info->GetDifferenceInSeconds());

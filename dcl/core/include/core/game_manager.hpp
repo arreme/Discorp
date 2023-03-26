@@ -37,7 +37,15 @@ namespace gm
     
     Errors UnlockZone(uint64_t discord_id, int32_t interaction);
 
-    Errors CollectPost(uint64_t discord_id, int32_t interaction);
+    Errors CollectPost(uint64_t discord_id, int32_t interaction, std::string &output);
+
+    Errors ImprovePost(uint64_t discord_id, int32_t interaction, std::string upgrade_name);
 
     std::unique_ptr<char, void(*)(char*)> PhotoCurrentLocation(uint64_t discord_id, int *size);
+
+    std::unique_ptr<char, void(*)(char*)> Inventory(uint64_t discord_id, int *size);
+
+    std::unique_ptr<char, void(*)(char*)> PhotoCurrentPost(uint64_t discord_id, int *size);
+
+    std::unique_ptr<char, void(*)(char*)> PlayerInfo(uint64_t discord_id, int *size);
 }

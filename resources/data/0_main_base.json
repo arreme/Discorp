@@ -26,6 +26,11 @@
                                     "quantity":3
                                 }
                             ]
+                        },
+                        {
+                            "currentStat": 120,
+                            "upRequirements" : [
+                            ]
                         }
                     ]
                 },
@@ -34,6 +39,15 @@
                     "info": [
                         {
                             "currentStat": 1,
+                            "upRequirements" : [
+                                {
+                                    "itemID":"STICK",
+                                    "quantity":20
+                                }
+                            ]
+                        },
+                        {
+                            "currentStat": 2,
                             "upRequirements" : [
                                 {
                                     "itemID":"STICK",

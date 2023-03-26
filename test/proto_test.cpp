@@ -71,10 +71,9 @@ TEST_CASE("Getting Resources","[resources]")
     stat.m_speed = 15;
     info.ModifyLastCollected(-20);
     auto reward_3 = location->CalculatePostRewards(0,&info,&stat,&skill);
-    std::cout << reward_3[0].GetQuantity() << std::endl;
-    std::cout << info.GetResourceStored() << std::endl;
-    std::cout << skill.m_forage_xp << std::endl;
-    std::cout << skill.m_forage_lvl << std::endl;
+    REQUIRE(reward_3[0].GetQuantity() == 17);
+    REQUIRE(skill.m_forage_xp == 1);
+    REQUIRE(skill.m_forage_lvl == 2);
 }
 
 TEST_CASE("Getting image path", "[image_data]") 
