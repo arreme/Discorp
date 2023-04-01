@@ -29,10 +29,9 @@ int main(int argc, char *argv[])
         if (delete_commands) 
         {
             auto commands = bot.global_commands_get_sync();
-            for (dpp::slashcommand_map::iterator it = commands.begin();
-                    it != commands.end(); ++it)
+            for (auto & command : commands)
             {
-                bot.global_command_delete_sync(it->first);
+                bot.global_command_delete_sync(command.first);
             }
         }
         

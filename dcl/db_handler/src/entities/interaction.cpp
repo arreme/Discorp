@@ -14,9 +14,9 @@ PostInfo::PostInfo()
 PostInfo::PostInfo(bsoncxx::document::view doc) 
 {
     m_type = InteractionType::POST;
-    m_capacity_lvl = doc["capacity_lvl"].get_int32();
-    m_gen_second_lvl = doc["generation_lvl"].get_int32();
-    m_fortune_lvl = doc["fortune_lvl"].get_int32();
+    m_capacity_lvl = doc["CAPACITY"].get_int32();
+    m_gen_second_lvl = doc["GEN_SECOND"].get_int32();
+    m_fortune_lvl = doc["FORTUNE"].get_int32();
     m_resource_stored = doc["resource_stored"].get_int32();
     m_last_collected = doc["last_updated"].get_date();
 }
@@ -26,9 +26,9 @@ bsoncxx::document::value PostInfo::ToJson() const
     bsoncxx::builder::basic::document doc{};
 
     doc.append(kvp("type", bsoncxx::types::b_int32{static_cast<int>(m_type)}));
-    doc.append(kvp("capacity_lvl",bsoncxx::types::b_int32{m_capacity_lvl}));
-    doc.append(kvp("generation_lvl",bsoncxx::types::b_int32{m_gen_second_lvl}));
-    doc.append(kvp("fortune_lvl",bsoncxx::types::b_int32{m_fortune_lvl}));
+    doc.append(kvp("CAPACITY",bsoncxx::types::b_int32{m_capacity_lvl}));
+    doc.append(kvp("GEN_SECOND",bsoncxx::types::b_int32{m_gen_second_lvl}));
+    doc.append(kvp("FORTUNE",bsoncxx::types::b_int32{m_fortune_lvl}));
     doc.append(kvp("resource_stored",bsoncxx::types::b_int32{m_resource_stored}));
     doc.append(kvp("last_updated", bsoncxx::types::b_date{m_last_collected}));
 
@@ -83,14 +83,14 @@ ZoneAccessInfo::ZoneAccessInfo()
 ZoneAccessInfo::ZoneAccessInfo(bsoncxx::document::view doc) 
 {
     m_type = InteractionType::ZONE_ACCESS;
-    m_unlocked_lvl = doc["unlocked_lvl"].get_int32();
+    m_unlocked_lvl = doc["ZONE_UNLOCK"].get_int32();
 }
 
 bsoncxx::document::value ZoneAccessInfo::ToJson() const 
 {
     bsoncxx::builder::basic::document doc{};
     doc.append(kvp("type", bsoncxx::types::b_int32{static_cast<int>(m_type)}));
-    doc.append(kvp("unlocked_lvl",bsoncxx::types::b_int32{m_unlocked_lvl}));
+    doc.append(kvp("ZONE_UNLOCK",bsoncxx::types::b_int32{m_unlocked_lvl}));
     return doc.extract();
 }
 

@@ -135,6 +135,14 @@ namespace GameMap
             return {repeated_field.begin(),repeated_field.end()};
         };
 
+        std::vector<PBItemData> GetPostLocationUpgradeRequirements(int32_t id, PBUpgradeType type, int upgrade_lvl) const 
+        {
+            auto interaction = m_loc_data.interactions(id);
+            if (interaction.type() != PBInteractionType::POST) {return {};}
+            auto repeated_field = interaction.upgradeinfo(type).info(upgrade_lvl).uprequirements();
+            return {repeated_field.begin(),repeated_field.end()};
+        }
+
         int GetInteractionPosX(int id) const 
         {
             return m_loc_data.interactions(id).posx();

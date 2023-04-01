@@ -89,9 +89,10 @@ gm::Errors gm::UnlockZone(uint64_t discord_id, int32_t interaction)
     if (is_unlocked.value()) return Errors::INTERACTION_ALREADY_UNLOCKED;
     auto get_requirements = location->GetZoneAccessLevelRequirements(interaction,zone_access->GetUnlockedLvl());
     std::vector<Item> item_requirements;
+    item_requirements.reserve(get_requirements.size());
     for (auto &req : get_requirements)
     {
-        item_requirements.push_back(Item{req.itemid(),req.quantity()});
+        item_requirements.emplace_back(req.itemid(),req.quantity());
     }
 
     auto items = db_handler::GetItems(discord_id,user.value().GetCurrentPlayer(),Item::RESOURCE_TYPE , item_requirements);
@@ -131,12 +132,11 @@ gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction, std::string
     auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db);
     if (interaction_info) 
     {
-        PostInfo *post_info = static_cast<PostInfo *>(interaction_info->second.get());
+        auto *post_info = static_cast<PostInfo *>(interaction_info->second.get());
         std::vector<Item> items_result = location->CalculatePostRewards(interaction,post_info,interaction_info->first.GetStats(),interaction_info->first.GetSkills());
-        std::cout << items_result[0].GetQuantity() << std::endl;
         if (db_handler::CollectPost(interaction_info->first,interaction,post_info->GetResourceStored(),Item::RESOURCE_TYPE,items_result))
         {
-            output += "\nSTORED: "+post_info->GetResourceStored();
+            output += "\nSTORED: "+std::to_string(post_info->GetResourceStored());
             for (auto& res : items_result)
             {
                 auto name = PBResourceItems_Name(res.GetItemId());
@@ -145,7 +145,6 @@ gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction, std::string
             return Errors::SUCCESS;
         }   
     }
-
     return Errors::DATABASE_CONNECTION_ERROR;
 }
 
@@ -154,6 +153,9 @@ gm::Errors gm::ImprovePost(uint64_t discord_id, int32_t interaction_id, std::str
     auto user = db_handler::FindUserById(discord_id);
     if (!user) return Errors::USER_NOT_FOUND;
 
+    PBUpgradeType target_upgrade;
+    if (!PBUpgradeType_Parse(upgrade_name,&target_upgrade)) return Errors::FORMAT_ERROR;
+
     int location_id = db_handler::CurrentPlayerLocation(discord_id,user->GetCurrentPlayer());
     if (!PBLocationID_IsValid(location_id)) return Errors::GENERAL_ERROR;
     auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(location_id));
@@ -161,10 +163,55 @@ gm::Errors gm::ImprovePost(uint64_t discord_id, int32_t interaction_id, std::str
     auto interaction_type = location->GetInteractionType(interaction_id);
     if (!interaction_type.has_value()) return Errors::INTERACTION_NOT_FOUND;
     if (interaction_type.value() != PBInteractionType::POST) return Errors::ILLEGAL_ACTION;
+    
+    auto interaction_db = location->GetInteractionDatabaseID(interaction_id).value();
+    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db);
+    
+    int current_level = 0;
+    auto post_info = static_cast<PostInfo *>(interaction_info->second.get());
+    switch (target_upgrade)
+    {
+    case PBUpgradeType::CAPACITY:
+        current_level = post_info->GetCapacityLvl();
+        break;
+    case PBUpgradeType::GEN_SECOND:
+        current_level = post_info->GetGenSecondLvl();
+        break;
+    case PBUpgradeType::FORTUNE:
+        current_level = post_info->GetFortuneLvl();
+        break;
+    default:
+        return Errors::GENERAL_ERROR;
+    }
 
+    auto requirements = location->GetPostLocationUpgradeRequirements(interaction_id, target_upgrade, current_level);
+    if (requirements.size() <= 0) return Errors::INTERACTION_ALREADY_UNLOCKED;
+    std::vector<Item> item_requirements;
+    item_requirements.reserve(requirements.size());
+    for (auto &req : requirements)
+    {
+        item_requirements.emplace_back(req.itemid(),req.quantity());
+    }
 
+    auto items = db_handler::GetItems(discord_id,user.value().GetCurrentPlayer(),Item::RESOURCE_TYPE , item_requirements);
+    if (item_requirements.size() > items.size()) return Errors::NOT_ENOUGH_RESOURCES;
+    
+    for (int i = 0; i<items.size(); i++)
+    {
+
+        if (items[i].GetQuantity() < item_requirements[i].GetQuantity())
+        {
+            return Errors::NOT_ENOUGH_RESOURCES;
+        }
+        
+    }
+
+    db_handler::ModifyItemsQuantity(discord_id,user.value().GetCurrentPlayer(),Item::RESOURCE_TYPE,item_requirements, true);
+    db_handler::ImprovePost(interaction_info.value().first,interaction_id,upgrade_name);
+
+    return Errors::SUCCESS;
+    
 }
-
 
 std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_id, int *size) 
 {

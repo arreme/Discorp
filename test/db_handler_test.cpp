@@ -7,6 +7,7 @@
 #include <db_handler/db_handler.hpp>
 #include <core/pb/location.pb.h>
 #include <core/pb/item.pb.h>
+#include <core/pb/map.pb.h>
 #include <db_handler/entities/inventory.hpp>
 
 
@@ -252,8 +253,10 @@ TEST_CASE("Database Handler: Collect a post and upgrade a post","[handler][updat
 {
     db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
     db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    db::DeleteManyOperation del_op_inv = db::DeleteManyOperation{"inventory", make_document()};
     del_op_pla.ExecuteOperation();
     del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
 
     uint64_t discord_id = 2;
     User user{discord_id,"Arreme"};
@@ -267,13 +270,18 @@ TEST_CASE("Database Handler: Collect a post and upgrade a post","[handler][updat
     interactionInfo.push_back(post);
     auto result = db_handler::RegisterPlayerToDatabase(user, player, interactionInfo);
     REQUIRE(result);
-    REQUIRE(db_handler::ImprovePost(player,0,"capacity_lvl"));
+    REQUIRE(db_handler::ImprovePost(player,0,PBUpgradeType_Name(PBUpgradeType::CAPACITY)));
     auto interaction_res = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),0);
     auto post_result = static_cast<PostInfo * const>(interaction_res->second.get());
     REQUIRE(post_result->GetCapacityLvl() == 1);
-
+    REQUIRE(db_handler::ImprovePost(player,0,PBUpgradeType_Name(PBUpgradeType::CAPACITY)));
+    auto interaction_res2 = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),0);
+    auto post_result2 = static_cast<PostInfo * const>(interaction_res2->second.get());
+    REQUIRE(post_result2->GetCapacityLvl() == 2);
+    
     del_op_pla.ExecuteOperation();
     del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
 }
 
 

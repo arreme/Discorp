@@ -69,7 +69,46 @@ TEST_CASE("/collect post","[collect]")
     Player player{0, 1, PBLocationID::MAIN_BASE};
     REQUIRE(db_handler_util::ModifyPostDate(player,0,-20));
     gm::CollectPost(0,0,output);
-    std::cout << output << std::endl;
+    auto req1 = db_handler::FindPlayerCurrentInteraction(0,1,0);
+    REQUIRE(req1->first.GetSkills()->m_forage_xp == 2);
+    auto req1_post = static_cast<PostInfo *>(req1->second.get());
+    REQUIRE(req1_post->GetResourceStored() == 18);
+    auto req1_items = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK);
+    REQUIRE(req1_items->GetQuantity() == 2);
     gm::CollectPost(0,0,output);
+    auto req2 = db_handler::FindPlayerCurrentInteraction(0,1,0);
+    REQUIRE(req2->first.GetSkills()->m_forage_xp == 4);
+    auto req2_post = static_cast<PostInfo *>(req2->second.get());
+    REQUIRE(req2_post->GetResourceStored() == 16);
+    auto req2_items = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK);
+    REQUIRE(req2_items->GetQuantity() == 4);
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
 
+}
+
+
+TEST_CASE("/upgrade post","[upgrade_post]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    db::DeleteManyOperation del_op_inv = db::DeleteManyOperation{"inventory", make_document()};
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
+
+    gm::CreateGame(0,"Arreme");
+    Player player{0, 1, PBLocationID::MAIN_BASE};
+    REQUIRE(gm::ImprovePost(0,0,"CAPACITY") == gm::Errors::NOT_ENOUGH_RESOURCES);
+    REQUIRE(db_handler_util::ModifyPostDate(player,0,-20));
+    std::string output = "REWARDS COLLECTED\n-----------------";
+    REQUIRE(gm::CollectPost(0,0,output) == gm::Errors::SUCCESS);
+    REQUIRE(gm::CollectPost(0,0,output) == gm::Errors::SUCCESS);
+    REQUIRE(gm::ImprovePost(0,0,"CAPACITY") == gm::Errors::SUCCESS);
+    REQUIRE(gm::ImprovePost(0,0,"CAPACITY") == gm::Errors::INTERACTION_ALREADY_UNLOCKED);
+    
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
 }

@@ -51,6 +51,15 @@ void GameLogic::CalculateLevel(PBPlayerSkills id, int gathered, int resourceXp, 
             plyr_skills->m_mining_lvl += 1;
         }
         break;
+    case PBPlayerSkills::ATHLETICS:
+        plyr_skills->m_athletics_xp += gathered * resourceXp;
+        requiredXP = GameLogic::CheckLevel(plyr_skills->m_athletics_lvl);
+        if (plyr_skills->m_athletics_xp >= requiredXP) 
+        {
+            plyr_skills->m_athletics_xp -= requiredXP;
+            plyr_skills->m_athletics_lvl += 1;
+        }
+        break;
     default:
         break;
     }
