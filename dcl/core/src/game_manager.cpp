@@ -1,5 +1,7 @@
 #include <core/game_manager.hpp>
 
+PBLocationID gm::startLocation = PBLocationID::MAIN_BASE;
+
 gm::Errors gm::CreateGame(uint64_t discord_id, std::string user_name) 
 {
     User user{discord_id, user_name};
@@ -223,23 +225,34 @@ std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_
     auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(location_id));
 
     Renderer::LocationRender location_img{location->GetImagePath()};
-    int interaction_count = location->GetInteractionSize();
-    int posX = 0;
-    int posY = 0;
-    for (size_t i = 0; i < interaction_count; i++)
-    {
-        posX = location->GetInteractionPosX(i);
-        posY = location->GetInteractionPosY(i);
-        //TODO decide image of post depending on level!
-        location_img.AddInteraction(posX, posY, location->GetInteractionsImage(i,0));
-    }
+    // int interaction_count = location->GetInteractionSize();
+    // int posX = 0;
+    // int posY = 0;
+    // for (size_t i = 0; i < interaction_count; i++)
+    // {
+    //     posX = location->GetInteractionPosX(i);
+    //     posY = location->GetInteractionPosY(i);
+    //     //TODO decide image of post depending on level!
+    //     location_img.AddInteraction(posX, posY, location->GetInteractionsImage(i,0));
+    // }
     return location_img.RenderImage(size);
 }
 
 
-std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, int *size) 
+std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, std::string group_type, int page_number, int *size) 
 {
-    return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+    auto user = db_handler::FindUserById(discord_id);
+    if (!user) return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+
+    auto item_data = db_handler::GetInventory(discord_id,user->GetCurrentPlayer(),group_type);
+    Renderer::InventoryRender inventory_image{group_type};
+    for (size_t i = page_number, j = 0; i < item_data.size() && j < 8; i++, j++)
+    {
+
+        inventory_image.AddItemToInventory("resources/assets/items/stick.png");
+    }
+    
+    return inventory_image.RenderImage(size);
 }
 
 std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentPost(uint64_t discord_id, int *size) 

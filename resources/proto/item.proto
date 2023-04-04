@@ -4,6 +4,8 @@ enum PBResourceItems
 {
     STICK                   = 0;
     PEBBLE                  = 1;
+    ROCK                    = 2;
+    DIRT                    = 3;
 }
 
 enum PBItemUtilities 

@@ -350,3 +350,27 @@ TEST_CASE("Unlock Location","[unlock]")
     del_op_inv.ExecuteOperation();
     del_op_pla.ExecuteOperation();
 }
+
+
+TEST_CASE("Get Inventory", "[get_inventory]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    db::DeleteManyOperation del_op_inv = db::DeleteManyOperation{"inventory", make_document()};
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
+    del_op_pla.ExecuteOperation();
+
+    std::vector<std::reference_wrapper<InteractionInfo>> interactionInfo;
+    PostInfo postInfo{};
+    interactionInfo.push_back(postInfo);
+    User user{0,"Arreme"};
+    Player player{0, user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
+    REQUIRE(db_handler::RegisterPlayerToDatabase(user,player,interactionInfo));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::ROCK,10));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::DIRT,10));
+
+    auto inventory = db_handler::GetInventory(0,user.GetCurrentPlayer(),Item::RESOURCE_TYPE);
+    REQUIRE(inventory.size() == 3);
+}

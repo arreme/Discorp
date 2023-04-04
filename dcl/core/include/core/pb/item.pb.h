@@ -59,12 +59,14 @@ PROTOBUF_NAMESPACE_CLOSE
 enum PBResourceItems : int {
   STICK = 0,
   PEBBLE = 1,
+  ROCK = 2,
+  DIRT = 3,
   PBResourceItems_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PBResourceItems_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PBResourceItems_IsValid(int value);
 constexpr PBResourceItems PBResourceItems_MIN = STICK;
-constexpr PBResourceItems PBResourceItems_MAX = PEBBLE;
+constexpr PBResourceItems PBResourceItems_MAX = DIRT;
 constexpr int PBResourceItems_ARRAYSIZE = PBResourceItems_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBResourceItems_descriptor();

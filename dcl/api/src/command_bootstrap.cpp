@@ -5,6 +5,7 @@ CommandBootstrap::CommandBootstrap(dpp::cluster *bot)
     this->bot = bot;
     command_list.insert({"start",new StartCommand(bot->me.id)});
     command_list.insert({"photo",new PhotoCommand(bot->me.id)});
+    command_list.insert({"inventory",new InventoryCommand(bot->me.id)});
 }
 
 void CommandBootstrap::RegisterCommands() 

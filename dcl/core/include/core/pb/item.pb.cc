@@ -22,10 +22,11 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = n
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_item_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nitem.proto*(\n\017PBResourceItems\022\t\n\005STICK"
-  "\020\000\022\n\n\006PEBBLE\020\001*5\n\017PBItemUtilities\022\021\n\rHEA"
-  "LTH_POTION\020\000\022\017\n\013MANA_POTION\020\001*%\n\020PBItemE"
-  "quipation\022\021\n\rWOODEN_HELMET\020\000b\006proto3"
+  "\n\nitem.proto*<\n\017PBResourceItems\022\t\n\005STICK"
+  "\020\000\022\n\n\006PEBBLE\020\001\022\010\n\004ROCK\020\002\022\010\n\004DIRT\020\003*5\n\017PB"
+  "ItemUtilities\022\021\n\rHEALTH_POTION\020\000\022\017\n\013MANA"
+  "_POTION\020\001*%\n\020PBItemEquipation\022\021\n\rWOODEN_"
+  "HELMET\020\000b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_item_2eproto_deps[1] = {
 };
@@ -33,7 +34,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ite
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_item_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_item_2eproto = {
-  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 156,
+  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 176,
   &descriptor_table_item_2eproto_once, descriptor_table_item_2eproto_sccs, descriptor_table_item_2eproto_deps, 0, 0,
   schemas, file_default_instances, TableStruct_item_2eproto::offsets,
   file_level_metadata_item_2eproto, 0, file_level_enum_descriptors_item_2eproto, file_level_service_descriptors_item_2eproto,
@@ -49,6 +50,8 @@ bool PBResourceItems_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
+    case 2:
+    case 3:
       return true;
     default:
       return false;

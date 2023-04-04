@@ -11,6 +11,7 @@ namespace Renderer
         GD::Image image;
     public:
         std::unique_ptr<char, void(*)(char*)> RenderImage(int *size);
+        ImageRenderer(const std::string &locationPath);
     };
 
     class LocationRender : public ImageRenderer
@@ -23,11 +24,19 @@ namespace Renderer
         void AddInteraction(int posX, int posY, const std::string &interaction_image);
     };
 
+    class InventoryRender : public ImageRenderer 
+    {
+    private:
+        int16_t current = 0;
+        const static int16_t initial_x = 80;
+        const static int16_t initial_y = 18;
+        const static int16_t increment = 88; 
+    public:
+        InventoryRender(const std::string &inventory);
+        void AddItemToInventory(const std::string &item_image);
+    };
+
     
 
-    void FreePointer(char * data) 
-    {
-        std::cout << "I'm freeing your pointer" << std::endl;
-        gdFree((void *)data);
-    }
+    extern void FreePointer(char * data);
 }

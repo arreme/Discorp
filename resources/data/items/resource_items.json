@@ -1,0 +1,16 @@
+{
+    "resources" : [
+        {
+            "path":"resources/assets/items/stick.png"
+        },
+        {
+            "path":"resources/assets/items/pebble.png"
+        },
+        {
+            "path":"resources/assets/items/rock.png"
+        },
+        {
+            "path":"resources/assets/items/dirt.png"
+        }
+    ]
+}
