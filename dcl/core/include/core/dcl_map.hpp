@@ -18,7 +18,8 @@ namespace GameLogic
 
 namespace GameMap 
 {
-    const std::string map_data_location = "resources/data";
+    const std::string map_data_location = "resources/data/locations";
+    const std::string game_data_items = "resources/data/items";
 
     struct InteractionTemplates 
     {
@@ -176,7 +177,7 @@ namespace GameMap
     {
     private:
         static std::map<PBLocationID, DCLLocation> m_locations;        
-
+        static std::vector<PBItemsDict> item_data;
         DCLMap() 
         {
             for (const auto & entry : std::filesystem::directory_iterator(map_data_location)) 
@@ -190,6 +191,17 @@ namespace GameMap
                 std::cout << "LocID: " + std::to_string(loc_id) << std::endl;
                 std::cout << entry.path() << std::endl;
                 m_locations.emplace(loc_id,DCLLocation{std::move(loc_data)});
+            }
+
+            for(const auto & entry : std::filesystem::directory_iterator(game_data_items)) 
+            {
+                std::ifstream t(entry.path());
+                std::stringstream buffer;
+                buffer << t.rdbuf();
+                auto item_path = PBItemsDict{};
+                google::protobuf::util::JsonStringToMessage(buffer.str(),&item_path);
+                std::cout << entry.path() << std::endl;
+                item_data.push_back(item_path);
             }
         }
 
@@ -210,6 +222,22 @@ namespace GameMap
             {}
 
             return nullptr;
+        }
+
+        const std::string *GetItemPath(int32_t itemID) 
+        {
+            if (!PBItemEnum_IsValid(itemID)) return nullptr;
+            int type = itemID / 1000;
+            int id = itemID % 1000;
+            return &item_data.at(type).data(id).imagepath();
+        }
+
+        const std::string *GetItemName(int32_t itemID) 
+        {
+            if (!PBItemEnum_IsValid(itemID)) return nullptr;
+            int type = itemID / 1000;
+            int id = itemID % 1000;
+            return &item_data.at(type).data(id).itemname();
         }
 
         DCLMap(DCLMap const&)          = delete;

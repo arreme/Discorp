@@ -12,7 +12,9 @@ Renderer::LocationRender::LocationRender(const std::string &locationPath)
 
 Renderer::InventoryRender::InventoryRender(const std::string &inventory)
 : ImageRenderer(inventory)
-{}
+{
+
+}
 
 
 void Renderer::LocationRender::AddInteraction(int posX, int posY, const std::string &interaction_image)
@@ -26,25 +28,34 @@ void Renderer::LocationRender::AddInteraction(int posX, int posY, const std::str
     image.Copy(interaction,p,GD::Point{0,0},s);
 }
 
-void Renderer::InventoryRender::AddItemToInventory(const std::string &item_image) 
+void Renderer::InventoryRender::AddItemToInventory(const std::string &item_image, std::string item_name, std::string item_quantity) 
 {
     if (current >= 8) return;
-    auto x = initial_x + current % 4;
-    auto y = initial_y + current / 4;
+    auto imgX = initial_x + (increment_x * (current % 2));
+    auto imgY = initial_y + (increment_y * (current / 2));
 
+    auto numX= 77 + (increment_x * (current % 2));
+    auto numY= 75 + (increment_y * (current / 2));
+
+    auto nameX = 77 + (increment_x * (current % 2));
+    auto nameY = 109 + (increment_y * (current / 2));
     current++;
-
+    std::cout << imgX << std::endl;
     std::ifstream in{item_image, std::ios::binary};
     GD::Image interaction{in};
     GD::Size s;
     interaction.GetSize(s);
-    GD::Point p{x,y};
-
-    image.Copy(interaction,p,GD::Point{0,0},s);
+    GD::Point imgP{imgX,imgY};
+    GD::Point nameP{nameX,nameY};
+    GD::Point numP{numX,numY};
+    GD::TrueColor color2{0xFF,0xFF,0xFF};
+    image.Copy(interaction,imgP,GD::Point{0,0},s);
+    image.AddImageText(color2, nameP, 12,item_name, false);
+    image.AddImageText(color2, numP, 12,item_quantity,false);
 }
 
 std::unique_ptr<char, void(*)(char*)> Renderer::ImageRenderer::RenderImage(int *size) 
-{   
+{
     return std::unique_ptr<char, void(*)(char*)>{(char *) image.Png(size), Renderer::FreePointer};
 }
 

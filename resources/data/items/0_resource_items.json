@@ -1,0 +1,21 @@
+{
+    "itemType":"RESOURCES",
+    "data" : [
+        {
+            "imagePath":"resources/assets/items/stick.png",
+            "itemName":"Stick"
+        },
+        {
+            "imagePath":"resources/assets/items/pebble.png",
+            "itemName":"Pebble"
+        },
+        {
+            "imagePath":"resources/assets/items/rock.png",
+            "itemName":"Rock"
+        },
+        {
+            "imagePath":"resources/assets/items/dirt.png",
+            "itemName":"Dirt"
+        }
+    ]
+}

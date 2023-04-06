@@ -16,14 +16,14 @@ TEST_CASE("Protobuffers: Creating data","[proto]")
     inter_0->set_posy(10);
     inter_0->set_posx(10);
     inter_0->set_interactionname("bushes");
-    inter_0->set_resource(PBResourceItems::STICK);
+    inter_0->set_resource(PBItemEnum::STICK);
     inter_0->add_imagepaths("assets/posts/bush_0.png");
     auto upgrade_0 = inter_0->add_upgradeinfo();
     upgrade_0->set_statname(PBUpgradeType::CAPACITY);
     auto upg_info_0 = upgrade_0->add_info();
     upg_info_0->set_currentstat(50);
     auto itemData_0 = upg_info_0->add_uprequirements();
-    itemData_0->set_itemid(PBResourceItems::STICK);
+    itemData_0->set_itemid(PBItemEnum::STICK);
     itemData_0->set_quantity(3);
     std::string output;
     google::protobuf::util::MessageToJsonString(loc_data,&output);
@@ -33,7 +33,7 @@ TEST_CASE("Protobuffers: Creating data","[proto]")
 
 TEST_CASE("Protobuffers: Reading data","[proto]") 
 {
-    std::ifstream t("resources/data/0_main_base.json");
+    std::ifstream t("resources/data/locations/0_main_base.json");
     std::stringstream buffer;
     buffer << t.rdbuf();
     auto loc_data = PBLocation{};
@@ -41,7 +41,7 @@ TEST_CASE("Protobuffers: Reading data","[proto]")
 
     REQUIRE(loc_data.locid() == PBLocationID::MAIN_BASE);
     REQUIRE(loc_data.interactions()[0].databaseid() == 0);
-    REQUIRE(loc_data.interactions()[0].resource() == PBResourceItems::STICK);
+    REQUIRE(loc_data.interactions()[0].resource() == PBItemEnum::STICK);
     REQUIRE(loc_data.interactions()[0].upgradeinfo()[0].statname() == PBUpgradeType::CAPACITY);
 }
 
@@ -83,4 +83,13 @@ TEST_CASE("Getting image path", "[image_data]")
     REQUIRE(size == 2);
     auto img_path = location->GetInteractionsImage(0,0);
     REQUIRE(img_path == "resources/assets/posts/bush_0.png");
+}
+
+TEST_CASE("Getting item path","[item_data]") 
+{
+    auto path = GameMap::DCLMap::getInstance().GetItemPath(PBItemEnum::STICK);
+    REQUIRE(*path == "resources/assets/items/stick.png");
+    auto path2 = GameMap::DCLMap::getInstance().GetItemPath(PBItemEnum::WOODEN_HELMET);
+    REQUIRE(*path2 == "resources/assets/items/wooden_helmet.png");
+
 }

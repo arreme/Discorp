@@ -5,8 +5,15 @@ import "item.proto";
 
 message PBItemData 
 {
-    PBResourceItems itemID                  = 1;
-    int32 quantity                          = 2;    
+    PBItemEnum itemID                       = 1;
+    int32 quantity                          = 2; 
+    string imagePath                        = 3;
+    string itemName                         = 4;
+}
+
+message PBItemsDict {
+    PBItemType itemType              = 1;
+    repeated PBItemData data        = 2;
 }
 
 message PBUpgradeInfo 
@@ -25,7 +32,7 @@ message PBInteraction
 {
     PBInteractionType type                  = 1;
     string interactionName                  = 2;
-    PBResourceItems resource                = 3;
+    PBItemEnum resource                     = 3;
     PBPlayerSkills postSkill                = 4;
     int32 interactXp                        = 5;
     int32 databaseId                        = 6;

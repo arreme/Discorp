@@ -28,12 +28,13 @@ namespace Renderer
     {
     private:
         int16_t current = 0;
-        const static int16_t initial_x = 80;
-        const static int16_t initial_y = 18;
-        const static int16_t increment = 88; 
+        const static int16_t initial_x = 20;
+        const static int16_t initial_y = 58;
+        const static int16_t increment_x = 198;
+        const static int16_t increment_y = 64; 
     public:
         InventoryRender(const std::string &inventory);
-        void AddItemToInventory(const std::string &item_image);
+        void AddItemToInventory(const std::string &item_image, std::string item_name, std::string item_quantity);
     };
 
     

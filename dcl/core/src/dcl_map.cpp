@@ -2,9 +2,13 @@
 
 std::map<PBLocationID, GameMap::DCLLocation> GameMap::DCLMap::m_locations;
 
+std::vector<PBItemsDict> GameMap::DCLMap::item_data;
+
 PostInfo GameMap::InteractionTemplates::post;
 
 ZoneAccessInfo GameMap::InteractionTemplates::zone;
+
+
 
 int GameLogic::CheckLevel(int lvl) 
 {

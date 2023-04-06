@@ -1530,7 +1530,7 @@ public:
         {
             font = "resources/bold.ttf";
         } else {
-            font = "resources/regulat.ttf";
+            font = "resources/regular.ttf";
         }
         StringFT(nullptr,color.Int(),(char*)font.c_str(),size,0,p,text);
     }

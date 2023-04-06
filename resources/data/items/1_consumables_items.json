@@ -1,0 +1,9 @@
+{
+    "itemType":"RESOURCES",
+    "data" : [
+        {
+            "imagePath":"resources/assets/items/health_potion_1.png",
+            "itemName":"Lower Health Potion"
+        }
+    ]
+}

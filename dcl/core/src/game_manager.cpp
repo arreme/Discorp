@@ -141,7 +141,7 @@ gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction, std::string
             output += "\nSTORED: "+std::to_string(post_info->GetResourceStored());
             for (auto& res : items_result)
             {
-                auto name = PBResourceItems_Name(res.GetItemId());
+                auto name = PBItemEnum_Name(res.GetItemId());
                 output += "\n    -> "+name+" : "+ std::to_string(res.GetQuantity());
             }
             return Errors::SUCCESS;
@@ -245,12 +245,19 @@ std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, std::st
     if (!user) return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
 
     auto item_data = db_handler::GetInventory(discord_id,user->GetCurrentPlayer(),group_type);
-    Renderer::InventoryRender inventory_image{group_type};
+    std::string ui_path = "resources/assets/UI/" + group_type + ".png";
+    Renderer::InventoryRender inventory_image{ui_path};
+    
+    auto& instance = GameMap::DCLMap::getInstance();
+    
     for (size_t i = page_number, j = 0; i < item_data.size() && j < 8; i++, j++)
     {
-
-        inventory_image.AddItemToInventory("resources/assets/items/stick.png");
+        const std::string *path = instance.GetItemPath(item_data.at(i).GetItemId());
+        const std::string *name = instance.GetItemName(item_data.at(i).GetItemId());
+        std::cout << *path << std::endl;
+        inventory_image.AddItemToInventory(*path, *name, std::to_string(item_data.at(i).GetQuantity()));
     }
+
     
     return inventory_image.RenderImage(size);
 }

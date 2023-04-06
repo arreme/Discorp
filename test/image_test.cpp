@@ -39,3 +39,20 @@ TEST_CASE("Image first test","[image_1]")
     image2.Png(out);
     
 }
+
+
+TEST_CASE("Letters on image","[img_letters]") 
+{
+    std::string path = "resources/assets/UI/resources.png";
+    std::ifstream in{path, std::ios::binary};
+    GD::Image image{in};
+    GD::Point p{58,92};
+    GD::Point p2{58,34};
+    GD::TrueColor color{0xFF,0xFF,0xFF};
+    std::string item_name = "W. Helmet";
+    std::string item_quantity = "103";
+    image.AddImageText(color,p,10,item_name,false);
+    image.AddImageText(color,p2,10,item_quantity,false);
+    std::ofstream out("test/img_tests/test2/image.png", std::ios_base::out | std::ios_base::binary );
+    image.Png(out);
+}

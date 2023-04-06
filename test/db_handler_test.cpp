@@ -294,32 +294,32 @@ TEST_CASE("Inventory testing", "[inventory]")
     del_op_inv.ExecuteOperation();
     del_op_pla.ExecuteOperation();
 
-    REQUIRE_FALSE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
+    REQUIRE_FALSE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK,10));
     std::vector<std::reference_wrapper<InteractionInfo>> interactionInfo;
     PostInfo postInfo{};
     interactionInfo.push_back(postInfo);
     User user{0,"Arreme"};
     Player player{0, user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
     REQUIRE(db_handler::RegisterPlayerToDatabase(user,player,interactionInfo));
-    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
-    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::PEBBLE,10));
-    auto item_result = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK);
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK,10));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::PEBBLE,10));
+    auto item_result = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK);
     REQUIRE(item_result);
-    REQUIRE(item_result.value().GetItemId() == PBResourceItems::STICK);
+    REQUIRE(item_result.value().GetItemId() == PBItemEnum::STICK);
     REQUIRE(item_result.value().GetQuantity() == 10);
-    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
-    auto item_result2 = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK);
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK,10));
+    auto item_result2 = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK);
     REQUIRE(item_result2.value().GetQuantity() == 20);
 
     std::vector<Item> items;
-    items.push_back(Item{PBResourceItems::PEBBLE,60});
-    items.push_back(Item{PBResourceItems::STICK,30});
+    items.push_back(Item{PBItemEnum::PEBBLE,60});
+    items.push_back(Item{PBItemEnum::STICK,30});
     REQUIRE(db_handler::CollectPost(player,0,24,Item::RESOURCE_TYPE,items));
     REQUIRE(db_handler::ModifyItemsQuantity(0,1,Item::RESOURCE_TYPE,items));
     auto returned_items = db_handler::GetItems(0,1,Item::RESOURCE_TYPE,items);
     REQUIRE(returned_items.size() == 2);
-    REQUIRE(returned_items[0].GetItemId() == PBResourceItems::STICK);
-    REQUIRE(returned_items[1].GetItemId() == PBResourceItems::PEBBLE);
+    REQUIRE(returned_items[0].GetItemId() == PBItemEnum::STICK);
+    REQUIRE(returned_items[1].GetItemId() == PBItemEnum::PEBBLE);
 }
 
 TEST_CASE("Unlock Location","[unlock]") 
@@ -331,7 +331,7 @@ TEST_CASE("Unlock Location","[unlock]")
     del_op_inv.ExecuteOperation();
     del_op_pla.ExecuteOperation();
 
-    REQUIRE_FALSE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
+    REQUIRE_FALSE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK,10));
     std::vector<std::reference_wrapper<InteractionInfo>> interactionInfo;
     PostInfo post{};
     ZoneAccessInfo zoneAccessInfo{};
@@ -367,9 +367,9 @@ TEST_CASE("Get Inventory", "[get_inventory]")
     User user{0,"Arreme"};
     Player player{0, user.GetCurrentPlayer(),PBLocationID::MAIN_BASE};
     REQUIRE(db_handler::RegisterPlayerToDatabase(user,player,interactionInfo));
-    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::STICK,10));
-    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::ROCK,10));
-    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBResourceItems::DIRT,10));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK,10));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::ROCK,10));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::DIRT,10));
 
     auto inventory = db_handler::GetInventory(0,user.GetCurrentPlayer(),Item::RESOURCE_TYPE);
     REQUIRE(inventory.size() == 3);

@@ -56,81 +56,61 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
 
-enum PBResourceItems : int {
+enum PBItemEnum : int {
   STICK = 0,
   PEBBLE = 1,
   ROCK = 2,
   DIRT = 3,
-  PBResourceItems_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  PBResourceItems_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+  HEALTH_POTION = 1000,
+  MANA_POTION = 1001,
+  WOODEN_HELMET = 2000,
+  PBItemEnum_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  PBItemEnum_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
-bool PBResourceItems_IsValid(int value);
-constexpr PBResourceItems PBResourceItems_MIN = STICK;
-constexpr PBResourceItems PBResourceItems_MAX = DIRT;
-constexpr int PBResourceItems_ARRAYSIZE = PBResourceItems_MAX + 1;
+bool PBItemEnum_IsValid(int value);
+constexpr PBItemEnum PBItemEnum_MIN = STICK;
+constexpr PBItemEnum PBItemEnum_MAX = WOODEN_HELMET;
+constexpr int PBItemEnum_ARRAYSIZE = PBItemEnum_MAX + 1;
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBResourceItems_descriptor();
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBItemEnum_descriptor();
 template<typename T>
-inline const std::string& PBResourceItems_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, PBResourceItems>::value ||
+inline const std::string& PBItemEnum_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, PBItemEnum>::value ||
     ::std::is_integral<T>::value,
-    "Incorrect type passed to function PBResourceItems_Name.");
+    "Incorrect type passed to function PBItemEnum_Name.");
   return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    PBResourceItems_descriptor(), enum_t_value);
+    PBItemEnum_descriptor(), enum_t_value);
 }
-inline bool PBResourceItems_Parse(
-    const std::string& name, PBResourceItems* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PBResourceItems>(
-    PBResourceItems_descriptor(), name, value);
+inline bool PBItemEnum_Parse(
+    const std::string& name, PBItemEnum* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PBItemEnum>(
+    PBItemEnum_descriptor(), name, value);
 }
-enum PBItemUtilities : int {
-  HEALTH_POTION = 0,
-  MANA_POTION = 1,
-  PBItemUtilities_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  PBItemUtilities_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+enum PBItemType : int {
+  RESOURCES = 0,
+  UTILITIES = 1,
+  EQUIPMENT = 2,
+  PBItemType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  PBItemType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
-bool PBItemUtilities_IsValid(int value);
-constexpr PBItemUtilities PBItemUtilities_MIN = HEALTH_POTION;
-constexpr PBItemUtilities PBItemUtilities_MAX = MANA_POTION;
-constexpr int PBItemUtilities_ARRAYSIZE = PBItemUtilities_MAX + 1;
+bool PBItemType_IsValid(int value);
+constexpr PBItemType PBItemType_MIN = RESOURCES;
+constexpr PBItemType PBItemType_MAX = EQUIPMENT;
+constexpr int PBItemType_ARRAYSIZE = PBItemType_MAX + 1;
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBItemUtilities_descriptor();
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBItemType_descriptor();
 template<typename T>
-inline const std::string& PBItemUtilities_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, PBItemUtilities>::value ||
+inline const std::string& PBItemType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, PBItemType>::value ||
     ::std::is_integral<T>::value,
-    "Incorrect type passed to function PBItemUtilities_Name.");
+    "Incorrect type passed to function PBItemType_Name.");
   return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    PBItemUtilities_descriptor(), enum_t_value);
+    PBItemType_descriptor(), enum_t_value);
 }
-inline bool PBItemUtilities_Parse(
-    const std::string& name, PBItemUtilities* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PBItemUtilities>(
-    PBItemUtilities_descriptor(), name, value);
-}
-enum PBItemEquipation : int {
-  WOODEN_HELMET = 0,
-  PBItemEquipation_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  PBItemEquipation_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool PBItemEquipation_IsValid(int value);
-constexpr PBItemEquipation PBItemEquipation_MIN = WOODEN_HELMET;
-constexpr PBItemEquipation PBItemEquipation_MAX = WOODEN_HELMET;
-constexpr int PBItemEquipation_ARRAYSIZE = PBItemEquipation_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBItemEquipation_descriptor();
-template<typename T>
-inline const std::string& PBItemEquipation_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, PBItemEquipation>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function PBItemEquipation_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    PBItemEquipation_descriptor(), enum_t_value);
-}
-inline bool PBItemEquipation_Parse(
-    const std::string& name, PBItemEquipation* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PBItemEquipation>(
-    PBItemEquipation_descriptor(), name, value);
+inline bool PBItemType_Parse(
+    const std::string& name, PBItemType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PBItemType>(
+    PBItemType_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -153,20 +133,15 @@ inline bool PBItemEquipation_Parse(
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::PBResourceItems> : ::std::true_type {};
+template <> struct is_proto_enum< ::PBItemEnum> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::PBResourceItems>() {
-  return ::PBResourceItems_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::PBItemEnum>() {
+  return ::PBItemEnum_descriptor();
 }
-template <> struct is_proto_enum< ::PBItemUtilities> : ::std::true_type {};
+template <> struct is_proto_enum< ::PBItemType> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::PBItemUtilities>() {
-  return ::PBItemUtilities_descriptor();
-}
-template <> struct is_proto_enum< ::PBItemEquipation> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::PBItemEquipation>() {
-  return ::PBItemEquipation_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::PBItemType>() {
+  return ::PBItemType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE
