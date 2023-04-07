@@ -85,7 +85,7 @@ namespace GameMap
 
         std::optional<PBInteractionType> GetInteractionType(int id) const
         {
-            if (id >= m_loc_data.interactions().size())
+            if (id >= m_loc_data.interactions().size() || id < 0)
             {
                 return std::nullopt;
             }
@@ -164,7 +164,7 @@ namespace GameMap
             return m_loc_data.interactions_size();
         };
 
-        const std::string &GetInteractionsImage(int id, int level) const
+        const std::string &GetZoneAccessImage(int id, int level) const
         {
             const PBInteraction &target_int = m_loc_data.interactions(id);
             int max_lvl = target_int.imagepaths_size();

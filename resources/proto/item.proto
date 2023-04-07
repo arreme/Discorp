@@ -16,6 +16,8 @@ enum PBItemEnum
 enum PBItemType {
     RESOURCES = 0;
     UTILITIES = 1;
-    EQUIPMENT = 2;
+    WEAPONS   = 2;
+    EQUIPMENT = 3;
+    QUEST_ITEMS = 4;
 }
 

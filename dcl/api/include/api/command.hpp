@@ -81,7 +81,12 @@ public:
         int size = -1;
         dpp::user target = event->command.get_issuing_user();
         std::string page_type = std::get<std::string>(event->get_parameter("inventory_page"));
-        int page_number = static_cast<int>(std::get<std::int64_t>(event->get_parameter("page_number")));
+        auto page_variant = event->get_parameter("page_number");
+        int page_number = 0;
+        if (page_variant.index() != 0) 
+        {
+            page_number = static_cast<int>(std::get<std::int64_t>(page_variant));
+        }
         auto image_data = gm::Inventory(target.id, page_type, page_number, &size);
         dpp::message m("");
         std::string s(image_data.get(),size);
@@ -93,6 +98,47 @@ public:
                 dpp::component().set_label("->").set_style(dpp::cos_primary).set_id("next_page")
             )
         );
+        event->reply(m);
+    }
+};
+
+
+class UnlockZoneCommand : public Command 
+{
+public:
+    const std::string COMMAND_NAME = "unlockzone";
+    UnlockZoneCommand(dpp::snowflake appid) 
+    {
+        isGlobal = true;
+        command = dpp::slashcommand(COMMAND_NAME,"Unlocking access to the next zone!",appid);
+        command.add_option(
+            dpp::command_option(dpp::co_integer, "zone_acess_target", "The zone access you want to unlock", true)
+        );
+    }
+
+    void HandleCommand(const dpp::slashcommand_t *event) 
+    {
+        int size = -1;
+        dpp::user target = event->command.get_issuing_user();
+        std::string message = "MATERIALS REQUIRED\n-----------------\n";
+        int interaction_number = static_cast<int>(std::get<std::int64_t>(event->get_parameter("zone_acess_target")));
+        auto errors = gm::CanUnlock(target.id,interaction_number, message);
+        
+        if (errors == gm::Errors::ILLEGAL_ACTION || errors == gm::Errors::INTERACTION_NOT_FOUND) 
+        {
+            message = "Target zone could not be found or is not of type zone access";
+        }
+        dpp::message m(message);
+        if (errors == gm::Errors::SUCCESS) 
+        {
+            m.add_component(
+                dpp::component().add_component(
+                    dpp::component().set_label("CONFIRM").set_style(dpp::cos_success).set_id("confirm_unlock")
+                ).add_component(
+                    dpp::component().set_label("CANCEL").set_style(dpp::cos_danger).set_id("cancel_unlock")
+                )
+            );
+        }
         event->reply(m);
     }
 };

@@ -68,6 +68,59 @@ gm::Errors gm::GoToZone(uint64_t discord_id, int32_t interaction)
     return Errors::DATABASE_CONNECTION_ERROR;
 }
 
+gm::Errors gm::CanUnlock(uint64_t discord_id, int32_t interaction, std::string &output) 
+{
+    interaction--;
+    auto user = db_handler::FindUserById(discord_id);
+    if (!user) return Errors::USER_NOT_FOUND;
+
+    int result = db_handler::CurrentPlayerLocation(discord_id,user->GetCurrentPlayer());
+    if (!PBLocationID_IsValid(result)) return Errors::GENERAL_ERROR;
+    auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(result));
+
+    auto interaction_type = location->GetInteractionType(interaction);
+    if (!interaction_type.has_value()) return Errors::INTERACTION_NOT_FOUND;
+    if (interaction_type.value() != PBInteractionType::ZONE_ACCESS) return Errors::ILLEGAL_ACTION;
+
+    auto interaction_db = location->GetInteractionDatabaseID(interaction);
+    if (!interaction_db.has_value()) return Errors::INTERACTION_ALREADY_UNLOCKED;
+    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db.value());
+    if (!interaction_info.has_value()) return Errors::DATABASE_CONNECTION_ERROR;
+    auto zone_access = static_cast<ZoneAccessInfo * const>(interaction_info->second.get());
+    auto is_unlocked = location->GetZoneAccessUnlocked(interaction,zone_access->GetUnlockedLvl());
+    if (!is_unlocked.has_value()) return Errors::ILLEGAL_ACTION;
+    if (is_unlocked.value()) return Errors::INTERACTION_ALREADY_UNLOCKED;
+    auto get_requirements = location->GetZoneAccessLevelRequirements(interaction,zone_access->GetUnlockedLvl());
+    std::vector<Item> item_requirements;
+    item_requirements.reserve(get_requirements.size());
+    for (auto &req : get_requirements)
+    {
+        item_requirements.emplace_back(req.itemid(),req.quantity());
+        auto name = PBItemEnum_Name(req.itemid());
+        output += "    -> "+name+": "+std::to_string(req.quantity())+"\n";
+    }
+
+    auto items = db_handler::GetItems(discord_id,user.value().GetCurrentPlayer(),Item::RESOURCE_TYPE , item_requirements);
+    if (item_requirements.size() > items.size()) return Errors::NOT_ENOUGH_RESOURCES;
+    bool enough_resources = true;
+    output += "-----------------\nYOU HAVE\n-----------------\n";
+    for (int i = 0; i<items.size(); i++)
+    {
+        auto name = PBItemEnum_Name(items[i].GetItemId());
+        output += "    -> "+name+": "+std::to_string(items[i].GetQuantity())+"\n";
+        if (items[i].GetQuantity() < item_requirements[i].GetQuantity())
+        {
+            enough_resources = false;
+        }
+    }
+    if (enough_resources) {
+        return Errors::SUCCESS;
+    } else {
+        output += "NOT ENOUGH RESOURCES, CAN'T UNLOCK\n";
+        return Errors::NOT_ENOUGH_RESOURCES;
+    }
+}
+
 gm::Errors gm::UnlockZone(uint64_t discord_id, int32_t interaction) 
 {
     auto user = db_handler::FindUserById(discord_id);
@@ -225,16 +278,36 @@ std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_
     auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(location_id));
 
     Renderer::LocationRender location_img{location->GetImagePath()};
-    // int interaction_count = location->GetInteractionSize();
-    // int posX = 0;
-    // int posY = 0;
-    // for (size_t i = 0; i < interaction_count; i++)
-    // {
-    //     posX = location->GetInteractionPosX(i);
-    //     posY = location->GetInteractionPosY(i);
-    //     //TODO decide image of post depending on level!
-    //     location_img.AddInteraction(posX, posY, location->GetInteractionsImage(i,0));
-    // }
+    auto interactions = db_handler::FindPlayerCurrentLocationInteractions(discord_id, user->GetCurrentPlayer());
+    int interaction_count = location->GetInteractionSize();
+    int posX = 0;
+    int posY = 0;
+    for (size_t i = 0; i < interaction_count; i++)
+    {
+        posX = location->GetInteractionPosX(i);
+        posY = location->GetInteractionPosY(i);
+        int image_array = 0;
+        auto database_id = location->GetInteractionDatabaseID(i);
+        if (database_id) 
+        {
+            auto curr_interaction = interactions->second.at(database_id.value()).get();
+            switch (curr_interaction->GetType()) 
+            {
+                case InteractionType::ZONE_ACCESS:
+                    {
+                        auto zone_access = static_cast<ZoneAccessInfo*>(curr_interaction);
+                        if (!location->GetZoneAccessUnlocked(zone_access->GetUnlockedLvl())) 
+                        {
+                            location_img.AddInteraction(posX, posY, location->GetZoneAccessImage(i,0));
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+        
+    }
     return location_img.RenderImage(size);
 }
 

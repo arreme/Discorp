@@ -9,10 +9,11 @@
             "postSkill":"FORAGE",
             "interactXp": 1,
             "databaseId": 0,
-            "posX": 10,
-            "posY": 10,
+            "posX": 128,
+            "posY": 64,
             "imagePaths": [
-                "resources/assets/posts/bush_0.png"
+                "resources/assets/map_icons/posts/bush.png",
+                "resources/assets/map_icons/posts/bush_full.png"
             ],
             "upgradeInfo": [
                 {
@@ -63,10 +64,11 @@
             "type":"ZONE_ACCESS",
             "interactionName": "GoToForest",
             "databaseId": 1,
-            "posX": 80,
-            "posY": 80,
+            "posX": 224,
+            "posY": 96,
             "imagePaths": [
-                "resources/assets/zone_access/goto.png"
+                "resources/assets/map_icons/zone_access/zone_locked.png",
+                "resources/assets/map_icons/zone_access/zone_unlocked.png"
             ],
             "nextLoc":"FOREST",
             "upgradeInfo": [
