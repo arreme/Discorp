@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     bot.on_log(dpp::utility::cout_logger());
     /* Register slash command here in on_ready */
     CommandBootstrap bootstrap = CommandBootstrap(&bot);
-    ButtonBootstrap button_bootstrap;
+    ButtonBootstrap button_bootstrap{&bot};
     bot.on_ready([&bot,&bootstrap,delete_commands](const dpp::ready_t& event) {
         if (delete_commands) 
         {
@@ -35,9 +35,11 @@ int main(int argc, char *argv[])
             {
                 bot.global_command_delete_sync(command.first);
             }
+
+            bootstrap.RegisterCommands();
         }
         
-        bootstrap.RegisterCommands();
+        
     });
 
     bot.on_slashcommand([&bot,&bootstrap](const dpp::slashcommand_t & event) {
@@ -46,8 +48,19 @@ int main(int argc, char *argv[])
     });
 
     bot.on_button_click([&bot,&button_bootstrap](const dpp::button_click_t & event) {
-        auto button = button_bootstrap.Find(event.custom_id);
-        button->HandleButton(event);
+        std::vector<std::string> button_commands;
+        size_t pos = 0;
+        std::string token;
+        std::string custom_id_mutable = event.custom_id;
+        std::string delimiter = "::";
+        while ((pos = custom_id_mutable.find(delimiter)) != std::string::npos) {
+            token = custom_id_mutable.substr(0, pos);
+            button_commands.push_back(token);
+            custom_id_mutable.erase(0, pos + delimiter.length());
+        }
+        button_commands.push_back(custom_id_mutable);
+        auto button = button_bootstrap.Find(button_commands.at(0));
+        button->HandleButton(event, button_commands);
     });
 
     /* Start the bot */

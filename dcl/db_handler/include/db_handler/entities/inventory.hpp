@@ -13,7 +13,9 @@ private:
 public:
     inline static const std::string RESOURCE_TYPE = "resources";
     inline static const std::string UTILITIES_TYPE = "utilities";
+    inline static const std::string WEAPONS_TYPE = "weapons";
     inline static const std::string EQUIPMENT_TYPE = "equipment";
+    inline static const std::string QUEST_ITEMS_TYPE = "quest_items";
 
     Item(int32_t item_id, int32_t quantity);
 

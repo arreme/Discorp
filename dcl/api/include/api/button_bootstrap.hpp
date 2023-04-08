@@ -8,6 +8,6 @@ class ButtonBootstrap
 private:
     std::map<std::string,std::unique_ptr<Button>> button_list;
 public:
-    ButtonBootstrap();
+    ButtonBootstrap(dpp::cluster *bot);
     Button *Find(std::string button_name);
 };

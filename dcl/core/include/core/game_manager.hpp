@@ -47,7 +47,7 @@ namespace gm
 
     std::unique_ptr<char, void(*)(char*)> PhotoCurrentLocation(uint64_t discord_id, int *size);
 
-    std::unique_ptr<char, void(*)(char*)> Inventory(uint64_t discord_id, std::string group_type, int page_number, int *size);
+    std::unique_ptr<char, void(*)(char*)> Inventory(uint64_t discord_id, std::string group_type, int page_number, int *size, bool &is_last_page);
 
     std::unique_ptr<char, void(*)(char*)> PhotoCurrentPost(uint64_t discord_id, int *size);
 

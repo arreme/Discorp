@@ -87,17 +87,37 @@ public:
         {
             page_number = static_cast<int>(std::get<std::int64_t>(page_variant));
         }
-        auto image_data = gm::Inventory(target.id, page_type, page_number, &size);
+        bool is_last_page = false;
+        auto image_data = gm::Inventory(target.id, page_type, page_number, &size, is_last_page);
+        
         dpp::message m("");
+        if (size == -1) 
+        {
+            m.set_content("You need to initialize a game first! Use /start");
+            event->reply(m);
+            return;
+        }
         std::string s(image_data.get(),size);
         m.add_file("img1.png",s);
-        m.add_component(
-            dpp::component().add_component(
-                dpp::component().set_label("<-").set_style(dpp::cos_primary).set_id("previous_page")
-            ).add_component(
-                dpp::component().set_label("->").set_style(dpp::cos_primary).set_id("next_page")
-            )
-        );
+        auto buttons = dpp::component();
+        bool add_component = false;
+
+        if (!is_last_page) 
+        {
+            add_component = true;
+            buttons.add_component(dpp::component().set_label("->").set_style(dpp::cos_primary).set_id("next_page::"+std::to_string(page_number+1)));
+        }
+        if (page_number != 0) 
+        {
+            add_component = true;
+            buttons.add_component(dpp::component().set_label("<-").set_style(dpp::cos_primary).set_id("previous_page::"+std::to_string(page_number-1)));
+        }
+
+        if (add_component) 
+        {
+            m.add_component(buttons);
+        }
+        
         event->reply(m);
     }
 };
@@ -122,23 +142,28 @@ public:
         dpp::user target = event->command.get_issuing_user();
         std::string message = "MATERIALS REQUIRED\n-----------------\n";
         int interaction_number = static_cast<int>(std::get<std::int64_t>(event->get_parameter("zone_acess_target")));
+        interaction_number--;
         auto errors = gm::CanUnlock(target.id,interaction_number, message);
         
         if (errors == gm::Errors::ILLEGAL_ACTION || errors == gm::Errors::INTERACTION_NOT_FOUND) 
         {
             message = "Target zone could not be found or is not of type zone access";
+        } else if (errors == gm::Errors::INTERACTION_ALREADY_UNLOCKED) 
+        {
+            message = "Location is already unlocked!";
         }
         dpp::message m(message);
         if (errors == gm::Errors::SUCCESS) 
         {
             m.add_component(
                 dpp::component().add_component(
-                    dpp::component().set_label("CONFIRM").set_style(dpp::cos_success).set_id("confirm_unlock")
+                    dpp::component().set_label("CONFIRM").set_style(dpp::cos_success).set_id("confirm_unlock::"+std::to_string(target.id)+"::"+std::to_string(interaction_number))
                 ).add_component(
-                    dpp::component().set_label("CANCEL").set_style(dpp::cos_danger).set_id("cancel_unlock")
+                    dpp::component().set_label("CANCEL").set_style(dpp::cos_danger).set_id("cancel_unlock::"+std::to_string(target.id))
                 )
             );
         }
+        m.set_flags(dpp::m_ephemeral);
         event->reply(m);
     }
 };

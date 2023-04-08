@@ -116,7 +116,19 @@ TEST_CASE("/upgrade post","[upgrade_post]")
 
 TEST_CASE("/inventory","[inventory_core]") 
 {
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"players", make_document()};
+    db::DeleteManyOperation del_op_usr = db::DeleteManyOperation{"users", make_document()};
+    db::DeleteManyOperation del_op_inv = db::DeleteManyOperation{"inventory", make_document()};
+    del_op_pla.ExecuteOperation();
+    del_op_usr.ExecuteOperation();
+    del_op_inv.ExecuteOperation();
     int size = -1;
     std::string type = "resources";
-    auto res = gm::Inventory(196551239025164289,type,0,&size);
+    bool is_last_page = false;
+    gm::CreateGame(0,"Arreme");
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK,10));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::ROCK,10));
+    REQUIRE(db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::DIRT,10));
+    auto res = gm::Inventory(0,type,0,&size,is_last_page);
+    REQUIRE(is_last_page);
 }

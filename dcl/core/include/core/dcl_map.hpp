@@ -177,7 +177,7 @@ namespace GameMap
     {
     private:
         static std::map<PBLocationID, DCLLocation> m_locations;        
-        static std::vector<PBItemsDict> item_data;
+        static std::map<PBItemType,PBItemsDict> item_data;
         DCLMap() 
         {
             for (const auto & entry : std::filesystem::directory_iterator(map_data_location)) 
@@ -201,7 +201,7 @@ namespace GameMap
                 auto item_path = PBItemsDict{};
                 google::protobuf::util::JsonStringToMessage(buffer.str(),&item_path);
                 std::cout << entry.path() << std::endl;
-                item_data.push_back(item_path);
+                item_data.emplace(item_path.itemtype(),item_path);
             }
         }
 
@@ -229,7 +229,7 @@ namespace GameMap
             if (!PBItemEnum_IsValid(itemID)) return nullptr;
             int type = itemID / 1000;
             int id = itemID % 1000;
-            return &item_data.at(type).data(id).imagepath();
+            return &item_data.at(static_cast<PBItemType>(type)).data(id).imagepath();
         }
 
         const std::string *GetItemName(int32_t itemID) 
@@ -237,7 +237,7 @@ namespace GameMap
             if (!PBItemEnum_IsValid(itemID)) return nullptr;
             int type = itemID / 1000;
             int id = itemID % 1000;
-            return &item_data.at(type).data(id).itemname();
+            return &item_data.at(static_cast<PBItemType>(type)).data(id).itemname();
         }
 
         DCLMap(DCLMap const&)          = delete;

@@ -25,8 +25,9 @@ const char descriptor_table_protodef_item_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "\n\nitem.proto*q\n\nPBItemEnum\022\t\n\005STICK\020\000\022\n\n"
   "\006PEBBLE\020\001\022\010\n\004ROCK\020\002\022\010\n\004DIRT\020\003\022\022\n\rHEALTH_"
   "POTION\020\350\007\022\020\n\013MANA_POTION\020\351\007\022\022\n\rWOODEN_HE"
-  "LMET\020\320\017*9\n\nPBItemType\022\r\n\tRESOURCES\020\000\022\r\n\t"
-  "UTILITIES\020\001\022\r\n\tEQUIPMENT\020\002b\006proto3"
+  "LMET\020\320\017*W\n\nPBItemType\022\r\n\tRESOURCES\020\000\022\r\n\t"
+  "UTILITIES\020\001\022\013\n\007WEAPONS\020\002\022\r\n\tEQUIPMENT\020\003\022"
+  "\017\n\013QUEST_ITEMS\020\004b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_item_2eproto_deps[1] = {
 };
@@ -34,7 +35,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ite
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_item_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_item_2eproto = {
-  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 194,
+  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 224,
   &descriptor_table_item_2eproto_once, descriptor_table_item_2eproto_sccs, descriptor_table_item_2eproto_deps, 0, 0,
   schemas, file_default_instances, TableStruct_item_2eproto::offsets,
   file_level_metadata_item_2eproto, 0, file_level_enum_descriptors_item_2eproto, file_level_service_descriptors_item_2eproto,
@@ -70,6 +71,8 @@ bool PBItemType_IsValid(int value) {
     case 0:
     case 1:
     case 2:
+    case 3:
+    case 4:
       return true;
     default:
       return false;

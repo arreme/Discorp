@@ -70,7 +70,6 @@ gm::Errors gm::GoToZone(uint64_t discord_id, int32_t interaction)
 
 gm::Errors gm::CanUnlock(uint64_t discord_id, int32_t interaction, std::string &output) 
 {
-    interaction--;
     auto user = db_handler::FindUserById(discord_id);
     if (!user) return Errors::USER_NOT_FOUND;
 
@@ -312,7 +311,7 @@ std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_
 }
 
 
-std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, std::string group_type, int page_number, int *size) 
+std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, std::string group_type, int page_number, int *size, bool &is_last_page) 
 {
     auto user = db_handler::FindUserById(discord_id);
     if (!user) return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
@@ -323,6 +322,8 @@ std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, std::st
     
     auto& instance = GameMap::DCLMap::getInstance();
     
+    is_last_page = ((item_data.size() / 8) + (item_data.size() % 8 == 0 ? 0 : 1)) == page_number + 1;
+    if (item_data.size() == 0) is_last_page = true;
     for (size_t i = page_number, j = 0; i < item_data.size() && j < 8; i++, j++)
     {
         const std::string *path = instance.GetItemPath(item_data.at(i).GetItemId());

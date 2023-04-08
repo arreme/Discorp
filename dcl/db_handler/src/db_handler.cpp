@@ -38,11 +38,11 @@ bool db_handler::RegisterPlayerToDatabase(User &user, Player &player, std::vecto
         make_document(
             kvp("discord_id",b_int64{static_cast<int64_t>(user.GetId())}),
             kvp("player_id",b_int32{player.GetPlayerId()}),
-            kvp("current_page_number",b_int32{0}),
-            kvp("current_page_type",b_string{Item::RESOURCE_TYPE}),
             kvp(Item::RESOURCE_TYPE,b_array{}),
             kvp(Item::UTILITIES_TYPE,b_array{}),
-            kvp(Item::EQUIPMENT_TYPE,b_array{})
+            kvp(Item::WEAPONS_TYPE,b_array{}),
+            kvp(Item::EQUIPMENT_TYPE,b_array{}),
+            kvp(Item::QUEST_ITEMS_TYPE,b_array{})
         )
     };
     t.AddOperation(&insert_inventory);

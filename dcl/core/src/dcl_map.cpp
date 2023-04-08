@@ -2,7 +2,7 @@
 
 std::map<PBLocationID, GameMap::DCLLocation> GameMap::DCLMap::m_locations;
 
-std::vector<PBItemsDict> GameMap::DCLMap::item_data;
+std::map<PBItemType,PBItemsDict> GameMap::DCLMap::item_data;
 
 PostInfo GameMap::InteractionTemplates::post;
 

@@ -81,15 +81,17 @@ TEST_CASE("Getting image path", "[image_data]")
     auto location = GameMap::DCLMap::getInstance().GetLocation(PBLocationID::MAIN_BASE);
     auto size = location->GetInteractionSize();
     REQUIRE(size == 2);
-    auto img_path = location->GetInteractionsImage(0,0);
-    REQUIRE(img_path == "resources/assets/posts/bush_0.png");
+    auto img_path = location->GetZoneAccessImage(1,0);
+    REQUIRE(img_path == "resources/assets/map_icons/zone_access/zone_locked.png");
 }
 
 TEST_CASE("Getting item path","[item_data]") 
 {
     auto path = GameMap::DCLMap::getInstance().GetItemPath(PBItemEnum::STICK);
+    REQUIRE(path);
     REQUIRE(*path == "resources/assets/items/stick.png");
     auto path2 = GameMap::DCLMap::getInstance().GetItemPath(PBItemEnum::WOODEN_HELMET);
+    REQUIRE(path2);
     REQUIRE(*path2 == "resources/assets/items/wooden_helmet.png");
 
 }

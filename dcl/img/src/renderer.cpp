@@ -40,7 +40,6 @@ void Renderer::InventoryRender::AddItemToInventory(const std::string &item_image
     auto nameX = 77 + (increment_x * (current % 2));
     auto nameY = 109 + (increment_y * (current / 2));
     current++;
-    std::cout << imgX << std::endl;
     std::ifstream in{item_image, std::ios::binary};
     GD::Image interaction{in};
     GD::Size s;
