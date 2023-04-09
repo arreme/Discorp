@@ -1,15 +1,38 @@
 {
-    "locID":"FOREST",
+    "locID":"PATH_1",
     "databaseId":1,
     "interactions": [
         {
             "type":"ZONE_ACCESS",
+            "interactionName": "GoToMainBase",
+            "databaseId": -1,
+            "posX": 0,
+            "posY": 96,
+            "imagePaths": [
+                "resources/assets/map_icons/zone_access/zone_locked.png",
+                "resources/assets/map_icons/zone_access/zone_unlocked.png"
+            ],
+            "nextLoc":"MAIN_BASE",
+            "upgradeInfo": [
+                {
+                    "statName":"ZONE_UNLOCK",
+                    "info": [
+                        {
+                            "currentStat": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type":"ZONE_ACCESS",
             "interactionName": "GoToMinesEntrance",
             "databaseId": 0,
-            "posX": 40,
-            "posY": 40,
+            "posX": 96,
+            "posY": 32,
             "imagePaths": [
-                "assets/zone_access/goto.png"
+                "resources/assets/map_icons/zone_access/zone_locked.png",
+                "resources/assets/map_icons/zone_access/zone_unlocked.png"
             ],
             "nextLoc":"MINES_ENTRANCE",
             "upgradeInfo": [
@@ -17,7 +40,7 @@
                     "statName":"ZONE_UNLOCK",
                     "info": [
                         {
-                            "currentStat": 1,
+                            "currentStat": 0,
                             "upRequirements" : [
                                 {
                                     "itemID":"STICK",
@@ -34,33 +57,13 @@
         },
         {
             "type":"ZONE_ACCESS",
-            "interactionName": "GoToMainBase",
-            "databaseId": -1,
-            "posX": 50,
-            "posY": 50,
-            "imagePaths": [
-                "assets/zone_access/goto.png"
-            ],
-            "nextLoc":"MAIN_BASE",
-            "upgradeInfo": [
-                {
-                    "statName":"ZONE_UNLOCK",
-                    "info": [
-                        {
-                            "currentStat": 1
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "type":"ZONE_ACCESS",
             "interactionName": "GoToTown",
             "databaseId": 1,
-            "posX": 60,
-            "posY": 60,
+            "posX": 224,
+            "posY": 96,
             "imagePaths": [
-                "assets/zone_access/goto.png"
+                "resources/assets/map_icons/zone_access/zone_locked.png",
+                "resources/assets/map_icons/zone_access/zone_unlocked.png"
             ],
             "nextLoc":"TOWN",
             "upgradeInfo": [
@@ -84,5 +87,5 @@
             ]
         }
     ],
-    "locImage": "assets/locations/main_base_0.png"
+    "locImage": "resources/assets/locations/path1.png"
 }

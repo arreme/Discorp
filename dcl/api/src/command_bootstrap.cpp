@@ -7,6 +7,9 @@ CommandBootstrap::CommandBootstrap(dpp::cluster *bot)
     command_list.insert({"photo",new PhotoCommand(bot->me.id)});
     command_list.insert({"inventory",new InventoryCommand(bot->me.id)});
     command_list.insert({"unlockzone",new UnlockZoneCommand(bot->me.id)});
+    command_list.insert({"goto",new GotoCommand(bot->me.id)});
+    command_list.insert({"collect",new CollectCommand(bot->me.id)});
+    command_list.insert({"improve",new ImproveCommand(bot->me.id)});
 }
 
 void CommandBootstrap::RegisterCommands() 

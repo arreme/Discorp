@@ -2,8 +2,9 @@ syntax = "proto3";
 
 enum PBLocationID 
 {
-    MAIN_BASE               = 0;
-    FOREST                  = 1;
-    TOWN                    = 2;
-    MINES_ENTRANCE          = 3;
+    MAIN_BASE                   = 0;
+    FOREST_1                    = 1;
+    TOWN                        = 2;
+    MINES_ENTRANCE              = 3;
+    PATH_1                      = 4;
 }

@@ -79,8 +79,9 @@ namespace GameMap
             {
                 return std::nullopt;
             }
-            
-            return m_loc_data.interactions(id).databaseid();
+            int database_id = m_loc_data.interactions(id).databaseid();
+            if (database_id == -1) return std::nullopt;
+            return database_id;
         }
 
         std::optional<PBInteractionType> GetInteractionType(int id) const
@@ -100,15 +101,20 @@ namespace GameMap
             return interaction.nextloc();
         }
 
-        std::vector<Item> CalculatePostRewards(int32_t id, PostInfo *post_info,Stats *const plyr_stats,Skills *const plyr_skills) const 
+        std::vector<Item> CalculatePostRewards(int32_t id, PostInfo *post_info,Stats *const plyr_stats,Skills *const plyr_skills, bool &update_time) const 
         {
             std::vector<Item> resources_to_add;
             auto interaction = m_loc_data.interactions(id);
             if (interaction.type() != PBInteractionType::POST) {return {};}
             auto seconds = static_cast<int>(post_info->GetDifferenceInSeconds());
-            auto max_capacity = interaction.upgradeinfo(PBUpgradeType::CAPACITY).info(post_info->GetCapacityLvl()).currentstat();
+            int max_capacity = interaction.upgradeinfo(PBUpgradeType::CAPACITY).info(post_info->GetCapacityLvl()).currentstat();
             auto gen_second = interaction.upgradeinfo(PBUpgradeType::GEN_SECOND).info(post_info->GetGenSecondLvl()).currentstat();
-            auto total = std::min((seconds * gen_second) + post_info->GetResourceStored(), max_capacity);
+            int added = std::floor(seconds * gen_second);
+            if (added == 0) 
+            {
+                update_time = false;
+            }
+            auto total = std::min(added + post_info->GetResourceStored(), max_capacity);
             int modifier = GameLogic::CalculateModifier(interaction.postskill(),plyr_stats,plyr_skills);
             
             auto gathered = std::min(total, 1 + modifier);
@@ -124,7 +130,7 @@ namespace GameMap
         {
             auto interaction = m_loc_data.interactions(id);
             if (interaction.type() != PBInteractionType::ZONE_ACCESS) {return std::nullopt;}
-            return interaction.upgradeinfo(0).info(build_level).currentstat() == 1;
+            return static_cast<int>(interaction.upgradeinfo(0).info(build_level).currentstat()) == 1;
         }
 
         std::vector<PBItemData> GetZoneAccessLevelRequirements(int32_t id, int build_level) const

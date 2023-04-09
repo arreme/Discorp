@@ -39,7 +39,7 @@
                     "statName":"GEN_SECOND",
                     "info": [
                         {
-                            "currentStat": 1,
+                            "currentStat": 0.1,
                             "upRequirements" : [
                                 {
                                     "itemID":"STICK",
@@ -62,7 +62,7 @@
         },
         {
             "type":"ZONE_ACCESS",
-            "interactionName": "GoToForest",
+            "interactionName": "GoToPath1",
             "databaseId": 1,
             "posX": 224,
             "posY": 96,
@@ -70,7 +70,7 @@
                 "resources/assets/map_icons/zone_access/zone_locked.png",
                 "resources/assets/map_icons/zone_access/zone_unlocked.png"
             ],
-            "nextLoc":"FOREST",
+            "nextLoc":"PATH_1",
             "upgradeInfo": [
                 {
                     "statName":"ZONE_UNLOCK",

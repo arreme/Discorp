@@ -31,13 +31,13 @@ namespace db_handler
 
     bool FillLocation(uint64_t discord_id, int32_t player_id, int32_t unlocked_location, std::vector<std::reference_wrapper<InteractionInfo>> &info);
     
-    bool CollectPost(Player &player,  int32_t interaction_id, int32_t resource_stored, std::string category, std::vector<Item> &item_modifiers);
+    bool CollectPost(Player &player,  int32_t interaction_id, int32_t resource_stored, std::string category, std::vector<Item> &item_modifiers, bool update_time);
 
     bool ImprovePost(Player &player, int32_t interaction_id, std::string_view update_name);
 
-    std::optional<playerInteractions> FindPlayerCurrentLocationInteractions(uint64_t discord_id, int32_t player_id);
+    std::optional<playerInteractions> FindPlayerCurrentLocationInteractions(uint64_t discord_id, int32_t player_id, int32_t location_db_id);
 
-    std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> FindPlayerCurrentInteraction(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
+    std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> FindPlayerCurrentInteraction(uint64_t discord_id, int32_t player_id, int32_t location_db_id, int32_t interaction_id);
 
     bool PlayerFirstTimeToLocation(uint64_t discord_id, int32_t player_id, int32_t location_id);
 
@@ -45,9 +45,9 @@ namespace db_handler
 
     bsoncxx::array::value FillInteracionsDocument(std::vector<std::reference_wrapper<InteractionInfo>> &info);
 
-    mongocxx::pipeline PlayerCurrentLocationInteractions_Pipeline(uint64_t discord_id, int32_t player_id);
+    mongocxx::pipeline PlayerCurrentLocationInteractions_Pipeline(uint64_t discord_id, int32_t player_id, int32_t location_db_id);
 
-    mongocxx::pipeline PlayerCurrentInteraction_Pipeline(uint64_t discord_id, int32_t player_id, int32_t interaction_id);
+    mongocxx::pipeline PlayerCurrentInteraction_Pipeline(uint64_t discord_id, int32_t player_id, int32_t location_db_id, int32_t interaction_id);
 
 
 

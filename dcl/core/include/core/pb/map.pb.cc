@@ -217,7 +217,7 @@ const char descriptor_table_protodef_map_2eproto[] PROTOBUF_SECTION_VARIABLE(pro
   "\020\n\010itemName\030\004 \001(\t\"G\n\013PBItemsDict\022\035\n\010item"
   "Type\030\001 \001(\0162\013.PBItemType\022\031\n\004data\030\002 \003(\0132\013."
   "PBItemData\"I\n\rPBUpgradeInfo\022\023\n\013currentSt"
-  "at\030\003 \001(\005\022#\n\016upRequirements\030\004 \003(\0132\013.PBIte"
+  "at\030\003 \001(\002\022#\n\016upRequirements\030\004 \003(\0132\013.PBIte"
   "mData\"L\n\nPBUpgrades\022 \n\010statName\030\001 \001(\0162\016."
   "PBUpgradeType\022\034\n\004info\030\002 \003(\0132\016.PBUpgradeI"
   "nfo\"\247\002\n\rPBInteraction\022 \n\004type\030\001 \001(\0162\022.PB"
@@ -919,11 +919,11 @@ const char* PBUpgradeInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // int32 currentStat = 3;
+      // float currentStat = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          currentstat_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 29)) {
+          currentstat_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
       // repeated .PBItemData upRequirements = 4;
@@ -966,10 +966,10 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 currentStat = 3;
-  if (this->currentstat() != 0) {
+  // float currentStat = 3;
+  if (!(this->currentstat() <= 0 && this->currentstat() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_currentstat(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(3, this->_internal_currentstat(), target);
   }
 
   // repeated .PBItemData upRequirements = 4;
@@ -1003,11 +1003,9 @@ size_t PBUpgradeInfo::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // int32 currentStat = 3;
-  if (this->currentstat() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_currentstat());
+  // float currentStat = 3;
+  if (!(this->currentstat() <= 0 && this->currentstat() >= 0)) {
+    total_size += 1 + 4;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1042,7 +1040,7 @@ void PBUpgradeInfo::MergeFrom(const PBUpgradeInfo& from) {
   (void) cached_has_bits;
 
   uprequirements_.MergeFrom(from.uprequirements_);
-  if (from.currentstat() != 0) {
+  if (!(from.currentstat() <= 0 && from.currentstat() >= 0)) {
     _internal_set_currentstat(from._internal_currentstat());
   }
 }

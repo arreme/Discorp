@@ -80,9 +80,9 @@ bool db_handler::GoToLocation(uint64_t discord_id, int32_t player_id, int32_t ne
     return update_op.GetState() == db::OperationState::SUCCESS;
 }
 
-bool db_handler::UnlockLocation(Player &player,int32_t location_id, int32_t interaction) 
+bool db_handler::UnlockLocation(Player &player, int32_t location_id, int32_t interaction) 
 {
-    std::string location_update_query = "locations."+std::to_string(player.GetLocation())+"." +std::to_string(interaction)+".ZONE_UNLOCK";
+    std::string location_update_query = "locations."+std::to_string(location_id)+"." +std::to_string(interaction)+".ZONE_UNLOCK";
     db::UpdateOneOperation update_op{"players",
         make_document(
             kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
@@ -116,24 +116,37 @@ bool db_handler::FillLocation(uint64_t discord_id, int32_t player_id, int32_t un
     return update_op.GetState() == db::OperationState::SUCCESS;
 }
 
-bool db_handler::CollectPost(Player &player,  int32_t interaction_id, int32_t resource_stored, std::string category, std::vector<Item> &item_modifiers)
+bool db_handler::CollectPost(Player &player,  int32_t interaction_id, int32_t resource_stored, std::string category, std::vector<Item> &item_modifiers, bool update_time)
 {
     db::Transaction t{};
 
     std::string location_update_time = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".last_updated";
     std::string location_update_resource = "locations." + std::to_string(player.GetLocation()) + "." + std::to_string(interaction_id) + ".resource_stored";
-    db::UpdateOneOperation update_post{"players",
-        make_document(
-            kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
-            kvp("player_id",b_int32{player.GetPlayerId()})
-        ),
-        make_document(kvp("$set",make_document(
-            kvp("stats",b_document{player.GetStats()->ToJson()}),
-            kvp("skills",b_document{player.GetSkills()->ToJson()}),
-            kvp(location_update_time, b_date{std::chrono::system_clock::now()}),
-            kvp(location_update_resource, b_int32{resource_stored})
-        )))
-    };
+    db::UpdateOneOperation update_post = update_time ?
+        db::UpdateOneOperation{"players",
+            make_document(
+                kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
+                kvp("player_id",b_int32{player.GetPlayerId()})
+            ),
+            make_document(kvp("$set",make_document(
+                kvp("stats",b_document{player.GetStats()->ToJson()}),
+                kvp("skills",b_document{player.GetSkills()->ToJson()}),
+                kvp(location_update_time, b_date{std::chrono::system_clock::now()}),
+                kvp(location_update_resource, b_int32{resource_stored})
+            )))
+        } :
+        db::UpdateOneOperation{"players",
+            make_document(
+                kvp("discord_id",b_int64{static_cast<int64_t>(player.GetId())}),
+                kvp("player_id",b_int32{player.GetPlayerId()})
+            ),
+            make_document(kvp("$set",make_document(
+                kvp("stats",b_document{player.GetStats()->ToJson()}),
+                kvp("skills",b_document{player.GetSkills()->ToJson()}),
+                kvp(location_update_resource, b_int32{resource_stored})
+            )))
+        };
+    
 
     bsoncxx::builder::basic::document set_doc{};
     bsoncxx::builder::basic::document inc_doc{};
@@ -181,9 +194,9 @@ bool db_handler::ImprovePost(Player &player, int32_t interaction_id, std::string
     return update_op.GetState() == db::OperationState::SUCCESS;
 }
 
-std::optional<db_handler::playerInteractions> db_handler::FindPlayerCurrentLocationInteractions(uint64_t discord_id, int32_t player_id) 
+std::optional<db_handler::playerInteractions> db_handler::FindPlayerCurrentLocationInteractions(uint64_t discord_id, int32_t player_id, int32_t location_db_id) 
 {
-    db::AggregateOperation agg_op{"players",PlayerCurrentLocationInteractions_Pipeline(discord_id,player_id)};
+    db::AggregateOperation agg_op{"players",PlayerCurrentLocationInteractions_Pipeline(discord_id,player_id, location_db_id)};
     agg_op.ExecuteOperation();
     if(agg_op.GetState() == db::OperationState::SUCCESS) 
     {
@@ -197,9 +210,9 @@ std::optional<db_handler::playerInteractions> db_handler::FindPlayerCurrentLocat
     return std::nullopt;
 }
 
-std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> db_handler::FindPlayerCurrentInteraction(uint64_t discord_id, int32_t player_id, int32_t interaction_id)
+std::optional<std::pair<Player,std::unique_ptr<InteractionInfo>>> db_handler::FindPlayerCurrentInteraction(uint64_t discord_id, int32_t player_id, int32_t location_db_id, int32_t interaction_id)
 {
-    db::AggregateOperation agg_op{"players",PlayerCurrentInteraction_Pipeline(discord_id,player_id,interaction_id)};
+    db::AggregateOperation agg_op{"players",PlayerCurrentInteraction_Pipeline(discord_id,player_id,location_db_id,interaction_id)};
     agg_op.ExecuteOperation();
     if(agg_op.GetState() == db::OperationState::SUCCESS) 
     {
@@ -276,7 +289,7 @@ bsoncxx::array::value db_handler::FillInteracionsDocument(std::vector<std::refer
     return interactions.extract();
 }
 
-mongocxx::pipeline db_handler::PlayerCurrentLocationInteractions_Pipeline(uint64_t discord_id, int32_t player_id) 
+mongocxx::pipeline db_handler::PlayerCurrentLocationInteractions_Pipeline(uint64_t discord_id, int32_t player_id, int32_t location_db_id) 
 {
     mongocxx::pipeline p{};
     p.match(make_document(
@@ -287,7 +300,7 @@ mongocxx::pipeline db_handler::PlayerCurrentLocationInteractions_Pipeline(uint64
         kvp("interactions", make_document(
             kvp("$arrayElemAt", make_array(
                 "$locations",
-                "$current_loc"
+                b_int32{location_db_id}
             ))
         ))
     ));
@@ -297,7 +310,7 @@ mongocxx::pipeline db_handler::PlayerCurrentLocationInteractions_Pipeline(uint64
     return p;
 }
 
-mongocxx::pipeline db_handler::PlayerCurrentInteraction_Pipeline(uint64_t discord_id, int32_t player_id, int32_t interaction_id) 
+mongocxx::pipeline db_handler::PlayerCurrentInteraction_Pipeline(uint64_t discord_id, int32_t player_id, int32_t location_db_id, int32_t interaction_id) 
 {
     mongocxx::pipeline p{};
     p.match(make_document(
@@ -310,7 +323,7 @@ mongocxx::pipeline db_handler::PlayerCurrentInteraction_Pipeline(uint64_t discor
                 make_document(
                     kvp("$arrayElemAt", make_array(
                         "$locations",
-                        "$current_loc"
+                        b_int32{location_db_id}
                     ))
                 ),
                 b_int32{interaction_id}

@@ -134,6 +134,7 @@ std::vector<std::unique_ptr<InteractionInfo>> InteractionInfo::CreateInteraction
 std::unique_ptr<InteractionInfo> InteractionInfo::CreateInteraction(bsoncxx::document::view doc) 
 {
     std::unique_ptr<InteractionInfo> loc{};
+    if (!doc["interactions"]) return nullptr;
     auto interaction = doc["interactions"].get_document().view();
     switch (static_cast<InteractionType>(interaction["type"].get_int32().value)) 
     {

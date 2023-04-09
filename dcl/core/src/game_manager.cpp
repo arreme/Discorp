@@ -28,7 +28,7 @@ gm::Errors gm::GoToZone(uint64_t discord_id, int32_t interaction)
     if (!interaction_type.has_value()) return Errors::INTERACTION_NOT_FOUND;
     if (interaction_type.value() != PBInteractionType::ZONE_ACCESS) return Errors::ILLEGAL_ACTION;
     auto databaseID = location->GetInteractionDatabaseID(interaction);
-    if (databaseID == -1) 
+    if (!databaseID) 
     {
         PBLocationID next_loc = location->GetZoneAccessNextLoc(interaction).value();
         auto next_loc_info = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(next_loc));
@@ -41,7 +41,7 @@ gm::Errors gm::GoToZone(uint64_t discord_id, int32_t interaction)
         db_handler::GoToLocation(discord_id,user->GetCurrentPlayer(),next_loc);
         return Errors::SUCCESS;
     }
-    auto database_info = db_handler::FindPlayerCurrentInteraction(discord_id,user->GetCurrentPlayer(),databaseID.value());
+    auto database_info = db_handler::FindPlayerCurrentInteraction(discord_id,user->GetCurrentPlayer(),location->GetDatabaseID(),databaseID.value());
     if (database_info) 
     {
         auto zone_access = static_cast<ZoneAccessInfo * const>(database_info->second.get());
@@ -51,7 +51,7 @@ gm::Errors gm::GoToZone(uint64_t discord_id, int32_t interaction)
         if (is_unlocked.value()) 
         {
             PBLocationID next_loc = location->GetZoneAccessNextLoc(interaction).value();
-            auto next_loc_info = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(next_loc));
+            auto next_loc_info = GameMap::DCLMap::getInstance().GetLocation(next_loc);
             if (!next_loc_info) return Errors::ILLEGAL_ACTION;
             if (next_loc_info->GetDatabaseID() != -1 && db_handler::PlayerFirstTimeToLocation(discord_id,user->GetCurrentPlayer(),next_loc)) 
             {
@@ -83,7 +83,7 @@ gm::Errors gm::CanUnlock(uint64_t discord_id, int32_t interaction, std::string &
 
     auto interaction_db = location->GetInteractionDatabaseID(interaction);
     if (!interaction_db.has_value()) return Errors::INTERACTION_ALREADY_UNLOCKED;
-    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db.value());
+    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),location->GetDatabaseID(),interaction_db.value());
     if (!interaction_info.has_value()) return Errors::DATABASE_CONNECTION_ERROR;
     auto zone_access = static_cast<ZoneAccessInfo * const>(interaction_info->second.get());
     auto is_unlocked = location->GetZoneAccessUnlocked(interaction,zone_access->GetUnlockedLvl());
@@ -135,8 +135,8 @@ gm::Errors gm::UnlockZone(uint64_t discord_id, int32_t interaction)
 
     auto interaction_db = location->GetInteractionDatabaseID(interaction);
     if (!interaction_db.has_value()) return Errors::INTERACTION_ALREADY_UNLOCKED;
-    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db.value());
-    if (!interaction_info.has_value()) return Errors::DATABASE_CONNECTION_ERROR;
+    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),location->GetDatabaseID(),interaction_db.value());
+    if (!interaction_info.has_value() || !interaction_info->second) return Errors::DATABASE_CONNECTION_ERROR;
     auto zone_access = static_cast<ZoneAccessInfo * const>(interaction_info->second.get());
     auto is_unlocked = location->GetZoneAccessUnlocked(interaction,zone_access->GetUnlockedLvl());
     if (!is_unlocked.has_value()) return Errors::ILLEGAL_ACTION;
@@ -164,7 +164,7 @@ gm::Errors gm::UnlockZone(uint64_t discord_id, int32_t interaction)
     
     //TODO: Transaction? Make it one call
     db_handler::ModifyItemsQuantity(discord_id,user.value().GetCurrentPlayer(),Item::RESOURCE_TYPE,item_requirements, true);
-    db_handler::UnlockLocation(interaction_info.value().first,result,interaction_db.value());
+    db_handler::UnlockLocation(interaction_info.value().first,location->GetDatabaseID(),interaction_db.value());
 
     return Errors::SUCCESS;
 }
@@ -183,12 +183,13 @@ gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction, std::string
     if (interaction_type.value() != PBInteractionType::POST) return Errors::ILLEGAL_ACTION;
 
     auto interaction_db = location->GetInteractionDatabaseID(interaction).value();
-    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db);
+    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),location->GetDatabaseID(),interaction_db);
     if (interaction_info) 
     {
         auto *post_info = static_cast<PostInfo *>(interaction_info->second.get());
-        std::vector<Item> items_result = location->CalculatePostRewards(interaction,post_info,interaction_info->first.GetStats(),interaction_info->first.GetSkills());
-        if (db_handler::CollectPost(interaction_info->first,interaction,post_info->GetResourceStored(),Item::RESOURCE_TYPE,items_result))
+        bool update_time = true;
+        std::vector<Item> items_result = location->CalculatePostRewards(interaction,post_info,interaction_info->first.GetStats(),interaction_info->first.GetSkills(), update_time);
+        if (db_handler::CollectPost(interaction_info->first,interaction,post_info->GetResourceStored(),Item::RESOURCE_TYPE,items_result, update_time))
         {
             output += "\nSTORED: "+std::to_string(post_info->GetResourceStored());
             for (auto& res : items_result)
@@ -219,7 +220,7 @@ gm::Errors gm::ImprovePost(uint64_t discord_id, int32_t interaction_id, std::str
     if (interaction_type.value() != PBInteractionType::POST) return Errors::ILLEGAL_ACTION;
     
     auto interaction_db = location->GetInteractionDatabaseID(interaction_id).value();
-    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),interaction_db);
+    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),location->GetDatabaseID(),interaction_db);
     
     int current_level = 0;
     auto post_info = static_cast<PostInfo *>(interaction_info->second.get());
@@ -277,7 +278,7 @@ std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_
     auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(location_id));
 
     Renderer::LocationRender location_img{location->GetImagePath()};
-    auto interactions = db_handler::FindPlayerCurrentLocationInteractions(discord_id, user->GetCurrentPlayer());
+    auto interactions = db_handler::FindPlayerCurrentLocationInteractions(discord_id, user->GetCurrentPlayer(), location->GetDatabaseID());
     int interaction_count = location->GetInteractionSize();
     int posX = 0;
     int posY = 0;
@@ -285,7 +286,6 @@ std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_
     {
         posX = location->GetInteractionPosX(i);
         posY = location->GetInteractionPosY(i);
-        int image_array = 0;
         auto database_id = location->GetInteractionDatabaseID(i);
         if (database_id) 
         {
@@ -295,7 +295,8 @@ std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_
                 case InteractionType::ZONE_ACCESS:
                     {
                         auto zone_access = static_cast<ZoneAccessInfo*>(curr_interaction);
-                        if (!location->GetZoneAccessUnlocked(zone_access->GetUnlockedLvl())) 
+                        auto opt_bool = location->GetZoneAccessUnlocked(i,zone_access->GetUnlockedLvl());
+                        if (opt_bool && !opt_bool.value()) 
                         {
                             location_img.AddInteraction(posX, posY, location->GetZoneAccessImage(i,0));
                         }
@@ -328,7 +329,6 @@ std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, std::st
     {
         const std::string *path = instance.GetItemPath(item_data.at(i).GetItemId());
         const std::string *name = instance.GetItemName(item_data.at(i).GetItemId());
-        std::cout << *path << std::endl;
         inventory_image.AddItemToInventory(*path, *name, std::to_string(item_data.at(i).GetQuantity()));
     }
 

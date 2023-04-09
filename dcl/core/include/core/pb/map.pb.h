@@ -659,13 +659,13 @@ class PBUpgradeInfo PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >&
       uprequirements() const;
 
-  // int32 currentStat = 3;
+  // float currentStat = 3;
   void clear_currentstat();
-  ::PROTOBUF_NAMESPACE_ID::int32 currentstat() const;
-  void set_currentstat(::PROTOBUF_NAMESPACE_ID::int32 value);
+  float currentstat() const;
+  void set_currentstat(float value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_currentstat() const;
-  void _internal_set_currentstat(::PROTOBUF_NAMESPACE_ID::int32 value);
+  float _internal_currentstat() const;
+  void _internal_set_currentstat(float value);
   public:
 
   // @@protoc_insertion_point(class_scope:PBUpgradeInfo)
@@ -676,7 +676,7 @@ class PBUpgradeInfo PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData > uprequirements_;
-  ::PROTOBUF_NAMESPACE_ID::int32 currentstat_;
+  float currentstat_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_map_2eproto;
 };
@@ -1599,22 +1599,22 @@ PBItemsDict::data() const {
 
 // PBUpgradeInfo
 
-// int32 currentStat = 3;
+// float currentStat = 3;
 inline void PBUpgradeInfo::clear_currentstat() {
   currentstat_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBUpgradeInfo::_internal_currentstat() const {
+inline float PBUpgradeInfo::_internal_currentstat() const {
   return currentstat_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBUpgradeInfo::currentstat() const {
+inline float PBUpgradeInfo::currentstat() const {
   // @@protoc_insertion_point(field_get:PBUpgradeInfo.currentStat)
   return _internal_currentstat();
 }
-inline void PBUpgradeInfo::_internal_set_currentstat(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void PBUpgradeInfo::_internal_set_currentstat(float value) {
   
   currentstat_ = value;
 }
-inline void PBUpgradeInfo::set_currentstat(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void PBUpgradeInfo::set_currentstat(float value) {
   _internal_set_currentstat(value);
   // @@protoc_insertion_point(field_set:PBUpgradeInfo.currentStat)
 }

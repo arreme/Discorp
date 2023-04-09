@@ -18,7 +18,7 @@ message PBItemsDict {
 
 message PBUpgradeInfo 
 {
-    int32 currentStat                       = 3;
+    float currentStat                       = 3;
     repeated PBItemData upRequirements      = 4;
 }
 

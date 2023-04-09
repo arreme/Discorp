@@ -193,7 +193,7 @@ TEST_CASE("Database Handler: Register Player To Database and Find interactions",
     REQUIRE(result);
     SECTION("FindPlayerInteractions") 
     {
-        auto res = db_handler::FindPlayerCurrentLocationInteractions(discord_id,user.GetCurrentPlayer());
+        auto res = db_handler::FindPlayerCurrentLocationInteractions(discord_id,user.GetCurrentPlayer(),0);
         auto usr = db_handler::FindUserById(discord_id);
         REQUIRE(usr);
         REQUIRE(usr.value().GetUserName() == "Arreme");
@@ -205,7 +205,7 @@ TEST_CASE("Database Handler: Register Player To Database and Find interactions",
     SECTION("FindPlayerCurrentInteraction") 
     {
         REQUIRE(result);
-        auto res = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),1);
+        auto res = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),0,1);
         REQUIRE(res);
         REQUIRE(res.value().first.GetLocation() == PBLocationID::MAIN_BASE);
         REQUIRE(res.value().second.get()->GetType() == InteractionType::ZONE_ACCESS);
@@ -242,8 +242,8 @@ TEST_CASE("Database Handler: Go to location and unlock location","[handler][unlo
     newInteractionInfo.push_back(post);
     newInteractionInfo.push_back(zoneAccessInfo);
     newInteractionInfo.push_back(post);
-    REQUIRE(db_handler::FillLocation(user.GetId(),user.GetCurrentPlayer(),PBLocationID::FOREST,newInteractionInfo));
-    REQUIRE(db_handler::GoToLocation(user.GetId(),user.GetCurrentPlayer(),PBLocationID::FOREST));
+    REQUIRE(db_handler::FillLocation(user.GetId(),user.GetCurrentPlayer(),PBLocationID::PATH_1,newInteractionInfo));
+    REQUIRE(db_handler::GoToLocation(user.GetId(),user.GetCurrentPlayer(),PBLocationID::PATH_1));
 
     del_op_pla.ExecuteOperation();
     del_op_usr.ExecuteOperation();
@@ -271,11 +271,11 @@ TEST_CASE("Database Handler: Collect a post and upgrade a post","[handler][updat
     auto result = db_handler::RegisterPlayerToDatabase(user, player, interactionInfo);
     REQUIRE(result);
     REQUIRE(db_handler::ImprovePost(player,0,PBUpgradeType_Name(PBUpgradeType::CAPACITY)));
-    auto interaction_res = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),0);
+    auto interaction_res = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),0,0);
     auto post_result = static_cast<PostInfo * const>(interaction_res->second.get());
     REQUIRE(post_result->GetCapacityLvl() == 1);
     REQUIRE(db_handler::ImprovePost(player,0,PBUpgradeType_Name(PBUpgradeType::CAPACITY)));
-    auto interaction_res2 = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),0);
+    auto interaction_res2 = db_handler::FindPlayerCurrentInteraction(discord_id,user.GetCurrentPlayer(),0,0);
     auto post_result2 = static_cast<PostInfo * const>(interaction_res2->second.get());
     REQUIRE(post_result2->GetCapacityLvl() == 2);
     
@@ -314,7 +314,8 @@ TEST_CASE("Inventory testing", "[inventory]")
     std::vector<Item> items;
     items.push_back(Item{PBItemEnum::PEBBLE,60});
     items.push_back(Item{PBItemEnum::STICK,30});
-    REQUIRE(db_handler::CollectPost(player,0,24,Item::RESOURCE_TYPE,items));
+    bool update_time = true;
+    REQUIRE(db_handler::CollectPost(player,0,24,Item::RESOURCE_TYPE,items, update_time));
     REQUIRE(db_handler::ModifyItemsQuantity(0,1,Item::RESOURCE_TYPE,items));
     auto returned_items = db_handler::GetItems(0,1,Item::RESOURCE_TYPE,items);
     REQUIRE(returned_items.size() == 2);
@@ -341,7 +342,7 @@ TEST_CASE("Unlock Location","[unlock]")
     REQUIRE(db_handler::RegisterPlayerToDatabase(user,player,interactionInfo));
     REQUIRE(db_handler::UnlockLocation(player,PBLocationID::MAIN_BASE,0));
 
-    auto result = db_handler::FindPlayerCurrentInteraction(0,1,0);
+    auto result = db_handler::FindPlayerCurrentInteraction(0,1,0,0);
     REQUIRE(result);
     auto zone_access = static_cast<ZoneAccessInfo * const>(result->second.get());
     REQUIRE(zone_access->GetUnlockedLvl() == 1);

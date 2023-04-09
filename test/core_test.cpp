@@ -38,19 +38,16 @@ TEST_CASE("/goto <location>", "[goto]")
     db_handler::ModifyItemQuantity(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK,10);
     REQUIRE(gm::UnlockZone(0,1) == gm::Errors::SUCCESS);
     REQUIRE(gm::GoToZone(0,1) == gm::Errors::SUCCESS);
-    REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::FOREST);
+    REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::PATH_1);
     REQUIRE(gm::UnlockZone(0,2) == gm::Errors::SUCCESS);
     REQUIRE(gm::GoToZone(0,2) == gm::Errors::SUCCESS);
     REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::TOWN);
     REQUIRE(gm::GoToZone(0,0) == gm::Errors::SUCCESS);
-    REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::FOREST);
+    REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::PATH_1);
     REQUIRE(gm::GoToZone(0,0) == gm::Errors::ILLEGAL_ACTION);
     REQUIRE(gm::GoToZone(0,1) == gm::Errors::SUCCESS);
     REQUIRE(db_handler::CurrentPlayerLocation(0,1) == PBLocationID::MAIN_BASE);
 
-    del_op_pla.ExecuteOperation();
-    del_op_usr.ExecuteOperation();
-    del_op_inv.ExecuteOperation();
     
 }
 
@@ -69,14 +66,14 @@ TEST_CASE("/collect post","[collect]")
     Player player{0, 1, PBLocationID::MAIN_BASE};
     REQUIRE(db_handler_util::ModifyPostDate(player,0,-20));
     gm::CollectPost(0,0,output);
-    auto req1 = db_handler::FindPlayerCurrentInteraction(0,1,0);
+    auto req1 = db_handler::FindPlayerCurrentInteraction(0,1,0,0);
     REQUIRE(req1->first.GetSkills()->m_forage_xp == 2);
     auto req1_post = static_cast<PostInfo *>(req1->second.get());
     REQUIRE(req1_post->GetResourceStored() == 18);
     auto req1_items = db_handler::GetItem(0,1,Item::RESOURCE_TYPE,PBItemEnum::STICK);
     REQUIRE(req1_items->GetQuantity() == 2);
     gm::CollectPost(0,0,output);
-    auto req2 = db_handler::FindPlayerCurrentInteraction(0,1,0);
+    auto req2 = db_handler::FindPlayerCurrentInteraction(0,1,0,0);
     REQUIRE(req2->first.GetSkills()->m_forage_xp == 4);
     auto req2_post = static_cast<PostInfo *>(req2->second.get());
     REQUIRE(req2_post->GetResourceStored() == 16);

@@ -71,7 +71,7 @@ public:
             response = "Can't use this button as you are not the target user!";
         }
         m.set_content(response).set_flags(dpp::m_ephemeral);
-        event.reply(m);
+        event.reply(dpp::interaction_response_type::ir_update_message,m);
     }
 };
 
