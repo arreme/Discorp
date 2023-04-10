@@ -41,6 +41,8 @@ namespace db_handler
 
     bool PlayerFirstTimeToLocation(uint64_t discord_id, int32_t player_id, int32_t location_id);
 
+    std::optional<Player> GetCurrentPlayer(uint64_t discord_id, int32_t player_id);
+    
     int CurrentPlayerLocation(uint64_t discord_id, int32_t player_id);
 
     bsoncxx::array::value FillInteracionsDocument(std::vector<std::reference_wrapper<InteractionInfo>> &info);

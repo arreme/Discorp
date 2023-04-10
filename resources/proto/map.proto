@@ -39,9 +39,10 @@ message PBInteraction
     int32 posX                              = 7;
     int32 posY                              = 8;
     repeated string imagePaths              = 9;
+    repeated string upgradeImagePaths       = 10;
 
-    PBLocationID nextLoc                    = 10;
-    repeated PBUpgrades upgradeInfo         = 11;
+    PBLocationID nextLoc                    = 11;
+    repeated PBUpgrades upgradeInfo         = 12;
 }
 
 message PBLocation 

@@ -41,6 +41,8 @@ namespace gm
 
     Errors CollectPost(uint64_t discord_id, int32_t interaction, std::string &output);
 
+    Errors CanImprove(uint64_t discord_id, int32_t interaction, std::string upgrade_name, std::string &out);
+
     Errors ImprovePost(uint64_t discord_id, int32_t interaction, std::string upgrade_name);
 
 
@@ -49,7 +51,7 @@ namespace gm
 
     std::unique_ptr<char, void(*)(char*)> Inventory(uint64_t discord_id, std::string group_type, int page_number, int *size, bool &is_last_page);
 
-    std::unique_ptr<char, void(*)(char*)> PhotoCurrentPost(uint64_t discord_id, int *size);
+    std::unique_ptr<char, void(*)(char*)> PhotoCurrentPost(uint64_t discord_id, int32_t interaction_id, std::string &output, int *size);
 
     std::unique_ptr<char, void(*)(char*)> PlayerInfo(uint64_t discord_id, int *size);
 }

@@ -52,7 +52,7 @@ public:
     void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
     {
         auto target = event.command.get_issuing_user();
-        dpp::message m;
+        
         std::string response;
         if (std::to_string(target.id) == commands.at(1)) 
         {
@@ -70,8 +70,7 @@ public:
         {
             response = "Can't use this button as you are not the target user!";
         }
-        m.set_content(response).set_flags(dpp::m_ephemeral);
-        event.reply(dpp::interaction_response_type::ir_update_message,m);
+        event.reply(dpp::interaction_response_type::ir_update_message,response);
     }
 };
 
@@ -90,6 +89,62 @@ public:
         {
             //m_bot->message_delete(event.command.message_id,event.command.channel_id);
             response += "Canceled action. New zone not unlocked";
+        } else 
+        {
+            response = "Can't use this button as you are not the target user!";
+        }
+        event.reply(dpp::interaction_response_type::ir_update_message,response);
+    }
+};
+
+
+class ConfirmImproveButton : public Button 
+{
+public:
+    ConfirmImproveButton(dpp::cluster *bot)
+    : Button(bot) 
+    {};
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        std::string response;
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            response = "Confirming action...\n";
+            int32_t interaction_num = std::stoi(commands.at(2));
+            std::string upgrade_type = commands.at(3);
+            auto error = gm::ImprovePost(target.id,interaction_num,upgrade_type);
+            m_bot->message_delete(event.command.message_id,event.command.channel_id);
+            if (error==gm::Errors::SUCCESS) 
+            {
+                response += "Post Improved! You have upgraded the "+commands.at(3)+" of the post";
+            } else {
+                response += "An error ocurred, please try again later";
+            }
+        } else 
+        {
+            response = "Can't use this button as you are not the target user!";
+        }
+        event.reply(dpp::interaction_response_type::ir_update_message,response);
+    }
+};
+
+class CancelImproveButton : public Button 
+{
+public:
+    CancelImproveButton(dpp::cluster *bot)
+    : Button(bot) 
+    {};
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        std::string response;
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            //m_bot->message_delete(event.command.message_id,event.command.channel_id);
+            response += "Canceled action.Post not improved";
         } else 
         {
             response = "Can't use this button as you are not the target user!";

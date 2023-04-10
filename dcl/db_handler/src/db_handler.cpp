@@ -251,6 +251,31 @@ int db_handler::CurrentPlayerLocation(uint64_t discord_id, int32_t player_id)
     return -1;
 }
 
+std::optional<Player> db_handler::GetCurrentPlayer(uint64_t discord_id, int32_t player_id) 
+{
+    mongocxx::options::find find_opt{};
+    find_opt.projection(
+        make_document(
+            kvp("locations",0)
+        )
+    );
+    db::FindOneOperation find_one_op{"players", 
+        make_document(
+            kvp("discord_id",b_int64{static_cast<int64_t>(discord_id)}),
+            kvp("player_id",b_int32{player_id})
+        ),
+        std::move(find_opt)
+    };
+
+    find_one_op.ExecuteOperation();
+    if (find_one_op.m_result) 
+    {
+        return Player{find_one_op.m_result.value()};
+    }
+
+    return std::nullopt;
+};
+
 bool db_handler::PlayerFirstTimeToLocation(uint64_t discord_id, int32_t player_id, int32_t location_id) 
 {
     mongocxx::options::find find_opt{};

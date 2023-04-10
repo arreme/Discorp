@@ -10,6 +10,8 @@ CommandBootstrap::CommandBootstrap(dpp::cluster *bot)
     command_list.insert({"goto",new GotoCommand(bot->me.id)});
     command_list.insert({"collect",new CollectCommand(bot->me.id)});
     command_list.insert({"improve",new ImproveCommand(bot->me.id)});
+    command_list.insert({"stats",new StatsCommand(bot->me.id)});
+    command_list.insert({"postinfo",new PostInfoCommand(bot->me.id)});
 }
 
 void CommandBootstrap::RegisterCommands() 

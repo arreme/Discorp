@@ -953,7 +953,8 @@ class PBInteraction PROTOBUF_FINAL :
 
   enum : int {
     kImagePathsFieldNumber = 9,
-    kUpgradeInfoFieldNumber = 11,
+    kUpgradeImagePathsFieldNumber = 10,
+    kUpgradeInfoFieldNumber = 12,
     kInteractionNameFieldNumber = 2,
     kTypeFieldNumber = 1,
     kResourceFieldNumber = 3,
@@ -962,7 +963,7 @@ class PBInteraction PROTOBUF_FINAL :
     kDatabaseIdFieldNumber = 6,
     kPosXFieldNumber = 7,
     kPosYFieldNumber = 8,
-    kNextLocFieldNumber = 10,
+    kNextLocFieldNumber = 11,
   };
   // repeated string imagePaths = 9;
   int imagepaths_size() const;
@@ -988,7 +989,31 @@ class PBInteraction PROTOBUF_FINAL :
   std::string* _internal_add_imagepaths();
   public:
 
-  // repeated .PBUpgrades upgradeInfo = 11;
+  // repeated string upgradeImagePaths = 10;
+  int upgradeimagepaths_size() const;
+  private:
+  int _internal_upgradeimagepaths_size() const;
+  public:
+  void clear_upgradeimagepaths();
+  const std::string& upgradeimagepaths(int index) const;
+  std::string* mutable_upgradeimagepaths(int index);
+  void set_upgradeimagepaths(int index, const std::string& value);
+  void set_upgradeimagepaths(int index, std::string&& value);
+  void set_upgradeimagepaths(int index, const char* value);
+  void set_upgradeimagepaths(int index, const char* value, size_t size);
+  std::string* add_upgradeimagepaths();
+  void add_upgradeimagepaths(const std::string& value);
+  void add_upgradeimagepaths(std::string&& value);
+  void add_upgradeimagepaths(const char* value);
+  void add_upgradeimagepaths(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& upgradeimagepaths() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_upgradeimagepaths();
+  private:
+  const std::string& _internal_upgradeimagepaths(int index) const;
+  std::string* _internal_add_upgradeimagepaths();
+  public:
+
+  // repeated .PBUpgrades upgradeInfo = 12;
   int upgradeinfo_size() const;
   private:
   int _internal_upgradeinfo_size() const;
@@ -1094,7 +1119,7 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_posy(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // .PBLocationID nextLoc = 10;
+  // .PBLocationID nextLoc = 11;
   void clear_nextloc();
   ::PBLocationID nextloc() const;
   void set_nextloc(::PBLocationID value);
@@ -1111,6 +1136,7 @@ class PBInteraction PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> imagepaths_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> upgradeimagepaths_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades > upgradeinfo_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr interactionname_;
   int type_;
@@ -2020,7 +2046,81 @@ PBInteraction::mutable_imagepaths() {
   return &imagepaths_;
 }
 
-// .PBLocationID nextLoc = 10;
+// repeated string upgradeImagePaths = 10;
+inline int PBInteraction::_internal_upgradeimagepaths_size() const {
+  return upgradeimagepaths_.size();
+}
+inline int PBInteraction::upgradeimagepaths_size() const {
+  return _internal_upgradeimagepaths_size();
+}
+inline void PBInteraction::clear_upgradeimagepaths() {
+  upgradeimagepaths_.Clear();
+}
+inline std::string* PBInteraction::add_upgradeimagepaths() {
+  // @@protoc_insertion_point(field_add_mutable:PBInteraction.upgradeImagePaths)
+  return _internal_add_upgradeimagepaths();
+}
+inline const std::string& PBInteraction::_internal_upgradeimagepaths(int index) const {
+  return upgradeimagepaths_.Get(index);
+}
+inline const std::string& PBInteraction::upgradeimagepaths(int index) const {
+  // @@protoc_insertion_point(field_get:PBInteraction.upgradeImagePaths)
+  return _internal_upgradeimagepaths(index);
+}
+inline std::string* PBInteraction::mutable_upgradeimagepaths(int index) {
+  // @@protoc_insertion_point(field_mutable:PBInteraction.upgradeImagePaths)
+  return upgradeimagepaths_.Mutable(index);
+}
+inline void PBInteraction::set_upgradeimagepaths(int index, const std::string& value) {
+  // @@protoc_insertion_point(field_set:PBInteraction.upgradeImagePaths)
+  upgradeimagepaths_.Mutable(index)->assign(value);
+}
+inline void PBInteraction::set_upgradeimagepaths(int index, std::string&& value) {
+  // @@protoc_insertion_point(field_set:PBInteraction.upgradeImagePaths)
+  upgradeimagepaths_.Mutable(index)->assign(std::move(value));
+}
+inline void PBInteraction::set_upgradeimagepaths(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  upgradeimagepaths_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:PBInteraction.upgradeImagePaths)
+}
+inline void PBInteraction::set_upgradeimagepaths(int index, const char* value, size_t size) {
+  upgradeimagepaths_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:PBInteraction.upgradeImagePaths)
+}
+inline std::string* PBInteraction::_internal_add_upgradeimagepaths() {
+  return upgradeimagepaths_.Add();
+}
+inline void PBInteraction::add_upgradeimagepaths(const std::string& value) {
+  upgradeimagepaths_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:PBInteraction.upgradeImagePaths)
+}
+inline void PBInteraction::add_upgradeimagepaths(std::string&& value) {
+  upgradeimagepaths_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:PBInteraction.upgradeImagePaths)
+}
+inline void PBInteraction::add_upgradeimagepaths(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  upgradeimagepaths_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:PBInteraction.upgradeImagePaths)
+}
+inline void PBInteraction::add_upgradeimagepaths(const char* value, size_t size) {
+  upgradeimagepaths_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:PBInteraction.upgradeImagePaths)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+PBInteraction::upgradeimagepaths() const {
+  // @@protoc_insertion_point(field_list:PBInteraction.upgradeImagePaths)
+  return upgradeimagepaths_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+PBInteraction::mutable_upgradeimagepaths() {
+  // @@protoc_insertion_point(field_mutable_list:PBInteraction.upgradeImagePaths)
+  return &upgradeimagepaths_;
+}
+
+// .PBLocationID nextLoc = 11;
 inline void PBInteraction::clear_nextloc() {
   nextloc_ = 0;
 }
@@ -2040,7 +2140,7 @@ inline void PBInteraction::set_nextloc(::PBLocationID value) {
   // @@protoc_insertion_point(field_set:PBInteraction.nextLoc)
 }
 
-// repeated .PBUpgrades upgradeInfo = 11;
+// repeated .PBUpgrades upgradeInfo = 12;
 inline int PBInteraction::_internal_upgradeinfo_size() const {
   return upgradeinfo_.size();
 }

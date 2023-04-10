@@ -171,6 +171,7 @@ gm::Errors gm::UnlockZone(uint64_t discord_id, int32_t interaction)
 
 gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction, std::string &output) 
 {
+    output = "An Error ocurred, the post you are trying to collect was not found";
     auto user = db_handler::FindUserById(discord_id);
     if (!user) return Errors::USER_NOT_FOUND;
 
@@ -191,7 +192,7 @@ gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction, std::string
         std::vector<Item> items_result = location->CalculatePostRewards(interaction,post_info,interaction_info->first.GetStats(),interaction_info->first.GetSkills(), update_time);
         if (db_handler::CollectPost(interaction_info->first,interaction,post_info->GetResourceStored(),Item::RESOURCE_TYPE,items_result, update_time))
         {
-            output += "\nSTORED: "+std::to_string(post_info->GetResourceStored());
+            output = "\nSTORED: "+std::to_string(post_info->GetResourceStored());
             for (auto& res : items_result)
             {
                 auto name = PBItemEnum_Name(res.GetItemId());
@@ -201,6 +202,78 @@ gm::Errors gm::CollectPost(uint64_t discord_id, int32_t interaction, std::string
         }   
     }
     return Errors::DATABASE_CONNECTION_ERROR;
+}
+
+gm::Errors gm::CanImprove(uint64_t discord_id, int32_t interaction_id, std::string upgrade_name, std::string &out) 
+{
+    auto user = db_handler::FindUserById(discord_id);
+    if (!user) return Errors::USER_NOT_FOUND;
+
+    PBUpgradeType target_upgrade;
+    if (!PBUpgradeType_Parse(upgrade_name,&target_upgrade)) return Errors::FORMAT_ERROR;
+
+    int location_id = db_handler::CurrentPlayerLocation(discord_id,user->GetCurrentPlayer());
+    if (!PBLocationID_IsValid(location_id)) return Errors::GENERAL_ERROR;
+    auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(location_id));
+
+    auto interaction_type = location->GetInteractionType(interaction_id);
+    if (!interaction_type.has_value()) return Errors::INTERACTION_NOT_FOUND;
+    if (interaction_type.value() != PBInteractionType::POST) return Errors::ILLEGAL_ACTION;
+    
+    auto interaction_db = location->GetInteractionDatabaseID(interaction_id).value();
+    auto interaction_info = db_handler::FindPlayerCurrentInteraction(discord_id,user.value().GetCurrentPlayer(),location->GetDatabaseID(),interaction_db);
+    
+    int current_level = 0;
+    auto post_info = static_cast<PostInfo *>(interaction_info->second.get());
+    switch (target_upgrade)
+    {
+    case PBUpgradeType::CAPACITY:
+        current_level = post_info->GetCapacityLvl();
+        break;
+    case PBUpgradeType::GEN_SECOND:
+        current_level = post_info->GetGenSecondLvl();
+        break;
+    case PBUpgradeType::FORTUNE:
+        current_level = post_info->GetFortuneLvl();
+        break;
+    default:
+        return Errors::GENERAL_ERROR;
+    }
+
+    auto requirements = location->GetPostLocationUpgradeRequirements(interaction_id, target_upgrade, current_level);
+    if (requirements.size() <= 0) return Errors::INTERACTION_ALREADY_UNLOCKED;
+    std::vector<Item> item_requirements;
+    item_requirements.reserve(requirements.size());
+    for (auto &req : requirements)
+    {
+        item_requirements.emplace_back(req.itemid(),req.quantity());
+        auto name = PBItemEnum_Name(req.itemid());
+        out += "    -> "+name+": "+std::to_string(req.quantity())+"\n";
+    }
+
+    auto items = db_handler::GetItems(discord_id,user.value().GetCurrentPlayer(),Item::RESOURCE_TYPE , item_requirements);
+    bool enough_resources = true;
+    if (item_requirements.size() > items.size()) enough_resources = false;
+    else 
+    {
+        out += "-----------------\nYOU HAVE\n-----------------\n";
+        for (int i = 0; i<items.size(); i++)
+        {
+            auto name = PBItemEnum_Name(items[i].GetItemId());
+            out += "    -> "+name+": "+std::to_string(items[i].GetQuantity())+"\n";
+            if (items[i].GetQuantity() < item_requirements[i].GetQuantity())
+            {
+                enough_resources = false;
+            }   
+        }
+    }
+
+    if (enough_resources) {
+        return Errors::SUCCESS;
+    } else {
+        out += "NOT ENOUGH RESOURCES, CAN'T UNLOCK\n";
+        return Errors::NOT_ENOUGH_RESOURCES;
+    }
 }
 
 gm::Errors gm::ImprovePost(uint64_t discord_id, int32_t interaction_id, std::string upgrade_name)
@@ -311,7 +384,6 @@ std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentLocation(uint64_t discord_
     return location_img.RenderImage(size);
 }
 
-
 std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, std::string group_type, int page_number, int *size, bool &is_last_page) 
 {
     auto user = db_handler::FindUserById(discord_id);
@@ -336,12 +408,84 @@ std::unique_ptr<char, void(*)(char*)> gm::Inventory(uint64_t discord_id, std::st
     return inventory_image.RenderImage(size);
 }
 
-std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentPost(uint64_t discord_id, int *size) 
+std::unique_ptr<char, void(*)(char*)> gm::PhotoCurrentPost(uint64_t discord_id, int32_t interaction_id, std::string &output, int *size) 
 {
-    return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+    auto user = db_handler::FindUserById(discord_id);
+    if (!user) 
+    {
+        output = "User could not be found, please initialize game with /start";
+        return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+    }
+
+    int location_id = db_handler::CurrentPlayerLocation(discord_id,user->GetCurrentPlayer());
+    if (!PBLocationID_IsValid(location_id)) 
+    {
+        output = "You are not in a valid location, how did you end up in here?";
+        return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+    } 
+
+    auto location = GameMap::DCLMap::getInstance().GetLocation(static_cast<PBLocationID>(location_id));
+
+    auto interaction_type = location->GetInteractionType(interaction_id);
+    if (!interaction_type.has_value() || interaction_type.value() != PBInteractionType::POST)
+    {
+        output = "Post not found or target is not of type post. You can only get the info from posts!";
+        return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+    }
+
+    auto location_db = location->GetDatabaseID();
+    auto interaction_db = location->GetInteractionDatabaseID(interaction_id).value();
+    auto player_interaction = db_handler::FindPlayerCurrentInteraction(discord_id,user->GetCurrentPlayer(),location_db,interaction_db);
+
+    if (!player_interaction || !player_interaction->second) 
+    {
+        output = "Database error, please try again";
+        return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+    }
+
+    auto post_info = static_cast<PostInfo *>(player_interaction->second.get());
+    
+    location->UpdatePostStored(interaction_id, post_info);
+    
+    auto cap_lvl = post_info->GetCapacityLvl();
+    int cap_val = location->GetPostValueFromLvl(interaction_id, PBUpgradeType::CAPACITY, cap_lvl);
+    auto curr_stored = post_info->GetResourceStored();
+    auto filled_percent = curr_stored/cap_val;
+    auto gen_sec_lvl = post_info->GetGenSecondLvl();
+    auto gen_sec_val = location->GetPostValueFromLvl(interaction_id, PBUpgradeType::GEN_SECOND, gen_sec_lvl);
+    auto fortune_lvl = post_info->GetFortuneLvl();
+    auto fortune_val = location->GetPostValueFromLvl(interaction_id, PBUpgradeType::FORTUNE, fortune_lvl);
+    int post_lvl = ( gen_sec_lvl + cap_lvl + fortune_lvl ) / 3;
+    
+    Renderer::PostRenderer renderer{cap_lvl,cap_val,filled_percent,gen_sec_lvl,gen_sec_val,fortune_lvl,fortune_val,location->GetPostImage(interaction_id, post_lvl)};
+    return renderer.RenderImage(size);
 }
 
 std::unique_ptr<char, void(*)(char*)> gm::PlayerInfo(uint64_t discord_id, int *size) 
 {
-    return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+    auto user = db_handler::FindUserById(discord_id);
+    if (!user) return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+
+    auto player_data = db_handler::GetCurrentPlayer(discord_id, user->GetCurrentPlayer());
+    if (!player_data) return std::unique_ptr<char, void(*)(char*)>{nullptr,nullptr};
+
+    Skills *plyr_skills = player_data->GetSkills();
+    Stats *plyr_stats = player_data->GetStats();
+    float forage_xp_percent = static_cast<float>(plyr_skills->m_forage_xp) / GameLogic::CheckLevel(plyr_skills->m_forage_lvl);
+    float mining_xp_percent = static_cast<float>(plyr_skills->m_mining_xp) / GameLogic::CheckLevel(plyr_skills->m_mining_lvl);
+    float combat_xp_percent = static_cast<float>(plyr_skills->m_combat_xp) / GameLogic::CheckLevel(plyr_skills->m_combat_lvl);
+    float athletics_xp_percent = static_cast<float>(plyr_skills->m_athletics_xp) / GameLogic::CheckLevel(plyr_skills->m_athletics_lvl);
+    std::cout << forage_xp_percent << std::endl;
+    std::cout << GameLogic::CheckLevel(plyr_skills->m_forage_lvl) << std::endl;
+    Renderer::PlayerRenderer playerRenderer{
+        plyr_stats->m_max_health, plyr_stats->m_current_health,
+        plyr_stats->m_strength, plyr_stats->m_defense, 
+        plyr_stats->m_precision, plyr_stats->m_speed,
+        plyr_stats->m_luck,
+        plyr_skills->m_forage_lvl,plyr_skills->m_forage_xp, forage_xp_percent,
+        plyr_skills->m_mining_lvl, plyr_skills->m_mining_xp, mining_xp_percent,
+        plyr_skills->m_combat_lvl, plyr_skills->m_combat_xp, combat_xp_percent,
+        plyr_skills->m_athletics_lvl,plyr_skills->m_athletics_xp,athletics_xp_percent};
+
+    return playerRenderer.RenderImage(size);
 }

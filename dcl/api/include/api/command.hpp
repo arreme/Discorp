@@ -259,18 +259,86 @@ public:
     {
         int size = -1;
         dpp::user target = event->command.get_issuing_user();
-        int interaction_number = static_cast<int>(std::get<std::int64_t>(event->get_parameter("zone_acess_target")));
+        int interaction_number = static_cast<int>(std::get<std::int64_t>(event->get_parameter("post_target")));
+        std::string upgrade_name = std::get<std::string>(event->get_parameter("post_property"));
         interaction_number--;
-        auto errors = gm::GoToZone(target.id,interaction_number);
-        std::string message = "Changed zone!";
+        std::string output = "---- REQUIRED MATERIALS ----\n";
+        auto errors = gm::CanImprove(target.id,interaction_number,upgrade_name, output);
+        
         if (errors == gm::Errors::ILLEGAL_ACTION || errors == gm::Errors::INTERACTION_NOT_FOUND) 
         {
-            message = "Target zone could not be found or is not of type zone access";
-        } else if (errors == gm::Errors::LOCATION_LOCKED) 
+            output = "Target post could not be found or is not of type post";
+        } else if (errors == gm::Errors::GENERAL_ERROR || errors == gm::Errors::FORMAT_ERROR) 
         {
-            message = "Location is not unlocked! You should try to repare the path with your given materials!";
+            output = "Target post could not be found or is not of type post";
         }
-        dpp::message m(message);
+        dpp::message m{output};
+        if (errors == gm::Errors::SUCCESS) 
+        {
+            m.add_component(
+                dpp::component().add_component(
+                    dpp::component().set_label("CONFIRM").set_style(dpp::cos_success).set_id("confirm_improve::"+std::to_string(target.id)+"::"+std::to_string(interaction_number)+"::"+upgrade_name)
+                ).add_component(
+                    dpp::component().set_label("CANCEL").set_style(dpp::cos_danger).set_id("cancel_improve::"+std::to_string(target.id))
+                )
+            );
+        } 
+        m.set_flags(dpp::m_ephemeral);
+        event->reply(m);
+    }
+};
+
+class StatsCommand : public Command
+{
+public:
+    const std::string COMMAND_NAME = "stats";
+    StatsCommand(dpp::snowflake appid) 
+    {
+        isGlobal = true;
+        command = dpp::slashcommand(COMMAND_NAME,"Print state",appid);
+    }
+
+    void HandleCommand(const dpp::slashcommand_t *event) 
+    {
+        int size = -1;
+        dpp::user target = event->command.get_issuing_user();
+        auto image_data = gm::PlayerInfo(target.id, &size);
+        dpp::message m("");
+        std::string s(image_data.get(),size);
+        m.add_file("img1.png",s);
+        m.set_flags(dpp::m_ephemeral);
+        event->reply(m);
+    }
+};
+
+
+class PostInfoCommand : public Command
+{
+public:
+    const std::string COMMAND_NAME = "postinfo";
+    PostInfoCommand(dpp::snowflake appid) 
+    {
+        isGlobal = true;
+        command = dpp::slashcommand(COMMAND_NAME,"Print post info",appid);
+        command.add_option(
+            dpp::command_option(dpp::co_integer, "post_target", "The post you want to collect", true)
+        );
+    }
+
+    void HandleCommand(const dpp::slashcommand_t *event) 
+    {
+        int size = -1;
+        dpp::user target = event->command.get_issuing_user();
+        int interaction_number = static_cast<int>(std::get<std::int64_t>(event->get_parameter("post_target")));
+        interaction_number--;
+        std::string output = "";
+        auto image_data = gm::PhotoCurrentPost(target.id, interaction_number, output, &size);
+        dpp::message m(output);
+        if (image_data) 
+        {
+            std::string s(image_data.get(),size);
+            m.add_file("img1.png",s);
+        }
         m.set_flags(dpp::m_ephemeral);
         event->reply(m);
     }

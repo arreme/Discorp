@@ -15,6 +15,10 @@
                 "resources/assets/map_icons/posts/bush.png",
                 "resources/assets/map_icons/posts/bush_full.png"
             ],
+            "upgradeImagePaths":[
+                "resources/assets/info/bush_0.png",
+                "resources/assets/info/bush_1.png"
+            ],
             "upgradeInfo": [
                 {
                     "statName":"CAPACITY",
@@ -44,16 +48,57 @@
                                 {
                                     "itemID":"STICK",
                                     "quantity":20
+                                },
+                                {
+                                    "itemID":"PEBBLE",
+                                    "quantity":20
                                 }
                             ]
                         },
                         {
-                            "currentStat": 2,
+                            "currentStat": 0.2,
                             "upRequirements" : [
                                 {
                                     "itemID":"STICK",
                                     "quantity":3
                                 }
+                            ]
+                        },
+                        {
+                            "currentStat": 0.2,
+                            "upRequirements" : [
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "statName":"FORTUNE",
+                    "info": [
+                        {
+                            "currentStat": 1,
+                            "upRequirements" : [
+                                {
+                                    "itemID":"STICK",
+                                    "quantity":20
+                                },
+                                {
+                                    "itemID":"PEBBLE",
+                                    "quantity":20
+                                }
+                            ]
+                        },
+                        {
+                            "currentStat": 2.5,
+                            "upRequirements" : [
+                                {
+                                    "itemID":"STICK",
+                                    "quantity":3
+                                }
+                            ]
+                        },
+                        {
+                            "currentStat": 3.3,
+                            "upRequirements" : [
                             ]
                         }
                     ]

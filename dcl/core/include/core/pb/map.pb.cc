@@ -180,6 +180,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_map_2eproto::offsets[] PROTOBU
   PROTOBUF_FIELD_OFFSET(::PBInteraction, posx_),
   PROTOBUF_FIELD_OFFSET(::PBInteraction, posy_),
   PROTOBUF_FIELD_OFFSET(::PBInteraction, imagepaths_),
+  PROTOBUF_FIELD_OFFSET(::PBInteraction, upgradeimagepaths_),
   PROTOBUF_FIELD_OFFSET(::PBInteraction, nextloc_),
   PROTOBUF_FIELD_OFFSET(::PBInteraction, upgradeinfo_),
   ~0u,  // no _has_bits_
@@ -198,7 +199,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 16, -1, sizeof(::PBUpgradeInfo)},
   { 23, -1, sizeof(::PBUpgrades)},
   { 30, -1, sizeof(::PBInteraction)},
-  { 46, -1, sizeof(::PBLocation)},
+  { 47, -1, sizeof(::PBLocation)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -220,22 +221,23 @@ const char descriptor_table_protodef_map_2eproto[] PROTOBUF_SECTION_VARIABLE(pro
   "at\030\003 \001(\002\022#\n\016upRequirements\030\004 \003(\0132\013.PBIte"
   "mData\"L\n\nPBUpgrades\022 \n\010statName\030\001 \001(\0162\016."
   "PBUpgradeType\022\034\n\004info\030\002 \003(\0132\016.PBUpgradeI"
-  "nfo\"\247\002\n\rPBInteraction\022 \n\004type\030\001 \001(\0162\022.PB"
+  "nfo\"\302\002\n\rPBInteraction\022 \n\004type\030\001 \001(\0162\022.PB"
   "InteractionType\022\027\n\017interactionName\030\002 \001(\t"
   "\022\035\n\010resource\030\003 \001(\0162\013.PBItemEnum\022\"\n\tpostS"
   "kill\030\004 \001(\0162\017.PBPlayerSkills\022\022\n\ninteractX"
   "p\030\005 \001(\005\022\022\n\ndatabaseId\030\006 \001(\005\022\014\n\004posX\030\007 \001("
-  "\005\022\014\n\004posY\030\010 \001(\005\022\022\n\nimagePaths\030\t \003(\t\022\036\n\007n"
-  "extLoc\030\n \001(\0162\r.PBLocationID\022 \n\013upgradeIn"
-  "fo\030\013 \003(\0132\013.PBUpgrades\"v\n\nPBLocation\022\034\n\005l"
-  "ocID\030\001 \001(\0162\r.PBLocationID\022\022\n\ndatabaseId\030"
-  "\002 \001(\005\022$\n\014interactions\030\003 \003(\0132\016.PBInteract"
-  "ion\022\020\n\010locImage\030\004 \001(\t*>\n\021PBInteractionTy"
-  "pe\022\010\n\004POST\020\000\022\017\n\013ZONE_ACCESS\020\001\022\016\n\nDECORAT"
-  "ION\020\002*K\n\rPBUpgradeType\022\014\n\010CAPACITY\020\000\022\016\n\n"
-  "GEN_SECOND\020\001\022\013\n\007FORTUNE\020\002\022\017\n\013ZONE_UNLOCK"
-  "\020\003*C\n\016PBPlayerSkills\022\n\n\006FORAGE\020\000\022\n\n\006MINI"
-  "NG\020\001\022\n\n\006COMBAT\020\002\022\r\n\tATHLETICS\020\003b\006proto3"
+  "\005\022\014\n\004posY\030\010 \001(\005\022\022\n\nimagePaths\030\t \003(\t\022\031\n\021u"
+  "pgradeImagePaths\030\n \003(\t\022\036\n\007nextLoc\030\013 \001(\0162"
+  "\r.PBLocationID\022 \n\013upgradeInfo\030\014 \003(\0132\013.PB"
+  "Upgrades\"v\n\nPBLocation\022\034\n\005locID\030\001 \001(\0162\r."
+  "PBLocationID\022\022\n\ndatabaseId\030\002 \001(\005\022$\n\014inte"
+  "ractions\030\003 \003(\0132\016.PBInteraction\022\020\n\010locIma"
+  "ge\030\004 \001(\t*>\n\021PBInteractionType\022\010\n\004POST\020\000\022"
+  "\017\n\013ZONE_ACCESS\020\001\022\016\n\nDECORATION\020\002*K\n\rPBUp"
+  "gradeType\022\014\n\010CAPACITY\020\000\022\016\n\nGEN_SECOND\020\001\022"
+  "\013\n\007FORTUNE\020\002\022\017\n\013ZONE_UNLOCK\020\003*C\n\016PBPlaye"
+  "rSkills\022\n\n\006FORAGE\020\000\022\n\n\006MINING\020\001\022\n\n\006COMBA"
+  "T\020\002\022\r\n\tATHLETICS\020\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_map_2eproto_deps[2] = {
   &::descriptor_table_item_2eproto,
@@ -251,7 +253,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_map
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_map_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_map_2eproto = {
-  false, false, descriptor_table_protodef_map_2eproto, "map.proto", 999,
+  false, false, descriptor_table_protodef_map_2eproto, "map.proto", 1026,
   &descriptor_table_map_2eproto_once, descriptor_table_map_2eproto_sccs, descriptor_table_map_2eproto_deps, 6, 2,
   schemas, file_default_instances, TableStruct_map_2eproto::offsets,
   file_level_metadata_map_2eproto, 6, file_level_enum_descriptors_map_2eproto, file_level_service_descriptors_map_2eproto,
@@ -1317,6 +1319,7 @@ class PBInteraction::_Internal {
 PBInteraction::PBInteraction(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena),
   imagepaths_(arena),
+  upgradeimagepaths_(arena),
   upgradeinfo_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
@@ -1325,6 +1328,7 @@ PBInteraction::PBInteraction(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 PBInteraction::PBInteraction(const PBInteraction& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       imagepaths_(from.imagepaths_),
+      upgradeimagepaths_(from.upgradeimagepaths_),
       upgradeinfo_(from.upgradeinfo_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   interactionname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -1379,6 +1383,7 @@ void PBInteraction::Clear() {
   (void) cached_has_bits;
 
   imagepaths_.Clear();
+  upgradeimagepaths_.Clear();
   upgradeinfo_.Clear();
   interactionname_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::memset(&type_, 0, static_cast<size_t>(
@@ -1470,24 +1475,38 @@ const char* PBInteraction::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<74>(ptr));
         } else goto handle_unusual;
         continue;
-      // .PBLocationID nextLoc = 10;
+      // repeated string upgradeImagePaths = 10;
       case 10:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 82)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_upgradeimagepaths();
+            ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBInteraction.upgradeImagePaths"));
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<82>(ptr));
+        } else goto handle_unusual;
+        continue;
+      // .PBLocationID nextLoc = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_nextloc(static_cast<::PBLocationID>(val));
         } else goto handle_unusual;
         continue;
-      // repeated .PBUpgrades upgradeInfo = 11;
-      case 11:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 90)) {
+      // repeated .PBUpgrades upgradeInfo = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 98)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_upgradeinfo(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<90>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<98>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -1583,19 +1602,29 @@ failure:
     target = stream->WriteString(9, s, target);
   }
 
-  // .PBLocationID nextLoc = 10;
+  // repeated string upgradeImagePaths = 10;
+  for (int i = 0, n = this->_internal_upgradeimagepaths_size(); i < n; i++) {
+    const auto& s = this->_internal_upgradeimagepaths(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "PBInteraction.upgradeImagePaths");
+    target = stream->WriteString(10, s, target);
+  }
+
+  // .PBLocationID nextLoc = 11;
   if (this->nextloc() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      10, this->_internal_nextloc(), target);
+      11, this->_internal_nextloc(), target);
   }
 
-  // repeated .PBUpgrades upgradeInfo = 11;
+  // repeated .PBUpgrades upgradeInfo = 12;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_upgradeinfo_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(11, this->_internal_upgradeinfo(i), target, stream);
+      InternalWriteMessage(12, this->_internal_upgradeinfo(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1622,7 +1651,15 @@ size_t PBInteraction::ByteSizeLong() const {
       imagepaths_.Get(i));
   }
 
-  // repeated .PBUpgrades upgradeInfo = 11;
+  // repeated string upgradeImagePaths = 10;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(upgradeimagepaths_.size());
+  for (int i = 0, n = upgradeimagepaths_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      upgradeimagepaths_.Get(i));
+  }
+
+  // repeated .PBUpgrades upgradeInfo = 12;
   total_size += 1UL * this->_internal_upgradeinfo_size();
   for (const auto& msg : this->upgradeinfo_) {
     total_size +=
@@ -1682,7 +1719,7 @@ size_t PBInteraction::ByteSizeLong() const {
         this->_internal_posy());
   }
 
-  // .PBLocationID nextLoc = 10;
+  // .PBLocationID nextLoc = 11;
   if (this->nextloc() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_nextloc());
@@ -1720,6 +1757,7 @@ void PBInteraction::MergeFrom(const PBInteraction& from) {
   (void) cached_has_bits;
 
   imagepaths_.MergeFrom(from.imagepaths_);
+  upgradeimagepaths_.MergeFrom(from.upgradeimagepaths_);
   upgradeinfo_.MergeFrom(from.upgradeinfo_);
   if (from.interactionname().size() > 0) {
     _internal_set_interactionname(from._internal_interactionname());
@@ -1772,6 +1810,7 @@ void PBInteraction::InternalSwap(PBInteraction* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   imagepaths_.InternalSwap(&other->imagepaths_);
+  upgradeimagepaths_.InternalSwap(&other->upgradeimagepaths_);
   upgradeinfo_.InternalSwap(&other->upgradeinfo_);
   interactionname_.Swap(&other->interactionname_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<

@@ -109,6 +109,7 @@ namespace GameMap
             auto seconds = static_cast<int>(post_info->GetDifferenceInSeconds());
             int max_capacity = interaction.upgradeinfo(PBUpgradeType::CAPACITY).info(post_info->GetCapacityLvl()).currentstat();
             auto gen_second = interaction.upgradeinfo(PBUpgradeType::GEN_SECOND).info(post_info->GetGenSecondLvl()).currentstat();
+            auto fortune = interaction.upgradeinfo(PBUpgradeType::FORTUNE).info(post_info->GetFortuneLvl()).currentstat();
             int added = std::floor(seconds * gen_second);
             if (added == 0) 
             {
@@ -121,7 +122,7 @@ namespace GameMap
             post_info->SetResourceStored(std::max(total - gathered,0));
             GameLogic::CalculateLevel(interaction.postskill(), gathered, interaction.interactxp(), plyr_skills);
             auto prob = rand() % 100;
-            if (prob <= plyr_stats->m_luck + post_info->GetFortuneLvl()) gathered += 1 + gathered*0.2f;
+            if (prob <= plyr_stats->m_luck + fortune) gathered += 1 + gathered*0.2f;
             resources_to_add.push_back(Item{interaction.resource(),gathered});
             return resources_to_add;
         }
@@ -177,6 +178,30 @@ namespace GameMap
             if (level >= max_lvl) return target_int.imagepaths(max_lvl - 1);
             return target_int.imagepaths(level);
         };
+
+        float GetPostValueFromLvl(int id, PBUpgradeType type, int lvl) const
+        {
+            const PBInteraction &target_int = m_loc_data.interactions(id);
+            return target_int.upgradeinfo(type).info(lvl).currentstat();
+        }
+
+        const std::string &GetPostImage(int id, int lvl) const 
+        {
+            const PBInteraction &target_int = m_loc_data.interactions(id);
+            if (lvl >= target_int.imagepaths().size()) lvl = target_int.imagepaths().size() - 1;
+            return target_int.upgradeimagepaths(lvl);
+        }
+
+        void UpdatePostStored(int id, PostInfo *info) const 
+        {
+            const PBInteraction &target_int = m_loc_data.interactions(id);
+            auto seconds = static_cast<int>(info->GetDifferenceInSeconds());
+            int max_capacity = target_int.upgradeinfo(PBUpgradeType::CAPACITY).info(info->GetCapacityLvl()).currentstat();
+            auto gen_second = target_int.upgradeinfo(PBUpgradeType::GEN_SECOND).info(info->GetGenSecondLvl()).currentstat();
+            int added = std::floor(seconds * gen_second);
+            auto total = std::min(added + info->GetResourceStored(), max_capacity);
+            info->SetResourceStored(total);
+        }
     };
 
     class DCLMap 
