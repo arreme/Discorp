@@ -14,6 +14,7 @@ target_link_libraries(
     ${PROJECT_NAME} 
     PUBLIC dpp
     PUBLIC dcl_core
+    PUBLIC db_handler
 )
 
 set(CMAKE_BUILD_TYPE Release)

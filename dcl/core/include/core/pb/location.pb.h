@@ -58,16 +58,16 @@ PROTOBUF_NAMESPACE_CLOSE
 
 enum PBLocationID : int {
   MAIN_BASE = 0,
-  FOREST_1 = 1,
+  TOWN_ENTRANCE = 1,
   TOWN = 2,
   MINES_ENTRANCE = 3,
-  PATH_1 = 4,
+  START_ROUTE = 4,
   PBLocationID_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PBLocationID_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PBLocationID_IsValid(int value);
 constexpr PBLocationID PBLocationID_MIN = MAIN_BASE;
-constexpr PBLocationID PBLocationID_MAX = PATH_1;
+constexpr PBLocationID PBLocationID_MAX = START_ROUTE;
 constexpr int PBLocationID_ARRAYSIZE = PBLocationID_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBLocationID_descriptor();

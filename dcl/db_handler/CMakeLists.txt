@@ -11,7 +11,7 @@ target_include_directories(
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PUBLIC dcl_db
+    PRIVATE dcl_db
 )
 
 set(CMAKE_BUILD_TYPE Release)

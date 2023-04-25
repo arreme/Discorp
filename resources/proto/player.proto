@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "item.proto";
+import "location.proto";
+
+message PBEquipation 
+{
+    PBItemEnum armor_head           = 1;
+    PBItemEnum armor_chest          = 2;
+    PBItemEnum armor_leggings       = 3;
+    PBItemEnum armor_boots          = 4;
+    PBItemEnum weapon               = 5;
+    PBItemEnum tool                 = 6;
+    repeated PBItemEnum attacks     = 7;
+}
+
+message PBStats
+{
+    int32 max_health        = 1;
+    int32 current_health    = 2;
+    int32 strength          = 3;
+    int32 defense           = 4;
+    int32 precision         = 5;
+    int32 speed             = 6;
+    int32 luck              = 7;
+}
+
+enum PBPlayerStats 
+{
+    HEALTH                  = 0;
+    STRENGTH                = 1;
+    DEFENSE                 = 2;
+    PRECISION               = 3;
+    SPEED                   = 4;
+    LUCK                    = 5;
+}
+
+message PBSkills 
+{
+    int32 foraging_lvl          = 1;
+    int64 foraging_xp           = 2;
+    int32 mining_lvl            = 3;
+    int64 mining_xp             = 4;
+    int32 combat_lvl            = 5;
+    int64 combat_xp             = 6;
+    int32 athletics_lvl         = 7;
+    int64 athletics_xp          = 8;
+}
+
+enum PBPlayerSkills 
+{
+    FORAGE                                  = 0;
+    MINING                                  = 1;
+    COMBAT                                  = 2;
+    ATHLETICS                               = 3;
+}
+
+message PBPlayer 
+{
+    uint64 discord_id                                   = 1;
+    int32 player_id                                     = 2;
+    string user_name                                    = 3;
+    google.protobuf.Timestamp last_online               = 4;
+    uint64 guild_id                                     = 6;
+    PBLocationID current_location                       = 7;
+    PBStats stats                                       = 8;
+    PBSkills skills                                     = 9;
+    PBEquipation equipation                             = 10;
+}
+

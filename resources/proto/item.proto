@@ -1,5 +1,14 @@
 syntax = "proto3";
 
+
+message PBItemData 
+{
+    PBItemEnum itemID                       = 1;
+    int32 quantity                          = 2;
+    string imagePath                        = 3;
+    string itemName                         = 4;
+}
+
 enum PBItemEnum 
 {
     STICK                   = 0;
@@ -7,15 +16,17 @@ enum PBItemEnum
     ROCK                    = 2;
     DIRT                    = 3;
 
-    HEALTH_POTION           = 1000;
-    MANA_POTION             = 1001;
+    PUNCH                   = 1000;
+    KICK                    = 1001;
 
-    WOODEN_HELMET           = 2000;
+    WOODEN_SWORD           = 2000;
+
+    WOODEN_HELMET           = 3000;
 }
 
 enum PBItemType {
     RESOURCES = 0;
-    UTILITIES = 1;
+    ATTACKS = 1;
     WEAPONS   = 2;
     EQUIPMENT = 3;
     QUEST_ITEMS = 4;

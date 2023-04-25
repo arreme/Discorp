@@ -4,10 +4,10 @@ project(dcl_core VERSION 0.0.1 DESCRIPTION "The core information of the dcl bot"
 find_package(Protobuf REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED 
-    "src/game_manager.cpp" 
     "include/core/pb/item.pb.cc"
     "include/core/pb/location.pb.cc"
     "include/core/pb/map.pb.cc"
+    "include/core/pb/player.pb.cc"
     "src/dcl_map.cpp"
 )
 
@@ -19,10 +19,7 @@ target_include_directories(
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PUBLIC dcl_db_handler
-    PUBLIC dcl_img
     PRIVATE ${PROTOBUF_LIBRARY}
-
 )
 
 set(CMAKE_BUILD_TYPE Release)

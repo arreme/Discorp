@@ -22,9 +22,10 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = n
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_location_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\016location.proto*U\n\014PBLocationID\022\r\n\tMAIN"
-  "_BASE\020\000\022\014\n\010FOREST_1\020\001\022\010\n\004TOWN\020\002\022\022\n\016MINES"
-  "_ENTRANCE\020\003\022\n\n\006PATH_1\020\004b\006proto3"
+  "\n\016location.proto*_\n\014PBLocationID\022\r\n\tMAIN"
+  "_BASE\020\000\022\021\n\rTOWN_ENTRANCE\020\001\022\010\n\004TOWN\020\002\022\022\n\016"
+  "MINES_ENTRANCE\020\003\022\017\n\013START_ROUTE\020\004b\006proto"
+  "3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_location_2eproto_deps[1] = {
 };
@@ -32,7 +33,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_loc
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_location_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_location_2eproto = {
-  false, false, descriptor_table_protodef_location_2eproto, "location.proto", 111,
+  false, false, descriptor_table_protodef_location_2eproto, "location.proto", 121,
   &descriptor_table_location_2eproto_once, descriptor_table_location_2eproto_sccs, descriptor_table_location_2eproto_deps, 0, 0,
   schemas, file_default_instances, TableStruct_location_2eproto::offsets,
   file_level_metadata_location_2eproto, 0, file_level_enum_descriptors_location_2eproto, file_level_service_descriptors_location_2eproto,

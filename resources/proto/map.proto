@@ -2,18 +2,11 @@ syntax = "proto3";
 
 import "location.proto";
 import "item.proto";
-
-message PBItemData 
-{
-    PBItemEnum itemID                       = 1;
-    int32 quantity                          = 2; 
-    string imagePath                        = 3;
-    string itemName                         = 4;
-}
+import "player.proto";
 
 message PBItemsDict {
-    PBItemType itemType              = 1;
-    repeated PBItemData data        = 2;
+    PBItemType itemType                 = 1;
+    repeated PBItemData data            = 2;
 }
 
 message PBUpgradeInfo 
@@ -31,26 +24,31 @@ message PBUpgrades
 message PBInteraction 
 {
     PBInteractionType type                  = 1;
-    string interactionName                  = 2;
-    PBItemEnum resource                     = 3;
-    PBPlayerSkills postSkill                = 4;
-    int32 interactXp                        = 5;
-    int32 databaseId                        = 6;
-    int32 posX                              = 7;
-    int32 posY                              = 8;
-    repeated string imagePaths              = 9;
-    repeated string upgradeImagePaths       = 10;
+    int32 databaseId                        = 2;
+    string interactionName                  = 3;
+    int32 posX                              = 4;
+    int32 posY                              = 5;
+    repeated string imagePaths              = 6;
+    repeated PBUpgrades upgradeInfo         = 7;
 
+    //POST
+    PBItemEnum resource                     = 8;
+    PBPlayerSkills postSkill                = 9;
+    int32 interactXp                        = 10;
+    
+    //ZONE_ACCESS
     PBLocationID nextLoc                    = 11;
-    repeated PBUpgrades upgradeInfo         = 12;
+    
+    //SHOP
+    //Items
 }
 
 message PBLocation 
 {
     PBLocationID locID                      = 1;
     int32 databaseId                        = 2;
-    repeated PBInteraction interactions     = 3;
-    string locImage                         = 4;
+    string locImage                         = 3;
+    repeated PBInteraction interactions     = 4;
 }
 
 enum PBInteractionType 
@@ -68,12 +66,6 @@ enum PBUpgradeType
     ZONE_UNLOCK                             = 3;
 }
 
-enum PBPlayerSkills 
-{
-    FORAGE                                  = 0;
-    MINING                                  = 1;
-    COMBAT                                  = 2;
-    ATHLETICS                               = 3;
-}
+
 
 
