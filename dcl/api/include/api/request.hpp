@@ -1,6 +1,7 @@
 #pragma once
 #include <ostream>
 #include <core/pb/player.pb.h>
+#include <dpp.h>
 
 class BaseRequest 
 {
@@ -13,16 +14,15 @@ public:
     };
 };
 
-class CreateGame : public BaseRequest
+class CreateGameRequest
 {
 public: 
-    CreateGame(uint64_t discord_id, std::string user_name):
-    BaseRequest(discord_id)
+    CreateGameRequest(uint64_t discord_id, std::string user_name)
     {
 
     }
 
-    bool GetResponse() 
+    bool FillResponse(dpp::message &m) 
     {
 
     }

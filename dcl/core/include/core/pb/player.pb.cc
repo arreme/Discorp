@@ -15,6 +15,7 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 extern PROTOBUF_INTERNAL_EXPORT_player_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBEquipation_player_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_player_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<3> scc_info_PBPlayer_player_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_player_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBSkills_player_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_player_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBStats_player_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_google_2fprotobuf_2ftimestamp_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto;
@@ -34,6 +35,10 @@ class PBPlayerDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PBPlayer> _instance;
 } _PBPlayer_default_instance_;
+class PBUserDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PBUser> _instance;
+} _PBUser_default_instance_;
 static void InitDefaultsscc_info_PBEquipation_player_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -59,9 +64,8 @@ static void InitDefaultsscc_info_PBPlayer_player_2eproto() {
   ::PBPlayer::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<4> scc_info_PBPlayer_player_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 4, 0, InitDefaultsscc_info_PBPlayer_player_2eproto}, {
-      &scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto.base,
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<3> scc_info_PBPlayer_player_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 3, 0, InitDefaultsscc_info_PBPlayer_player_2eproto}, {
       &scc_info_PBStats_player_2eproto.base,
       &scc_info_PBSkills_player_2eproto.base,
       &scc_info_PBEquipation_player_2eproto.base,}};
@@ -94,7 +98,23 @@ static void InitDefaultsscc_info_PBStats_player_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBStats_player_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_PBStats_player_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_player_2eproto[4];
+static void InitDefaultsscc_info_PBUser_player_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_PBUser_default_instance_;
+    new (ptr) ::PBUser();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::PBUser::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<2> scc_info_PBUser_player_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 2, 0, InitDefaultsscc_info_PBUser_player_2eproto}, {
+      &scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto.base,
+      &scc_info_PBPlayer_player_2eproto.base,}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_player_2eproto[5];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_player_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_player_2eproto = nullptr;
 
@@ -141,21 +161,28 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_player_2eproto::offsets[] PROT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::PBPlayer, discord_id_),
-  PROTOBUF_FIELD_OFFSET(::PBPlayer, player_id_),
-  PROTOBUF_FIELD_OFFSET(::PBPlayer, user_name_),
-  PROTOBUF_FIELD_OFFSET(::PBPlayer, last_online_),
   PROTOBUF_FIELD_OFFSET(::PBPlayer, guild_id_),
   PROTOBUF_FIELD_OFFSET(::PBPlayer, current_location_),
   PROTOBUF_FIELD_OFFSET(::PBPlayer, stats_),
   PROTOBUF_FIELD_OFFSET(::PBPlayer, skills_),
   PROTOBUF_FIELD_OFFSET(::PBPlayer, equipation_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::PBUser, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::PBUser, discord_id_),
+  PROTOBUF_FIELD_OFFSET(::PBUser, user_name_),
+  PROTOBUF_FIELD_OFFSET(::PBUser, current_player_id_),
+  PROTOBUF_FIELD_OFFSET(::PBUser, last_online_),
+  PROTOBUF_FIELD_OFFSET(::PBUser, players_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::PBEquipation)},
   { 12, -1, sizeof(::PBStats)},
   { 24, -1, sizeof(::PBSkills)},
   { 37, -1, sizeof(::PBPlayer)},
+  { 47, -1, sizeof(::PBUser)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -163,6 +190,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBStats_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBSkills_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBPlayer_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBUser_default_instance_),
 };
 
 const char descriptor_table_protodef_player_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -181,36 +209,38 @@ const char descriptor_table_protodef_player_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "_lvl\030\001 \001(\005\022\023\n\013foraging_xp\030\002 \001(\003\022\022\n\nminin"
   "g_lvl\030\003 \001(\005\022\021\n\tmining_xp\030\004 \001(\003\022\022\n\ncombat"
   "_lvl\030\005 \001(\005\022\021\n\tcombat_xp\030\006 \001(\003\022\025\n\rathleti"
-  "cs_lvl\030\007 \001(\005\022\024\n\014athletics_xp\030\010 \001(\003\"\207\002\n\010P"
-  "BPlayer\022\022\n\ndiscord_id\030\001 \001(\004\022\021\n\tplayer_id"
-  "\030\002 \001(\005\022\021\n\tuser_name\030\003 \001(\t\022/\n\013last_online"
-  "\030\004 \001(\0132\032.google.protobuf.Timestamp\022\020\n\010gu"
-  "ild_id\030\006 \001(\004\022\'\n\020current_location\030\007 \001(\0162\r"
-  ".PBLocationID\022\027\n\005stats\030\010 \001(\0132\010.PBStats\022\031"
-  "\n\006skills\030\t \001(\0132\t.PBSkills\022!\n\nequipation\030"
-  "\n \001(\0132\r.PBEquipation*Z\n\rPBPlayerStats\022\n\n"
-  "\006HEALTH\020\000\022\014\n\010STRENGTH\020\001\022\013\n\007DEFENSE\020\002\022\r\n\t"
-  "PRECISION\020\003\022\t\n\005SPEED\020\004\022\010\n\004LUCK\020\005*C\n\016PBPl"
-  "ayerSkills\022\n\n\006FORAGE\020\000\022\n\n\006MINING\020\001\022\n\n\006CO"
-  "MBAT\020\002\022\r\n\tATHLETICS\020\003b\006proto3"
+  "cs_lvl\030\007 \001(\005\022\024\n\014athletics_xp\030\010 \001(\003\"\234\001\n\010P"
+  "BPlayer\022\020\n\010guild_id\030\001 \001(\004\022\'\n\020current_loc"
+  "ation\030\002 \001(\0162\r.PBLocationID\022\027\n\005stats\030\003 \001("
+  "\0132\010.PBStats\022\031\n\006skills\030\004 \001(\0132\t.PBSkills\022!"
+  "\n\nequipation\030\005 \001(\0132\r.PBEquipation\"\227\001\n\006PB"
+  "User\022\022\n\ndiscord_id\030\001 \001(\004\022\021\n\tuser_name\030\002 "
+  "\001(\t\022\031\n\021current_player_id\030\003 \001(\005\022/\n\013last_o"
+  "nline\030\004 \001(\0132\032.google.protobuf.Timestamp\022"
+  "\032\n\007players\030\005 \003(\0132\t.PBPlayer*Z\n\rPBPlayerS"
+  "tats\022\n\n\006HEALTH\020\000\022\014\n\010STRENGTH\020\001\022\013\n\007DEFENS"
+  "E\020\002\022\r\n\tPRECISION\020\003\022\t\n\005SPEED\020\004\022\010\n\004LUCK\020\005*"
+  "C\n\016PBPlayerSkills\022\n\n\006FORAGE\020\000\022\n\n\006MINING\020"
+  "\001\022\n\n\006COMBAT\020\002\022\r\n\tATHLETICS\020\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_player_2eproto_deps[3] = {
   &::descriptor_table_google_2fprotobuf_2ftimestamp_2eproto,
   &::descriptor_table_item_2eproto,
   &::descriptor_table_location_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_player_2eproto_sccs[4] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_player_2eproto_sccs[5] = {
   &scc_info_PBEquipation_player_2eproto.base,
   &scc_info_PBPlayer_player_2eproto.base,
   &scc_info_PBSkills_player_2eproto.base,
   &scc_info_PBStats_player_2eproto.base,
+  &scc_info_PBUser_player_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_player_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_player_2eproto = {
-  false, false, descriptor_table_protodef_player_2eproto, "player.proto", 1069,
-  &descriptor_table_player_2eproto_once, descriptor_table_player_2eproto_sccs, descriptor_table_player_2eproto_deps, 4, 3,
+  false, false, descriptor_table_protodef_player_2eproto, "player.proto", 1116,
+  &descriptor_table_player_2eproto_once, descriptor_table_player_2eproto_sccs, descriptor_table_player_2eproto_deps, 5, 3,
   schemas, file_default_instances, TableStruct_player_2eproto::offsets,
-  file_level_metadata_player_2eproto, 4, file_level_enum_descriptors_player_2eproto, file_level_service_descriptors_player_2eproto,
+  file_level_metadata_player_2eproto, 5, file_level_enum_descriptors_player_2eproto, file_level_service_descriptors_player_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -1340,8 +1370,6 @@ void PBSkills::InternalSwap(PBSkills* other) {
 // ===================================================================
 
 void PBPlayer::InitAsDefaultInstance() {
-  ::_PBPlayer_default_instance_._instance.get_mutable()->last_online_ = const_cast< PROTOBUF_NAMESPACE_ID::Timestamp*>(
-      PROTOBUF_NAMESPACE_ID::Timestamp::internal_default_instance());
   ::_PBPlayer_default_instance_._instance.get_mutable()->stats_ = const_cast< ::PBStats*>(
       ::PBStats::internal_default_instance());
   ::_PBPlayer_default_instance_._instance.get_mutable()->skills_ = const_cast< ::PBSkills*>(
@@ -1351,16 +1379,11 @@ void PBPlayer::InitAsDefaultInstance() {
 }
 class PBPlayer::_Internal {
  public:
-  static const PROTOBUF_NAMESPACE_ID::Timestamp& last_online(const PBPlayer* msg);
   static const ::PBStats& stats(const PBPlayer* msg);
   static const ::PBSkills& skills(const PBPlayer* msg);
   static const ::PBEquipation& equipation(const PBPlayer* msg);
 };
 
-const PROTOBUF_NAMESPACE_ID::Timestamp&
-PBPlayer::_Internal::last_online(const PBPlayer* msg) {
-  return *msg->last_online_;
-}
 const ::PBStats&
 PBPlayer::_Internal::stats(const PBPlayer* msg) {
   return *msg->stats_;
@@ -1373,12 +1396,6 @@ const ::PBEquipation&
 PBPlayer::_Internal::equipation(const PBPlayer* msg) {
   return *msg->equipation_;
 }
-void PBPlayer::clear_last_online() {
-  if (GetArena() == nullptr && last_online_ != nullptr) {
-    delete last_online_;
-  }
-  last_online_ = nullptr;
-}
 PBPlayer::PBPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
@@ -1388,16 +1405,6 @@ PBPlayer::PBPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 PBPlayer::PBPlayer(const PBPlayer& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  user_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_user_name().empty()) {
-    user_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_user_name(),
-      GetArena());
-  }
-  if (from._internal_has_last_online()) {
-    last_online_ = new PROTOBUF_NAMESPACE_ID::Timestamp(*from.last_online_);
-  } else {
-    last_online_ = nullptr;
-  }
   if (from._internal_has_stats()) {
     stats_ = new ::PBStats(*from.stats_);
   } else {
@@ -1413,18 +1420,17 @@ PBPlayer::PBPlayer(const PBPlayer& from)
   } else {
     equipation_ = nullptr;
   }
-  ::memcpy(&discord_id_, &from.discord_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&guild_id_) -
-    reinterpret_cast<char*>(&discord_id_)) + sizeof(guild_id_));
+  ::memcpy(&guild_id_, &from.guild_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&current_location_) -
+    reinterpret_cast<char*>(&guild_id_)) + sizeof(current_location_));
   // @@protoc_insertion_point(copy_constructor:PBPlayer)
 }
 
 void PBPlayer::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBPlayer_player_2eproto.base);
-  user_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  ::memset(&last_online_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&guild_id_) -
-      reinterpret_cast<char*>(&last_online_)) + sizeof(guild_id_));
+  ::memset(&stats_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&current_location_) -
+      reinterpret_cast<char*>(&stats_)) + sizeof(current_location_));
 }
 
 PBPlayer::~PBPlayer() {
@@ -1435,8 +1441,6 @@ PBPlayer::~PBPlayer() {
 
 void PBPlayer::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
-  user_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (this != internal_default_instance()) delete last_online_;
   if (this != internal_default_instance()) delete stats_;
   if (this != internal_default_instance()) delete skills_;
   if (this != internal_default_instance()) delete equipation_;
@@ -1463,11 +1467,6 @@ void PBPlayer::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  user_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  if (GetArena() == nullptr && last_online_ != nullptr) {
-    delete last_online_;
-  }
-  last_online_ = nullptr;
   if (GetArena() == nullptr && stats_ != nullptr) {
     delete stats_;
   }
@@ -1480,9 +1479,9 @@ void PBPlayer::Clear() {
     delete equipation_;
   }
   equipation_ = nullptr;
-  ::memset(&discord_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&guild_id_) -
-      reinterpret_cast<char*>(&discord_id_)) + sizeof(guild_id_));
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&current_location_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(current_location_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1494,68 +1493,38 @@ const char* PBPlayer::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // uint64 discord_id = 1;
+      // uint64 guild_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          discord_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // int32 player_id = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          player_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // string user_name = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_user_name();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBPlayer.user_name"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // .google.protobuf.Timestamp last_online = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
-          ptr = ctx->ParseMessage(_internal_mutable_last_online(), ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // uint64 guild_id = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .PBLocationID current_location = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+      // .PBLocationID current_location = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_current_location(static_cast<::PBLocationID>(val));
         } else goto handle_unusual;
         continue;
-      // .PBStats stats = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 66)) {
+      // .PBStats stats = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_stats(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .PBSkills skills = 9;
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74)) {
+      // .PBSkills skills = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_skills(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .PBEquipation equipation = 10;
-      case 10:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 82)) {
+      // .PBEquipation equipation = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           ptr = ctx->ParseMessage(_internal_mutable_equipation(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
@@ -1588,71 +1557,41 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 discord_id = 1;
-  if (this->discord_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_discord_id(), target);
-  }
-
-  // int32 player_id = 2;
-  if (this->player_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_player_id(), target);
-  }
-
-  // string user_name = 3;
-  if (this->user_name().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user_name().data(), static_cast<int>(this->_internal_user_name().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "PBPlayer.user_name");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_user_name(), target);
-  }
-
-  // .google.protobuf.Timestamp last_online = 4;
-  if (this->has_last_online()) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        4, _Internal::last_online(this), target, stream);
-  }
-
-  // uint64 guild_id = 6;
+  // uint64 guild_id = 1;
   if (this->guild_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(6, this->_internal_guild_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
   }
 
-  // .PBLocationID current_location = 7;
+  // .PBLocationID current_location = 2;
   if (this->current_location() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      7, this->_internal_current_location(), target);
+      2, this->_internal_current_location(), target);
   }
 
-  // .PBStats stats = 8;
+  // .PBStats stats = 3;
   if (this->has_stats()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        8, _Internal::stats(this), target, stream);
+        3, _Internal::stats(this), target, stream);
   }
 
-  // .PBSkills skills = 9;
+  // .PBSkills skills = 4;
   if (this->has_skills()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        9, _Internal::skills(this), target, stream);
+        4, _Internal::skills(this), target, stream);
   }
 
-  // .PBEquipation equipation = 10;
+  // .PBEquipation equipation = 5;
   if (this->has_equipation()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        10, _Internal::equipation(this), target, stream);
+        5, _Internal::equipation(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1671,66 +1610,38 @@ size_t PBPlayer::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string user_name = 3;
-  if (this->user_name().size() > 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_user_name());
-  }
-
-  // .google.protobuf.Timestamp last_online = 4;
-  if (this->has_last_online()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *last_online_);
-  }
-
-  // .PBStats stats = 8;
+  // .PBStats stats = 3;
   if (this->has_stats()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *stats_);
   }
 
-  // .PBSkills skills = 9;
+  // .PBSkills skills = 4;
   if (this->has_skills()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *skills_);
   }
 
-  // .PBEquipation equipation = 10;
+  // .PBEquipation equipation = 5;
   if (this->has_equipation()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *equipation_);
   }
 
-  // uint64 discord_id = 1;
-  if (this->discord_id() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_discord_id());
-  }
-
-  // int32 player_id = 2;
-  if (this->player_id() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_player_id());
-  }
-
-  // .PBLocationID current_location = 7;
-  if (this->current_location() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_current_location());
-  }
-
-  // uint64 guild_id = 6;
+  // uint64 guild_id = 1;
   if (this->guild_id() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
         this->_internal_guild_id());
+  }
+
+  // .PBLocationID current_location = 2;
+  if (this->current_location() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_current_location());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1764,12 +1675,6 @@ void PBPlayer::MergeFrom(const PBPlayer& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.user_name().size() > 0) {
-    _internal_set_user_name(from._internal_user_name());
-  }
-  if (from.has_last_online()) {
-    _internal_mutable_last_online()->PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(from._internal_last_online());
-  }
   if (from.has_stats()) {
     _internal_mutable_stats()->::PBStats::MergeFrom(from._internal_stats());
   }
@@ -1779,17 +1684,11 @@ void PBPlayer::MergeFrom(const PBPlayer& from) {
   if (from.has_equipation()) {
     _internal_mutable_equipation()->::PBEquipation::MergeFrom(from._internal_equipation());
   }
-  if (from.discord_id() != 0) {
-    _internal_set_discord_id(from._internal_discord_id());
-  }
-  if (from.player_id() != 0) {
-    _internal_set_player_id(from._internal_player_id());
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
   }
   if (from.current_location() != 0) {
     _internal_set_current_location(from._internal_current_location());
-  }
-  if (from.guild_id() != 0) {
-    _internal_set_guild_id(from._internal_guild_id());
   }
 }
 
@@ -1814,16 +1713,365 @@ bool PBPlayer::IsInitialized() const {
 void PBPlayer::InternalSwap(PBPlayer* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(PBPlayer, current_location_)
+      + sizeof(PBPlayer::current_location_)
+      - PROTOBUF_FIELD_OFFSET(PBPlayer, stats_)>(
+          reinterpret_cast<char*>(&stats_),
+          reinterpret_cast<char*>(&other->stats_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PBPlayer::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void PBUser::InitAsDefaultInstance() {
+  ::_PBUser_default_instance_._instance.get_mutable()->last_online_ = const_cast< PROTOBUF_NAMESPACE_ID::Timestamp*>(
+      PROTOBUF_NAMESPACE_ID::Timestamp::internal_default_instance());
+}
+class PBUser::_Internal {
+ public:
+  static const PROTOBUF_NAMESPACE_ID::Timestamp& last_online(const PBUser* msg);
+};
+
+const PROTOBUF_NAMESPACE_ID::Timestamp&
+PBUser::_Internal::last_online(const PBUser* msg) {
+  return *msg->last_online_;
+}
+void PBUser::clear_last_online() {
+  if (GetArena() == nullptr && last_online_ != nullptr) {
+    delete last_online_;
+  }
+  last_online_ = nullptr;
+}
+PBUser::PBUser(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  players_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:PBUser)
+}
+PBUser::PBUser(const PBUser& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      players_(from.players_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  user_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_user_name().empty()) {
+    user_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_user_name(),
+      GetArena());
+  }
+  if (from._internal_has_last_online()) {
+    last_online_ = new PROTOBUF_NAMESPACE_ID::Timestamp(*from.last_online_);
+  } else {
+    last_online_ = nullptr;
+  }
+  ::memcpy(&discord_id_, &from.discord_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&current_player_id_) -
+    reinterpret_cast<char*>(&discord_id_)) + sizeof(current_player_id_));
+  // @@protoc_insertion_point(copy_constructor:PBUser)
+}
+
+void PBUser::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBUser_player_2eproto.base);
+  user_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&last_online_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&current_player_id_) -
+      reinterpret_cast<char*>(&last_online_)) + sizeof(current_player_id_));
+}
+
+PBUser::~PBUser() {
+  // @@protoc_insertion_point(destructor:PBUser)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void PBUser::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  user_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete last_online_;
+}
+
+void PBUser::ArenaDtor(void* object) {
+  PBUser* _this = reinterpret_cast< PBUser* >(object);
+  (void)_this;
+}
+void PBUser::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void PBUser::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const PBUser& PBUser::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_PBUser_player_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void PBUser::Clear() {
+// @@protoc_insertion_point(message_clear_start:PBUser)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  players_.Clear();
+  user_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  if (GetArena() == nullptr && last_online_ != nullptr) {
+    delete last_online_;
+  }
+  last_online_ = nullptr;
+  ::memset(&discord_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&current_player_id_) -
+      reinterpret_cast<char*>(&discord_id_)) + sizeof(current_player_id_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* PBUser::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 discord_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          discord_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string user_name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_user_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBUser.user_name"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 current_player_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          current_player_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp last_online = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_last_online(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .PBPlayer players = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_players(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* PBUser::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:PBUser)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 discord_id = 1;
+  if (this->discord_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_discord_id(), target);
+  }
+
+  // string user_name = 2;
+  if (this->user_name().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_user_name().data(), static_cast<int>(this->_internal_user_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "PBUser.user_name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_user_name(), target);
+  }
+
+  // int32 current_player_id = 3;
+  if (this->current_player_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_current_player_id(), target);
+  }
+
+  // .google.protobuf.Timestamp last_online = 4;
+  if (this->has_last_online()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        4, _Internal::last_online(this), target, stream);
+  }
+
+  // repeated .PBPlayer players = 5;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_players_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(5, this->_internal_players(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:PBUser)
+  return target;
+}
+
+size_t PBUser::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:PBUser)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .PBPlayer players = 5;
+  total_size += 1UL * this->_internal_players_size();
+  for (const auto& msg : this->players_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string user_name = 2;
+  if (this->user_name().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_user_name());
+  }
+
+  // .google.protobuf.Timestamp last_online = 4;
+  if (this->has_last_online()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *last_online_);
+  }
+
+  // uint64 discord_id = 1;
+  if (this->discord_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_discord_id());
+  }
+
+  // int32 current_player_id = 3;
+  if (this->current_player_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_current_player_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void PBUser::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:PBUser)
+  GOOGLE_DCHECK_NE(&from, this);
+  const PBUser* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<PBUser>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:PBUser)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:PBUser)
+    MergeFrom(*source);
+  }
+}
+
+void PBUser::MergeFrom(const PBUser& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:PBUser)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  players_.MergeFrom(from.players_);
+  if (from.user_name().size() > 0) {
+    _internal_set_user_name(from._internal_user_name());
+  }
+  if (from.has_last_online()) {
+    _internal_mutable_last_online()->PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(from._internal_last_online());
+  }
+  if (from.discord_id() != 0) {
+    _internal_set_discord_id(from._internal_discord_id());
+  }
+  if (from.current_player_id() != 0) {
+    _internal_set_current_player_id(from._internal_current_player_id());
+  }
+}
+
+void PBUser::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:PBUser)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PBUser::CopyFrom(const PBUser& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:PBUser)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PBUser::IsInitialized() const {
+  return true;
+}
+
+void PBUser::InternalSwap(PBUser* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  players_.InternalSwap(&other->players_);
   user_name_.Swap(&other->user_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PBPlayer, guild_id_)
-      + sizeof(PBPlayer::guild_id_)
-      - PROTOBUF_FIELD_OFFSET(PBPlayer, last_online_)>(
+      PROTOBUF_FIELD_OFFSET(PBUser, current_player_id_)
+      + sizeof(PBUser::current_player_id_)
+      - PROTOBUF_FIELD_OFFSET(PBUser, last_online_)>(
           reinterpret_cast<char*>(&last_online_),
           reinterpret_cast<char*>(&other->last_online_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata PBPlayer::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata PBUser::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -1841,6 +2089,9 @@ template<> PROTOBUF_NOINLINE ::PBSkills* Arena::CreateMaybeMessage< ::PBSkills >
 }
 template<> PROTOBUF_NOINLINE ::PBPlayer* Arena::CreateMaybeMessage< ::PBPlayer >(Arena* arena) {
   return Arena::CreateMessageInternal< ::PBPlayer >(arena);
+}
+template<> PROTOBUF_NOINLINE ::PBUser* Arena::CreateMaybeMessage< ::PBUser >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::PBUser >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

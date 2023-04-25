@@ -58,14 +58,19 @@ enum PBPlayerSkills
 
 message PBPlayer 
 {
+    uint64 guild_id                                     = 1;
+    PBLocationID current_location                       = 2;
+    PBStats stats                                       = 3;
+    PBSkills skills                                     = 4;
+    PBEquipation equipation                             = 5;
+}
+
+message PBUser 
+{
     uint64 discord_id                                   = 1;
-    int32 player_id                                     = 2;
-    string user_name                                    = 3;
+    string user_name                                    = 2;
+    int32 current_player_id                             = 3;
     google.protobuf.Timestamp last_online               = 4;
-    uint64 guild_id                                     = 6;
-    PBLocationID current_location                       = 7;
-    PBStats stats                                       = 8;
-    PBSkills skills                                     = 9;
-    PBEquipation equipation                             = 10;
+    repeated PBPlayer players                           = 5;
 }
 

@@ -47,13 +47,13 @@ namespace db
     class Transaction 
     {
     protected:
-        std::vector<TransactionalOperation *> m_operations;
+        std::vector<std::unique_ptr<TransactionalOperation>> m_operations;
         OperationState m_db_state = OperationState::NOT_EXECUTED;
     public:
 
-        void AddOperation(TransactionalOperation *op) 
+        void AddOperation(std::unique_ptr<TransactionalOperation> op) 
         {
-            m_operations.push_back(op);
+            m_operations.push_back(std::move(op));
         }
 
         void ExecuteTransaction() 
@@ -64,10 +64,9 @@ namespace db
             try
             {
                 session.start_transaction();
-                for (auto op : m_operations)
+                for (auto &op : m_operations)
                 {
                     op->ExecuteOperation(database,session);
-                    
                 }
                 
                 session.commit_transaction();
