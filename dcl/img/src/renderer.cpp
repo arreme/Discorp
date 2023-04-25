@@ -1,4 +1,6 @@
 #include <img/renderer.hpp>
+#include <sstream>
+#include <iomanip>
 
 Renderer::ImageRenderer::ImageRenderer(const std::string &locationPath) 
 {
@@ -77,18 +79,22 @@ Renderer::PlayerRenderer::PlayerRenderer(uint32_t max_health, uint32_t current_h
 Renderer::PostRenderer::PostRenderer(int32_t capacity, int capacity_value, float filled_percent, int32_t gen_second, float gen_second_value, int32_t fortune, float fortune_value, std::string post_image) 
 : ImageRenderer(image_path)
 {
-    GD::Point p_capacity{ 173 , 42 };
-    GD::Point p_gen_second{ 173, 78};
-    GD::Point p_fortune{ 173 , 114 };
+    GD::Point p_capacity{ 183 , 42 };
+    GD::Point p_gen_second{ 183, 78};
+    GD::Point p_fortune{ 183 , 114 };
     GD::TrueColor black{0x00,0x00,0x00};
 
     std::string text;
     //TODO:: FORMAT STRING
     text = std::to_string(capacity)+ "/" + std::to_string(capacity_value);
     image.AddImageText(black,p_capacity,15,text,true);
-    text = std::to_string(gen_second)+ "/" + std::to_string(std::round(gen_second_value) /10);
+    std::stringstream g_stream;
+    g_stream << std::fixed << std::setprecision(2) << gen_second_value;
+    text = std::to_string(gen_second)+ "/" + g_stream.str();
     image.AddImageText(black,p_gen_second,15,text,true);
-    text = std::to_string(fortune)+ "/" + std::to_string(std::round(fortune_value) /10);
+    std::stringstream f_stream;
+    f_stream << std::fixed << std::setprecision(2) << fortune_value;
+    text = std::to_string(fortune)+ "/" + f_stream.str();
     image.AddImageText(black,p_fortune,15,text,true);
 
     std::cout << post_image << std::endl;
@@ -100,8 +106,8 @@ Renderer::PostRenderer::PostRenderer(int32_t capacity, int capacity_value, float
     image.Copy(post,p_image,GD::Point{0,0},s);
 
     //236
-    GD::Point p_rectangle_start{ 136 + static_cast<int>(236 * filled_percent), 120 };
-    GD::Point p_rectangle_end{ 371, 129};
+    GD::Point p_rectangle_start{ 146 + static_cast<int>(236 * filled_percent), 120 };
+    GD::Point p_rectangle_end{ 381, 139};
 
     image.FilledRectangle(p_rectangle_start,p_rectangle_end,black.Int());
 
