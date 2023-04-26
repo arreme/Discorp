@@ -3,10 +3,16 @@ syntax = "proto3";
 
 message PBItemData 
 {
-    PBItemEnum itemID                       = 1;
-    int32 quantity                          = 2;
-    string imagePath                        = 3;
-    string itemName                         = 4;
+    string imagePath                        = 1;
+    string itemName                         = 2;
+
+    PBItemEnum itemID                       = 3;
+    int32 quantity                          = 4;
+}
+
+message PBItemsDict {
+    PBItemType itemType                 = 1;
+    repeated PBItemData data            = 2;
 }
 
 enum PBItemEnum 

@@ -26,16 +26,6 @@ message PBStats
     int32 luck              = 7;
 }
 
-enum PBPlayerStats 
-{
-    HEALTH                  = 0;
-    STRENGTH                = 1;
-    DEFENSE                 = 2;
-    PRECISION               = 3;
-    SPEED                   = 4;
-    LUCK                    = 5;
-}
-
 message PBSkills 
 {
     int32 foraging_lvl          = 1;
@@ -46,14 +36,6 @@ message PBSkills
     int64 combat_xp             = 6;
     int32 athletics_lvl         = 7;
     int64 athletics_xp          = 8;
-}
-
-enum PBPlayerSkills 
-{
-    FORAGE                                  = 0;
-    MINING                                  = 1;
-    COMBAT                                  = 2;
-    ATHLETICS                               = 3;
 }
 
 message PBPlayer 
@@ -74,3 +56,20 @@ message PBUser
     repeated PBPlayer players                           = 5;
 }
 
+enum PBPlayerStats 
+{
+    HEALTH                  = 0;
+    STRENGTH                = 1;
+    DEFENSE                 = 2;
+    PRECISION               = 3;
+    SPEED                   = 4;
+    LUCK                    = 5;
+}
+
+enum PBPlayerSkills 
+{
+    FORAGE                                  = 0;
+    MINING                                  = 1;
+    COMBAT                                  = 2;
+    ATHLETICS                               = 3;
+}

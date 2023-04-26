@@ -1,72 +1,28 @@
 syntax = "proto3";
 
 import "location.proto";
-import "item.proto";
+import "interaction.proto";
 import "player.proto";
-
-message PBItemsDict {
-    PBItemType itemType                 = 1;
-    repeated PBItemData data            = 2;
-}
-
-message PBUpgradeInfo 
-{
-    float currentStat                       = 3;
-    repeated PBItemData upRequirements      = 4;
-}
-
-message PBUpgrades 
-{
-    PBUpgradeType statName                  = 1;
-    repeated PBUpgradeInfo info             = 2;
-}
-
-message PBInteraction 
-{
-    //GENERAL
-    PBInteractionType type                  = 1;
-    int32 databaseId                        = 2;
-    string interactionName                  = 3;
-    int32 posX                              = 4;
-    int32 posY                              = 5;
-    repeated string imagePaths              = 6;
-    repeated PBUpgrades upgradeInfo         = 7;
-
-    //POST
-    PBItemEnum resource                     = 8;
-    PBPlayerSkills postSkill                = 9;
-    int32 interactXp                        = 10;
-    
-    //ZONE_ACCESS
-    PBLocationID nextLoc                    = 11;
-    
-    //SHOP
-    //Items
-
-    //DIALOG
-}
 
 message PBLocation 
 {
-    PBLocationID locID                      = 1;
-    int32 databaseId                        = 2;
-    string locImage                         = 3;
+    PBLocationID loc_id                     = 1;
+    int32 database_id                       = 2;
+    string loc_image                        = 3;
     repeated PBInteraction interactions     = 4;
 }
 
-enum PBInteractionType 
+message PBBattleInfo 
 {
-    POST                                    = 0;
-    ZONE_ACCESS                             = 1;
-    DECORATION                              = 2;
+    bool is_npc                             = 1;
+    PBPlayer player_info                    = 2;
+    PBPlayer enemey_info                    = 3;
 }
 
-enum PBUpgradeType 
+message PBGameState 
 {
-    CAPACITY                                = 0;
-    GEN_SECOND                              = 1;
-    FORTUNE                                 = 2;
-    ZONE_UNLOCK                             = 3;
+    repeated PBLocation locations       = 1;
+    PBBattleInfo battle_info            = 2;
 }
 
 
