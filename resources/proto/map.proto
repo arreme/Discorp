@@ -23,6 +23,7 @@ message PBUpgrades
 
 message PBInteraction 
 {
+    //GENERAL
     PBInteractionType type                  = 1;
     int32 databaseId                        = 2;
     string interactionName                  = 3;
@@ -41,6 +42,8 @@ message PBInteraction
     
     //SHOP
     //Items
+
+    //DIALOG
 }
 
 message PBLocation 

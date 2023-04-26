@@ -42,7 +42,7 @@ else()
     add_subdirectory(dcl/db)
     add_subdirectory(dcl/db_handler)
     add_subdirectory(dcl/core)
-    add_subdirectory(dcl/img)
+    # add_subdirectory(dcl/img)
     add_subdirectory(dcl/api)
 
     target_link_libraries(
@@ -52,7 +52,7 @@ else()
         dcl_db
         dcl_db_handler
         dcl_core
-        dcl_img
+        # dcl_img
         pthread
     )
 
@@ -60,10 +60,6 @@ else()
         ${PROJECT_NAME}
         PRIVATE "libs/DPP/include"
         PRIVATE "dcl/api/include"
-        PRIVATE "dcl/db/include"
-        PRIVATE "dcl/db_handler/include"
-        PRIVATE "dcl/core/include"
-        PRIVATE "dcl/img/include"
     )
 
 endif()

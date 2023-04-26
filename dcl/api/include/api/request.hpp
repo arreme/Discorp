@@ -2,17 +2,20 @@
 #include <ostream>
 #include <core/pb/player.pb.h>
 #include <dpp.h>
+#include <db_handler/db_user.hpp>
 
 class BaseRequest 
 {
 protected:
-    bool user_created = false;
+    bool m_user_created = false;
     PBUser m_user;
+    db_handler::DBUserHandler m_user_handler{&m_user};
 public:
     BaseRequest(uint64_t discord_id) 
     {
         m_user.set_discord_id(discord_id);
         //Check If user already registerered
+        m_user_created = m_user_handler.FindUserCurrentPlayer();
     };
 };
 
@@ -30,6 +33,13 @@ public:
 
     bool FillResponse(dpp::message &m) 
     {
+        if (!m_user_created) 
+        {
+            m.set_content("You are not registered inside the database!");
+            return false;
+        }
 
+        db::Transaction t;
+        return true;
     }
 };
