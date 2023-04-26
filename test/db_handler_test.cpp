@@ -26,5 +26,5 @@ TEST_CASE("User Database Handler Testing","[db_players]")
     player->set_guild_id(230);
     REQUIRE(db_user_handler.FindUserCurrentPlayer());
     REQUIRE(player->guild_id()==10);
-
+    
 }

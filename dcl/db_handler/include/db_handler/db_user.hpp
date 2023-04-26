@@ -9,6 +9,8 @@
 #include <bsoncxx/types.hpp>
 #include <db/db_write.hpp>
 #include <db/db_query_operations.hpp>
+#include <bsoncxx/exception/exception.hpp>
+#include <string.h>
 
 using namespace bsoncxx::builder::basic;
 using namespace google::protobuf;
@@ -134,11 +136,25 @@ namespace db_handler
             auto result = find_one.GetResult();
             if (result) 
             {
+                m_user->Clear();
                 auto doc = result.value();
-                m_user->clear_players();
-                auto player_doc = doc["players"].get_document().view();
-                auto temp = m_user->add_players();
-                temp->set_guild_id(static_cast<uint64_t>(player_doc["guild_id"].get_int64())); 
+                try {
+                    m_user->set_discord_id(static_cast<uint64_t>(doc["discord_id"].get_int64()));
+                    std::string a = doc["user_name"].get_string();
+                    m_user->set_user_name();
+                    m_user->set_current_player_id();
+                    m_user->mutable_last_online()->set_seconds(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+                    auto temp = m_user->add_players();
+                    auto player_doc = doc["players"].get_document().view();
+                    
+                    temp->set_guild_id(static_cast<uint64_t>(player_doc["guild_id"].get_int64())); 
+                } catch (bsoncxx::exception e) {
+                    return false;
+                }
+                
+                
+                
+                
                 return true;
             }
             return false;
