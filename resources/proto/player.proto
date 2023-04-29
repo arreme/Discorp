@@ -45,6 +45,7 @@ message PBPlayer
     PBStats stats                                       = 3;
     PBSkills skills                                     = 4;
     PBEquipation equipation                             = 5;
+    int64 gold                                          = 6;
 }
 
 message PBUser 

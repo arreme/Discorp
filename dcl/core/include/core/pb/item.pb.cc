@@ -14,10 +14,15 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+extern PROTOBUF_INTERNAL_EXPORT_item_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBItemData_item_2eproto;
 class PBItemDataDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PBItemData> _instance;
 } _PBItemData_default_instance_;
+class PBItemsDictDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PBItemsDict> _instance;
+} _PBItemsDict_default_instance_;
 static void InitDefaultsscc_info_PBItemData_item_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -32,7 +37,22 @@ static void InitDefaultsscc_info_PBItemData_item_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBItemData_item_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_PBItemData_item_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_item_2eproto[1];
+static void InitDefaultsscc_info_PBItemsDict_item_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_PBItemsDict_default_instance_;
+    new (ptr) ::PBItemsDict();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::PBItemsDict::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBItemsDict_item_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_PBItemsDict_item_2eproto}, {
+      &scc_info_PBItemData_item_2eproto.base,}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_item_2eproto[2];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_item_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_item_2eproto = nullptr;
 
@@ -42,41 +62,53 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_item_2eproto::offsets[] PROTOB
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::PBItemData, itemid_),
+  PROTOBUF_FIELD_OFFSET(::PBItemData, image_path_),
+  PROTOBUF_FIELD_OFFSET(::PBItemData, item_name_),
+  PROTOBUF_FIELD_OFFSET(::PBItemData, item_id_),
   PROTOBUF_FIELD_OFFSET(::PBItemData, quantity_),
-  PROTOBUF_FIELD_OFFSET(::PBItemData, imagepath_),
-  PROTOBUF_FIELD_OFFSET(::PBItemData, itemname_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::PBItemsDict, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::PBItemsDict, item_type_),
+  PROTOBUF_FIELD_OFFSET(::PBItemsDict, data_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::PBItemData)},
+  { 9, -1, sizeof(::PBItemsDict)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBItemData_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PBItemsDict_default_instance_),
 };
 
 const char descriptor_table_protodef_item_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nitem.proto\"`\n\nPBItemData\022\033\n\006itemID\030\001 \001"
-  "(\0162\013.PBItemEnum\022\020\n\010quantity\030\002 \001(\005\022\021\n\tima"
-  "gePath\030\003 \001(\t\022\020\n\010itemName\030\004 \001(\t*u\n\nPBItem"
-  "Enum\022\t\n\005STICK\020\000\022\n\n\006PEBBLE\020\001\022\010\n\004ROCK\020\002\022\010\n"
-  "\004DIRT\020\003\022\n\n\005PUNCH\020\350\007\022\t\n\004KICK\020\351\007\022\021\n\014WOODEN"
-  "_SWORD\020\320\017\022\022\n\rWOODEN_HELMET\020\270\027*U\n\nPBItemT"
-  "ype\022\r\n\tRESOURCES\020\000\022\013\n\007ATTACKS\020\001\022\013\n\007WEAPO"
-  "NS\020\002\022\r\n\tEQUIPMENT\020\003\022\017\n\013QUEST_ITEMS\020\004b\006pr"
-  "oto3"
+  "\n\nitem.proto\"c\n\nPBItemData\022\022\n\nimage_path"
+  "\030\001 \001(\t\022\021\n\titem_name\030\002 \001(\t\022\034\n\007item_id\030\003 \001"
+  "(\0162\013.PBItemEnum\022\020\n\010quantity\030\004 \001(\005\"H\n\013PBI"
+  "temsDict\022\036\n\titem_type\030\001 \001(\0162\013.PBItemType"
+  "\022\031\n\004data\030\002 \003(\0132\013.PBItemData*u\n\nPBItemEnu"
+  "m\022\t\n\005STICK\020\000\022\n\n\006PEBBLE\020\001\022\010\n\004ROCK\020\002\022\010\n\004DI"
+  "RT\020\003\022\n\n\005PUNCH\020\350\007\022\t\n\004KICK\020\351\007\022\021\n\014WOODEN_SW"
+  "ORD\020\320\017\022\022\n\rWOODEN_HELMET\020\270\027*U\n\nPBItemType"
+  "\022\r\n\tRESOURCES\020\000\022\013\n\007ATTACKS\020\001\022\013\n\007WEAPONS\020"
+  "\002\022\r\n\tEQUIPMENT\020\003\022\017\n\013QUEST_ITEMS\020\004b\006proto"
+  "3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_item_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_item_2eproto_sccs[1] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_item_2eproto_sccs[2] = {
   &scc_info_PBItemData_item_2eproto.base,
+  &scc_info_PBItemsDict_item_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_item_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_item_2eproto = {
-  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 324,
-  &descriptor_table_item_2eproto_once, descriptor_table_item_2eproto_sccs, descriptor_table_item_2eproto_deps, 1, 0,
+  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 401,
+  &descriptor_table_item_2eproto_once, descriptor_table_item_2eproto_sccs, descriptor_table_item_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_item_2eproto::offsets,
-  file_level_metadata_item_2eproto, 1, file_level_enum_descriptors_item_2eproto, file_level_service_descriptors_item_2eproto,
+  file_level_metadata_item_2eproto, 2, file_level_enum_descriptors_item_2eproto, file_level_service_descriptors_item_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -136,29 +168,29 @@ PBItemData::PBItemData(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 PBItemData::PBItemData(const PBItemData& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  imagepath_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_imagepath().empty()) {
-    imagepath_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_imagepath(),
+  image_path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_image_path().empty()) {
+    image_path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_image_path(),
       GetArena());
   }
-  itemname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_itemname().empty()) {
-    itemname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_itemname(),
+  item_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_item_name().empty()) {
+    item_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_item_name(),
       GetArena());
   }
-  ::memcpy(&itemid_, &from.itemid_,
+  ::memcpy(&item_id_, &from.item_id_,
     static_cast<size_t>(reinterpret_cast<char*>(&quantity_) -
-    reinterpret_cast<char*>(&itemid_)) + sizeof(quantity_));
+    reinterpret_cast<char*>(&item_id_)) + sizeof(quantity_));
   // @@protoc_insertion_point(copy_constructor:PBItemData)
 }
 
 void PBItemData::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBItemData_item_2eproto.base);
-  imagepath_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  itemname_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  ::memset(&itemid_, 0, static_cast<size_t>(
+  image_path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  item_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&item_id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&quantity_) -
-      reinterpret_cast<char*>(&itemid_)) + sizeof(quantity_));
+      reinterpret_cast<char*>(&item_id_)) + sizeof(quantity_));
 }
 
 PBItemData::~PBItemData() {
@@ -169,8 +201,8 @@ PBItemData::~PBItemData() {
 
 void PBItemData::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
-  imagepath_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  itemname_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  image_path_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  item_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void PBItemData::ArenaDtor(void* object) {
@@ -194,11 +226,11 @@ void PBItemData::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  imagepath_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  itemname_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  ::memset(&itemid_, 0, static_cast<size_t>(
+  image_path_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  item_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::memset(&item_id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&quantity_) -
-      reinterpret_cast<char*>(&itemid_)) + sizeof(quantity_));
+      reinterpret_cast<char*>(&item_id_)) + sizeof(quantity_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -210,36 +242,36 @@ const char* PBItemData::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // .PBItemEnum itemID = 1;
+      // string image_path = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_image_path();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBItemData.image_path"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string item_name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_item_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBItemData.item_name"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .PBItemEnum item_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          _internal_set_itemid(static_cast<::PBItemEnum>(val));
+          _internal_set_item_id(static_cast<::PBItemEnum>(val));
         } else goto handle_unusual;
         continue;
-      // int32 quantity = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          quantity_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // string imagePath = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_imagepath();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBItemData.imagePath"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // string itemName = 4;
+      // int32 quantity = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
-          auto str = _internal_mutable_itemname();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBItemData.itemName"));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          quantity_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -271,37 +303,37 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .PBItemEnum itemID = 1;
-  if (this->itemid() != 0) {
+  // string image_path = 1;
+  if (this->image_path().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_image_path().data(), static_cast<int>(this->_internal_image_path().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "PBItemData.image_path");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_image_path(), target);
+  }
+
+  // string item_name = 2;
+  if (this->item_name().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_item_name().data(), static_cast<int>(this->_internal_item_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "PBItemData.item_name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_item_name(), target);
+  }
+
+  // .PBItemEnum item_id = 3;
+  if (this->item_id() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      1, this->_internal_itemid(), target);
+      3, this->_internal_item_id(), target);
   }
 
-  // int32 quantity = 2;
+  // int32 quantity = 4;
   if (this->quantity() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_quantity(), target);
-  }
-
-  // string imagePath = 3;
-  if (this->imagepath().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_imagepath().data(), static_cast<int>(this->_internal_imagepath().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "PBItemData.imagePath");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_imagepath(), target);
-  }
-
-  // string itemName = 4;
-  if (this->itemname().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_itemname().data(), static_cast<int>(this->_internal_itemname().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "PBItemData.itemName");
-    target = stream->WriteStringMaybeAliased(
-        4, this->_internal_itemname(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_quantity(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -320,27 +352,27 @@ size_t PBItemData::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string imagePath = 3;
-  if (this->imagepath().size() > 0) {
+  // string image_path = 1;
+  if (this->image_path().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_imagepath());
+        this->_internal_image_path());
   }
 
-  // string itemName = 4;
-  if (this->itemname().size() > 0) {
+  // string item_name = 2;
+  if (this->item_name().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_itemname());
+        this->_internal_item_name());
   }
 
-  // .PBItemEnum itemID = 1;
-  if (this->itemid() != 0) {
+  // .PBItemEnum item_id = 3;
+  if (this->item_id() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_itemid());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_item_id());
   }
 
-  // int32 quantity = 2;
+  // int32 quantity = 4;
   if (this->quantity() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
@@ -378,14 +410,14 @@ void PBItemData::MergeFrom(const PBItemData& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.imagepath().size() > 0) {
-    _internal_set_imagepath(from._internal_imagepath());
+  if (from.image_path().size() > 0) {
+    _internal_set_image_path(from._internal_image_path());
   }
-  if (from.itemname().size() > 0) {
-    _internal_set_itemname(from._internal_itemname());
+  if (from.item_name().size() > 0) {
+    _internal_set_item_name(from._internal_item_name());
   }
-  if (from.itemid() != 0) {
-    _internal_set_itemid(from._internal_itemid());
+  if (from.item_id() != 0) {
+    _internal_set_item_id(from._internal_item_id());
   }
   if (from.quantity() != 0) {
     _internal_set_quantity(from._internal_quantity());
@@ -413,17 +445,248 @@ bool PBItemData::IsInitialized() const {
 void PBItemData::InternalSwap(PBItemData* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  imagepath_.Swap(&other->imagepath_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  itemname_.Swap(&other->itemname_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  image_path_.Swap(&other->image_path_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  item_name_.Swap(&other->item_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PBItemData, quantity_)
       + sizeof(PBItemData::quantity_)
-      - PROTOBUF_FIELD_OFFSET(PBItemData, itemid_)>(
-          reinterpret_cast<char*>(&itemid_),
-          reinterpret_cast<char*>(&other->itemid_));
+      - PROTOBUF_FIELD_OFFSET(PBItemData, item_id_)>(
+          reinterpret_cast<char*>(&item_id_),
+          reinterpret_cast<char*>(&other->item_id_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PBItemData::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void PBItemsDict::InitAsDefaultInstance() {
+}
+class PBItemsDict::_Internal {
+ public:
+};
+
+PBItemsDict::PBItemsDict(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  data_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:PBItemsDict)
+}
+PBItemsDict::PBItemsDict(const PBItemsDict& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      data_(from.data_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  item_type_ = from.item_type_;
+  // @@protoc_insertion_point(copy_constructor:PBItemsDict)
+}
+
+void PBItemsDict::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBItemsDict_item_2eproto.base);
+  item_type_ = 0;
+}
+
+PBItemsDict::~PBItemsDict() {
+  // @@protoc_insertion_point(destructor:PBItemsDict)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void PBItemsDict::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void PBItemsDict::ArenaDtor(void* object) {
+  PBItemsDict* _this = reinterpret_cast< PBItemsDict* >(object);
+  (void)_this;
+}
+void PBItemsDict::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void PBItemsDict::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const PBItemsDict& PBItemsDict::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_PBItemsDict_item_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void PBItemsDict::Clear() {
+// @@protoc_insertion_point(message_clear_start:PBItemsDict)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  data_.Clear();
+  item_type_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* PBItemsDict::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // .PBItemType item_type = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_item_type(static_cast<::PBItemType>(val));
+        } else goto handle_unusual;
+        continue;
+      // repeated .PBItemData data = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_data(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* PBItemsDict::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:PBItemsDict)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .PBItemType item_type = 1;
+  if (this->item_type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_item_type(), target);
+  }
+
+  // repeated .PBItemData data = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_data_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, this->_internal_data(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:PBItemsDict)
+  return target;
+}
+
+size_t PBItemsDict::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:PBItemsDict)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .PBItemData data = 2;
+  total_size += 1UL * this->_internal_data_size();
+  for (const auto& msg : this->data_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // .PBItemType item_type = 1;
+  if (this->item_type() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_item_type());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void PBItemsDict::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:PBItemsDict)
+  GOOGLE_DCHECK_NE(&from, this);
+  const PBItemsDict* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<PBItemsDict>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:PBItemsDict)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:PBItemsDict)
+    MergeFrom(*source);
+  }
+}
+
+void PBItemsDict::MergeFrom(const PBItemsDict& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:PBItemsDict)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  data_.MergeFrom(from.data_);
+  if (from.item_type() != 0) {
+    _internal_set_item_type(from._internal_item_type());
+  }
+}
+
+void PBItemsDict::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:PBItemsDict)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PBItemsDict::CopyFrom(const PBItemsDict& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:PBItemsDict)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PBItemsDict::IsInitialized() const {
+  return true;
+}
+
+void PBItemsDict::InternalSwap(PBItemsDict* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  data_.InternalSwap(&other->data_);
+  swap(item_type_, other->item_type_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PBItemsDict::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -432,6 +695,9 @@ void PBItemData::InternalSwap(PBItemData* other) {
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::PBItemData* Arena::CreateMaybeMessage< ::PBItemData >(Arena* arena) {
   return Arena::CreateMessageInternal< ::PBItemData >(arena);
+}
+template<> PROTOBUF_NOINLINE ::PBItemsDict* Arena::CreateMaybeMessage< ::PBItemsDict >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::PBItemsDict >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

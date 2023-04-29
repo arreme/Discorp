@@ -885,6 +885,7 @@ class PBPlayer PROTOBUF_FINAL :
     kSkillsFieldNumber = 4,
     kEquipationFieldNumber = 5,
     kGuildIdFieldNumber = 1,
+    kGoldFieldNumber = 6,
     kCurrentLocationFieldNumber = 2,
   };
   // .PBStats stats = 3;
@@ -950,6 +951,15 @@ class PBPlayer PROTOBUF_FINAL :
   void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
+  // int64 gold = 6;
+  void clear_gold();
+  ::PROTOBUF_NAMESPACE_ID::int64 gold() const;
+  void set_gold(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_gold() const;
+  void _internal_set_gold(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
   // .PBLocationID current_location = 2;
   void clear_current_location();
   ::PBLocationID current_location() const;
@@ -970,6 +980,7 @@ class PBPlayer PROTOBUF_FINAL :
   ::PBSkills* skills_;
   ::PBEquipation* equipation_;
   ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::int64 gold_;
   int current_location_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_player_2eproto;
@@ -1956,6 +1967,26 @@ inline void PBPlayer::set_allocated_equipation(::PBEquipation* equipation) {
   }
   equipation_ = equipation;
   // @@protoc_insertion_point(field_set_allocated:PBPlayer.equipation)
+}
+
+// int64 gold = 6;
+inline void PBPlayer::clear_gold() {
+  gold_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 PBPlayer::_internal_gold() const {
+  return gold_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 PBPlayer::gold() const {
+  // @@protoc_insertion_point(field_get:PBPlayer.gold)
+  return _internal_gold();
+}
+inline void PBPlayer::_internal_set_gold(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  gold_ = value;
+}
+inline void PBPlayer::set_gold(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_gold(value);
+  // @@protoc_insertion_point(field_set:PBPlayer.gold)
 }
 
 // -------------------------------------------------------------------

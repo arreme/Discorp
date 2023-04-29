@@ -8,6 +8,7 @@ add_library(${PROJECT_NAME} SHARED
     "include/core/pb/location.pb.cc"
     "include/core/pb/map.pb.cc"
     "include/core/pb/player.pb.cc"
+    "include/core/pb/interaction.pb.cc"
     "src/dcl_map.cpp"
 )
 

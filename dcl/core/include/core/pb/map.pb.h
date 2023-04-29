@@ -31,10 +31,9 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "location.pb.h"
-#include "item.pb.h"
+#include "interaction.pb.h"
 #include "player.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
@@ -51,848 +50,29 @@ struct TableStruct_map_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_map_2eproto;
-class PBInteraction;
-class PBInteractionDefaultTypeInternal;
-extern PBInteractionDefaultTypeInternal _PBInteraction_default_instance_;
-class PBItemsDict;
-class PBItemsDictDefaultTypeInternal;
-extern PBItemsDictDefaultTypeInternal _PBItemsDict_default_instance_;
+class PBBattleInfo;
+class PBBattleInfoDefaultTypeInternal;
+extern PBBattleInfoDefaultTypeInternal _PBBattleInfo_default_instance_;
+class PBGameState;
+class PBGameStateDefaultTypeInternal;
+extern PBGameStateDefaultTypeInternal _PBGameState_default_instance_;
 class PBLocation;
 class PBLocationDefaultTypeInternal;
 extern PBLocationDefaultTypeInternal _PBLocation_default_instance_;
-class PBUpgradeInfo;
-class PBUpgradeInfoDefaultTypeInternal;
-extern PBUpgradeInfoDefaultTypeInternal _PBUpgradeInfo_default_instance_;
-class PBUpgrades;
-class PBUpgradesDefaultTypeInternal;
-extern PBUpgradesDefaultTypeInternal _PBUpgrades_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
-template<> ::PBInteraction* Arena::CreateMaybeMessage<::PBInteraction>(Arena*);
-template<> ::PBItemsDict* Arena::CreateMaybeMessage<::PBItemsDict>(Arena*);
+template<> ::PBBattleInfo* Arena::CreateMaybeMessage<::PBBattleInfo>(Arena*);
+template<> ::PBGameState* Arena::CreateMaybeMessage<::PBGameState>(Arena*);
 template<> ::PBLocation* Arena::CreateMaybeMessage<::PBLocation>(Arena*);
-template<> ::PBUpgradeInfo* Arena::CreateMaybeMessage<::PBUpgradeInfo>(Arena*);
-template<> ::PBUpgrades* Arena::CreateMaybeMessage<::PBUpgrades>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
-enum PBInteractionType : int {
-  POST = 0,
-  ZONE_ACCESS = 1,
-  DECORATION = 2,
-  PBInteractionType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  PBInteractionType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool PBInteractionType_IsValid(int value);
-constexpr PBInteractionType PBInteractionType_MIN = POST;
-constexpr PBInteractionType PBInteractionType_MAX = DECORATION;
-constexpr int PBInteractionType_ARRAYSIZE = PBInteractionType_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBInteractionType_descriptor();
-template<typename T>
-inline const std::string& PBInteractionType_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, PBInteractionType>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function PBInteractionType_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    PBInteractionType_descriptor(), enum_t_value);
-}
-inline bool PBInteractionType_Parse(
-    const std::string& name, PBInteractionType* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PBInteractionType>(
-    PBInteractionType_descriptor(), name, value);
-}
-enum PBUpgradeType : int {
-  CAPACITY = 0,
-  GEN_SECOND = 1,
-  FORTUNE = 2,
-  ZONE_UNLOCK = 3,
-  PBUpgradeType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  PBUpgradeType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool PBUpgradeType_IsValid(int value);
-constexpr PBUpgradeType PBUpgradeType_MIN = CAPACITY;
-constexpr PBUpgradeType PBUpgradeType_MAX = ZONE_UNLOCK;
-constexpr int PBUpgradeType_ARRAYSIZE = PBUpgradeType_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBUpgradeType_descriptor();
-template<typename T>
-inline const std::string& PBUpgradeType_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, PBUpgradeType>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function PBUpgradeType_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    PBUpgradeType_descriptor(), enum_t_value);
-}
-inline bool PBUpgradeType_Parse(
-    const std::string& name, PBUpgradeType* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PBUpgradeType>(
-    PBUpgradeType_descriptor(), name, value);
-}
 // ===================================================================
-
-class PBItemsDict PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:PBItemsDict) */ {
- public:
-  inline PBItemsDict() : PBItemsDict(nullptr) {};
-  virtual ~PBItemsDict();
-
-  PBItemsDict(const PBItemsDict& from);
-  PBItemsDict(PBItemsDict&& from) noexcept
-    : PBItemsDict() {
-    *this = ::std::move(from);
-  }
-
-  inline PBItemsDict& operator=(const PBItemsDict& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PBItemsDict& operator=(PBItemsDict&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const PBItemsDict& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const PBItemsDict* internal_default_instance() {
-    return reinterpret_cast<const PBItemsDict*>(
-               &_PBItemsDict_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(PBItemsDict& a, PBItemsDict& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PBItemsDict* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(PBItemsDict* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline PBItemsDict* New() const final {
-    return CreateMaybeMessage<PBItemsDict>(nullptr);
-  }
-
-  PBItemsDict* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<PBItemsDict>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const PBItemsDict& from);
-  void MergeFrom(const PBItemsDict& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PBItemsDict* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "PBItemsDict";
-  }
-  protected:
-  explicit PBItemsDict(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_map_2eproto);
-    return ::descriptor_table_map_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kDataFieldNumber = 2,
-    kItemTypeFieldNumber = 1,
-  };
-  // repeated .PBItemData data = 2;
-  int data_size() const;
-  private:
-  int _internal_data_size() const;
-  public:
-  void clear_data();
-  ::PBItemData* mutable_data(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >*
-      mutable_data();
-  private:
-  const ::PBItemData& _internal_data(int index) const;
-  ::PBItemData* _internal_add_data();
-  public:
-  const ::PBItemData& data(int index) const;
-  ::PBItemData* add_data();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >&
-      data() const;
-
-  // .PBItemType itemType = 1;
-  void clear_itemtype();
-  ::PBItemType itemtype() const;
-  void set_itemtype(::PBItemType value);
-  private:
-  ::PBItemType _internal_itemtype() const;
-  void _internal_set_itemtype(::PBItemType value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:PBItemsDict)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData > data_;
-  int itemtype_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_map_2eproto;
-};
-// -------------------------------------------------------------------
-
-class PBUpgradeInfo PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:PBUpgradeInfo) */ {
- public:
-  inline PBUpgradeInfo() : PBUpgradeInfo(nullptr) {};
-  virtual ~PBUpgradeInfo();
-
-  PBUpgradeInfo(const PBUpgradeInfo& from);
-  PBUpgradeInfo(PBUpgradeInfo&& from) noexcept
-    : PBUpgradeInfo() {
-    *this = ::std::move(from);
-  }
-
-  inline PBUpgradeInfo& operator=(const PBUpgradeInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PBUpgradeInfo& operator=(PBUpgradeInfo&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const PBUpgradeInfo& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const PBUpgradeInfo* internal_default_instance() {
-    return reinterpret_cast<const PBUpgradeInfo*>(
-               &_PBUpgradeInfo_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(PBUpgradeInfo& a, PBUpgradeInfo& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PBUpgradeInfo* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(PBUpgradeInfo* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline PBUpgradeInfo* New() const final {
-    return CreateMaybeMessage<PBUpgradeInfo>(nullptr);
-  }
-
-  PBUpgradeInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<PBUpgradeInfo>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const PBUpgradeInfo& from);
-  void MergeFrom(const PBUpgradeInfo& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PBUpgradeInfo* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "PBUpgradeInfo";
-  }
-  protected:
-  explicit PBUpgradeInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_map_2eproto);
-    return ::descriptor_table_map_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kUpRequirementsFieldNumber = 4,
-    kCurrentStatFieldNumber = 3,
-  };
-  // repeated .PBItemData upRequirements = 4;
-  int uprequirements_size() const;
-  private:
-  int _internal_uprequirements_size() const;
-  public:
-  void clear_uprequirements();
-  ::PBItemData* mutable_uprequirements(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >*
-      mutable_uprequirements();
-  private:
-  const ::PBItemData& _internal_uprequirements(int index) const;
-  ::PBItemData* _internal_add_uprequirements();
-  public:
-  const ::PBItemData& uprequirements(int index) const;
-  ::PBItemData* add_uprequirements();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >&
-      uprequirements() const;
-
-  // float currentStat = 3;
-  void clear_currentstat();
-  float currentstat() const;
-  void set_currentstat(float value);
-  private:
-  float _internal_currentstat() const;
-  void _internal_set_currentstat(float value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:PBUpgradeInfo)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData > uprequirements_;
-  float currentstat_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_map_2eproto;
-};
-// -------------------------------------------------------------------
-
-class PBUpgrades PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:PBUpgrades) */ {
- public:
-  inline PBUpgrades() : PBUpgrades(nullptr) {};
-  virtual ~PBUpgrades();
-
-  PBUpgrades(const PBUpgrades& from);
-  PBUpgrades(PBUpgrades&& from) noexcept
-    : PBUpgrades() {
-    *this = ::std::move(from);
-  }
-
-  inline PBUpgrades& operator=(const PBUpgrades& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PBUpgrades& operator=(PBUpgrades&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const PBUpgrades& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const PBUpgrades* internal_default_instance() {
-    return reinterpret_cast<const PBUpgrades*>(
-               &_PBUpgrades_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    2;
-
-  friend void swap(PBUpgrades& a, PBUpgrades& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PBUpgrades* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(PBUpgrades* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline PBUpgrades* New() const final {
-    return CreateMaybeMessage<PBUpgrades>(nullptr);
-  }
-
-  PBUpgrades* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<PBUpgrades>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const PBUpgrades& from);
-  void MergeFrom(const PBUpgrades& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PBUpgrades* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "PBUpgrades";
-  }
-  protected:
-  explicit PBUpgrades(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_map_2eproto);
-    return ::descriptor_table_map_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kInfoFieldNumber = 2,
-    kStatNameFieldNumber = 1,
-  };
-  // repeated .PBUpgradeInfo info = 2;
-  int info_size() const;
-  private:
-  int _internal_info_size() const;
-  public:
-  void clear_info();
-  ::PBUpgradeInfo* mutable_info(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >*
-      mutable_info();
-  private:
-  const ::PBUpgradeInfo& _internal_info(int index) const;
-  ::PBUpgradeInfo* _internal_add_info();
-  public:
-  const ::PBUpgradeInfo& info(int index) const;
-  ::PBUpgradeInfo* add_info();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
-      info() const;
-
-  // .PBUpgradeType statName = 1;
-  void clear_statname();
-  ::PBUpgradeType statname() const;
-  void set_statname(::PBUpgradeType value);
-  private:
-  ::PBUpgradeType _internal_statname() const;
-  void _internal_set_statname(::PBUpgradeType value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:PBUpgrades)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo > info_;
-  int statname_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_map_2eproto;
-};
-// -------------------------------------------------------------------
-
-class PBInteraction PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:PBInteraction) */ {
- public:
-  inline PBInteraction() : PBInteraction(nullptr) {};
-  virtual ~PBInteraction();
-
-  PBInteraction(const PBInteraction& from);
-  PBInteraction(PBInteraction&& from) noexcept
-    : PBInteraction() {
-    *this = ::std::move(from);
-  }
-
-  inline PBInteraction& operator=(const PBInteraction& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PBInteraction& operator=(PBInteraction&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const PBInteraction& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const PBInteraction* internal_default_instance() {
-    return reinterpret_cast<const PBInteraction*>(
-               &_PBInteraction_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    3;
-
-  friend void swap(PBInteraction& a, PBInteraction& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PBInteraction* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(PBInteraction* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline PBInteraction* New() const final {
-    return CreateMaybeMessage<PBInteraction>(nullptr);
-  }
-
-  PBInteraction* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<PBInteraction>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const PBInteraction& from);
-  void MergeFrom(const PBInteraction& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PBInteraction* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "PBInteraction";
-  }
-  protected:
-  explicit PBInteraction(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_map_2eproto);
-    return ::descriptor_table_map_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kImagePathsFieldNumber = 6,
-    kUpgradeInfoFieldNumber = 7,
-    kInteractionNameFieldNumber = 3,
-    kTypeFieldNumber = 1,
-    kDatabaseIdFieldNumber = 2,
-    kPosXFieldNumber = 4,
-    kPosYFieldNumber = 5,
-    kResourceFieldNumber = 8,
-    kPostSkillFieldNumber = 9,
-    kInteractXpFieldNumber = 10,
-    kNextLocFieldNumber = 11,
-  };
-  // repeated string imagePaths = 6;
-  int imagepaths_size() const;
-  private:
-  int _internal_imagepaths_size() const;
-  public:
-  void clear_imagepaths();
-  const std::string& imagepaths(int index) const;
-  std::string* mutable_imagepaths(int index);
-  void set_imagepaths(int index, const std::string& value);
-  void set_imagepaths(int index, std::string&& value);
-  void set_imagepaths(int index, const char* value);
-  void set_imagepaths(int index, const char* value, size_t size);
-  std::string* add_imagepaths();
-  void add_imagepaths(const std::string& value);
-  void add_imagepaths(std::string&& value);
-  void add_imagepaths(const char* value);
-  void add_imagepaths(const char* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& imagepaths() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_imagepaths();
-  private:
-  const std::string& _internal_imagepaths(int index) const;
-  std::string* _internal_add_imagepaths();
-  public:
-
-  // repeated .PBUpgrades upgradeInfo = 7;
-  int upgradeinfo_size() const;
-  private:
-  int _internal_upgradeinfo_size() const;
-  public:
-  void clear_upgradeinfo();
-  ::PBUpgrades* mutable_upgradeinfo(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades >*
-      mutable_upgradeinfo();
-  private:
-  const ::PBUpgrades& _internal_upgradeinfo(int index) const;
-  ::PBUpgrades* _internal_add_upgradeinfo();
-  public:
-  const ::PBUpgrades& upgradeinfo(int index) const;
-  ::PBUpgrades* add_upgradeinfo();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades >&
-      upgradeinfo() const;
-
-  // string interactionName = 3;
-  void clear_interactionname();
-  const std::string& interactionname() const;
-  void set_interactionname(const std::string& value);
-  void set_interactionname(std::string&& value);
-  void set_interactionname(const char* value);
-  void set_interactionname(const char* value, size_t size);
-  std::string* mutable_interactionname();
-  std::string* release_interactionname();
-  void set_allocated_interactionname(std::string* interactionname);
-  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
-  "    string fields are deprecated and will be removed in a"
-  "    future release.")
-  std::string* unsafe_arena_release_interactionname();
-  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
-  "    string fields are deprecated and will be removed in a"
-  "    future release.")
-  void unsafe_arena_set_allocated_interactionname(
-      std::string* interactionname);
-  private:
-  const std::string& _internal_interactionname() const;
-  void _internal_set_interactionname(const std::string& value);
-  std::string* _internal_mutable_interactionname();
-  public:
-
-  // .PBInteractionType type = 1;
-  void clear_type();
-  ::PBInteractionType type() const;
-  void set_type(::PBInteractionType value);
-  private:
-  ::PBInteractionType _internal_type() const;
-  void _internal_set_type(::PBInteractionType value);
-  public:
-
-  // int32 databaseId = 2;
-  void clear_databaseid();
-  ::PROTOBUF_NAMESPACE_ID::int32 databaseid() const;
-  void set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_databaseid() const;
-  void _internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 posX = 4;
-  void clear_posx();
-  ::PROTOBUF_NAMESPACE_ID::int32 posx() const;
-  void set_posx(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_posx() const;
-  void _internal_set_posx(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 posY = 5;
-  void clear_posy();
-  ::PROTOBUF_NAMESPACE_ID::int32 posy() const;
-  void set_posy(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_posy() const;
-  void _internal_set_posy(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // .PBItemEnum resource = 8;
-  void clear_resource();
-  ::PBItemEnum resource() const;
-  void set_resource(::PBItemEnum value);
-  private:
-  ::PBItemEnum _internal_resource() const;
-  void _internal_set_resource(::PBItemEnum value);
-  public:
-
-  // .PBPlayerSkills postSkill = 9;
-  void clear_postskill();
-  ::PBPlayerSkills postskill() const;
-  void set_postskill(::PBPlayerSkills value);
-  private:
-  ::PBPlayerSkills _internal_postskill() const;
-  void _internal_set_postskill(::PBPlayerSkills value);
-  public:
-
-  // int32 interactXp = 10;
-  void clear_interactxp();
-  ::PROTOBUF_NAMESPACE_ID::int32 interactxp() const;
-  void set_interactxp(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_interactxp() const;
-  void _internal_set_interactxp(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // .PBLocationID nextLoc = 11;
-  void clear_nextloc();
-  ::PBLocationID nextloc() const;
-  void set_nextloc(::PBLocationID value);
-  private:
-  ::PBLocationID _internal_nextloc() const;
-  void _internal_set_nextloc(::PBLocationID value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:PBInteraction)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> imagepaths_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades > upgradeinfo_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr interactionname_;
-  int type_;
-  ::PROTOBUF_NAMESPACE_ID::int32 databaseid_;
-  ::PROTOBUF_NAMESPACE_ID::int32 posx_;
-  ::PROTOBUF_NAMESPACE_ID::int32 posy_;
-  int resource_;
-  int postskill_;
-  ::PROTOBUF_NAMESPACE_ID::int32 interactxp_;
-  int nextloc_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_map_2eproto;
-};
-// -------------------------------------------------------------------
 
 class PBLocation PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:PBLocation) */ {
@@ -936,7 +116,7 @@ class PBLocation PROTOBUF_FINAL :
                &_PBLocation_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    0;
 
   friend void swap(PBLocation& a, PBLocation& b) {
     a.Swap(&b);
@@ -1009,7 +189,7 @@ class PBLocation PROTOBUF_FINAL :
   enum : int {
     kInteractionsFieldNumber = 4,
     kLocImageFieldNumber = 3,
-    kLocIDFieldNumber = 1,
+    kLocIdFieldNumber = 1,
     kDatabaseIdFieldNumber = 2,
   };
   // repeated .PBInteraction interactions = 4;
@@ -1030,47 +210,47 @@ class PBLocation PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBInteraction >&
       interactions() const;
 
-  // string locImage = 3;
-  void clear_locimage();
-  const std::string& locimage() const;
-  void set_locimage(const std::string& value);
-  void set_locimage(std::string&& value);
-  void set_locimage(const char* value);
-  void set_locimage(const char* value, size_t size);
-  std::string* mutable_locimage();
-  std::string* release_locimage();
-  void set_allocated_locimage(std::string* locimage);
+  // string loc_image = 3;
+  void clear_loc_image();
+  const std::string& loc_image() const;
+  void set_loc_image(const std::string& value);
+  void set_loc_image(std::string&& value);
+  void set_loc_image(const char* value);
+  void set_loc_image(const char* value, size_t size);
+  std::string* mutable_loc_image();
+  std::string* release_loc_image();
+  void set_allocated_loc_image(std::string* loc_image);
   GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
   "    string fields are deprecated and will be removed in a"
   "    future release.")
-  std::string* unsafe_arena_release_locimage();
+  std::string* unsafe_arena_release_loc_image();
   GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
   "    string fields are deprecated and will be removed in a"
   "    future release.")
-  void unsafe_arena_set_allocated_locimage(
-      std::string* locimage);
+  void unsafe_arena_set_allocated_loc_image(
+      std::string* loc_image);
   private:
-  const std::string& _internal_locimage() const;
-  void _internal_set_locimage(const std::string& value);
-  std::string* _internal_mutable_locimage();
+  const std::string& _internal_loc_image() const;
+  void _internal_set_loc_image(const std::string& value);
+  std::string* _internal_mutable_loc_image();
   public:
 
-  // .PBLocationID locID = 1;
-  void clear_locid();
-  ::PBLocationID locid() const;
-  void set_locid(::PBLocationID value);
+  // .PBLocationID loc_id = 1;
+  void clear_loc_id();
+  ::PBLocationID loc_id() const;
+  void set_loc_id(::PBLocationID value);
   private:
-  ::PBLocationID _internal_locid() const;
-  void _internal_set_locid(::PBLocationID value);
+  ::PBLocationID _internal_loc_id() const;
+  void _internal_set_loc_id(::PBLocationID value);
   public:
 
-  // int32 databaseId = 2;
-  void clear_databaseid();
-  ::PROTOBUF_NAMESPACE_ID::int32 databaseid() const;
-  void set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // int32 database_id = 2;
+  void clear_database_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 database_id() const;
+  void set_database_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_databaseid() const;
-  void _internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_database_id() const;
+  void _internal_set_database_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:PBLocation)
@@ -1081,9 +261,352 @@ class PBLocation PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBInteraction > interactions_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr locimage_;
-  int locid_;
-  ::PROTOBUF_NAMESPACE_ID::int32 databaseid_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr loc_image_;
+  int loc_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 database_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_map_2eproto;
+};
+// -------------------------------------------------------------------
+
+class PBBattleInfo PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:PBBattleInfo) */ {
+ public:
+  inline PBBattleInfo() : PBBattleInfo(nullptr) {};
+  virtual ~PBBattleInfo();
+
+  PBBattleInfo(const PBBattleInfo& from);
+  PBBattleInfo(PBBattleInfo&& from) noexcept
+    : PBBattleInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline PBBattleInfo& operator=(const PBBattleInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PBBattleInfo& operator=(PBBattleInfo&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const PBBattleInfo& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const PBBattleInfo* internal_default_instance() {
+    return reinterpret_cast<const PBBattleInfo*>(
+               &_PBBattleInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(PBBattleInfo& a, PBBattleInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PBBattleInfo* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PBBattleInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PBBattleInfo* New() const final {
+    return CreateMaybeMessage<PBBattleInfo>(nullptr);
+  }
+
+  PBBattleInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PBBattleInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const PBBattleInfo& from);
+  void MergeFrom(const PBBattleInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PBBattleInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "PBBattleInfo";
+  }
+  protected:
+  explicit PBBattleInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_map_2eproto);
+    return ::descriptor_table_map_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPlayerInfoFieldNumber = 2,
+    kEnemeyInfoFieldNumber = 3,
+    kIsNpcFieldNumber = 1,
+  };
+  // .PBPlayer player_info = 2;
+  bool has_player_info() const;
+  private:
+  bool _internal_has_player_info() const;
+  public:
+  void clear_player_info();
+  const ::PBPlayer& player_info() const;
+  ::PBPlayer* release_player_info();
+  ::PBPlayer* mutable_player_info();
+  void set_allocated_player_info(::PBPlayer* player_info);
+  private:
+  const ::PBPlayer& _internal_player_info() const;
+  ::PBPlayer* _internal_mutable_player_info();
+  public:
+  void unsafe_arena_set_allocated_player_info(
+      ::PBPlayer* player_info);
+  ::PBPlayer* unsafe_arena_release_player_info();
+
+  // .PBPlayer enemey_info = 3;
+  bool has_enemey_info() const;
+  private:
+  bool _internal_has_enemey_info() const;
+  public:
+  void clear_enemey_info();
+  const ::PBPlayer& enemey_info() const;
+  ::PBPlayer* release_enemey_info();
+  ::PBPlayer* mutable_enemey_info();
+  void set_allocated_enemey_info(::PBPlayer* enemey_info);
+  private:
+  const ::PBPlayer& _internal_enemey_info() const;
+  ::PBPlayer* _internal_mutable_enemey_info();
+  public:
+  void unsafe_arena_set_allocated_enemey_info(
+      ::PBPlayer* enemey_info);
+  ::PBPlayer* unsafe_arena_release_enemey_info();
+
+  // bool is_npc = 1;
+  void clear_is_npc();
+  bool is_npc() const;
+  void set_is_npc(bool value);
+  private:
+  bool _internal_is_npc() const;
+  void _internal_set_is_npc(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:PBBattleInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PBPlayer* player_info_;
+  ::PBPlayer* enemey_info_;
+  bool is_npc_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_map_2eproto;
+};
+// -------------------------------------------------------------------
+
+class PBGameState PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:PBGameState) */ {
+ public:
+  inline PBGameState() : PBGameState(nullptr) {};
+  virtual ~PBGameState();
+
+  PBGameState(const PBGameState& from);
+  PBGameState(PBGameState&& from) noexcept
+    : PBGameState() {
+    *this = ::std::move(from);
+  }
+
+  inline PBGameState& operator=(const PBGameState& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PBGameState& operator=(PBGameState&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const PBGameState& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const PBGameState* internal_default_instance() {
+    return reinterpret_cast<const PBGameState*>(
+               &_PBGameState_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(PBGameState& a, PBGameState& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PBGameState* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PBGameState* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PBGameState* New() const final {
+    return CreateMaybeMessage<PBGameState>(nullptr);
+  }
+
+  PBGameState* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PBGameState>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const PBGameState& from);
+  void MergeFrom(const PBGameState& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PBGameState* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "PBGameState";
+  }
+  protected:
+  explicit PBGameState(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_map_2eproto);
+    return ::descriptor_table_map_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kLocationsFieldNumber = 1,
+    kBattleInfoFieldNumber = 2,
+  };
+  // repeated .PBLocation locations = 1;
+  int locations_size() const;
+  private:
+  int _internal_locations_size() const;
+  public:
+  void clear_locations();
+  ::PBLocation* mutable_locations(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBLocation >*
+      mutable_locations();
+  private:
+  const ::PBLocation& _internal_locations(int index) const;
+  ::PBLocation* _internal_add_locations();
+  public:
+  const ::PBLocation& locations(int index) const;
+  ::PBLocation* add_locations();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBLocation >&
+      locations() const;
+
+  // .PBBattleInfo battle_info = 2;
+  bool has_battle_info() const;
+  private:
+  bool _internal_has_battle_info() const;
+  public:
+  void clear_battle_info();
+  const ::PBBattleInfo& battle_info() const;
+  ::PBBattleInfo* release_battle_info();
+  ::PBBattleInfo* mutable_battle_info();
+  void set_allocated_battle_info(::PBBattleInfo* battle_info);
+  private:
+  const ::PBBattleInfo& _internal_battle_info() const;
+  ::PBBattleInfo* _internal_mutable_battle_info();
+  public:
+  void unsafe_arena_set_allocated_battle_info(
+      ::PBBattleInfo* battle_info);
+  ::PBBattleInfo* unsafe_arena_release_battle_info();
+
+  // @@protoc_insertion_point(class_scope:PBGameState)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBLocation > locations_;
+  ::PBBattleInfo* battle_info_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_map_2eproto;
 };
@@ -1096,668 +619,127 @@ class PBLocation PROTOBUF_FINAL :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// PBItemsDict
-
-// .PBItemType itemType = 1;
-inline void PBItemsDict::clear_itemtype() {
-  itemtype_ = 0;
-}
-inline ::PBItemType PBItemsDict::_internal_itemtype() const {
-  return static_cast< ::PBItemType >(itemtype_);
-}
-inline ::PBItemType PBItemsDict::itemtype() const {
-  // @@protoc_insertion_point(field_get:PBItemsDict.itemType)
-  return _internal_itemtype();
-}
-inline void PBItemsDict::_internal_set_itemtype(::PBItemType value) {
-  
-  itemtype_ = value;
-}
-inline void PBItemsDict::set_itemtype(::PBItemType value) {
-  _internal_set_itemtype(value);
-  // @@protoc_insertion_point(field_set:PBItemsDict.itemType)
-}
-
-// repeated .PBItemData data = 2;
-inline int PBItemsDict::_internal_data_size() const {
-  return data_.size();
-}
-inline int PBItemsDict::data_size() const {
-  return _internal_data_size();
-}
-inline ::PBItemData* PBItemsDict::mutable_data(int index) {
-  // @@protoc_insertion_point(field_mutable:PBItemsDict.data)
-  return data_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >*
-PBItemsDict::mutable_data() {
-  // @@protoc_insertion_point(field_mutable_list:PBItemsDict.data)
-  return &data_;
-}
-inline const ::PBItemData& PBItemsDict::_internal_data(int index) const {
-  return data_.Get(index);
-}
-inline const ::PBItemData& PBItemsDict::data(int index) const {
-  // @@protoc_insertion_point(field_get:PBItemsDict.data)
-  return _internal_data(index);
-}
-inline ::PBItemData* PBItemsDict::_internal_add_data() {
-  return data_.Add();
-}
-inline ::PBItemData* PBItemsDict::add_data() {
-  // @@protoc_insertion_point(field_add:PBItemsDict.data)
-  return _internal_add_data();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >&
-PBItemsDict::data() const {
-  // @@protoc_insertion_point(field_list:PBItemsDict.data)
-  return data_;
-}
-
-// -------------------------------------------------------------------
-
-// PBUpgradeInfo
-
-// float currentStat = 3;
-inline void PBUpgradeInfo::clear_currentstat() {
-  currentstat_ = 0;
-}
-inline float PBUpgradeInfo::_internal_currentstat() const {
-  return currentstat_;
-}
-inline float PBUpgradeInfo::currentstat() const {
-  // @@protoc_insertion_point(field_get:PBUpgradeInfo.currentStat)
-  return _internal_currentstat();
-}
-inline void PBUpgradeInfo::_internal_set_currentstat(float value) {
-  
-  currentstat_ = value;
-}
-inline void PBUpgradeInfo::set_currentstat(float value) {
-  _internal_set_currentstat(value);
-  // @@protoc_insertion_point(field_set:PBUpgradeInfo.currentStat)
-}
-
-// repeated .PBItemData upRequirements = 4;
-inline int PBUpgradeInfo::_internal_uprequirements_size() const {
-  return uprequirements_.size();
-}
-inline int PBUpgradeInfo::uprequirements_size() const {
-  return _internal_uprequirements_size();
-}
-inline ::PBItemData* PBUpgradeInfo::mutable_uprequirements(int index) {
-  // @@protoc_insertion_point(field_mutable:PBUpgradeInfo.upRequirements)
-  return uprequirements_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >*
-PBUpgradeInfo::mutable_uprequirements() {
-  // @@protoc_insertion_point(field_mutable_list:PBUpgradeInfo.upRequirements)
-  return &uprequirements_;
-}
-inline const ::PBItemData& PBUpgradeInfo::_internal_uprequirements(int index) const {
-  return uprequirements_.Get(index);
-}
-inline const ::PBItemData& PBUpgradeInfo::uprequirements(int index) const {
-  // @@protoc_insertion_point(field_get:PBUpgradeInfo.upRequirements)
-  return _internal_uprequirements(index);
-}
-inline ::PBItemData* PBUpgradeInfo::_internal_add_uprequirements() {
-  return uprequirements_.Add();
-}
-inline ::PBItemData* PBUpgradeInfo::add_uprequirements() {
-  // @@protoc_insertion_point(field_add:PBUpgradeInfo.upRequirements)
-  return _internal_add_uprequirements();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >&
-PBUpgradeInfo::uprequirements() const {
-  // @@protoc_insertion_point(field_list:PBUpgradeInfo.upRequirements)
-  return uprequirements_;
-}
-
-// -------------------------------------------------------------------
-
-// PBUpgrades
-
-// .PBUpgradeType statName = 1;
-inline void PBUpgrades::clear_statname() {
-  statname_ = 0;
-}
-inline ::PBUpgradeType PBUpgrades::_internal_statname() const {
-  return static_cast< ::PBUpgradeType >(statname_);
-}
-inline ::PBUpgradeType PBUpgrades::statname() const {
-  // @@protoc_insertion_point(field_get:PBUpgrades.statName)
-  return _internal_statname();
-}
-inline void PBUpgrades::_internal_set_statname(::PBUpgradeType value) {
-  
-  statname_ = value;
-}
-inline void PBUpgrades::set_statname(::PBUpgradeType value) {
-  _internal_set_statname(value);
-  // @@protoc_insertion_point(field_set:PBUpgrades.statName)
-}
-
-// repeated .PBUpgradeInfo info = 2;
-inline int PBUpgrades::_internal_info_size() const {
-  return info_.size();
-}
-inline int PBUpgrades::info_size() const {
-  return _internal_info_size();
-}
-inline void PBUpgrades::clear_info() {
-  info_.Clear();
-}
-inline ::PBUpgradeInfo* PBUpgrades::mutable_info(int index) {
-  // @@protoc_insertion_point(field_mutable:PBUpgrades.info)
-  return info_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >*
-PBUpgrades::mutable_info() {
-  // @@protoc_insertion_point(field_mutable_list:PBUpgrades.info)
-  return &info_;
-}
-inline const ::PBUpgradeInfo& PBUpgrades::_internal_info(int index) const {
-  return info_.Get(index);
-}
-inline const ::PBUpgradeInfo& PBUpgrades::info(int index) const {
-  // @@protoc_insertion_point(field_get:PBUpgrades.info)
-  return _internal_info(index);
-}
-inline ::PBUpgradeInfo* PBUpgrades::_internal_add_info() {
-  return info_.Add();
-}
-inline ::PBUpgradeInfo* PBUpgrades::add_info() {
-  // @@protoc_insertion_point(field_add:PBUpgrades.info)
-  return _internal_add_info();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgradeInfo >&
-PBUpgrades::info() const {
-  // @@protoc_insertion_point(field_list:PBUpgrades.info)
-  return info_;
-}
-
-// -------------------------------------------------------------------
-
-// PBInteraction
-
-// .PBInteractionType type = 1;
-inline void PBInteraction::clear_type() {
-  type_ = 0;
-}
-inline ::PBInteractionType PBInteraction::_internal_type() const {
-  return static_cast< ::PBInteractionType >(type_);
-}
-inline ::PBInteractionType PBInteraction::type() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.type)
-  return _internal_type();
-}
-inline void PBInteraction::_internal_set_type(::PBInteractionType value) {
-  
-  type_ = value;
-}
-inline void PBInteraction::set_type(::PBInteractionType value) {
-  _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.type)
-}
-
-// int32 databaseId = 2;
-inline void PBInteraction::clear_databaseid() {
-  databaseid_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_databaseid() const {
-  return databaseid_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::databaseid() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.databaseId)
-  return _internal_databaseid();
-}
-inline void PBInteraction::_internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  databaseid_ = value;
-}
-inline void PBInteraction::set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_databaseid(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.databaseId)
-}
-
-// string interactionName = 3;
-inline void PBInteraction::clear_interactionname() {
-  interactionname_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline const std::string& PBInteraction::interactionname() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.interactionName)
-  return _internal_interactionname();
-}
-inline void PBInteraction::set_interactionname(const std::string& value) {
-  _internal_set_interactionname(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.interactionName)
-}
-inline std::string* PBInteraction::mutable_interactionname() {
-  // @@protoc_insertion_point(field_mutable:PBInteraction.interactionName)
-  return _internal_mutable_interactionname();
-}
-inline const std::string& PBInteraction::_internal_interactionname() const {
-  return interactionname_.Get();
-}
-inline void PBInteraction::_internal_set_interactionname(const std::string& value) {
-  
-  interactionname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
-}
-inline void PBInteraction::set_interactionname(std::string&& value) {
-  
-  interactionname_.Set(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:PBInteraction.interactionName)
-}
-inline void PBInteraction::set_interactionname(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  interactionname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
-              GetArena());
-  // @@protoc_insertion_point(field_set_char:PBInteraction.interactionName)
-}
-inline void PBInteraction::set_interactionname(const char* value,
-    size_t size) {
-  
-  interactionname_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:PBInteraction.interactionName)
-}
-inline std::string* PBInteraction::_internal_mutable_interactionname() {
-  
-  return interactionname_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline std::string* PBInteraction::release_interactionname() {
-  // @@protoc_insertion_point(field_release:PBInteraction.interactionName)
-  return interactionname_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline void PBInteraction::set_allocated_interactionname(std::string* interactionname) {
-  if (interactionname != nullptr) {
-    
-  } else {
-    
-  }
-  interactionname_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), interactionname,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:PBInteraction.interactionName)
-}
-inline std::string* PBInteraction::unsafe_arena_release_interactionname() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:PBInteraction.interactionName)
-  GOOGLE_DCHECK(GetArena() != nullptr);
-  
-  return interactionname_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      GetArena());
-}
-inline void PBInteraction::unsafe_arena_set_allocated_interactionname(
-    std::string* interactionname) {
-  GOOGLE_DCHECK(GetArena() != nullptr);
-  if (interactionname != nullptr) {
-    
-  } else {
-    
-  }
-  interactionname_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      interactionname, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBInteraction.interactionName)
-}
-
-// int32 posX = 4;
-inline void PBInteraction::clear_posx() {
-  posx_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_posx() const {
-  return posx_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::posx() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.posX)
-  return _internal_posx();
-}
-inline void PBInteraction::_internal_set_posx(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  posx_ = value;
-}
-inline void PBInteraction::set_posx(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_posx(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.posX)
-}
-
-// int32 posY = 5;
-inline void PBInteraction::clear_posy() {
-  posy_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_posy() const {
-  return posy_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::posy() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.posY)
-  return _internal_posy();
-}
-inline void PBInteraction::_internal_set_posy(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  posy_ = value;
-}
-inline void PBInteraction::set_posy(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_posy(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.posY)
-}
-
-// repeated string imagePaths = 6;
-inline int PBInteraction::_internal_imagepaths_size() const {
-  return imagepaths_.size();
-}
-inline int PBInteraction::imagepaths_size() const {
-  return _internal_imagepaths_size();
-}
-inline void PBInteraction::clear_imagepaths() {
-  imagepaths_.Clear();
-}
-inline std::string* PBInteraction::add_imagepaths() {
-  // @@protoc_insertion_point(field_add_mutable:PBInteraction.imagePaths)
-  return _internal_add_imagepaths();
-}
-inline const std::string& PBInteraction::_internal_imagepaths(int index) const {
-  return imagepaths_.Get(index);
-}
-inline const std::string& PBInteraction::imagepaths(int index) const {
-  // @@protoc_insertion_point(field_get:PBInteraction.imagePaths)
-  return _internal_imagepaths(index);
-}
-inline std::string* PBInteraction::mutable_imagepaths(int index) {
-  // @@protoc_insertion_point(field_mutable:PBInteraction.imagePaths)
-  return imagepaths_.Mutable(index);
-}
-inline void PBInteraction::set_imagepaths(int index, const std::string& value) {
-  // @@protoc_insertion_point(field_set:PBInteraction.imagePaths)
-  imagepaths_.Mutable(index)->assign(value);
-}
-inline void PBInteraction::set_imagepaths(int index, std::string&& value) {
-  // @@protoc_insertion_point(field_set:PBInteraction.imagePaths)
-  imagepaths_.Mutable(index)->assign(std::move(value));
-}
-inline void PBInteraction::set_imagepaths(int index, const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  imagepaths_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:PBInteraction.imagePaths)
-}
-inline void PBInteraction::set_imagepaths(int index, const char* value, size_t size) {
-  imagepaths_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:PBInteraction.imagePaths)
-}
-inline std::string* PBInteraction::_internal_add_imagepaths() {
-  return imagepaths_.Add();
-}
-inline void PBInteraction::add_imagepaths(const std::string& value) {
-  imagepaths_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:PBInteraction.imagePaths)
-}
-inline void PBInteraction::add_imagepaths(std::string&& value) {
-  imagepaths_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:PBInteraction.imagePaths)
-}
-inline void PBInteraction::add_imagepaths(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  imagepaths_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:PBInteraction.imagePaths)
-}
-inline void PBInteraction::add_imagepaths(const char* value, size_t size) {
-  imagepaths_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:PBInteraction.imagePaths)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-PBInteraction::imagepaths() const {
-  // @@protoc_insertion_point(field_list:PBInteraction.imagePaths)
-  return imagepaths_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-PBInteraction::mutable_imagepaths() {
-  // @@protoc_insertion_point(field_mutable_list:PBInteraction.imagePaths)
-  return &imagepaths_;
-}
-
-// repeated .PBUpgrades upgradeInfo = 7;
-inline int PBInteraction::_internal_upgradeinfo_size() const {
-  return upgradeinfo_.size();
-}
-inline int PBInteraction::upgradeinfo_size() const {
-  return _internal_upgradeinfo_size();
-}
-inline void PBInteraction::clear_upgradeinfo() {
-  upgradeinfo_.Clear();
-}
-inline ::PBUpgrades* PBInteraction::mutable_upgradeinfo(int index) {
-  // @@protoc_insertion_point(field_mutable:PBInteraction.upgradeInfo)
-  return upgradeinfo_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades >*
-PBInteraction::mutable_upgradeinfo() {
-  // @@protoc_insertion_point(field_mutable_list:PBInteraction.upgradeInfo)
-  return &upgradeinfo_;
-}
-inline const ::PBUpgrades& PBInteraction::_internal_upgradeinfo(int index) const {
-  return upgradeinfo_.Get(index);
-}
-inline const ::PBUpgrades& PBInteraction::upgradeinfo(int index) const {
-  // @@protoc_insertion_point(field_get:PBInteraction.upgradeInfo)
-  return _internal_upgradeinfo(index);
-}
-inline ::PBUpgrades* PBInteraction::_internal_add_upgradeinfo() {
-  return upgradeinfo_.Add();
-}
-inline ::PBUpgrades* PBInteraction::add_upgradeinfo() {
-  // @@protoc_insertion_point(field_add:PBInteraction.upgradeInfo)
-  return _internal_add_upgradeinfo();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades >&
-PBInteraction::upgradeinfo() const {
-  // @@protoc_insertion_point(field_list:PBInteraction.upgradeInfo)
-  return upgradeinfo_;
-}
-
-// .PBItemEnum resource = 8;
-inline void PBInteraction::clear_resource() {
-  resource_ = 0;
-}
-inline ::PBItemEnum PBInteraction::_internal_resource() const {
-  return static_cast< ::PBItemEnum >(resource_);
-}
-inline ::PBItemEnum PBInteraction::resource() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.resource)
-  return _internal_resource();
-}
-inline void PBInteraction::_internal_set_resource(::PBItemEnum value) {
-  
-  resource_ = value;
-}
-inline void PBInteraction::set_resource(::PBItemEnum value) {
-  _internal_set_resource(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.resource)
-}
-
-// .PBPlayerSkills postSkill = 9;
-inline void PBInteraction::clear_postskill() {
-  postskill_ = 0;
-}
-inline ::PBPlayerSkills PBInteraction::_internal_postskill() const {
-  return static_cast< ::PBPlayerSkills >(postskill_);
-}
-inline ::PBPlayerSkills PBInteraction::postskill() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.postSkill)
-  return _internal_postskill();
-}
-inline void PBInteraction::_internal_set_postskill(::PBPlayerSkills value) {
-  
-  postskill_ = value;
-}
-inline void PBInteraction::set_postskill(::PBPlayerSkills value) {
-  _internal_set_postskill(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.postSkill)
-}
-
-// int32 interactXp = 10;
-inline void PBInteraction::clear_interactxp() {
-  interactxp_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::_internal_interactxp() const {
-  return interactxp_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBInteraction::interactxp() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.interactXp)
-  return _internal_interactxp();
-}
-inline void PBInteraction::_internal_set_interactxp(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  interactxp_ = value;
-}
-inline void PBInteraction::set_interactxp(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_interactxp(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.interactXp)
-}
-
-// .PBLocationID nextLoc = 11;
-inline void PBInteraction::clear_nextloc() {
-  nextloc_ = 0;
-}
-inline ::PBLocationID PBInteraction::_internal_nextloc() const {
-  return static_cast< ::PBLocationID >(nextloc_);
-}
-inline ::PBLocationID PBInteraction::nextloc() const {
-  // @@protoc_insertion_point(field_get:PBInteraction.nextLoc)
-  return _internal_nextloc();
-}
-inline void PBInteraction::_internal_set_nextloc(::PBLocationID value) {
-  
-  nextloc_ = value;
-}
-inline void PBInteraction::set_nextloc(::PBLocationID value) {
-  _internal_set_nextloc(value);
-  // @@protoc_insertion_point(field_set:PBInteraction.nextLoc)
-}
-
-// -------------------------------------------------------------------
-
 // PBLocation
 
-// .PBLocationID locID = 1;
-inline void PBLocation::clear_locid() {
-  locid_ = 0;
+// .PBLocationID loc_id = 1;
+inline void PBLocation::clear_loc_id() {
+  loc_id_ = 0;
 }
-inline ::PBLocationID PBLocation::_internal_locid() const {
-  return static_cast< ::PBLocationID >(locid_);
+inline ::PBLocationID PBLocation::_internal_loc_id() const {
+  return static_cast< ::PBLocationID >(loc_id_);
 }
-inline ::PBLocationID PBLocation::locid() const {
-  // @@protoc_insertion_point(field_get:PBLocation.locID)
-  return _internal_locid();
+inline ::PBLocationID PBLocation::loc_id() const {
+  // @@protoc_insertion_point(field_get:PBLocation.loc_id)
+  return _internal_loc_id();
 }
-inline void PBLocation::_internal_set_locid(::PBLocationID value) {
+inline void PBLocation::_internal_set_loc_id(::PBLocationID value) {
   
-  locid_ = value;
+  loc_id_ = value;
 }
-inline void PBLocation::set_locid(::PBLocationID value) {
-  _internal_set_locid(value);
-  // @@protoc_insertion_point(field_set:PBLocation.locID)
+inline void PBLocation::set_loc_id(::PBLocationID value) {
+  _internal_set_loc_id(value);
+  // @@protoc_insertion_point(field_set:PBLocation.loc_id)
 }
 
-// int32 databaseId = 2;
-inline void PBLocation::clear_databaseid() {
-  databaseid_ = 0;
+// int32 database_id = 2;
+inline void PBLocation::clear_database_id() {
+  database_id_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBLocation::_internal_databaseid() const {
-  return databaseid_;
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBLocation::_internal_database_id() const {
+  return database_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 PBLocation::databaseid() const {
-  // @@protoc_insertion_point(field_get:PBLocation.databaseId)
-  return _internal_databaseid();
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBLocation::database_id() const {
+  // @@protoc_insertion_point(field_get:PBLocation.database_id)
+  return _internal_database_id();
 }
-inline void PBLocation::_internal_set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void PBLocation::_internal_set_database_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
-  databaseid_ = value;
+  database_id_ = value;
 }
-inline void PBLocation::set_databaseid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_databaseid(value);
-  // @@protoc_insertion_point(field_set:PBLocation.databaseId)
+inline void PBLocation::set_database_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_database_id(value);
+  // @@protoc_insertion_point(field_set:PBLocation.database_id)
 }
 
-// string locImage = 3;
-inline void PBLocation::clear_locimage() {
-  locimage_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+// string loc_image = 3;
+inline void PBLocation::clear_loc_image() {
+  loc_image_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline const std::string& PBLocation::locimage() const {
-  // @@protoc_insertion_point(field_get:PBLocation.locImage)
-  return _internal_locimage();
+inline const std::string& PBLocation::loc_image() const {
+  // @@protoc_insertion_point(field_get:PBLocation.loc_image)
+  return _internal_loc_image();
 }
-inline void PBLocation::set_locimage(const std::string& value) {
-  _internal_set_locimage(value);
-  // @@protoc_insertion_point(field_set:PBLocation.locImage)
+inline void PBLocation::set_loc_image(const std::string& value) {
+  _internal_set_loc_image(value);
+  // @@protoc_insertion_point(field_set:PBLocation.loc_image)
 }
-inline std::string* PBLocation::mutable_locimage() {
-  // @@protoc_insertion_point(field_mutable:PBLocation.locImage)
-  return _internal_mutable_locimage();
+inline std::string* PBLocation::mutable_loc_image() {
+  // @@protoc_insertion_point(field_mutable:PBLocation.loc_image)
+  return _internal_mutable_loc_image();
 }
-inline const std::string& PBLocation::_internal_locimage() const {
-  return locimage_.Get();
+inline const std::string& PBLocation::_internal_loc_image() const {
+  return loc_image_.Get();
 }
-inline void PBLocation::_internal_set_locimage(const std::string& value) {
+inline void PBLocation::_internal_set_loc_image(const std::string& value) {
   
-  locimage_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+  loc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
 }
-inline void PBLocation::set_locimage(std::string&& value) {
+inline void PBLocation::set_loc_image(std::string&& value) {
   
-  locimage_.Set(
+  loc_image_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:PBLocation.locImage)
+  // @@protoc_insertion_point(field_set_rvalue:PBLocation.loc_image)
 }
-inline void PBLocation::set_locimage(const char* value) {
+inline void PBLocation::set_loc_image(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  locimage_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  loc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:PBLocation.locImage)
+  // @@protoc_insertion_point(field_set_char:PBLocation.loc_image)
 }
-inline void PBLocation::set_locimage(const char* value,
+inline void PBLocation::set_loc_image(const char* value,
     size_t size) {
   
-  locimage_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  loc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:PBLocation.locImage)
+  // @@protoc_insertion_point(field_set_pointer:PBLocation.loc_image)
 }
-inline std::string* PBLocation::_internal_mutable_locimage() {
+inline std::string* PBLocation::_internal_mutable_loc_image() {
   
-  return locimage_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  return loc_image_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline std::string* PBLocation::release_locimage() {
-  // @@protoc_insertion_point(field_release:PBLocation.locImage)
-  return locimage_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+inline std::string* PBLocation::release_loc_image() {
+  // @@protoc_insertion_point(field_release:PBLocation.loc_image)
+  return loc_image_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void PBLocation::set_allocated_locimage(std::string* locimage) {
-  if (locimage != nullptr) {
+inline void PBLocation::set_allocated_loc_image(std::string* loc_image) {
+  if (loc_image != nullptr) {
     
   } else {
     
   }
-  locimage_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), locimage,
+  loc_image_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), loc_image,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:PBLocation.locImage)
+  // @@protoc_insertion_point(field_set_allocated:PBLocation.loc_image)
 }
-inline std::string* PBLocation::unsafe_arena_release_locimage() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:PBLocation.locImage)
+inline std::string* PBLocation::unsafe_arena_release_loc_image() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:PBLocation.loc_image)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
-  return locimage_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  return loc_image_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       GetArena());
 }
-inline void PBLocation::unsafe_arena_set_allocated_locimage(
-    std::string* locimage) {
+inline void PBLocation::unsafe_arena_set_allocated_loc_image(
+    std::string* loc_image) {
   GOOGLE_DCHECK(GetArena() != nullptr);
-  if (locimage != nullptr) {
+  if (loc_image != nullptr) {
     
   } else {
     
   }
-  locimage_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      locimage, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBLocation.locImage)
+  loc_image_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      loc_image, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBLocation.loc_image)
 }
 
 // repeated .PBInteraction interactions = 4;
@@ -1766,9 +748,6 @@ inline int PBLocation::_internal_interactions_size() const {
 }
 inline int PBLocation::interactions_size() const {
   return _internal_interactions_size();
-}
-inline void PBLocation::clear_interactions() {
-  interactions_.Clear();
 }
 inline ::PBInteraction* PBLocation::mutable_interactions(int index) {
   // @@protoc_insertion_point(field_mutable:PBLocation.interactions)
@@ -1799,6 +778,304 @@ PBLocation::interactions() const {
   return interactions_;
 }
 
+// -------------------------------------------------------------------
+
+// PBBattleInfo
+
+// bool is_npc = 1;
+inline void PBBattleInfo::clear_is_npc() {
+  is_npc_ = false;
+}
+inline bool PBBattleInfo::_internal_is_npc() const {
+  return is_npc_;
+}
+inline bool PBBattleInfo::is_npc() const {
+  // @@protoc_insertion_point(field_get:PBBattleInfo.is_npc)
+  return _internal_is_npc();
+}
+inline void PBBattleInfo::_internal_set_is_npc(bool value) {
+  
+  is_npc_ = value;
+}
+inline void PBBattleInfo::set_is_npc(bool value) {
+  _internal_set_is_npc(value);
+  // @@protoc_insertion_point(field_set:PBBattleInfo.is_npc)
+}
+
+// .PBPlayer player_info = 2;
+inline bool PBBattleInfo::_internal_has_player_info() const {
+  return this != internal_default_instance() && player_info_ != nullptr;
+}
+inline bool PBBattleInfo::has_player_info() const {
+  return _internal_has_player_info();
+}
+inline const ::PBPlayer& PBBattleInfo::_internal_player_info() const {
+  const ::PBPlayer* p = player_info_;
+  return p != nullptr ? *p : *reinterpret_cast<const ::PBPlayer*>(
+      &::_PBPlayer_default_instance_);
+}
+inline const ::PBPlayer& PBBattleInfo::player_info() const {
+  // @@protoc_insertion_point(field_get:PBBattleInfo.player_info)
+  return _internal_player_info();
+}
+inline void PBBattleInfo::unsafe_arena_set_allocated_player_info(
+    ::PBPlayer* player_info) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(player_info_);
+  }
+  player_info_ = player_info;
+  if (player_info) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBBattleInfo.player_info)
+}
+inline ::PBPlayer* PBBattleInfo::release_player_info() {
+  auto temp = unsafe_arena_release_player_info();
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::PBPlayer* PBBattleInfo::unsafe_arena_release_player_info() {
+  // @@protoc_insertion_point(field_release:PBBattleInfo.player_info)
+  
+  ::PBPlayer* temp = player_info_;
+  player_info_ = nullptr;
+  return temp;
+}
+inline ::PBPlayer* PBBattleInfo::_internal_mutable_player_info() {
+  
+  if (player_info_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PBPlayer>(GetArena());
+    player_info_ = p;
+  }
+  return player_info_;
+}
+inline ::PBPlayer* PBBattleInfo::mutable_player_info() {
+  // @@protoc_insertion_point(field_mutable:PBBattleInfo.player_info)
+  return _internal_mutable_player_info();
+}
+inline void PBBattleInfo::set_allocated_player_info(::PBPlayer* player_info) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(player_info_);
+  }
+  if (player_info) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(player_info)->GetArena();
+    if (message_arena != submessage_arena) {
+      player_info = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, player_info, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  player_info_ = player_info;
+  // @@protoc_insertion_point(field_set_allocated:PBBattleInfo.player_info)
+}
+
+// .PBPlayer enemey_info = 3;
+inline bool PBBattleInfo::_internal_has_enemey_info() const {
+  return this != internal_default_instance() && enemey_info_ != nullptr;
+}
+inline bool PBBattleInfo::has_enemey_info() const {
+  return _internal_has_enemey_info();
+}
+inline const ::PBPlayer& PBBattleInfo::_internal_enemey_info() const {
+  const ::PBPlayer* p = enemey_info_;
+  return p != nullptr ? *p : *reinterpret_cast<const ::PBPlayer*>(
+      &::_PBPlayer_default_instance_);
+}
+inline const ::PBPlayer& PBBattleInfo::enemey_info() const {
+  // @@protoc_insertion_point(field_get:PBBattleInfo.enemey_info)
+  return _internal_enemey_info();
+}
+inline void PBBattleInfo::unsafe_arena_set_allocated_enemey_info(
+    ::PBPlayer* enemey_info) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(enemey_info_);
+  }
+  enemey_info_ = enemey_info;
+  if (enemey_info) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBBattleInfo.enemey_info)
+}
+inline ::PBPlayer* PBBattleInfo::release_enemey_info() {
+  auto temp = unsafe_arena_release_enemey_info();
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::PBPlayer* PBBattleInfo::unsafe_arena_release_enemey_info() {
+  // @@protoc_insertion_point(field_release:PBBattleInfo.enemey_info)
+  
+  ::PBPlayer* temp = enemey_info_;
+  enemey_info_ = nullptr;
+  return temp;
+}
+inline ::PBPlayer* PBBattleInfo::_internal_mutable_enemey_info() {
+  
+  if (enemey_info_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PBPlayer>(GetArena());
+    enemey_info_ = p;
+  }
+  return enemey_info_;
+}
+inline ::PBPlayer* PBBattleInfo::mutable_enemey_info() {
+  // @@protoc_insertion_point(field_mutable:PBBattleInfo.enemey_info)
+  return _internal_mutable_enemey_info();
+}
+inline void PBBattleInfo::set_allocated_enemey_info(::PBPlayer* enemey_info) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(enemey_info_);
+  }
+  if (enemey_info) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(enemey_info)->GetArena();
+    if (message_arena != submessage_arena) {
+      enemey_info = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, enemey_info, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  enemey_info_ = enemey_info;
+  // @@protoc_insertion_point(field_set_allocated:PBBattleInfo.enemey_info)
+}
+
+// -------------------------------------------------------------------
+
+// PBGameState
+
+// repeated .PBLocation locations = 1;
+inline int PBGameState::_internal_locations_size() const {
+  return locations_.size();
+}
+inline int PBGameState::locations_size() const {
+  return _internal_locations_size();
+}
+inline void PBGameState::clear_locations() {
+  locations_.Clear();
+}
+inline ::PBLocation* PBGameState::mutable_locations(int index) {
+  // @@protoc_insertion_point(field_mutable:PBGameState.locations)
+  return locations_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBLocation >*
+PBGameState::mutable_locations() {
+  // @@protoc_insertion_point(field_mutable_list:PBGameState.locations)
+  return &locations_;
+}
+inline const ::PBLocation& PBGameState::_internal_locations(int index) const {
+  return locations_.Get(index);
+}
+inline const ::PBLocation& PBGameState::locations(int index) const {
+  // @@protoc_insertion_point(field_get:PBGameState.locations)
+  return _internal_locations(index);
+}
+inline ::PBLocation* PBGameState::_internal_add_locations() {
+  return locations_.Add();
+}
+inline ::PBLocation* PBGameState::add_locations() {
+  // @@protoc_insertion_point(field_add:PBGameState.locations)
+  return _internal_add_locations();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBLocation >&
+PBGameState::locations() const {
+  // @@protoc_insertion_point(field_list:PBGameState.locations)
+  return locations_;
+}
+
+// .PBBattleInfo battle_info = 2;
+inline bool PBGameState::_internal_has_battle_info() const {
+  return this != internal_default_instance() && battle_info_ != nullptr;
+}
+inline bool PBGameState::has_battle_info() const {
+  return _internal_has_battle_info();
+}
+inline void PBGameState::clear_battle_info() {
+  if (GetArena() == nullptr && battle_info_ != nullptr) {
+    delete battle_info_;
+  }
+  battle_info_ = nullptr;
+}
+inline const ::PBBattleInfo& PBGameState::_internal_battle_info() const {
+  const ::PBBattleInfo* p = battle_info_;
+  return p != nullptr ? *p : *reinterpret_cast<const ::PBBattleInfo*>(
+      &::_PBBattleInfo_default_instance_);
+}
+inline const ::PBBattleInfo& PBGameState::battle_info() const {
+  // @@protoc_insertion_point(field_get:PBGameState.battle_info)
+  return _internal_battle_info();
+}
+inline void PBGameState::unsafe_arena_set_allocated_battle_info(
+    ::PBBattleInfo* battle_info) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(battle_info_);
+  }
+  battle_info_ = battle_info;
+  if (battle_info) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBGameState.battle_info)
+}
+inline ::PBBattleInfo* PBGameState::release_battle_info() {
+  auto temp = unsafe_arena_release_battle_info();
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::PBBattleInfo* PBGameState::unsafe_arena_release_battle_info() {
+  // @@protoc_insertion_point(field_release:PBGameState.battle_info)
+  
+  ::PBBattleInfo* temp = battle_info_;
+  battle_info_ = nullptr;
+  return temp;
+}
+inline ::PBBattleInfo* PBGameState::_internal_mutable_battle_info() {
+  
+  if (battle_info_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PBBattleInfo>(GetArena());
+    battle_info_ = p;
+  }
+  return battle_info_;
+}
+inline ::PBBattleInfo* PBGameState::mutable_battle_info() {
+  // @@protoc_insertion_point(field_mutable:PBGameState.battle_info)
+  return _internal_mutable_battle_info();
+}
+inline void PBGameState::set_allocated_battle_info(::PBBattleInfo* battle_info) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete battle_info_;
+  }
+  if (battle_info) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(battle_info);
+    if (message_arena != submessage_arena) {
+      battle_info = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, battle_info, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  battle_info_ = battle_info;
+  // @@protoc_insertion_point(field_set_allocated:PBGameState.battle_info)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -1806,28 +1083,9 @@ PBLocation::interactions() const {
 
 // -------------------------------------------------------------------
 
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 
-
-PROTOBUF_NAMESPACE_OPEN
-
-template <> struct is_proto_enum< ::PBInteractionType> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::PBInteractionType>() {
-  return ::PBInteractionType_descriptor();
-}
-template <> struct is_proto_enum< ::PBUpgradeType> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::PBUpgradeType>() {
-  return ::PBUpgradeType_descriptor();
-}
-
-PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

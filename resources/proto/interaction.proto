@@ -6,52 +6,56 @@ import "location.proto";
 
 message PBInteraction 
 {
-    repeated PBInteractionType type             = 1;
+    repeated PBInteractionType types            = 1;
     int32 database_id                           = 2;
     string interaction_name                     = 3;
     int32 pos_x                                 = 4;
     int32 pos_y                                 = 5;
 
-    PBPostInteraction post_info                 = 6;
-    PBZoneAccessInteraction zone_access_info    = 7;
-    PBShopInteraction shop_info                 = 8;
-    PBQuestInteraction quest_info               = 9;
-    PBDialogInteraction dialog_info             = 10;
-    PBCustomInteraction deco_info                 = 11;
+    PBPostInteraction post_info                     = 6;
+    PBZoneAccessInteraction zone_access_info        = 7;
+    PBShopInteraction shop_info                     = 8;
+    PBQuestInteraction quest_info                   = 9;
+    PBDialogInteraction dialog_info                 = 10;
+    PBCustomInteraction custom_info                 = 11;
 }
 
 message PBPostInteraction 
 {
-    PBItemEnum resource                     = 1;
+    repeated PBItemData resources           = 1;
     PBPlayerSkills post_skill               = 2;
     int32 interact_xp                       = 3;
     repeated string image_paths             = 4;
-    repeated PBUpgrades upgrades            = 5;
+    bool needs_database                     = 5;
+    repeated PBUpgrades upgrades            = 6;
 
     //Database
-    int32 capacity_upgrade                  = 6;
-    int32 gen_second_upgrade                = 7;
-    int32 fortune_upgrade                   = 8;
-    int32 resource_stored                   = 9;
+    int32 capacity_upgrade                  = 7;
+    int32 gen_second_upgrade                = 9;
+    int32 fortune_upgrade                   = 10;
+    int32 resource_stored                   = 11;
 }
 
 message PBUpgrades 
 {
-    PBUpgradeType statName                  = 1;
+    PBUpgradeType upgrade_type              = 1;
     repeated PBUpgradeInfo info             = 2;
 }
 
 message PBUpgradeInfo 
 {
-    float currentStat                       = 3;
-    repeated PBItemData upRequirements      = 4;
+    float current_stat                      = 3;
+    repeated PBItemData upgrade_req         = 4;
 }
 
 message PBZoneAccessInteraction 
 {
-    PBLocationID nextLoc                        = 1;
-    repeated PBUpgradeInfo unlock_info          = 2;
-    int32 unlock_level                          = 3;
+    PBLocationID next_loc                   = 1;
+    bool needs_database                     = 2;
+    repeated PBUpgradeInfo unlock_info      = 3;
+
+    //database
+    int32 unlock_level                      = 4;
 }
 
 message PBShopInteraction
@@ -61,7 +65,24 @@ message PBShopInteraction
 
 message PBDialogInteraction
 {
+    bool needs_database         = 1;
+    repeated PBDialogInfo info  = 2;
 
+    //database
+    int32 current_dialog        = 3;
+}
+
+message PBDialogInfo 
+{
+    string text     = 1;
+    bool more_text  = 2;
+    repeated PBResponseOption response_options = 3;
+}
+
+message PBResponseOption 
+{
+    string text         = 1;
+    int32 next_text     = 2;
 }
 
 message PBQuestInteraction

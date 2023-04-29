@@ -8,21 +8,23 @@ if(BUILD_TESTS)
     add_executable(${PROJECT_NAME} 
         test/setup.cpp 
         test/db_handler_test.cpp
-        # dcl/img/src/gd_io_stream.cpp
+        test/proto_test.cpp
+        test/core_test.cpp
+        dcl/img/src/gd_io_stream.cpp
     )
     add_definitions(-DTEST_DATABASE)
     find_package(Catch2 3 REQUIRED)
     add_subdirectory(dcl/db)
     add_subdirectory(dcl/db_handler)
     add_subdirectory(dcl/core)
-    # add_subdirectory(dcl/img)
+    add_subdirectory(dcl/img)
     target_link_libraries(
         ${PROJECT_NAME}
         PRIVATE Catch2::Catch2WithMain
         dcl_db
         dcl_db_handler
         dcl_core
-        # dcl_img
+        dcl_img
         protobuf
         pthread
     )
@@ -42,7 +44,7 @@ else()
     add_subdirectory(dcl/db)
     add_subdirectory(dcl/db_handler)
     add_subdirectory(dcl/core)
-    # add_subdirectory(dcl/img)
+    add_subdirectory(dcl/img)
     add_subdirectory(dcl/api)
 
     target_link_libraries(
@@ -52,7 +54,7 @@ else()
         dcl_db
         dcl_db_handler
         dcl_core
-        # dcl_img
+        dcl_img
         pthread
     )
 

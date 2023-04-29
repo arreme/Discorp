@@ -36,12 +36,16 @@ namespace db_handler
 
         void BsonToEquipation(PBEquipation *equipation, bsoncxx::document::view doc);
 
+        bsoncxx::document::value PlayerToBson(const PBPlayer &player);
+
+        void BsonToPlayer(PBPlayer *player, bsoncxx::document::view doc);
+
     public:
         DBUserHandler(PBUser *user);
 
-        bool InsertUser(db::Transaction *t = nullptr);
+        bool InsertUser(db::Transaction *t = nullptr) noexcept;
 
-        bool FindUserCurrentPlayer();
+        bool FindUserCurrentPlayer() noexcept;
     };
 
     

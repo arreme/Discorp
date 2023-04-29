@@ -1525,13 +1525,7 @@ public:
     }
 
     void AddImageText(GD::TrueColor &color, GD::Point &p, int size, std::string &text, bool bold) {
-        std::string font;
-        if (bold)
-        {
-            font = "resources/bold.ttf";
-        } else {
-            font = "resources/regular.ttf";
-        }
+        std::string font = bold ? "resources/fonts/consolab.ttf" : "resources/fonts/consola.ttf";
         StringFT(nullptr,color.Int(),(char*)font.c_str(),size,0,p,text);
     }
 

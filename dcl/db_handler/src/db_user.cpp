@@ -3,6 +3,8 @@
 namespace db_handler 
 {
 
+#pragma region private_methods
+
     bsoncxx::document::value DBUserHandler::SkillsToBson(const PBSkills &skills) 
     {
         bsoncxx::builder::basic::document doc{};
@@ -87,11 +89,35 @@ namespace db_handler
         }
     }
 
+    bsoncxx::document::value DBUserHandler::PlayerToBson(const PBPlayer &player) {
+        return make_document(
+            kvp("guild_id",b_int64{static_cast<int64>(player.guild_id())}),
+            kvp("current_location",b_int32{static_cast<int32>(player.current_location())}),
+            kvp("stats", StatsToBson(player.stats())),
+            kvp("skills",SkillsToBson(player.skills())),
+            kvp("equipation",EquipationToBson(player.equipation())),
+            kvp("gold",b_int64{player.gold()})
+        );
+    }
+
+    void DBUserHandler::BsonToPlayer(PBPlayer *player, bsoncxx::document::view doc) {
+        player->set_guild_id(static_cast<uint64_t>(doc["guild_id"].get_int64())); 
+        player->set_current_location(static_cast<PBLocationID>(static_cast<int32_t>(doc["current_location"].get_int32())));
+        BsonToStats(player->mutable_stats(),doc["stats"].get_document().view());
+        BsonToSkills(player->mutable_skills(),doc["skills"].get_document().view());
+        BsonToEquipation(player->mutable_equipation(),doc["equipation"].get_document().view());
+        player->set_gold(doc["gold"].get_int64());
+    }
+
+#pragma endregion
+
+#pragma region public_methods
+
     DBUserHandler::DBUserHandler(PBUser *user)
     : m_user(user)  
     {};
 
-    bool DBUserHandler::InsertUser(db::Transaction *t) 
+    bool DBUserHandler::InsertUser(db::Transaction *t) noexcept
     {
         if (!m_user) return false;
         bsoncxx::builder::basic::document doc{};
@@ -99,19 +125,11 @@ namespace db_handler
         doc.append(kvp("user_name",b_string{m_user->user_name()}));
         doc.append(kvp("current_player_id",b_int32{m_user->current_player_id()}));
         doc.append(kvp("last_online",b_date{std::chrono::seconds(TimeUtil::TimestampToSeconds(m_user->last_online()))}));
-        
-        auto player = m_user->players(0);
 
         bsoncxx::builder::basic::array players{};
         for (auto const& player : m_user->players())
         {
-            players.append(make_document(
-                kvp("guild_id",b_int64{static_cast<int64>(player.guild_id())}),
-                kvp("current_location",b_int32{static_cast<int32>(player.current_location())}),
-                kvp("stats",StatsToBson(player.stats())),
-                kvp("skills",SkillsToBson(player.skills())),
-                kvp("equipation",EquipationToBson(player.equipation()))
-            ));
+            players.append(PlayerToBson(player));
         }
         doc.append(kvp("players",b_array{players}));
 
@@ -128,7 +146,7 @@ namespace db_handler
         
     }
 
-    bool DBUserHandler::FindUserCurrentPlayer() 
+    bool DBUserHandler::FindUserCurrentPlayer() noexcept
     {
         if (!m_user) return false;
         bsoncxx::builder::basic::document doc{};
@@ -162,21 +180,16 @@ namespace db_handler
                 
                 auto temp = m_user->add_players();
                 auto player_doc = doc["players"].get_document().view();
-                temp->set_guild_id(static_cast<uint64_t>(player_doc["guild_id"].get_int64())); 
-                temp->set_current_location(static_cast<PBLocationID>(static_cast<int32_t>(doc["current_location"].get_int32())));
-                BsonToStats(temp->mutable_stats(),player_doc["stats"].get_document().view());
-                BsonToSkills(temp->mutable_skills(),player_doc["skills"].get_document().view());
-                BsonToEquipation(temp->mutable_equipation(),player_doc["equipation"].get_document().view());
+                BsonToPlayer(temp,player_doc);
+                
             } catch (bsoncxx::exception e) {
                 return false;
             }
-            
-            
-            
-            
             return true;
         }
         return false;
     }
-    
+
+#pragma endregion    
+
 }

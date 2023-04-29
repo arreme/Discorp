@@ -1,0 +1,28 @@
+{
+    "locImage": "/resources",
+    "interactions": [
+        {
+            "type": [
+                "POST"
+            ],
+            "posX": 20,
+            "posY": 10,
+            "postInfo": {
+                "upgrades": [
+                    {
+                        "info": [
+                            {
+                                "currentStat": 40,
+                                "upgradeReq": [
+                                    {
+                                        "quantity": 3
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
