@@ -25,14 +25,14 @@ namespace DCLData
             return interaction.FillInteractionInfo(&m_location.interactions(id));
         }
 
-        const std::string &GetImagePath() const
+        const PBLocation *GetLocation() const
         {
-            return m_location.loc_image();
-        };
+            return &m_location;
+        }
 
-        int GetInteractionSize() const 
+        bool NeedsDatabase() const 
         {
-            return m_location.interactions_size();
+            return m_location.database_id() != -1;
         };
     };
 
@@ -50,6 +50,8 @@ namespace DCLData
                 auto loc_data = PBLocation{};
                 google::protobuf::util::JsonStringToMessage(buffer.str(),&loc_data);
                 PBLocationID loc_id = loc_data.loc_id();
+                std::cout << loc_data.loc_id() << std::endl;
+                std::cout << entry.path() << std::endl;
                 m_locations.emplace(loc_id,std::move(loc_data));
             }
         } 

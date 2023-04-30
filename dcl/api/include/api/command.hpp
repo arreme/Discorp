@@ -27,13 +27,6 @@ public:
         CreateGameRequest request{target.id,target.username};
         dpp::message m;
         request.FillResponse(m);
-        /*if (result == gm::Errors::SUCCESS) 
-        {
-            message = "Account succesfully loaded! Enjoy your stay on Discland! You can start your adventure by using /photo and see your surroundings!";
-        } else {
-            message = "Could not start a new account";
-        } */
-
         event->reply(m);
     }
 

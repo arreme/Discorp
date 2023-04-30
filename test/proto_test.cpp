@@ -8,7 +8,7 @@
 TEST_CASE("Protobuf: Creating data","[proto][test_1]") 
 {   
     PBLocation test_location{};
-    test_location.set_loc_id(PBLocationID::MAIN_BASE);
+    test_location.set_loc_id(PBLocationID::GUILD_ENTRANCE_WEST);
     test_location.set_database_id(0);
     test_location.set_loc_image("/resources");
     auto int_1 = test_location.add_interactions();

@@ -1,8 +1,9 @@
 {
+    "locId": "GUILD_ENTRANCE_WEST",
     "locImage": "/resources",
     "interactions": [
         {
-            "type": [
+            "types": [
                 "POST"
             ],
             "posX": 20,

@@ -1,44 +1,26 @@
 {
-    "locId": "MAIN_BASE",
-    "databaseId": 0,
+    "locId": "GUILD_ENTRANCE_WEST",
+    "databaseId": 1,
     "locImage": "/resources",
     "interactions": [
         {
             "types": [
-                "POST",
+                "ZONE_ACCESS",
                 "DIALOG"
             ],
-            "databaseId": 0,
+            "databaseId": -1,
             "interactionName": "bush",
             "posX": 20,
             "posY": 10,
             "mapIconPaths": [
                 "resources/assets/"
             ],
-            "postInfo": {
-                "resources": [
+            "zoneAccessInfo": {
+                "nextLoc": "MAIN_BASE",
+                "needsDatabase": false,
+                "unlockInfo": [
                     {
-                        "itemId": "STICK",
-                        "quantity": 100
-                    }
-                ],
-                "postSkill": "FORAGE",
-                "interactXp": 2,
-                "needsDatabase": true,
-                "upgrades": [
-                    {
-                        "upgradeType": "CAPACITY",
-                        "info": [
-                            {
-                                "currentStat": 40,
-                                "upgradeReq": [
-                                    {
-                                        "itemId": "STICK",
-                                        "quantity": 3
-                                    }
-                                ]
-                            }
-                        ]
+                        "currentStat": 1
                     }
                 ]
             },
@@ -46,13 +28,13 @@
                 "needsDatabase": false,
                 "info": [
                     {
-                        "text": "This bush seems to give me STICKS",
+                        "text": "This can bring me back to my base",
+                        "more_text": false,
                         "npcImage": "resources/assets/",
-                        "moreText": false,
-                        "responseOptions": [
+                        "response_options": [
                             {
                                 "text": "Sweet!",
-                                "nextText": 0
+                                "next_text": 0
                             }
                         ]
                     }
@@ -72,7 +54,7 @@
                 "resources/assets/"
             ],
             "zoneAccessInfo": {
-                "nextLoc": "GUILD_ENTRANCE_WEST",
+                "nextLoc": "GUILD",
                 "needsDatabase": true,
                 "unlockInfo": [
                     {
@@ -93,7 +75,7 @@
                 "needsDatabase": false,
                 "info": [
                     {
-                        "text": "With this road I can go to the town!",
+                        "text": "This can bring me back to my base",
                         "more_text": false,
                         "npcImage": "resources/assets/",
                         "response_options": [

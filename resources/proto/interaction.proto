@@ -11,13 +11,14 @@ message PBInteraction
     string interaction_name                     = 3;
     int32 pos_x                                 = 4;
     int32 pos_y                                 = 5;
+    repeated string map_icon_paths                = 6;
 
-    PBPostInteraction post_info                     = 6;
-    PBZoneAccessInteraction zone_access_info        = 7;
-    PBShopInteraction shop_info                     = 8;
-    PBQuestInteraction quest_info                   = 9;
-    PBDialogInteraction dialog_info                 = 10;
-    PBCustomInteraction custom_info                 = 11;
+    PBPostInteraction post_info                     = 7;
+    PBZoneAccessInteraction zone_access_info        = 8;
+    PBShopInteraction shop_info                     = 9;
+    PBQuestInteraction quest_info                   = 10;
+    PBDialogInteraction dialog_info                 = 11;
+    PBCustomInteraction custom_info                 = 12;
 }
 
 message PBPostInteraction 
@@ -25,15 +26,14 @@ message PBPostInteraction
     repeated PBItemData resources           = 1;
     PBPlayerSkills post_skill               = 2;
     int32 interact_xp                       = 3;
-    repeated string image_paths             = 4;
-    bool needs_database                     = 5;
-    repeated PBUpgrades upgrades            = 6;
+    bool needs_database                     = 4;
+    repeated PBUpgrades upgrades            = 5;
 
     //Database
-    int32 capacity_upgrade                  = 7;
-    int32 gen_second_upgrade                = 9;
-    int32 fortune_upgrade                   = 10;
-    int32 resource_stored                   = 11;
+    int32 capacity_upgrade                  = 6;
+    int32 gen_second_upgrade                = 7;
+    int32 fortune_upgrade                   = 8;
+    int32 resource_stored                   = 9;
 }
 
 message PBUpgrades 
@@ -74,9 +74,10 @@ message PBDialogInteraction
 
 message PBDialogInfo 
 {
-    string text     = 1;
-    bool more_text  = 2;
-    repeated PBResponseOption response_options = 3;
+    string text                                 = 1;
+    string npc_image                            = 2;
+    bool more_text                              = 3;
+    repeated PBResponseOption response_options  = 4;
 }
 
 message PBResponseOption 

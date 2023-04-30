@@ -58,8 +58,8 @@ PROTOBUF_NAMESPACE_CLOSE
 
 enum PBLocationID : int {
   MAIN_BASE = 0,
-  TOWN_ENTRANCE = 1,
-  TOWN = 2,
+  GUILD_ENTRANCE_WEST = 1,
+  GUILD = 2,
   MINES_ENTRANCE = 3,
   START_ROUTE = 4,
   PBLocationID_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),

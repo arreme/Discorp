@@ -1,8 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <core/pb/player.pb.h>
 #include <db_handler/db_user.hpp>
+#include <db_handler/db_location.hpp>
 
-TEST_CASE("User Database Handler Testing","[db_players]") 
+TEST_CASE("User Database Handler Testing","[db_user]") 
 {   
     PBUser user;
     user.set_discord_id(0);
@@ -29,4 +30,16 @@ TEST_CASE("User Database Handler Testing","[db_players]")
     REQUIRE(player->guild_id()==10);
     REQUIRE(player->equipation().attacks_size() == 1);
     REQUIRE(player->equipation().attacks(0) == PBItemEnum::KICK);
+};
+
+
+TEST_CASE("Inserting location","[db_location][test_4]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"game_state", make_document()};
+    del_op_pla.ExecuteOperation();
+    PBUser user;
+    user.set_discord_id(0);
+    user.set_current_player_id(1);
+    db_handler::DBLocationHandler::InsertNewLocation(user,DCLData::DCLMap::getInstance().GetLocation(PBLocationID::MAIN_BASE));
+    db_handler::DBLocationHandler::InsertNewLocation(user,DCLData::DCLMap::getInstance().GetLocation(PBLocationID::GUILD_ENTRANCE_WEST));
 }

@@ -12,3 +12,4 @@ TEST_CASE("Load Map Correctly from data folder","[core][test_3]")
     DCLInteractions::DCLPostInteraction post{};
     REQUIRE(main_base->GetInteraction(post,0));
 }
+

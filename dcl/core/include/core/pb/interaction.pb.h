@@ -276,13 +276,14 @@ class PBInteraction PROTOBUF_FINAL :
 
   enum : int {
     kTypesFieldNumber = 1,
+    kMapIconPathsFieldNumber = 6,
     kInteractionNameFieldNumber = 3,
-    kPostInfoFieldNumber = 6,
-    kZoneAccessInfoFieldNumber = 7,
-    kShopInfoFieldNumber = 8,
-    kQuestInfoFieldNumber = 9,
-    kDialogInfoFieldNumber = 10,
-    kCustomInfoFieldNumber = 11,
+    kPostInfoFieldNumber = 7,
+    kZoneAccessInfoFieldNumber = 8,
+    kShopInfoFieldNumber = 9,
+    kQuestInfoFieldNumber = 10,
+    kDialogInfoFieldNumber = 11,
+    kCustomInfoFieldNumber = 12,
     kDatabaseIdFieldNumber = 2,
     kPosXFieldNumber = 4,
     kPosYFieldNumber = 5,
@@ -303,6 +304,30 @@ class PBInteraction PROTOBUF_FINAL :
   void add_types(::PBInteractionType value);
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& types() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_types();
+
+  // repeated string map_icon_paths = 6;
+  int map_icon_paths_size() const;
+  private:
+  int _internal_map_icon_paths_size() const;
+  public:
+  void clear_map_icon_paths();
+  const std::string& map_icon_paths(int index) const;
+  std::string* mutable_map_icon_paths(int index);
+  void set_map_icon_paths(int index, const std::string& value);
+  void set_map_icon_paths(int index, std::string&& value);
+  void set_map_icon_paths(int index, const char* value);
+  void set_map_icon_paths(int index, const char* value, size_t size);
+  std::string* add_map_icon_paths();
+  void add_map_icon_paths(const std::string& value);
+  void add_map_icon_paths(std::string&& value);
+  void add_map_icon_paths(const char* value);
+  void add_map_icon_paths(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& map_icon_paths() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_map_icon_paths();
+  private:
+  const std::string& _internal_map_icon_paths(int index) const;
+  std::string* _internal_add_map_icon_paths();
+  public:
 
   // string interaction_name = 3;
   void clear_interaction_name();
@@ -329,7 +354,7 @@ class PBInteraction PROTOBUF_FINAL :
   std::string* _internal_mutable_interaction_name();
   public:
 
-  // .PBPostInteraction post_info = 6;
+  // .PBPostInteraction post_info = 7;
   bool has_post_info() const;
   private:
   bool _internal_has_post_info() const;
@@ -347,7 +372,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBPostInteraction* post_info);
   ::PBPostInteraction* unsafe_arena_release_post_info();
 
-  // .PBZoneAccessInteraction zone_access_info = 7;
+  // .PBZoneAccessInteraction zone_access_info = 8;
   bool has_zone_access_info() const;
   private:
   bool _internal_has_zone_access_info() const;
@@ -365,7 +390,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBZoneAccessInteraction* zone_access_info);
   ::PBZoneAccessInteraction* unsafe_arena_release_zone_access_info();
 
-  // .PBShopInteraction shop_info = 8;
+  // .PBShopInteraction shop_info = 9;
   bool has_shop_info() const;
   private:
   bool _internal_has_shop_info() const;
@@ -383,7 +408,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBShopInteraction* shop_info);
   ::PBShopInteraction* unsafe_arena_release_shop_info();
 
-  // .PBQuestInteraction quest_info = 9;
+  // .PBQuestInteraction quest_info = 10;
   bool has_quest_info() const;
   private:
   bool _internal_has_quest_info() const;
@@ -401,7 +426,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBQuestInteraction* quest_info);
   ::PBQuestInteraction* unsafe_arena_release_quest_info();
 
-  // .PBDialogInteraction dialog_info = 10;
+  // .PBDialogInteraction dialog_info = 11;
   bool has_dialog_info() const;
   private:
   bool _internal_has_dialog_info() const;
@@ -419,7 +444,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBDialogInteraction* dialog_info);
   ::PBDialogInteraction* unsafe_arena_release_dialog_info();
 
-  // .PBCustomInteraction custom_info = 11;
+  // .PBCustomInteraction custom_info = 12;
   bool has_custom_info() const;
   private:
   bool _internal_has_custom_info() const;
@@ -473,6 +498,7 @@ class PBInteraction PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> types_;
   mutable std::atomic<int> _types_cached_byte_size_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> map_icon_paths_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr interaction_name_;
   ::PBPostInteraction* post_info_;
   ::PBZoneAccessInteraction* zone_access_info_;
@@ -602,15 +628,14 @@ class PBPostInteraction PROTOBUF_FINAL :
 
   enum : int {
     kResourcesFieldNumber = 1,
-    kImagePathsFieldNumber = 4,
-    kUpgradesFieldNumber = 6,
+    kUpgradesFieldNumber = 5,
     kPostSkillFieldNumber = 2,
     kInteractXpFieldNumber = 3,
-    kNeedsDatabaseFieldNumber = 5,
-    kCapacityUpgradeFieldNumber = 7,
-    kGenSecondUpgradeFieldNumber = 9,
-    kFortuneUpgradeFieldNumber = 10,
-    kResourceStoredFieldNumber = 11,
+    kNeedsDatabaseFieldNumber = 4,
+    kCapacityUpgradeFieldNumber = 6,
+    kGenSecondUpgradeFieldNumber = 7,
+    kFortuneUpgradeFieldNumber = 8,
+    kResourceStoredFieldNumber = 9,
   };
   // repeated .PBItemData resources = 1;
   int resources_size() const;
@@ -630,31 +655,7 @@ class PBPostInteraction PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData >&
       resources() const;
 
-  // repeated string image_paths = 4;
-  int image_paths_size() const;
-  private:
-  int _internal_image_paths_size() const;
-  public:
-  void clear_image_paths();
-  const std::string& image_paths(int index) const;
-  std::string* mutable_image_paths(int index);
-  void set_image_paths(int index, const std::string& value);
-  void set_image_paths(int index, std::string&& value);
-  void set_image_paths(int index, const char* value);
-  void set_image_paths(int index, const char* value, size_t size);
-  std::string* add_image_paths();
-  void add_image_paths(const std::string& value);
-  void add_image_paths(std::string&& value);
-  void add_image_paths(const char* value);
-  void add_image_paths(const char* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& image_paths() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_image_paths();
-  private:
-  const std::string& _internal_image_paths(int index) const;
-  std::string* _internal_add_image_paths();
-  public:
-
-  // repeated .PBUpgrades upgrades = 6;
+  // repeated .PBUpgrades upgrades = 5;
   int upgrades_size() const;
   private:
   int _internal_upgrades_size() const;
@@ -690,7 +691,7 @@ class PBPostInteraction PROTOBUF_FINAL :
   void _internal_set_interact_xp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // bool needs_database = 5;
+  // bool needs_database = 4;
   void clear_needs_database();
   bool needs_database() const;
   void set_needs_database(bool value);
@@ -699,7 +700,7 @@ class PBPostInteraction PROTOBUF_FINAL :
   void _internal_set_needs_database(bool value);
   public:
 
-  // int32 capacity_upgrade = 7;
+  // int32 capacity_upgrade = 6;
   void clear_capacity_upgrade();
   ::PROTOBUF_NAMESPACE_ID::int32 capacity_upgrade() const;
   void set_capacity_upgrade(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -708,7 +709,7 @@ class PBPostInteraction PROTOBUF_FINAL :
   void _internal_set_capacity_upgrade(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 gen_second_upgrade = 9;
+  // int32 gen_second_upgrade = 7;
   void clear_gen_second_upgrade();
   ::PROTOBUF_NAMESPACE_ID::int32 gen_second_upgrade() const;
   void set_gen_second_upgrade(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -717,7 +718,7 @@ class PBPostInteraction PROTOBUF_FINAL :
   void _internal_set_gen_second_upgrade(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 fortune_upgrade = 10;
+  // int32 fortune_upgrade = 8;
   void clear_fortune_upgrade();
   ::PROTOBUF_NAMESPACE_ID::int32 fortune_upgrade() const;
   void set_fortune_upgrade(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -726,7 +727,7 @@ class PBPostInteraction PROTOBUF_FINAL :
   void _internal_set_fortune_upgrade(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 resource_stored = 11;
+  // int32 resource_stored = 9;
   void clear_resource_stored();
   ::PROTOBUF_NAMESPACE_ID::int32 resource_stored() const;
   void set_resource_stored(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -743,7 +744,6 @@ class PBPostInteraction PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData > resources_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> image_paths_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades > upgrades_;
   int post_skill_;
   ::PROTOBUF_NAMESPACE_ID::int32 interact_xp_;
@@ -1655,11 +1655,12 @@ class PBDialogInfo PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kResponseOptionsFieldNumber = 3,
+    kResponseOptionsFieldNumber = 4,
     kTextFieldNumber = 1,
-    kMoreTextFieldNumber = 2,
+    kNpcImageFieldNumber = 2,
+    kMoreTextFieldNumber = 3,
   };
-  // repeated .PBResponseOption response_options = 3;
+  // repeated .PBResponseOption response_options = 4;
   int response_options_size() const;
   private:
   int _internal_response_options_size() const;
@@ -1702,7 +1703,32 @@ class PBDialogInfo PROTOBUF_FINAL :
   std::string* _internal_mutable_text();
   public:
 
-  // bool more_text = 2;
+  // string npc_image = 2;
+  void clear_npc_image();
+  const std::string& npc_image() const;
+  void set_npc_image(const std::string& value);
+  void set_npc_image(std::string&& value);
+  void set_npc_image(const char* value);
+  void set_npc_image(const char* value, size_t size);
+  std::string* mutable_npc_image();
+  std::string* release_npc_image();
+  void set_allocated_npc_image(std::string* npc_image);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_npc_image();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_npc_image(
+      std::string* npc_image);
+  private:
+  const std::string& _internal_npc_image() const;
+  void _internal_set_npc_image(const std::string& value);
+  std::string* _internal_mutable_npc_image();
+  public:
+
+  // bool more_text = 3;
   void clear_more_text();
   bool more_text() const;
   void set_more_text(bool value);
@@ -1720,6 +1746,7 @@ class PBDialogInfo PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBResponseOption > response_options_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr text_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr npc_image_;
   bool more_text_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_interaction_2eproto;
@@ -2331,7 +2358,81 @@ inline void PBInteraction::set_pos_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:PBInteraction.pos_y)
 }
 
-// .PBPostInteraction post_info = 6;
+// repeated string map_icon_paths = 6;
+inline int PBInteraction::_internal_map_icon_paths_size() const {
+  return map_icon_paths_.size();
+}
+inline int PBInteraction::map_icon_paths_size() const {
+  return _internal_map_icon_paths_size();
+}
+inline void PBInteraction::clear_map_icon_paths() {
+  map_icon_paths_.Clear();
+}
+inline std::string* PBInteraction::add_map_icon_paths() {
+  // @@protoc_insertion_point(field_add_mutable:PBInteraction.map_icon_paths)
+  return _internal_add_map_icon_paths();
+}
+inline const std::string& PBInteraction::_internal_map_icon_paths(int index) const {
+  return map_icon_paths_.Get(index);
+}
+inline const std::string& PBInteraction::map_icon_paths(int index) const {
+  // @@protoc_insertion_point(field_get:PBInteraction.map_icon_paths)
+  return _internal_map_icon_paths(index);
+}
+inline std::string* PBInteraction::mutable_map_icon_paths(int index) {
+  // @@protoc_insertion_point(field_mutable:PBInteraction.map_icon_paths)
+  return map_icon_paths_.Mutable(index);
+}
+inline void PBInteraction::set_map_icon_paths(int index, const std::string& value) {
+  // @@protoc_insertion_point(field_set:PBInteraction.map_icon_paths)
+  map_icon_paths_.Mutable(index)->assign(value);
+}
+inline void PBInteraction::set_map_icon_paths(int index, std::string&& value) {
+  // @@protoc_insertion_point(field_set:PBInteraction.map_icon_paths)
+  map_icon_paths_.Mutable(index)->assign(std::move(value));
+}
+inline void PBInteraction::set_map_icon_paths(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  map_icon_paths_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:PBInteraction.map_icon_paths)
+}
+inline void PBInteraction::set_map_icon_paths(int index, const char* value, size_t size) {
+  map_icon_paths_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:PBInteraction.map_icon_paths)
+}
+inline std::string* PBInteraction::_internal_add_map_icon_paths() {
+  return map_icon_paths_.Add();
+}
+inline void PBInteraction::add_map_icon_paths(const std::string& value) {
+  map_icon_paths_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:PBInteraction.map_icon_paths)
+}
+inline void PBInteraction::add_map_icon_paths(std::string&& value) {
+  map_icon_paths_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:PBInteraction.map_icon_paths)
+}
+inline void PBInteraction::add_map_icon_paths(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  map_icon_paths_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:PBInteraction.map_icon_paths)
+}
+inline void PBInteraction::add_map_icon_paths(const char* value, size_t size) {
+  map_icon_paths_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:PBInteraction.map_icon_paths)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+PBInteraction::map_icon_paths() const {
+  // @@protoc_insertion_point(field_list:PBInteraction.map_icon_paths)
+  return map_icon_paths_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+PBInteraction::mutable_map_icon_paths() {
+  // @@protoc_insertion_point(field_mutable_list:PBInteraction.map_icon_paths)
+  return &map_icon_paths_;
+}
+
+// .PBPostInteraction post_info = 7;
 inline bool PBInteraction::_internal_has_post_info() const {
   return this != internal_default_instance() && post_info_ != nullptr;
 }
@@ -2412,7 +2513,7 @@ inline void PBInteraction::set_allocated_post_info(::PBPostInteraction* post_inf
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.post_info)
 }
 
-// .PBZoneAccessInteraction zone_access_info = 7;
+// .PBZoneAccessInteraction zone_access_info = 8;
 inline bool PBInteraction::_internal_has_zone_access_info() const {
   return this != internal_default_instance() && zone_access_info_ != nullptr;
 }
@@ -2493,7 +2594,7 @@ inline void PBInteraction::set_allocated_zone_access_info(::PBZoneAccessInteract
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.zone_access_info)
 }
 
-// .PBShopInteraction shop_info = 8;
+// .PBShopInteraction shop_info = 9;
 inline bool PBInteraction::_internal_has_shop_info() const {
   return this != internal_default_instance() && shop_info_ != nullptr;
 }
@@ -2574,7 +2675,7 @@ inline void PBInteraction::set_allocated_shop_info(::PBShopInteraction* shop_inf
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.shop_info)
 }
 
-// .PBQuestInteraction quest_info = 9;
+// .PBQuestInteraction quest_info = 10;
 inline bool PBInteraction::_internal_has_quest_info() const {
   return this != internal_default_instance() && quest_info_ != nullptr;
 }
@@ -2655,7 +2756,7 @@ inline void PBInteraction::set_allocated_quest_info(::PBQuestInteraction* quest_
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.quest_info)
 }
 
-// .PBDialogInteraction dialog_info = 10;
+// .PBDialogInteraction dialog_info = 11;
 inline bool PBInteraction::_internal_has_dialog_info() const {
   return this != internal_default_instance() && dialog_info_ != nullptr;
 }
@@ -2736,7 +2837,7 @@ inline void PBInteraction::set_allocated_dialog_info(::PBDialogInteraction* dial
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.dialog_info)
 }
 
-// .PBCustomInteraction custom_info = 11;
+// .PBCustomInteraction custom_info = 12;
 inline bool PBInteraction::_internal_has_custom_info() const {
   return this != internal_default_instance() && custom_info_ != nullptr;
 }
@@ -2897,81 +2998,7 @@ inline void PBPostInteraction::set_interact_xp(::PROTOBUF_NAMESPACE_ID::int32 va
   // @@protoc_insertion_point(field_set:PBPostInteraction.interact_xp)
 }
 
-// repeated string image_paths = 4;
-inline int PBPostInteraction::_internal_image_paths_size() const {
-  return image_paths_.size();
-}
-inline int PBPostInteraction::image_paths_size() const {
-  return _internal_image_paths_size();
-}
-inline void PBPostInteraction::clear_image_paths() {
-  image_paths_.Clear();
-}
-inline std::string* PBPostInteraction::add_image_paths() {
-  // @@protoc_insertion_point(field_add_mutable:PBPostInteraction.image_paths)
-  return _internal_add_image_paths();
-}
-inline const std::string& PBPostInteraction::_internal_image_paths(int index) const {
-  return image_paths_.Get(index);
-}
-inline const std::string& PBPostInteraction::image_paths(int index) const {
-  // @@protoc_insertion_point(field_get:PBPostInteraction.image_paths)
-  return _internal_image_paths(index);
-}
-inline std::string* PBPostInteraction::mutable_image_paths(int index) {
-  // @@protoc_insertion_point(field_mutable:PBPostInteraction.image_paths)
-  return image_paths_.Mutable(index);
-}
-inline void PBPostInteraction::set_image_paths(int index, const std::string& value) {
-  // @@protoc_insertion_point(field_set:PBPostInteraction.image_paths)
-  image_paths_.Mutable(index)->assign(value);
-}
-inline void PBPostInteraction::set_image_paths(int index, std::string&& value) {
-  // @@protoc_insertion_point(field_set:PBPostInteraction.image_paths)
-  image_paths_.Mutable(index)->assign(std::move(value));
-}
-inline void PBPostInteraction::set_image_paths(int index, const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  image_paths_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:PBPostInteraction.image_paths)
-}
-inline void PBPostInteraction::set_image_paths(int index, const char* value, size_t size) {
-  image_paths_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:PBPostInteraction.image_paths)
-}
-inline std::string* PBPostInteraction::_internal_add_image_paths() {
-  return image_paths_.Add();
-}
-inline void PBPostInteraction::add_image_paths(const std::string& value) {
-  image_paths_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:PBPostInteraction.image_paths)
-}
-inline void PBPostInteraction::add_image_paths(std::string&& value) {
-  image_paths_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:PBPostInteraction.image_paths)
-}
-inline void PBPostInteraction::add_image_paths(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  image_paths_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:PBPostInteraction.image_paths)
-}
-inline void PBPostInteraction::add_image_paths(const char* value, size_t size) {
-  image_paths_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:PBPostInteraction.image_paths)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-PBPostInteraction::image_paths() const {
-  // @@protoc_insertion_point(field_list:PBPostInteraction.image_paths)
-  return image_paths_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-PBPostInteraction::mutable_image_paths() {
-  // @@protoc_insertion_point(field_mutable_list:PBPostInteraction.image_paths)
-  return &image_paths_;
-}
-
-// bool needs_database = 5;
+// bool needs_database = 4;
 inline void PBPostInteraction::clear_needs_database() {
   needs_database_ = false;
 }
@@ -2991,7 +3018,7 @@ inline void PBPostInteraction::set_needs_database(bool value) {
   // @@protoc_insertion_point(field_set:PBPostInteraction.needs_database)
 }
 
-// repeated .PBUpgrades upgrades = 6;
+// repeated .PBUpgrades upgrades = 5;
 inline int PBPostInteraction::_internal_upgrades_size() const {
   return upgrades_.size();
 }
@@ -3030,7 +3057,7 @@ PBPostInteraction::upgrades() const {
   return upgrades_;
 }
 
-// int32 capacity_upgrade = 7;
+// int32 capacity_upgrade = 6;
 inline void PBPostInteraction::clear_capacity_upgrade() {
   capacity_upgrade_ = 0;
 }
@@ -3050,7 +3077,7 @@ inline void PBPostInteraction::set_capacity_upgrade(::PROTOBUF_NAMESPACE_ID::int
   // @@protoc_insertion_point(field_set:PBPostInteraction.capacity_upgrade)
 }
 
-// int32 gen_second_upgrade = 9;
+// int32 gen_second_upgrade = 7;
 inline void PBPostInteraction::clear_gen_second_upgrade() {
   gen_second_upgrade_ = 0;
 }
@@ -3070,7 +3097,7 @@ inline void PBPostInteraction::set_gen_second_upgrade(::PROTOBUF_NAMESPACE_ID::i
   // @@protoc_insertion_point(field_set:PBPostInteraction.gen_second_upgrade)
 }
 
-// int32 fortune_upgrade = 10;
+// int32 fortune_upgrade = 8;
 inline void PBPostInteraction::clear_fortune_upgrade() {
   fortune_upgrade_ = 0;
 }
@@ -3090,7 +3117,7 @@ inline void PBPostInteraction::set_fortune_upgrade(::PROTOBUF_NAMESPACE_ID::int3
   // @@protoc_insertion_point(field_set:PBPostInteraction.fortune_upgrade)
 }
 
-// int32 resource_stored = 11;
+// int32 resource_stored = 9;
 inline void PBPostInteraction::clear_resource_stored() {
   resource_stored_ = 0;
 }
@@ -3508,7 +3535,88 @@ inline void PBDialogInfo::unsafe_arena_set_allocated_text(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBDialogInfo.text)
 }
 
-// bool more_text = 2;
+// string npc_image = 2;
+inline void PBDialogInfo::clear_npc_image() {
+  npc_image_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PBDialogInfo::npc_image() const {
+  // @@protoc_insertion_point(field_get:PBDialogInfo.npc_image)
+  return _internal_npc_image();
+}
+inline void PBDialogInfo::set_npc_image(const std::string& value) {
+  _internal_set_npc_image(value);
+  // @@protoc_insertion_point(field_set:PBDialogInfo.npc_image)
+}
+inline std::string* PBDialogInfo::mutable_npc_image() {
+  // @@protoc_insertion_point(field_mutable:PBDialogInfo.npc_image)
+  return _internal_mutable_npc_image();
+}
+inline const std::string& PBDialogInfo::_internal_npc_image() const {
+  return npc_image_.Get();
+}
+inline void PBDialogInfo::_internal_set_npc_image(const std::string& value) {
+  
+  npc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PBDialogInfo::set_npc_image(std::string&& value) {
+  
+  npc_image_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:PBDialogInfo.npc_image)
+}
+inline void PBDialogInfo::set_npc_image(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  npc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:PBDialogInfo.npc_image)
+}
+inline void PBDialogInfo::set_npc_image(const char* value,
+    size_t size) {
+  
+  npc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:PBDialogInfo.npc_image)
+}
+inline std::string* PBDialogInfo::_internal_mutable_npc_image() {
+  
+  return npc_image_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PBDialogInfo::release_npc_image() {
+  // @@protoc_insertion_point(field_release:PBDialogInfo.npc_image)
+  return npc_image_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PBDialogInfo::set_allocated_npc_image(std::string* npc_image) {
+  if (npc_image != nullptr) {
+    
+  } else {
+    
+  }
+  npc_image_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), npc_image,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:PBDialogInfo.npc_image)
+}
+inline std::string* PBDialogInfo::unsafe_arena_release_npc_image() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:PBDialogInfo.npc_image)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return npc_image_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PBDialogInfo::unsafe_arena_set_allocated_npc_image(
+    std::string* npc_image) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (npc_image != nullptr) {
+    
+  } else {
+    
+  }
+  npc_image_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      npc_image, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBDialogInfo.npc_image)
+}
+
+// bool more_text = 3;
 inline void PBDialogInfo::clear_more_text() {
   more_text_ = false;
 }
@@ -3528,7 +3636,7 @@ inline void PBDialogInfo::set_more_text(bool value) {
   // @@protoc_insertion_point(field_set:PBDialogInfo.more_text)
 }
 
-// repeated .PBResponseOption response_options = 3;
+// repeated .PBResponseOption response_options = 4;
 inline int PBDialogInfo::_internal_response_options_size() const {
   return response_options_.size();
 }
