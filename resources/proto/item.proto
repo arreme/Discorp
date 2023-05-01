@@ -25,7 +25,7 @@ enum PBItemEnum
     PUNCH                   = 1000;
     KICK                    = 1001;
 
-    WOODEN_SWORD           = 2000;
+    WOODEN_SWORD            = 2000;
 
     WOODEN_HELMET           = 3000;
 }

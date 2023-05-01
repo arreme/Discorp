@@ -86,9 +86,10 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_map_2eproto::offsets[] PROTOBU
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::PBLocation, loc_id_),
+  PROTOBUF_FIELD_OFFSET(::PBLocation, id_),
   PROTOBUF_FIELD_OFFSET(::PBLocation, database_id_),
-  PROTOBUF_FIELD_OFFSET(::PBLocation, loc_image_),
+  PROTOBUF_FIELD_OFFSET(::PBLocation, image_),
+  PROTOBUF_FIELD_OFFSET(::PBLocation, name_),
   PROTOBUF_FIELD_OFFSET(::PBLocation, interactions_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::PBBattleInfo, _internal_metadata_),
@@ -108,8 +109,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_map_2eproto::offsets[] PROTOBU
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::PBLocation)},
-  { 9, -1, sizeof(::PBBattleInfo)},
-  { 17, -1, sizeof(::PBGameState)},
+  { 10, -1, sizeof(::PBBattleInfo)},
+  { 18, -1, sizeof(::PBGameState)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -120,15 +121,15 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_map_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\tmap.proto\032\016location.proto\032\021interaction"
-  ".proto\032\014player.proto\"y\n\nPBLocation\022\035\n\006lo"
-  "c_id\030\001 \001(\0162\r.PBLocationID\022\023\n\013database_id"
-  "\030\002 \001(\005\022\021\n\tloc_image\030\003 \001(\t\022$\n\014interaction"
-  "s\030\004 \003(\0132\016.PBInteraction\"^\n\014PBBattleInfo\022"
-  "\016\n\006is_npc\030\001 \001(\010\022\036\n\013player_info\030\002 \001(\0132\t.P"
-  "BPlayer\022\036\n\013enemey_info\030\003 \001(\0132\t.PBPlayer\""
-  "Q\n\013PBGameState\022\036\n\tlocations\030\001 \003(\0132\013.PBLo"
-  "cation\022\"\n\013battle_info\030\002 \001(\0132\r.PBBattleIn"
-  "fob\006proto3"
+  ".proto\032\014player.proto\"\177\n\nPBLocation\022\031\n\002id"
+  "\030\001 \001(\0162\r.PBLocationID\022\023\n\013database_id\030\002 \001"
+  "(\005\022\r\n\005image\030\003 \001(\t\022\014\n\004name\030\004 \001(\t\022$\n\014inter"
+  "actions\030\005 \003(\0132\016.PBInteraction\"^\n\014PBBattl"
+  "eInfo\022\016\n\006is_npc\030\001 \001(\010\022\036\n\013player_info\030\002 \001"
+  "(\0132\t.PBPlayer\022\036\n\013enemey_info\030\003 \001(\0132\t.PBP"
+  "layer\"Q\n\013PBGameState\022\036\n\tlocations\030\001 \003(\0132"
+  "\013.PBLocation\022\"\n\013battle_info\030\002 \001(\0132\r.PBBa"
+  "ttleInfob\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_map_2eproto_deps[3] = {
   &::descriptor_table_interaction_2eproto,
@@ -142,7 +143,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_map
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_map_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_map_2eproto = {
-  false, false, descriptor_table_protodef_map_2eproto, "map.proto", 370,
+  false, false, descriptor_table_protodef_map_2eproto, "map.proto", 376,
   &descriptor_table_map_2eproto_once, descriptor_table_map_2eproto_sccs, descriptor_table_map_2eproto_deps, 3, 3,
   schemas, file_default_instances, TableStruct_map_2eproto::offsets,
   file_level_metadata_map_2eproto, 3, file_level_enum_descriptors_map_2eproto, file_level_service_descriptors_map_2eproto,
@@ -173,23 +174,29 @@ PBLocation::PBLocation(const PBLocation& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       interactions_(from.interactions_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  loc_image_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_loc_image().empty()) {
-    loc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_loc_image(),
+  image_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_image().empty()) {
+    image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_image(),
       GetArena());
   }
-  ::memcpy(&loc_id_, &from.loc_id_,
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_name().empty()) {
+    name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_name(),
+      GetArena());
+  }
+  ::memcpy(&id_, &from.id_,
     static_cast<size_t>(reinterpret_cast<char*>(&database_id_) -
-    reinterpret_cast<char*>(&loc_id_)) + sizeof(database_id_));
+    reinterpret_cast<char*>(&id_)) + sizeof(database_id_));
   // @@protoc_insertion_point(copy_constructor:PBLocation)
 }
 
 void PBLocation::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBLocation_map_2eproto.base);
-  loc_image_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  ::memset(&loc_id_, 0, static_cast<size_t>(
+  image_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&database_id_) -
-      reinterpret_cast<char*>(&loc_id_)) + sizeof(database_id_));
+      reinterpret_cast<char*>(&id_)) + sizeof(database_id_));
 }
 
 PBLocation::~PBLocation() {
@@ -200,7 +207,8 @@ PBLocation::~PBLocation() {
 
 void PBLocation::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
-  loc_image_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  image_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void PBLocation::ArenaDtor(void* object) {
@@ -225,10 +233,11 @@ void PBLocation::Clear() {
   (void) cached_has_bits;
 
   interactions_.Clear();
-  loc_image_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  ::memset(&loc_id_, 0, static_cast<size_t>(
+  image_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::memset(&id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&database_id_) -
-      reinterpret_cast<char*>(&loc_id_)) + sizeof(database_id_));
+      reinterpret_cast<char*>(&id_)) + sizeof(database_id_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -240,12 +249,12 @@ const char* PBLocation::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // .PBLocationID loc_id = 1;
+      // .PBLocationID id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          _internal_set_loc_id(static_cast<::PBLocationID>(val));
+          _internal_set_id(static_cast<::PBLocationID>(val));
         } else goto handle_unusual;
         continue;
       // int32 database_id = 2;
@@ -255,25 +264,34 @@ const char* PBLocation::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string loc_image = 3;
+      // string image = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_loc_image();
+          auto str = _internal_mutable_image();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBLocation.loc_image"));
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBLocation.image"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // repeated .PBInteraction interactions = 4;
+      // string name = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+          auto str = _internal_mutable_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBLocation.name"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .PBInteraction interactions = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_interactions(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -304,11 +322,11 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .PBLocationID loc_id = 1;
-  if (this->loc_id() != 0) {
+  // .PBLocationID id = 1;
+  if (this->id() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      1, this->_internal_loc_id(), target);
+      1, this->_internal_id(), target);
   }
 
   // int32 database_id = 2;
@@ -317,22 +335,32 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_database_id(), target);
   }
 
-  // string loc_image = 3;
-  if (this->loc_image().size() > 0) {
+  // string image = 3;
+  if (this->image().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_loc_image().data(), static_cast<int>(this->_internal_loc_image().length()),
+      this->_internal_image().data(), static_cast<int>(this->_internal_image().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "PBLocation.loc_image");
+      "PBLocation.image");
     target = stream->WriteStringMaybeAliased(
-        3, this->_internal_loc_image(), target);
+        3, this->_internal_image(), target);
   }
 
-  // repeated .PBInteraction interactions = 4;
+  // string name = 4;
+  if (this->name().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "PBLocation.name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_name(), target);
+  }
+
+  // repeated .PBInteraction interactions = 5;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_interactions_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(4, this->_internal_interactions(i), target, stream);
+      InternalWriteMessage(5, this->_internal_interactions(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -351,24 +379,31 @@ size_t PBLocation::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .PBInteraction interactions = 4;
+  // repeated .PBInteraction interactions = 5;
   total_size += 1UL * this->_internal_interactions_size();
   for (const auto& msg : this->interactions_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // string loc_image = 3;
-  if (this->loc_image().size() > 0) {
+  // string image = 3;
+  if (this->image().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_loc_image());
+        this->_internal_image());
   }
 
-  // .PBLocationID loc_id = 1;
-  if (this->loc_id() != 0) {
+  // string name = 4;
+  if (this->name().size() > 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_loc_id());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name());
+  }
+
+  // .PBLocationID id = 1;
+  if (this->id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_id());
   }
 
   // int32 database_id = 2;
@@ -410,11 +445,14 @@ void PBLocation::MergeFrom(const PBLocation& from) {
   (void) cached_has_bits;
 
   interactions_.MergeFrom(from.interactions_);
-  if (from.loc_image().size() > 0) {
-    _internal_set_loc_image(from._internal_loc_image());
+  if (from.image().size() > 0) {
+    _internal_set_image(from._internal_image());
   }
-  if (from.loc_id() != 0) {
-    _internal_set_loc_id(from._internal_loc_id());
+  if (from.name().size() > 0) {
+    _internal_set_name(from._internal_name());
+  }
+  if (from.id() != 0) {
+    _internal_set_id(from._internal_id());
   }
   if (from.database_id() != 0) {
     _internal_set_database_id(from._internal_database_id());
@@ -443,13 +481,14 @@ void PBLocation::InternalSwap(PBLocation* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   interactions_.InternalSwap(&other->interactions_);
-  loc_image_.Swap(&other->loc_image_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  image_.Swap(&other->image_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PBLocation, database_id_)
       + sizeof(PBLocation::database_id_)
-      - PROTOBUF_FIELD_OFFSET(PBLocation, loc_id_)>(
-          reinterpret_cast<char*>(&loc_id_),
-          reinterpret_cast<char*>(&other->loc_id_));
+      - PROTOBUF_FIELD_OFFSET(PBLocation, id_)>(
+          reinterpret_cast<char*>(&id_),
+          reinterpret_cast<char*>(&other->id_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PBLocation::GetMetadata() const {

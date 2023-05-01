@@ -10,7 +10,8 @@ target_include_directories(
 
 target_link_libraries(
     ${PROJECT_NAME} 
-    PUBLIC gd
+    PRIVATE dcl_core
+    PRIVATE gd
     PRIVATE png
     PRIVATE z
     PRIVATE jpeg

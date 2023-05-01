@@ -187,12 +187,13 @@ class PBLocation PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kInteractionsFieldNumber = 4,
-    kLocImageFieldNumber = 3,
-    kLocIdFieldNumber = 1,
+    kInteractionsFieldNumber = 5,
+    kImageFieldNumber = 3,
+    kNameFieldNumber = 4,
+    kIdFieldNumber = 1,
     kDatabaseIdFieldNumber = 2,
   };
-  // repeated .PBInteraction interactions = 4;
+  // repeated .PBInteraction interactions = 5;
   int interactions_size() const;
   private:
   int _internal_interactions_size() const;
@@ -210,38 +211,63 @@ class PBLocation PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBInteraction >&
       interactions() const;
 
-  // string loc_image = 3;
-  void clear_loc_image();
-  const std::string& loc_image() const;
-  void set_loc_image(const std::string& value);
-  void set_loc_image(std::string&& value);
-  void set_loc_image(const char* value);
-  void set_loc_image(const char* value, size_t size);
-  std::string* mutable_loc_image();
-  std::string* release_loc_image();
-  void set_allocated_loc_image(std::string* loc_image);
+  // string image = 3;
+  void clear_image();
+  const std::string& image() const;
+  void set_image(const std::string& value);
+  void set_image(std::string&& value);
+  void set_image(const char* value);
+  void set_image(const char* value, size_t size);
+  std::string* mutable_image();
+  std::string* release_image();
+  void set_allocated_image(std::string* image);
   GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
   "    string fields are deprecated and will be removed in a"
   "    future release.")
-  std::string* unsafe_arena_release_loc_image();
+  std::string* unsafe_arena_release_image();
   GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
   "    string fields are deprecated and will be removed in a"
   "    future release.")
-  void unsafe_arena_set_allocated_loc_image(
-      std::string* loc_image);
+  void unsafe_arena_set_allocated_image(
+      std::string* image);
   private:
-  const std::string& _internal_loc_image() const;
-  void _internal_set_loc_image(const std::string& value);
-  std::string* _internal_mutable_loc_image();
+  const std::string& _internal_image() const;
+  void _internal_set_image(const std::string& value);
+  std::string* _internal_mutable_image();
   public:
 
-  // .PBLocationID loc_id = 1;
-  void clear_loc_id();
-  ::PBLocationID loc_id() const;
-  void set_loc_id(::PBLocationID value);
+  // string name = 4;
+  void clear_name();
+  const std::string& name() const;
+  void set_name(const std::string& value);
+  void set_name(std::string&& value);
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  std::string* mutable_name();
+  std::string* release_name();
+  void set_allocated_name(std::string* name);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_name();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_name(
+      std::string* name);
   private:
-  ::PBLocationID _internal_loc_id() const;
-  void _internal_set_loc_id(::PBLocationID value);
+  const std::string& _internal_name() const;
+  void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // .PBLocationID id = 1;
+  void clear_id();
+  ::PBLocationID id() const;
+  void set_id(::PBLocationID value);
+  private:
+  ::PBLocationID _internal_id() const;
+  void _internal_set_id(::PBLocationID value);
   public:
 
   // int32 database_id = 2;
@@ -261,8 +287,9 @@ class PBLocation PROTOBUF_FINAL :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBInteraction > interactions_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr loc_image_;
-  int loc_id_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr image_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+  int id_;
   ::PROTOBUF_NAMESPACE_ID::int32 database_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_map_2eproto;
@@ -621,24 +648,24 @@ class PBGameState PROTOBUF_FINAL :
 #endif  // __GNUC__
 // PBLocation
 
-// .PBLocationID loc_id = 1;
-inline void PBLocation::clear_loc_id() {
-  loc_id_ = 0;
+// .PBLocationID id = 1;
+inline void PBLocation::clear_id() {
+  id_ = 0;
 }
-inline ::PBLocationID PBLocation::_internal_loc_id() const {
-  return static_cast< ::PBLocationID >(loc_id_);
+inline ::PBLocationID PBLocation::_internal_id() const {
+  return static_cast< ::PBLocationID >(id_);
 }
-inline ::PBLocationID PBLocation::loc_id() const {
-  // @@protoc_insertion_point(field_get:PBLocation.loc_id)
-  return _internal_loc_id();
+inline ::PBLocationID PBLocation::id() const {
+  // @@protoc_insertion_point(field_get:PBLocation.id)
+  return _internal_id();
 }
-inline void PBLocation::_internal_set_loc_id(::PBLocationID value) {
+inline void PBLocation::_internal_set_id(::PBLocationID value) {
   
-  loc_id_ = value;
+  id_ = value;
 }
-inline void PBLocation::set_loc_id(::PBLocationID value) {
-  _internal_set_loc_id(value);
-  // @@protoc_insertion_point(field_set:PBLocation.loc_id)
+inline void PBLocation::set_id(::PBLocationID value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:PBLocation.id)
 }
 
 // int32 database_id = 2;
@@ -661,88 +688,169 @@ inline void PBLocation::set_database_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:PBLocation.database_id)
 }
 
-// string loc_image = 3;
-inline void PBLocation::clear_loc_image() {
-  loc_image_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+// string image = 3;
+inline void PBLocation::clear_image() {
+  image_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline const std::string& PBLocation::loc_image() const {
-  // @@protoc_insertion_point(field_get:PBLocation.loc_image)
-  return _internal_loc_image();
+inline const std::string& PBLocation::image() const {
+  // @@protoc_insertion_point(field_get:PBLocation.image)
+  return _internal_image();
 }
-inline void PBLocation::set_loc_image(const std::string& value) {
-  _internal_set_loc_image(value);
-  // @@protoc_insertion_point(field_set:PBLocation.loc_image)
+inline void PBLocation::set_image(const std::string& value) {
+  _internal_set_image(value);
+  // @@protoc_insertion_point(field_set:PBLocation.image)
 }
-inline std::string* PBLocation::mutable_loc_image() {
-  // @@protoc_insertion_point(field_mutable:PBLocation.loc_image)
-  return _internal_mutable_loc_image();
+inline std::string* PBLocation::mutable_image() {
+  // @@protoc_insertion_point(field_mutable:PBLocation.image)
+  return _internal_mutable_image();
 }
-inline const std::string& PBLocation::_internal_loc_image() const {
-  return loc_image_.Get();
+inline const std::string& PBLocation::_internal_image() const {
+  return image_.Get();
 }
-inline void PBLocation::_internal_set_loc_image(const std::string& value) {
+inline void PBLocation::_internal_set_image(const std::string& value) {
   
-  loc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+  image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
 }
-inline void PBLocation::set_loc_image(std::string&& value) {
+inline void PBLocation::set_image(std::string&& value) {
   
-  loc_image_.Set(
+  image_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:PBLocation.loc_image)
+  // @@protoc_insertion_point(field_set_rvalue:PBLocation.image)
 }
-inline void PBLocation::set_loc_image(const char* value) {
+inline void PBLocation::set_image(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  loc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:PBLocation.loc_image)
+  // @@protoc_insertion_point(field_set_char:PBLocation.image)
 }
-inline void PBLocation::set_loc_image(const char* value,
+inline void PBLocation::set_image(const char* value,
     size_t size) {
   
-  loc_image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  image_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:PBLocation.loc_image)
+  // @@protoc_insertion_point(field_set_pointer:PBLocation.image)
 }
-inline std::string* PBLocation::_internal_mutable_loc_image() {
+inline std::string* PBLocation::_internal_mutable_image() {
   
-  return loc_image_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  return image_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline std::string* PBLocation::release_loc_image() {
-  // @@protoc_insertion_point(field_release:PBLocation.loc_image)
-  return loc_image_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+inline std::string* PBLocation::release_image() {
+  // @@protoc_insertion_point(field_release:PBLocation.image)
+  return image_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void PBLocation::set_allocated_loc_image(std::string* loc_image) {
-  if (loc_image != nullptr) {
+inline void PBLocation::set_allocated_image(std::string* image) {
+  if (image != nullptr) {
     
   } else {
     
   }
-  loc_image_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), loc_image,
+  image_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), image,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:PBLocation.loc_image)
+  // @@protoc_insertion_point(field_set_allocated:PBLocation.image)
 }
-inline std::string* PBLocation::unsafe_arena_release_loc_image() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:PBLocation.loc_image)
+inline std::string* PBLocation::unsafe_arena_release_image() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:PBLocation.image)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
-  return loc_image_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  return image_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       GetArena());
 }
-inline void PBLocation::unsafe_arena_set_allocated_loc_image(
-    std::string* loc_image) {
+inline void PBLocation::unsafe_arena_set_allocated_image(
+    std::string* image) {
   GOOGLE_DCHECK(GetArena() != nullptr);
-  if (loc_image != nullptr) {
+  if (image != nullptr) {
     
   } else {
     
   }
-  loc_image_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      loc_image, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBLocation.loc_image)
+  image_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      image, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBLocation.image)
 }
 
-// repeated .PBInteraction interactions = 4;
+// string name = 4;
+inline void PBLocation::clear_name() {
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PBLocation::name() const {
+  // @@protoc_insertion_point(field_get:PBLocation.name)
+  return _internal_name();
+}
+inline void PBLocation::set_name(const std::string& value) {
+  _internal_set_name(value);
+  // @@protoc_insertion_point(field_set:PBLocation.name)
+}
+inline std::string* PBLocation::mutable_name() {
+  // @@protoc_insertion_point(field_mutable:PBLocation.name)
+  return _internal_mutable_name();
+}
+inline const std::string& PBLocation::_internal_name() const {
+  return name_.Get();
+}
+inline void PBLocation::_internal_set_name(const std::string& value) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PBLocation::set_name(std::string&& value) {
+  
+  name_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:PBLocation.name)
+}
+inline void PBLocation::set_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:PBLocation.name)
+}
+inline void PBLocation::set_name(const char* value,
+    size_t size) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:PBLocation.name)
+}
+inline std::string* PBLocation::_internal_mutable_name() {
+  
+  return name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PBLocation::release_name() {
+  // @@protoc_insertion_point(field_release:PBLocation.name)
+  return name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PBLocation::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:PBLocation.name)
+}
+inline std::string* PBLocation::unsafe_arena_release_name() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:PBLocation.name)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PBLocation::unsafe_arena_set_allocated_name(
+    std::string* name) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      name, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBLocation.name)
+}
+
+// repeated .PBInteraction interactions = 5;
 inline int PBLocation::_internal_interactions_size() const {
   return interactions_.size();
 }

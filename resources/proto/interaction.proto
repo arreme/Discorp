@@ -33,7 +33,7 @@ message PBPostInteraction
     int32 capacity_upgrade                  = 6;
     int32 gen_second_upgrade                = 7;
     int32 fortune_upgrade                   = 8;
-    int32 resource_stored                   = 9;
+    int64 resource_stored                   = 9;
 }
 
 message PBUpgrades 

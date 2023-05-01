@@ -25,9 +25,42 @@ namespace DCLData
             return interaction.FillInteractionInfo(&m_location.interactions(id));
         }
 
-        const PBLocation *GetLocation() const
+        PBLocation GetLocationDB() const
         {
-            return &m_location;
+            PBLocation location;
+            for (const auto &interaction : m_location.interactions()) 
+            {
+                auto temp_interaction = location.add_interactions();
+                for (const auto &type : interaction.types()) 
+                {
+                    switch (type)
+                    {
+                    case PBInteractionType::POST:
+                        if (temp_interaction->post_info().needs_database()) 
+                        {
+                            temp_interaction->add_types(PBInteractionType::POST);
+                        }
+                        break;
+                    case PBInteractionType::DIALOG:
+                        if (temp_interaction->post_info().needs_database()) 
+                        {
+                            temp_interaction->add_types(PBInteractionType::DIALOG);
+                        }
+                        break;
+                    case PBInteractionType::ZONE_ACCESS:
+                        if (temp_interaction->post_info().needs_database()) 
+                        {
+                            temp_interaction->add_types(PBInteractionType::ZONE_ACCESS);
+                        }
+                        break;
+                    
+                    default:
+                        throw std::runtime_error{"Bad Interaction Type"};
+                    }
+                }
+            }
+            
+            return location;
         }
 
         bool NeedsDatabase() const 
@@ -49,8 +82,8 @@ namespace DCLData
                 buffer << t.rdbuf();
                 auto loc_data = PBLocation{};
                 google::protobuf::util::JsonStringToMessage(buffer.str(),&loc_data);
-                PBLocationID loc_id = loc_data.loc_id();
-                std::cout << loc_data.loc_id() << std::endl;
+                PBLocationID loc_id = loc_data.id();
+                std::cout << loc_data.id() << std::endl;
                 std::cout << entry.path() << std::endl;
                 m_locations.emplace(loc_id,std::move(loc_data));
             }

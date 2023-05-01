@@ -1,7 +1,8 @@
 {
-    "locId": "GUILD_ENTRANCE_WEST",
+    "id": "GUILD_ENTRANCE_WEST",
     "databaseId": 1,
-    "locImage": "/resources",
+    "image": "/resources",
+    "name":"guild entrance|west",
     "interactions": [
         {
             "types": [

@@ -1524,9 +1524,10 @@ public:
         return res == 0;
     }
 
-    void AddImageText(GD::TrueColor &color, GD::Point &p, int size, std::string &text, bool bold) {
+    void AddImageText(const GD::TrueColor &color, const GD::Point &p, int size, const std::string &text, bool bold) {
         std::string font = bold ? "resources/fonts/consolab.ttf" : "resources/fonts/consola.ttf";
         StringFT(nullptr,color.Int(),(char*)font.c_str(),size,0,p,text);
+        gdFreeFontCache();
     }
 
 

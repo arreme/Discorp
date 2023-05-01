@@ -1,7 +1,8 @@
 {
-    "locId": "MAIN_BASE",
+    "id": "MAIN_BASE",
     "databaseId": 0,
-    "locImage": "/resources",
+    "image": "/resources",
+    "name":"main base",
     "interactions": [
         {
             "types": [

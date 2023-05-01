@@ -6,10 +6,11 @@ import "player.proto";
 
 message PBLocation 
 {
-    PBLocationID loc_id                     = 1;
+    PBLocationID id                         = 1;
     int32 database_id                       = 2;
-    string loc_image                        = 3;
-    repeated PBInteraction interactions     = 4;
+    string image                            = 3;
+    string name                             = 4;
+    repeated PBInteraction interactions     = 5;
 }
 
 message PBBattleInfo 

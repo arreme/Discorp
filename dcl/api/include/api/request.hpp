@@ -4,7 +4,9 @@
 #include <dpp.h>
 #include <db_handler/db_user.hpp>
 #include <db_handler/db_location.hpp>
+#include <db_handler/db_inventory.hpp>
 #include <core/dcl_map.hpp>
+#include <img/renderer.hpp>
 
 class BaseRequest 
 {
@@ -24,12 +26,13 @@ public:
 class CreateGameRequest : public BaseRequest
 {
 private:
-    uint64_t m_discord_id;
-    std::string m_user_name;
-    PBLocationID start_location = PBLocationID::MAIN_BASE;
+    const PBLocationID m_start_location = PBLocationID::MAIN_BASE;
+    PBLocation m_location;
+    db_handler::DBLocationHandler m_location_handler{&m_location};
+
 public: 
     CreateGameRequest(uint64_t discord_id, std::string user_name)
-    : BaseRequest(discord_id), m_user_name(user_name)
+    : BaseRequest(discord_id)
     {
         m_user.set_user_name(user_name);
     }
@@ -44,13 +47,16 @@ public:
         m_user.set_current_player_id(0);
         auto player = m_user.add_players();
         player->set_guild_id(guild_id);
-        player->set_current_location(start_location);
+        player->set_current_location(m_start_location);
         auto player_stats = player->mutable_stats();
         player_stats->set_max_health(20);
         player_stats->set_current_health(20);
         m_user_handler.InsertUser(&t);
-        db_handler::DBLocationHandler::InsertNewLocation(m_user,DCLData::DCLMap::getInstance().GetLocation(start_location));
-
+        m_location = DCLData::DCLMap::getInstance().GetLocation(m_start_location)->GetLocationDB();
+        m_location_handler.InsertNewLocation(m_user,&t);
+        db_handler::DBInventoryHandler::InitializeInventory(m_user,&t);
+        t.ExecuteTransaction();
+        m_user_created = t.GetState() == db::OperationState::SUCCESS;
     }
 
     bool FillResponse(dpp::message &m) 
@@ -59,10 +65,10 @@ public:
         {
             return false;
         }
-
+        //GetLocationInfo
         //Print out map
-
-
+        Renderer::BaseMapRenderer map_renderer{};
+        map_renderer.FillContents(m_user.players(0),m_location);
         
         return true;
     }

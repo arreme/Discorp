@@ -382,7 +382,7 @@ const char descriptor_table_protodef_interaction_2eproto[] PROTOBUF_SECTION_VARI
   "se\030\004 \001(\010\022\035\n\010upgrades\030\005 \003(\0132\013.PBUpgrades\022"
   "\030\n\020capacity_upgrade\030\006 \001(\005\022\032\n\022gen_second_"
   "upgrade\030\007 \001(\005\022\027\n\017fortune_upgrade\030\010 \001(\005\022\027"
-  "\n\017resource_stored\030\t \001(\005\"P\n\nPBUpgrades\022$\n"
+  "\n\017resource_stored\030\t \001(\003\"P\n\nPBUpgrades\022$\n"
   "\014upgrade_type\030\001 \001(\0162\016.PBUpgradeType\022\034\n\004i"
   "nfo\030\002 \003(\0132\016.PBUpgradeInfo\"G\n\rPBUpgradeIn"
   "fo\022\024\n\014current_stat\030\003 \001(\002\022 \n\013upgrade_req\030"
@@ -1242,7 +1242,7 @@ const char* PBPostInteraction::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 resource_stored = 9;
+      // int64 resource_stored = 9;
       case 9:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
           resource_stored_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
@@ -1330,10 +1330,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(8, this->_internal_fortune_upgrade(), target);
   }
 
-  // int32 resource_stored = 9;
+  // int64 resource_stored = 9;
   if (this->resource_stored() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(9, this->_internal_resource_stored(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(9, this->_internal_resource_stored(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1405,10 +1405,10 @@ size_t PBPostInteraction::ByteSizeLong() const {
         this->_internal_fortune_upgrade());
   }
 
-  // int32 resource_stored = 9;
+  // int64 resource_stored = 9;
   if (this->resource_stored() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
         this->_internal_resource_stored());
   }
 
