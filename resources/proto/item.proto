@@ -3,11 +3,12 @@ syntax = "proto3";
 
 message PBItemData 
 {
-    string image_path                        = 1;
-    string item_name                         = 2;
+    string image_path                           = 1;
+    string item_name                            = 2;
+    int32 sell_value                            = 3;
 
-    PBItemEnum item_id                       = 3;
-    int32 quantity                          = 4;
+    PBItemEnum item_id                          = 4;
+    int32 quantity                              = 5;
 }
 
 message PBItemsDict {

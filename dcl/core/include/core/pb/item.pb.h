@@ -242,8 +242,9 @@ class PBItemData PROTOBUF_FINAL :
   enum : int {
     kImagePathFieldNumber = 1,
     kItemNameFieldNumber = 2,
-    kItemIdFieldNumber = 3,
-    kQuantityFieldNumber = 4,
+    kSellValueFieldNumber = 3,
+    kItemIdFieldNumber = 4,
+    kQuantityFieldNumber = 5,
   };
   // string image_path = 1;
   void clear_image_path();
@@ -295,7 +296,16 @@ class PBItemData PROTOBUF_FINAL :
   std::string* _internal_mutable_item_name();
   public:
 
-  // .PBItemEnum item_id = 3;
+  // int32 sell_value = 3;
+  void clear_sell_value();
+  ::PROTOBUF_NAMESPACE_ID::int32 sell_value() const;
+  void set_sell_value(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_sell_value() const;
+  void _internal_set_sell_value(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // .PBItemEnum item_id = 4;
   void clear_item_id();
   ::PBItemEnum item_id() const;
   void set_item_id(::PBItemEnum value);
@@ -304,7 +314,7 @@ class PBItemData PROTOBUF_FINAL :
   void _internal_set_item_id(::PBItemEnum value);
   public:
 
-  // int32 quantity = 4;
+  // int32 quantity = 5;
   void clear_quantity();
   ::PROTOBUF_NAMESPACE_ID::int32 quantity() const;
   void set_quantity(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -322,6 +332,7 @@ class PBItemData PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr image_path_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr item_name_;
+  ::PROTOBUF_NAMESPACE_ID::int32 sell_value_;
   int item_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 quantity_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -657,7 +668,27 @@ inline void PBItemData::unsafe_arena_set_allocated_item_name(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBItemData.item_name)
 }
 
-// .PBItemEnum item_id = 3;
+// int32 sell_value = 3;
+inline void PBItemData::clear_sell_value() {
+  sell_value_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBItemData::_internal_sell_value() const {
+  return sell_value_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBItemData::sell_value() const {
+  // @@protoc_insertion_point(field_get:PBItemData.sell_value)
+  return _internal_sell_value();
+}
+inline void PBItemData::_internal_set_sell_value(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  sell_value_ = value;
+}
+inline void PBItemData::set_sell_value(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_sell_value(value);
+  // @@protoc_insertion_point(field_set:PBItemData.sell_value)
+}
+
+// .PBItemEnum item_id = 4;
 inline void PBItemData::clear_item_id() {
   item_id_ = 0;
 }
@@ -677,7 +708,7 @@ inline void PBItemData::set_item_id(::PBItemEnum value) {
   // @@protoc_insertion_point(field_set:PBItemData.item_id)
 }
 
-// int32 quantity = 4;
+// int32 quantity = 5;
 inline void PBItemData::clear_quantity() {
   quantity_ = 0;
 }

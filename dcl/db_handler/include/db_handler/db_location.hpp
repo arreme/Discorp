@@ -81,7 +81,7 @@ namespace db_handler
                     switch (type)
                     {
                         case PBInteractionType::POST:
-                            doc.append(kvp("post_info",PostToBson(interaction.post_info())));
+                            doc.append(kvp("post_info",b_document{PostToBson(interaction.post_info())}));
                             break;
                         case PBInteractionType::ZONE_ACCESS:
                             doc.append(kvp("zone_access_info",ZoneAccessToBson(interaction.zone_access_info())));

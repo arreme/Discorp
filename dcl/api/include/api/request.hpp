@@ -37,7 +37,7 @@ public:
         m_user.set_user_name(user_name);
     }
 
-    void CreateGame(uint64 guild_id) 
+    void CreateGame(uint64_t guild_id) 
     {
         //Create User and start a new game
         //Create user
@@ -56,7 +56,7 @@ public:
         m_location_handler.InsertNewLocation(m_user,&t);
         db_handler::DBInventoryHandler::InitializeInventory(m_user,&t);
         t.ExecuteTransaction();
-        m_user_created = t.GetState() == db::OperationState::SUCCESS;
+        m_user_created = (t.GetState() == db::OperationState::SUCCESS);
     }
 
     bool FillResponse(dpp::message &m) 
@@ -67,9 +67,18 @@ public:
         }
         //GetLocationInfo
         //Print out map
+        m.set_flags(dpp::m_ephemeral);
         Renderer::BaseMapRenderer map_renderer{};
-        map_renderer.FillContents(m_user.players(0),m_location);
-        
+        const PBLocation *const m_location_data = DCLData::DCLMap::getInstance().GetLocationData(m_user.players(m_user.current_player_id()).current_location());
+        if (!m_location_data) 
+        {
+            std::cout << "Invalid location, move player to MAIN_BASE" << std::endl;
+            m.set_content("Error! Please use command /repair to fix");
+            return true;
+        }
+        map_renderer.FillContents(m_user.players(0),*m_location_data);
+        int size = 0;
+        m.add_file("map.png",std::string{map_renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
         return true;
     }
 };

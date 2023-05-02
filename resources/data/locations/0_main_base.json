@@ -1,8 +1,8 @@
 {
     "id": "MAIN_BASE",
     "databaseId": 0,
-    "image": "/resources",
-    "name":"main base",
+    "image": "resources/assets/Locations/0_main_base.png",
+    "name":"main|base",
     "interactions": [
         {
             "types": [
@@ -14,7 +14,7 @@
             "posX": 20,
             "posY": 10,
             "mapIconPaths": [
-                "resources/assets/"
+                "resources/assets/MapIcons/bush_0.png"
             ],
             "postInfo": {
                 "resources": [
@@ -65,8 +65,8 @@
                 "ZONE_ACCESS",
                 "DIALOG"
             ],
-            "databaseId": 0,
-            "interactionName": "bush",
+            "databaseId": 1,
+            "interactionName": "to guild entrance|west",
             "posX": 20,
             "posY": 10,
             "mapIconPaths": [

@@ -26,7 +26,17 @@ public:
         dpp::user target = event->command.get_issuing_user();
         CreateGameRequest request{target.id,target.username};
         dpp::message m;
-        request.FillResponse(m);
+        int retries = 0;
+        while (!request.FillResponse(m)) 
+        {
+            request.CreateGame(event->command.guild_id);
+            retries++;
+            if (retries >= 3) 
+            {
+                m.set_content("There was an error, please try again later");
+                return;
+            }
+        }
         event->reply(m);
     }
 

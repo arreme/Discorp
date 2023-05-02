@@ -28,6 +28,7 @@ namespace DCLData
         PBLocation GetLocationDB() const
         {
             PBLocation location;
+            std::cout << m_location.DebugString() << std::endl;
             for (const auto &interaction : m_location.interactions()) 
             {
                 auto temp_interaction = location.add_interactions();
@@ -36,19 +37,20 @@ namespace DCLData
                     switch (type)
                     {
                     case PBInteractionType::POST:
-                        if (temp_interaction->post_info().needs_database()) 
+                        if (interaction.post_info().needs_database()) 
                         {
                             temp_interaction->add_types(PBInteractionType::POST);
+                            std::cout << location.DebugString() << std::endl;
                         }
                         break;
                     case PBInteractionType::DIALOG:
-                        if (temp_interaction->post_info().needs_database()) 
+                        if (interaction.post_info().needs_database()) 
                         {
                             temp_interaction->add_types(PBInteractionType::DIALOG);
                         }
                         break;
                     case PBInteractionType::ZONE_ACCESS:
-                        if (temp_interaction->post_info().needs_database()) 
+                        if (interaction.post_info().needs_database()) 
                         {
                             temp_interaction->add_types(PBInteractionType::ZONE_ACCESS);
                         }
@@ -67,6 +69,11 @@ namespace DCLData
         {
             return m_location.database_id() != -1;
         };
+
+        const PBLocation *const GetLocationData() const 
+        {
+            return &m_location;
+        }
     };
 
     class DCLMap 
@@ -100,6 +107,18 @@ namespace DCLData
             try
             {
                 return &m_locations.at(locId);
+            }
+            catch(const std::out_of_range& e)
+            {}
+
+            return nullptr;
+        }
+
+        const PBLocation *const GetLocationData(PBLocationID locId) const noexcept 
+        {
+            try
+            {
+                return m_locations.at(locId).GetLocationData();
             }
             catch(const std::out_of_range& e)
             {}
