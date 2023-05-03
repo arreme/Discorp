@@ -167,7 +167,7 @@ namespace db_handler
         ));
         db::AggregateOperation find_one{"users",std::move(p)};
         find_one.ExecuteOperation();
-        auto result = find_one.GetResult();
+        auto result = find_one.GetFirstResult();
         if (result) 
         {
             m_user->Clear();

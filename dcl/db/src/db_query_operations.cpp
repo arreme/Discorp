@@ -138,13 +138,13 @@ void AggregateOperation::ExecuteOperation() noexcept
     }
 }
 
-std::optional<bsoncxx::document::view> AggregateOperation::GetResult() noexcept
+std::optional<bsoncxx::document::view> AggregateOperation::GetFirstResult() noexcept
 {
     try 
     {
         if (m_result)
         {
-            auto iter = m_result->begin();
+            auto iter = m_result->begin();            
             if (iter == m_result->end()) {
                 //Iterator is exhausted
                 m_result = std::nullopt;

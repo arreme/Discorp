@@ -21,7 +21,7 @@ bsoncxx::document::value db_handler::DBLocationHandler::s_start_dialog =
         kvp("current_dialog",b_int32{0}) 
     );
 
-bool db_handler::DBLocationHandler::InsertNewLocation(PBUser &user, db::Transaction *t = nullptr) 
+bool db_handler::DBLocationHandler::InsertNewLocation(PBUser &user, db::Transaction *t) 
 {
     if (m_location->database_id() == -1) return false;
 

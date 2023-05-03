@@ -55,42 +55,6 @@ SCENARIO("Testing database basic operations","[db][db_test_1]")
                 REQUIRE(del_op_1_3.GetState() == db::OperationState::SUCCESS);
             }
         }
-        WHEN("1.4.- Making a transaction") 
-        {
-            uint64_t id1 = 0;
-            auto doc1 = bsoncxx::builder::basic::make_document(
-                kvp("id",b_int64{static_cast<int64_t>(id1)}),
-                kvp("name",b_string{"John One"})
-            );
-
-            uint64_t id2 = 1;
-            auto doc2 = bsoncxx::builder::basic::make_document(
-                kvp("id",b_int64{static_cast<int64_t>(id2)}),
-                kvp("name",b_string{"John Doe"})
-            );
-
-            uint64_t id3 = 2;
-            auto doc3 = bsoncxx::builder::basic::make_document(
-                kvp("id",b_int64{static_cast<int64_t>(id3)}),
-                kvp("name",b_string{"John Thre"})
-            );
-
-            db::InsertOneOperation ins1_op_3{"test_col", std::move(doc1)};
-            db::InsertOneOperation ins2_op_3{"test_col", std::move(doc2)};
-            db::InsertOneOperation ins3_op_3{"test_col", std::move(doc3)};
-
-            db::Transaction t_op{};
-            t_op.AddOperation(std::make_unique<db::TransactionalOperation>(ins1_op_3));
-            t_op.AddOperation(std::make_unique<db::TransactionalOperation>(ins2_op_3));
-            t_op.AddOperation(std::make_unique<db::TransactionalOperation>(ins3_op_3));
-
-            t_op.ExecuteTransaction();
-
-            REQUIRE(t_op.GetState() == db::OperationState::SUCCESS);
-            REQUIRE(ins1_op_3.GetState() == db::OperationState::SUCCESS);
-            REQUIRE(ins2_op_3.GetState() == db::OperationState::SUCCESS);
-            REQUIRE(ins3_op_3.GetState() == db::OperationState::SUCCESS);
-        }
 
         /*CLEAN UP*/
         del_op.ExecuteOperation();
@@ -195,7 +159,44 @@ SCENARIO("Testing database basic operations","[db][db_test_1]")
     }
 }
 
-TEST_CASE("Updating a document","[db][db_test_2]") 
+TEST_CASE("Executing a transaction", "[db][db_test_2]") 
+{
+    db::DeleteManyOperation del_op = db::DeleteManyOperation("test_col", bsoncxx::builder::basic::make_document());
+    del_op.ExecuteOperation();
+    uint64_t id1 = 0;
+    auto doc1 = bsoncxx::builder::basic::make_document(
+        kvp("id",b_int64{static_cast<int64_t>(id1)}),
+        kvp("name",b_string{"John One"})
+    );
+
+    uint64_t id2 = 1;
+    auto doc2 = bsoncxx::builder::basic::make_document(
+        kvp("id",b_int64{static_cast<int64_t>(id2)}),
+        kvp("name",b_string{"John Doe"})
+    );
+
+    uint64_t id3 = 2;
+    auto doc3 = bsoncxx::builder::basic::make_document(
+        kvp("id",b_int64{static_cast<int64_t>(id3)}),
+        kvp("name",b_string{"John Thre"})
+    );
+
+    db::InsertOneOperation ins1_op_3{"test_col", std::move(doc1)};
+    db::InsertOneOperation ins2_op_3{"test_col", std::move(doc2)};
+    db::InsertOneOperation ins3_op_3{"test_col", std::move(doc3)};
+
+    db::Transaction t_op{};
+    t_op.AddOperation(std::make_unique<db::InsertOneOperation>(ins1_op_3));
+    t_op.AddOperation(std::make_unique<db::InsertOneOperation>(ins2_op_3));
+    t_op.AddOperation(std::make_unique<db::InsertOneOperation>(ins3_op_3));
+
+    t_op.ExecuteTransaction();
+
+    REQUIRE(t_op.GetState() == db::OperationState::SUCCESS);
+    del_op.ExecuteOperation();
+}
+
+TEST_CASE("Updating a document","[db][db_test_3]") 
 {
     db::DeleteManyOperation del_op = db::DeleteManyOperation("test_col", bsoncxx::builder::basic::make_document());
     uint64_t id = 0;
@@ -233,7 +234,7 @@ TEST_CASE("Updating a document","[db][db_test_2]")
     del_op.ExecuteOperation();
 }
 
-TEST_CASE("Using projection on a find operation","[db][db_test_3]") 
+TEST_CASE("Using projection on a find operation","[db][db_test_4]") 
 {
     db::DeleteManyOperation del_op = db::DeleteManyOperation("test_col", bsoncxx::builder::basic::make_document());
     uint64_t id = 0;
@@ -264,9 +265,10 @@ TEST_CASE("Using projection on a find operation","[db][db_test_3]")
     del_op.ExecuteOperation();
 }
 
-TEST_CASE("Aggregation testing","[db][db_test_4]") 
+TEST_CASE("Aggregation testing","[db][db_test_5]") 
 {
     db::DeleteManyOperation del_op = db::DeleteManyOperation("test_col", bsoncxx::builder::basic::make_document());
+    del_op.ExecuteOperation();
     uint64_t id = 1;
     bsoncxx::builder::basic::array test_array{};
     test_array.append(bsoncxx::builder::basic::make_document(
@@ -311,5 +313,9 @@ TEST_CASE("Aggregation testing","[db][db_test_4]")
 
     aggregation.ExecuteOperation();
     REQUIRE(aggregation.GetState() == db::OperationState::SUCCESS);
+    auto result = aggregation.GetFirstResult();
+    REQUIRE(result);
+    auto doc = *result;
+    del_op.ExecuteOperation();
 
 }

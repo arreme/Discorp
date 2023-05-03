@@ -53,6 +53,7 @@ void InsertOneOperation::ExecuteOperation(const mongocxx::database &db, const mo
         m_db_state = OperationState::DUPLICATED_ID;
         throw NoActionException("Could not insert, duplicated id");
     }
+    std::cout << "I'm here" << std::endl;
 
     m_db_state = OperationState::SUCCESS;
 }

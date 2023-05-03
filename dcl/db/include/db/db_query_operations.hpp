@@ -50,7 +50,7 @@ namespace db
 
         void ExecuteOperation() noexcept override;
 
-        std::optional<bsoncxx::document::view> GetResult() noexcept;
+        std::optional<bsoncxx::document::view> GetFirstResult() noexcept;
     };
 
     class FindOneAndUpdateOperation : public Operation 
