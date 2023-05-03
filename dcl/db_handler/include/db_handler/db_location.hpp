@@ -139,5 +139,10 @@ namespace db_handler
                 
             }
         }
+
+        bool FindPlayerCurrentLocation(PBUser &user) 
+        {
+            return false;
+        }
     };
 }

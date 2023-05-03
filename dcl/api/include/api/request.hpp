@@ -66,6 +66,7 @@ public:
             return false;
         }
         //GetLocationInfo
+        m_location_handler.FindPlayerCurrentLocation(m_user);
         //Print out map
         m.set_flags(dpp::m_ephemeral);
         Renderer::BaseMapRenderer map_renderer{};
@@ -76,7 +77,7 @@ public:
             m.set_content("Error! Please use command /repair to fix");
             return true;
         }
-        map_renderer.FillContents(m_user.players(0),*m_location_data);
+        map_renderer.FillContents(m_user.players(0),*m_location_data, m_location);
         int size = 0;
         m.add_file("map.png",std::string{map_renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
         return true;

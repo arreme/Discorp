@@ -28,9 +28,9 @@ namespace DCLData
         PBLocation GetLocationDB() const
         {
             PBLocation location;
-            std::cout << m_location.DebugString() << std::endl;
             for (const auto &interaction : m_location.interactions()) 
             {
+                if (interaction.database_id() == -1) continue;
                 auto temp_interaction = location.add_interactions();
                 for (const auto &type : interaction.types()) 
                 {
@@ -40,17 +40,16 @@ namespace DCLData
                         if (interaction.post_info().needs_database()) 
                         {
                             temp_interaction->add_types(PBInteractionType::POST);
-                            std::cout << location.DebugString() << std::endl;
                         }
                         break;
                     case PBInteractionType::DIALOG:
-                        if (interaction.post_info().needs_database()) 
+                        if (interaction.dialog_info().needs_database()) 
                         {
                             temp_interaction->add_types(PBInteractionType::DIALOG);
                         }
                         break;
                     case PBInteractionType::ZONE_ACCESS:
-                        if (interaction.post_info().needs_database()) 
+                        if (interaction.zone_access_info().needs_database()) 
                         {
                             temp_interaction->add_types(PBInteractionType::ZONE_ACCESS);
                         }

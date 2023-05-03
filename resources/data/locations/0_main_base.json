@@ -11,8 +11,8 @@
             ],
             "databaseId": 0,
             "interactionName": "bush",
-            "posX": 20,
-            "posY": 10,
+            "posX": 96,
+            "posY": 192,
             "mapIconPaths": [
                 "resources/assets/MapIcons/bush_0.png"
             ],
@@ -67,10 +67,11 @@
             ],
             "databaseId": 1,
             "interactionName": "to guild entrance|west",
-            "posX": 20,
-            "posY": 10,
+            "posX": 288,
+            "posY": 128,
             "mapIconPaths": [
-                "resources/assets/"
+                "resources/assets/MapIcons/zone_access_0.png",
+                "resources/assets/MapIcons/zone_access_1.png"
             ],
             "zoneAccessInfo": {
                 "nextLoc": "GUILD_ENTRANCE_WEST",
