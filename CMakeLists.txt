@@ -10,6 +10,8 @@ if(BUILD_TESTS)
         test/db_handler_test.cpp
         test/proto_test.cpp
         test/core_test.cpp
+        test/img_test.cpp
+        test/db_test.cpp
         dcl/img/src/gd_io_stream.cpp
     )
     add_definitions(-DTEST_DATABASE)

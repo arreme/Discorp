@@ -5,12 +5,12 @@
 #include <iostream>
 #include <sstream>
 
-TEST_CASE("Protobuf: Creating data","[proto][test_1]") 
+TEST_CASE("Protobuf: Creating data","[proto][proto_test_1]") 
 {   
     PBLocation test_location{};
-    test_location.set_loc_id(PBLocationID::GUILD_ENTRANCE_WEST);
+    test_location.set_id(PBLocationID::GUILD_ENTRANCE_WEST);
     test_location.set_database_id(0);
-    test_location.set_loc_image("/resources");
+    test_location.set_image("/resources");
     auto int_1 = test_location.add_interactions();
     int_1->add_types(PBInteractionType::POST);
     int_1->set_pos_x(20);
@@ -32,7 +32,7 @@ TEST_CASE("Protobuf: Creating data","[proto][test_1]")
     REQUIRE(true);
 }
 
-TEST_CASE("Protobuf: Reading data","[proto][test_2]") 
+TEST_CASE("Protobuf: Reading data","[proto][proto_test_2]") 
 {
     std::ifstream t("test/data/test_2.json");
     std::stringstream buffer;
@@ -40,7 +40,7 @@ TEST_CASE("Protobuf: Reading data","[proto][test_2]")
     auto test_location = PBLocation{};
     google::protobuf::util::JsonStringToMessage(buffer.str(),&test_location);
 
-    REQUIRE(test_location.loc_id() == PBLocationID::MAIN_BASE);
+    REQUIRE(test_location.id() == PBLocationID::MAIN_BASE);
     REQUIRE(test_location.database_id() == 0);
     REQUIRE(test_location.interactions(0).pos_x() == 20);
     REQUIRE(test_location.interactions(0).post_info().upgrades(0).info(0).current_stat() == 40.0f);

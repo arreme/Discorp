@@ -66,82 +66,17 @@ namespace db_handler
             m_location = location;
         }
 
-        bool InsertNewLocation(PBUser &user, db::Transaction *t = nullptr) 
-        {
-            if (m_location->database_id() == -1) return false;
-
-            bsoncxx::builder::basic::array array{};
-            for (auto const &interaction : m_location->interactions())
-            {
-                if (interaction.database_id() == -1) continue;
-
-                bsoncxx::builder::basic::document doc{};
-                for (auto const &type : interaction.types()) 
-                {
-                    switch (type)
-                    {
-                        case PBInteractionType::POST:
-                            doc.append(kvp("post_info",b_document{PostToBson(interaction.post_info())}));
-                            break;
-                        case PBInteractionType::ZONE_ACCESS:
-                            doc.append(kvp("zone_access_info",ZoneAccessToBson(interaction.zone_access_info())));
-                            break;
-                        case PBInteractionType::DIALOG:
-                            doc.append(kvp("dialog_info",DialogToBson(interaction.dialog_info())));
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                array.append(doc.extract());
-            }
-
-            if (m_location->id() == PBLocationID::MAIN_BASE) 
-            {
-                //First Time, we need to build the entire document
-                bsoncxx::builder::basic::array init_array{};
-                init_array.append(array);
-                db::InsertOneOperation insert_op{"game_state",
-                    make_document(
-                        kvp("discord_id",b_int64{static_cast<int64_t>(user.discord_id())}),
-                        kvp("player_id",b_int32{user.current_player_id()}),
-                        kvp("locations",init_array)
-                    )
-                };
-                if (t) 
-                {
-                    t->AddOperation(std::make_unique<db::InsertOneOperation>(insert_op));
-                    return true;
-                } else {
-                    insert_op.ExecuteOperation();
-                    return insert_op.GetState() == db::OperationState::SUCCESS;
-                }
-                
-            } else 
-            {
-                db::UpdateOneOperation update_op{"game_state",
-                    make_document(
-                        kvp("discord_id",b_int64{static_cast<int64_t>(user.discord_id())}),
-                        kvp("player_id",b_int32{user.current_player_id()})
-                    ),
-                    make_document(kvp("$set",make_document(
-                        kvp("locations." + std::to_string(m_location->database_id()),b_array{array})
-                    )))
-                };
-                if (t) 
-                {
-                    t->AddOperation(std::make_unique<db::UpdateOneOperation>(update_op));
-                    return true;
-                } else {
-                    update_op.ExecuteOperation();
-                    return update_op.GetState() == db::OperationState::SUCCESS;
-                }
-                
-            }
-        }
+        /*
+        * TESTED
+        * Insert a new Location, the PBLocation in here is always 
+        * a representation of the main DCL data with the interaction types
+        * that need to be saved to the DataBase
+        */
+        bool InsertNewLocation(PBUser &user, db::Transaction *t = nullptr);
 
         bool FindPlayerCurrentLocation(PBUser &user) 
         {
+            
             return false;
         }
     };

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 
-TEST_CASE("Load Map Correctly from data folder","[core][test_3]") 
+TEST_CASE("Load Map Correctly from data folder","[core][core_test_1]") 
 {
     auto main_base = DCLData::DCLMap::getInstance().GetLocation(PBLocationID::MAIN_BASE);
     REQUIRE(main_base);

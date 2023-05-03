@@ -3,7 +3,7 @@
 #include <db_handler/db_user.hpp>
 #include <db_handler/db_location.hpp>
 
-TEST_CASE("User Database Handler Testing","[db_user]") 
+TEST_CASE("User Database Handler Testing","[db_handler][db_handler_test_1]") 
 {   
     PBUser user;
     user.set_discord_id(0);
@@ -33,13 +33,19 @@ TEST_CASE("User Database Handler Testing","[db_user]")
 };
 
 
-TEST_CASE("Inserting location","[db_location][test_4]") 
+TEST_CASE("Inserting location","[db_handler][db_handler_test_2]") 
 {
     db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"game_state", make_document()};
     del_op_pla.ExecuteOperation();
     PBUser user;
     user.set_discord_id(0);
     user.set_current_player_id(1);
-    db_handler::DBLocationHandler::InsertNewLocation(user,DCLData::DCLMap::getInstance().GetLocation(PBLocationID::MAIN_BASE));
-    db_handler::DBLocationHandler::InsertNewLocation(user,DCLData::DCLMap::getInstance().GetLocation(PBLocationID::GUILD_ENTRANCE_WEST));
+    PBLocation loc;
+    auto interaction_1 = loc.add_interactions();
+    interaction_1->add_types(PBInteractionType::POST);
+    auto interaction_2 = loc.add_interactions();
+    interaction_2->add_types(PBInteractionType::ZONE_ACCESS);
+    interaction_2->add_types(PBInteractionType::DIALOG);
+    db_handler::DBLocationHandler location_handler{&loc};
+    REQUIRE(location_handler.InsertNewLocation(user));
 }
