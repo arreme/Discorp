@@ -1,14 +1,14 @@
 {
     "id": "GUILD_ENTRANCE_WEST",
-    "image": "/resources",
-    "interactions": [
+    "imagdwae": "/resources",
+    "interadwactions": [
         {
             "types": [
                 "POST"
             ],
             "posX": 20,
             "posY": 10,
-            "postInfo": {
+            "postAdwaInfo": {
                 "upgrades": [
                     {
                         "info": [

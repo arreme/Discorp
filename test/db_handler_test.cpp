@@ -5,6 +5,8 @@
 
 TEST_CASE("User Database Handler Testing","[db_handler][db_handler_test_1]") 
 {   
+    db::DeleteManyOperation del_op_usrs = db::DeleteManyOperation{"users", make_document()};
+    del_op_usrs.ExecuteOperation();
     PBUser user;
     user.set_discord_id(0);
     user.set_user_name("Arreme");
@@ -15,6 +17,7 @@ TEST_CASE("User Database Handler Testing","[db_handler][db_handler_test_1]")
     last_online->CopyFrom(google::protobuf::util::TimeUtil::SecondsToTimestamp(seconds));
     std::cout << google::protobuf::util::TimeUtil::ToString(user.last_online()) << std::endl;
     auto player = user.add_players();
+    player->set_version("0.0.1");
     player->set_guild_id(10);
     player->set_current_location(PBLocationID::MAIN_BASE);
     {
@@ -30,6 +33,7 @@ TEST_CASE("User Database Handler Testing","[db_handler][db_handler_test_1]")
     REQUIRE(player->guild_id()==10);
     REQUIRE(player->equipation().attacks_size() == 1);
     REQUIRE(player->equipation().attacks(0) == PBItemEnum::KICK);
+    REQUIRE(player->version() == "0.0.1");
 };
 
 

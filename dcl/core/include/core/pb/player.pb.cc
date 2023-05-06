@@ -167,6 +167,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_player_2eproto::offsets[] PROT
   PROTOBUF_FIELD_OFFSET(::PBPlayer, skills_),
   PROTOBUF_FIELD_OFFSET(::PBPlayer, equipation_),
   PROTOBUF_FIELD_OFFSET(::PBPlayer, gold_),
+  PROTOBUF_FIELD_OFFSET(::PBPlayer, version_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::PBUser, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -183,7 +184,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 12, -1, sizeof(::PBStats)},
   { 24, -1, sizeof(::PBSkills)},
   { 37, -1, sizeof(::PBPlayer)},
-  { 48, -1, sizeof(::PBUser)},
+  { 49, -1, sizeof(::PBUser)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -210,20 +211,20 @@ const char descriptor_table_protodef_player_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "_lvl\030\001 \001(\005\022\023\n\013foraging_xp\030\002 \001(\003\022\022\n\nminin"
   "g_lvl\030\003 \001(\005\022\021\n\tmining_xp\030\004 \001(\003\022\022\n\ncombat"
   "_lvl\030\005 \001(\005\022\021\n\tcombat_xp\030\006 \001(\003\022\025\n\rathleti"
-  "cs_lvl\030\007 \001(\005\022\024\n\014athletics_xp\030\010 \001(\003\"\252\001\n\010P"
+  "cs_lvl\030\007 \001(\005\022\024\n\014athletics_xp\030\010 \001(\003\"\273\001\n\010P"
   "BPlayer\022\020\n\010guild_id\030\001 \001(\004\022\'\n\020current_loc"
   "ation\030\002 \001(\0162\r.PBLocationID\022\027\n\005stats\030\003 \001("
   "\0132\010.PBStats\022\031\n\006skills\030\004 \001(\0132\t.PBSkills\022!"
   "\n\nequipation\030\005 \001(\0132\r.PBEquipation\022\014\n\004gol"
-  "d\030\006 \001(\003\"\227\001\n\006PBUser\022\022\n\ndiscord_id\030\001 \001(\004\022\021"
-  "\n\tuser_name\030\002 \001(\t\022\031\n\021current_player_id\030\003"
-  " \001(\005\022/\n\013last_online\030\004 \001(\0132\032.google.proto"
-  "buf.Timestamp\022\032\n\007players\030\005 \003(\0132\t.PBPlaye"
-  "r*Z\n\rPBPlayerStats\022\n\n\006HEALTH\020\000\022\014\n\010STRENG"
-  "TH\020\001\022\013\n\007DEFENSE\020\002\022\r\n\tPRECISION\020\003\022\t\n\005SPEE"
-  "D\020\004\022\010\n\004LUCK\020\005*C\n\016PBPlayerSkills\022\n\n\006FORAG"
-  "E\020\000\022\n\n\006MINING\020\001\022\n\n\006COMBAT\020\002\022\r\n\tATHLETICS"
-  "\020\003b\006proto3"
+  "d\030\006 \001(\003\022\017\n\007version\030\007 \001(\t\"\227\001\n\006PBUser\022\022\n\nd"
+  "iscord_id\030\001 \001(\004\022\021\n\tuser_name\030\002 \001(\t\022\031\n\021cu"
+  "rrent_player_id\030\003 \001(\005\022/\n\013last_online\030\004 \001"
+  "(\0132\032.google.protobuf.Timestamp\022\032\n\007player"
+  "s\030\005 \003(\0132\t.PBPlayer*Z\n\rPBPlayerStats\022\n\n\006H"
+  "EALTH\020\000\022\014\n\010STRENGTH\020\001\022\013\n\007DEFENSE\020\002\022\r\n\tPR"
+  "ECISION\020\003\022\t\n\005SPEED\020\004\022\010\n\004LUCK\020\005*C\n\016PBPlay"
+  "erSkills\022\n\n\006FORAGE\020\000\022\n\n\006MINING\020\001\022\n\n\006COMB"
+  "AT\020\002\022\r\n\tATHLETICS\020\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_player_2eproto_deps[3] = {
   &::descriptor_table_google_2fprotobuf_2ftimestamp_2eproto,
@@ -239,7 +240,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_pla
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_player_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_player_2eproto = {
-  false, false, descriptor_table_protodef_player_2eproto, "player.proto", 1130,
+  false, false, descriptor_table_protodef_player_2eproto, "player.proto", 1147,
   &descriptor_table_player_2eproto_once, descriptor_table_player_2eproto_sccs, descriptor_table_player_2eproto_deps, 5, 3,
   schemas, file_default_instances, TableStruct_player_2eproto::offsets,
   file_level_metadata_player_2eproto, 5, file_level_enum_descriptors_player_2eproto, file_level_service_descriptors_player_2eproto,
@@ -1407,6 +1408,11 @@ PBPlayer::PBPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 PBPlayer::PBPlayer(const PBPlayer& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  version_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_version().empty()) {
+    version_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_version(),
+      GetArena());
+  }
   if (from._internal_has_stats()) {
     stats_ = new ::PBStats(*from.stats_);
   } else {
@@ -1430,6 +1436,7 @@ PBPlayer::PBPlayer(const PBPlayer& from)
 
 void PBPlayer::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBPlayer_player_2eproto.base);
+  version_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&stats_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&current_location_) -
       reinterpret_cast<char*>(&stats_)) + sizeof(current_location_));
@@ -1443,6 +1450,7 @@ PBPlayer::~PBPlayer() {
 
 void PBPlayer::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
+  version_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (this != internal_default_instance()) delete stats_;
   if (this != internal_default_instance()) delete skills_;
   if (this != internal_default_instance()) delete equipation_;
@@ -1469,6 +1477,7 @@ void PBPlayer::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  version_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   if (GetArena() == nullptr && stats_ != nullptr) {
     delete stats_;
   }
@@ -1535,6 +1544,15 @@ const char* PBPlayer::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           gold_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string version = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
+          auto str = _internal_mutable_version();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "PBPlayer.version"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1609,6 +1627,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(6, this->_internal_gold(), target);
   }
 
+  // string version = 7;
+  if (this->version().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_version().data(), static_cast<int>(this->_internal_version().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "PBPlayer.version");
+    target = stream->WriteStringMaybeAliased(
+        7, this->_internal_version(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1624,6 +1652,13 @@ size_t PBPlayer::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // string version = 7;
+  if (this->version().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_version());
+  }
 
   // .PBStats stats = 3;
   if (this->has_stats()) {
@@ -1697,6 +1732,9 @@ void PBPlayer::MergeFrom(const PBPlayer& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.version().size() > 0) {
+    _internal_set_version(from._internal_version());
+  }
   if (from.has_stats()) {
     _internal_mutable_stats()->::PBStats::MergeFrom(from._internal_stats());
   }
@@ -1738,6 +1776,7 @@ bool PBPlayer::IsInitialized() const {
 void PBPlayer::InternalSwap(PBPlayer* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  version_.Swap(&other->version_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PBPlayer, current_location_)
       + sizeof(PBPlayer::current_location_)

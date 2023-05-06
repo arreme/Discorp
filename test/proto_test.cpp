@@ -38,10 +38,17 @@ TEST_CASE("Protobuf: Reading data","[proto][proto_test_2]")
     std::stringstream buffer;
     buffer << t.rdbuf();
     auto test_location = PBLocation{};
-    google::protobuf::util::JsonStringToMessage(buffer.str(),&test_location);
-
-    REQUIRE(test_location.id() == PBLocationID::MAIN_BASE);
+    auto status = google::protobuf::util::JsonStringToMessage(buffer.str(),&test_location);
+    REQUIRE(status.ok());
+    REQUIRE(test_location.id() == PBLocationID::GUILD_ENTRANCE_WEST);
     REQUIRE(test_location.database_id() == 0);
     REQUIRE(test_location.interactions(0).pos_x() == 20);
     REQUIRE(test_location.interactions(0).post_info().upgrades(0).info(0).current_stat() == 40.0f);
+
+    std::ifstream t2("test/data/test_2_fail.json");
+    std::stringstream buffer2;
+    buffer2 << t.rdbuf();
+    auto test_location2 = PBLocation{};
+    auto status2 = google::protobuf::util::JsonStringToMessage(buffer2.str(),&test_location2);
+    REQUIRE_FALSE(status2.ok());
 }

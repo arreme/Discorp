@@ -881,6 +881,7 @@ class PBPlayer PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kVersionFieldNumber = 7,
     kStatsFieldNumber = 3,
     kSkillsFieldNumber = 4,
     kEquipationFieldNumber = 5,
@@ -888,6 +889,31 @@ class PBPlayer PROTOBUF_FINAL :
     kGoldFieldNumber = 6,
     kCurrentLocationFieldNumber = 2,
   };
+  // string version = 7;
+  void clear_version();
+  const std::string& version() const;
+  void set_version(const std::string& value);
+  void set_version(std::string&& value);
+  void set_version(const char* value);
+  void set_version(const char* value, size_t size);
+  std::string* mutable_version();
+  std::string* release_version();
+  void set_allocated_version(std::string* version);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_version();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_version(
+      std::string* version);
+  private:
+  const std::string& _internal_version() const;
+  void _internal_set_version(const std::string& value);
+  std::string* _internal_mutable_version();
+  public:
+
   // .PBStats stats = 3;
   bool has_stats() const;
   private:
@@ -976,6 +1002,7 @@ class PBPlayer PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr version_;
   ::PBStats* stats_;
   ::PBSkills* skills_;
   ::PBEquipation* equipation_;
@@ -1987,6 +2014,87 @@ inline void PBPlayer::_internal_set_gold(::PROTOBUF_NAMESPACE_ID::int64 value) {
 inline void PBPlayer::set_gold(::PROTOBUF_NAMESPACE_ID::int64 value) {
   _internal_set_gold(value);
   // @@protoc_insertion_point(field_set:PBPlayer.gold)
+}
+
+// string version = 7;
+inline void PBPlayer::clear_version() {
+  version_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PBPlayer::version() const {
+  // @@protoc_insertion_point(field_get:PBPlayer.version)
+  return _internal_version();
+}
+inline void PBPlayer::set_version(const std::string& value) {
+  _internal_set_version(value);
+  // @@protoc_insertion_point(field_set:PBPlayer.version)
+}
+inline std::string* PBPlayer::mutable_version() {
+  // @@protoc_insertion_point(field_mutable:PBPlayer.version)
+  return _internal_mutable_version();
+}
+inline const std::string& PBPlayer::_internal_version() const {
+  return version_.Get();
+}
+inline void PBPlayer::_internal_set_version(const std::string& value) {
+  
+  version_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PBPlayer::set_version(std::string&& value) {
+  
+  version_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:PBPlayer.version)
+}
+inline void PBPlayer::set_version(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  version_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:PBPlayer.version)
+}
+inline void PBPlayer::set_version(const char* value,
+    size_t size) {
+  
+  version_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:PBPlayer.version)
+}
+inline std::string* PBPlayer::_internal_mutable_version() {
+  
+  return version_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PBPlayer::release_version() {
+  // @@protoc_insertion_point(field_release:PBPlayer.version)
+  return version_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PBPlayer::set_allocated_version(std::string* version) {
+  if (version != nullptr) {
+    
+  } else {
+    
+  }
+  version_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), version,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:PBPlayer.version)
+}
+inline std::string* PBPlayer::unsafe_arena_release_version() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:PBPlayer.version)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return version_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PBPlayer::unsafe_arena_set_allocated_version(
+    std::string* version) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (version != nullptr) {
+    
+  } else {
+    
+  }
+  version_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      version, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBPlayer.version)
 }
 
 // -------------------------------------------------------------------

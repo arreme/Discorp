@@ -313,8 +313,10 @@ TEST_CASE("Aggregation testing","[db][db_test_5]")
 
     aggregation.ExecuteOperation();
     REQUIRE(aggregation.GetState() == db::OperationState::SUCCESS);
-    auto result = aggregation.GetFirstResult();
+    auto result = aggregation.GetResult();
     REQUIRE(result);
+    auto result2 = aggregation.GetResult();
+    REQUIRE(result2);
     auto doc = *result;
     del_op.ExecuteOperation();
 

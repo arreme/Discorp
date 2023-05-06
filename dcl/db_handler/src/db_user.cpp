@@ -79,7 +79,7 @@ namespace db_handler
         equipation->set_armor_head(static_cast<PBItemEnum>(static_cast<int32_t>(doc["armor_head"].get_int32())));
         equipation->set_armor_chest(static_cast<PBItemEnum>(static_cast<int32_t>(doc["armor_chest"].get_int32())));
         equipation->set_armor_leggings(static_cast<PBItemEnum>(static_cast<int32_t>(doc["armor_leggings"].get_int32())));
-        equipation->set_armor_boots(static_cast<PBItemEnum>(static_cast<int32_t>(doc["darmor_boots"].get_int32())));
+        equipation->set_armor_boots(static_cast<PBItemEnum>(static_cast<int32_t>(doc["armor_boots"].get_int32())));
         equipation->set_weapon(static_cast<PBItemEnum>(static_cast<int32_t>(doc["weapon"].get_int32())));
         equipation->set_tool(static_cast<PBItemEnum>(static_cast<int32_t>(doc["tool"].get_int32())));
 
@@ -96,7 +96,8 @@ namespace db_handler
             kvp("stats", StatsToBson(player.stats())),
             kvp("skills",SkillsToBson(player.skills())),
             kvp("equipation",EquipationToBson(player.equipation())),
-            kvp("gold",b_int64{player.gold()})
+            kvp("gold",b_int64{player.gold()}),
+            kvp("version",b_string{player.version()})
         );
     }
 
@@ -107,6 +108,7 @@ namespace db_handler
         BsonToSkills(player->mutable_skills(),doc["skills"].get_document().view());
         BsonToEquipation(player->mutable_equipation(),doc["equipation"].get_document().view());
         player->set_gold(doc["gold"].get_int64());
+        player->set_version(bsoncxx::string::to_string(doc["version"].get_string().value));
     }
 
 #pragma endregion
@@ -167,17 +169,16 @@ namespace db_handler
         ));
         db::AggregateOperation find_one{"users",std::move(p)};
         find_one.ExecuteOperation();
-        auto result = find_one.GetFirstResult();
+        auto result = find_one.GetResult();
         if (result) 
         {
             m_user->Clear();
             auto doc = result.value();
             try {
                 m_user->set_discord_id(static_cast<uint64_t>(doc["discord_id"].get_int64()));
-                m_user->set_user_name(bsoncxx::string::to_string(doc["version"].get_string().value));
-                m_user->set_current_player_id(static_cast<int32_t>(doc["discord_id"].get_int64()));
+                m_user->set_user_name(bsoncxx::string::to_string(doc["user_name"].get_string().value));
+                m_user->set_current_player_id(static_cast<int32_t>(doc["current_player_id"].get_int32()));
                 m_user->mutable_last_online()->set_seconds(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
-                
                 auto temp = m_user->add_players();
                 auto player_doc = doc["players"].get_document().view();
                 BsonToPlayer(temp,player_doc);
