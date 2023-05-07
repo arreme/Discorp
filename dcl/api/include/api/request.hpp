@@ -18,7 +18,6 @@ public:
     BaseRequest(uint64_t discord_id) 
     {
         m_user.set_discord_id(discord_id);
-        //Check If user already registerered
         m_user_created = m_user_handler.FindUserCurrentPlayer();
     };
 };
@@ -39,12 +38,12 @@ public:
 
     void CreateGame(uint64_t guild_id) 
     {
-        //Create User and start a new game
-        //Create user
-        //Create map
-        //Create inventory
         db::Transaction t;
         m_user.set_current_player_id(0);
+        auto last_online = m_user.mutable_last_online();
+        auto now = std::chrono::system_clock::now();
+        auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
+        last_online->CopyFrom(google::protobuf::util::TimeUtil::SecondsToTimestamp(seconds));
         auto player = m_user.add_players();
         player->set_guild_id(guild_id);
         player->set_current_location(m_start_location);
@@ -80,6 +79,18 @@ public:
         map_renderer.FillContents(m_user.players(0),*m_location_data, m_location);
         int size = 0;
         m.add_file("map.png",std::string{map_renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
+        auto list = dpp::component().set_type(dpp::cot_selectmenu).
+                    set_placeholder("Select Interaction").
+                    set_id("myselid");
+        int i = 0;
+        for(auto const &interaction : m_location_data->interactions()) 
+        {
+            list.add_select_option(dpp::select_option(interaction.interaction_list_name(),std::to_string(i),interaction.description())).set_emoji("sandwich");
+            i++;
+        }
+        m.add_component(
+            dpp::component().add_component(list)
+        );
         return true;
     }
 };

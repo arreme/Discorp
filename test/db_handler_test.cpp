@@ -52,4 +52,10 @@ TEST_CASE("Inserting location","[db_handler][db_handler_test_2]")
     interaction_2->add_types(PBInteractionType::DIALOG);
     db_handler::DBLocationHandler location_handler{&loc};
     REQUIRE(location_handler.InsertNewLocation(user));
+    interaction_2->mutable_zone_access_info()->set_unlock_level(200);
+    REQUIRE(location_handler.FindPlayerCurrentLocation(user));
+    auto post_int = loc.interactions(0);
+    REQUIRE(post_int.types_size() == 1);
+    REQUIRE(post_int.types(0) == PBInteractionType::POST);
+
 }

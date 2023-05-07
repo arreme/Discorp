@@ -3,7 +3,7 @@
 using namespace bsoncxx::builder::basic;
 using namespace bsoncxx::types;
 
-bsoncxx::document::value db_handler::DBLocationHandler::s_start_post = 
+const bsoncxx::document::value db_handler::DBLocationHandler::s_start_post = 
     make_document(
         kvp("capacity_upgrade",b_int32{0}),
         kvp("gen_second_upgrade",b_int32{0}),
@@ -11,15 +11,20 @@ bsoncxx::document::value db_handler::DBLocationHandler::s_start_post =
         kvp("resource_stored",b_int64{0})  
     );
 
-bsoncxx::document::value db_handler::DBLocationHandler::s_start_zone_access =
+const bsoncxx::document::value db_handler::DBLocationHandler::s_start_zone_access =
     make_document(
         kvp("unlock_level",b_int32{0}) 
     );
 
-bsoncxx::document::value db_handler::DBLocationHandler::s_start_dialog =
+const bsoncxx::document::value db_handler::DBLocationHandler::s_start_dialog =
     make_document(
         kvp("current_dialog",b_int32{0}) 
     );
+
+const std::unordered_map<std::string,void (db_handler::DBLocationHandler::*)(PBInteraction *,bsoncxx::document::view)> db_handler::DBLocationHandler::s_location_decoder = 
+    {{"post_info",&db_handler::DBLocationHandler::BsonToPost},
+     {"dialog_info",&db_handler::DBLocationHandler::BsonToDialog},
+     {"zone_access_info",&db_handler::DBLocationHandler::BsonToZoneAccess}};
 
 bool db_handler::DBLocationHandler::InsertNewLocation(PBUser &user, db::Transaction *t) 
 {
@@ -93,4 +98,45 @@ bool db_handler::DBLocationHandler::InsertNewLocation(PBUser &user, db::Transact
         }
         
     }
+}
+
+
+bool db_handler::DBLocationHandler::FindPlayerCurrentLocation(PBUser &user) 
+{
+    mongocxx::pipeline p;
+    p.match(make_document(
+        kvp("discord_id", b_int64{static_cast<int64_t>(user.discord_id())}),
+        kvp("player_id", b_int32{user.current_player_id()})
+    ));
+    p.add_fields(make_document(
+        kvp("locations", make_document(
+            kvp("$arrayElemAt", make_array(
+                "$locations",
+                b_int32{m_location->database_id()}
+            ))
+        ))
+    ));
+
+    db::AggregateOperation agg_op{"game_state",std::move(p)};
+    agg_op.ExecuteOperation();
+    m_location->clear_interactions();
+    if (agg_op.GetState() == db::OperationState::SUCCESS) 
+    {
+        auto result = agg_op.GetResult();
+        if (result.has_value()) 
+        {
+            auto doc = result.value();
+            for (auto const &interaction_element : doc["locations"].get_array().value)
+            {
+                auto interaction = interaction_element.get_document().value;
+                auto temp_interaction = m_location->add_interactions();
+                for (auto const &element : interaction)
+                {
+                    (this->*s_location_decoder.at(std::string{element.key()}))(temp_interaction,interaction[element.key()].get_document().value);
+                }
+            }
+            return true;
+        }
+    }
+    return false;
 }

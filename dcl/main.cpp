@@ -35,16 +35,20 @@ int main(int argc, char *argv[])
             {
                 bot.global_command_delete_sync(command.first);
             }
-
             bootstrap.RegisterCommands();
         }
-        
-        
     });
 
     bot.on_slashcommand([&bot,&bootstrap](const dpp::slashcommand_t & event) {
         Command *command = bootstrap.Find(event.command.get_command_name());
         command->HandleCommand(&event);
+    });
+
+    bot.on_select_click([&bot](const dpp::select_click_t & event) {
+        /* Select clicks are still interactions, and must be replied to in some form to
+         * prevent the "this interaction has failed" message from Discord to the user.
+         */
+        event.reply("You clicked " + event.custom_id + " and chose: " + event.values[0]);
     });
 
 /*     bot.on_button_click([&bot,&button_bootstrap](const dpp::button_click_t & event) {

@@ -154,8 +154,7 @@ namespace db_handler
         bsoncxx::builder::basic::document doc{};
         mongocxx::pipeline p;
         p.match(make_document(
-            kvp("discord_id",b_int64{static_cast<int64>(m_user->discord_id())}),
-            kvp("user_name",b_string{m_user->user_name()})
+            kvp("discord_id",b_int64{static_cast<int64>(m_user->discord_id())})
         ));
         p.add_fields(make_document(
             kvp("players", make_document(
@@ -170,10 +169,12 @@ namespace db_handler
         db::AggregateOperation find_one{"users",std::move(p)};
         find_one.ExecuteOperation();
         auto result = find_one.GetResult();
+        std::cout << result.has_value() << std::endl;
         if (result) 
         {
             m_user->Clear();
             auto doc = result.value();
+            std::cout << bsoncxx::to_json(doc) << std::endl;
             try {
                 m_user->set_discord_id(static_cast<uint64_t>(doc["discord_id"].get_int64()));
                 m_user->set_user_name(bsoncxx::string::to_string(doc["user_name"].get_string().value));

@@ -10,7 +10,9 @@
                 "DIALOG"
             ],
             "databaseId": -1,
-            "interactionName": "bush",
+            "interactionName": "go to main base",
+            "interactionListName": "[ZONE ACCESS] Go to Main Base",
+            "description": "Going back to your base was never that easy",
             "posX": 20,
             "posY": 10,
             "mapIconPaths": [
@@ -48,7 +50,9 @@
                 "DIALOG"
             ],
             "databaseId": 0,
-            "interactionName": "bush",
+            "interactionName": "go to guild",
+            "interactionListName": "[ZONE ACCESS] Entry to the guild",
+            "description": "The big city awaits",
             "posX": 20,
             "posY": 10,
             "mapIconPaths": [

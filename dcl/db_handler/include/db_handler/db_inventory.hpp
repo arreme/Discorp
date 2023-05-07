@@ -24,7 +24,10 @@ namespace db_handler
         {
 
         }
-
+        /**
+         * TESTED
+         * Inserts an empty inventory with all the required tabs to the database
+        */
         static bool InitializeInventory(PBUser &user, db::Transaction *t = nullptr) 
         {
             

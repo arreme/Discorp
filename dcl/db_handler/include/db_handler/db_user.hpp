@@ -42,9 +42,17 @@ namespace db_handler
 
     public:
         DBUserHandler(PBUser *user);
-
+        /**
+         * TESTED
+         * 
+         * Inserts an User using the m_user attribute
+        */
         bool InsertUser(db::Transaction *t = nullptr) noexcept;
-
+        /**
+         * TESTED
+         * 
+         * Finds Current Player using user discord id
+        */
         bool FindUserCurrentPlayer() noexcept;
     };
 

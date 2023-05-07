@@ -10,7 +10,9 @@
                 "DIALOG"
             ],
             "databaseId": 0,
+            "interactionListName": "[POST] Bush",
             "interactionName": "bush",
+            "description": "Hey! I can get some sticks from here!",
             "posX": 96,
             "posY": 192,
             "mapIconPaths": [
@@ -67,6 +69,8 @@
             ],
             "databaseId": 1,
             "interactionName": "to guild entrance|west",
+            "interactionListName": "[ZONE ACCESS] Go to Guild Entrance (West)",
+            "description": "By unlocking this you can go to new places! What adventures are yet to come?",
             "posX": 288,
             "posY": 128,
             "mapIconPaths": [

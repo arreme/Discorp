@@ -276,17 +276,19 @@ class PBInteraction PROTOBUF_FINAL :
 
   enum : int {
     kTypesFieldNumber = 1,
-    kMapIconPathsFieldNumber = 6,
-    kInteractionNameFieldNumber = 3,
-    kPostInfoFieldNumber = 7,
-    kZoneAccessInfoFieldNumber = 8,
-    kShopInfoFieldNumber = 9,
-    kQuestInfoFieldNumber = 10,
-    kDialogInfoFieldNumber = 11,
-    kCustomInfoFieldNumber = 12,
+    kMapIconPathsFieldNumber = 8,
+    kInteractionListNameFieldNumber = 3,
+    kInteractionNameFieldNumber = 4,
+    kDescriptionFieldNumber = 5,
+    kPostInfoFieldNumber = 9,
+    kZoneAccessInfoFieldNumber = 10,
+    kShopInfoFieldNumber = 11,
+    kQuestInfoFieldNumber = 12,
+    kDialogInfoFieldNumber = 13,
+    kCustomInfoFieldNumber = 14,
     kDatabaseIdFieldNumber = 2,
-    kPosXFieldNumber = 4,
-    kPosYFieldNumber = 5,
+    kPosXFieldNumber = 6,
+    kPosYFieldNumber = 7,
   };
   // repeated .PBInteractionType types = 1;
   int types_size() const;
@@ -305,7 +307,7 @@ class PBInteraction PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& types() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_types();
 
-  // repeated string map_icon_paths = 6;
+  // repeated string map_icon_paths = 8;
   int map_icon_paths_size() const;
   private:
   int _internal_map_icon_paths_size() const;
@@ -329,7 +331,32 @@ class PBInteraction PROTOBUF_FINAL :
   std::string* _internal_add_map_icon_paths();
   public:
 
-  // string interaction_name = 3;
+  // string interaction_list_name = 3;
+  void clear_interaction_list_name();
+  const std::string& interaction_list_name() const;
+  void set_interaction_list_name(const std::string& value);
+  void set_interaction_list_name(std::string&& value);
+  void set_interaction_list_name(const char* value);
+  void set_interaction_list_name(const char* value, size_t size);
+  std::string* mutable_interaction_list_name();
+  std::string* release_interaction_list_name();
+  void set_allocated_interaction_list_name(std::string* interaction_list_name);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_interaction_list_name();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_interaction_list_name(
+      std::string* interaction_list_name);
+  private:
+  const std::string& _internal_interaction_list_name() const;
+  void _internal_set_interaction_list_name(const std::string& value);
+  std::string* _internal_mutable_interaction_list_name();
+  public:
+
+  // string interaction_name = 4;
   void clear_interaction_name();
   const std::string& interaction_name() const;
   void set_interaction_name(const std::string& value);
@@ -354,7 +381,32 @@ class PBInteraction PROTOBUF_FINAL :
   std::string* _internal_mutable_interaction_name();
   public:
 
-  // .PBPostInteraction post_info = 7;
+  // string description = 5;
+  void clear_description();
+  const std::string& description() const;
+  void set_description(const std::string& value);
+  void set_description(std::string&& value);
+  void set_description(const char* value);
+  void set_description(const char* value, size_t size);
+  std::string* mutable_description();
+  std::string* release_description();
+  void set_allocated_description(std::string* description);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_description();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_description(
+      std::string* description);
+  private:
+  const std::string& _internal_description() const;
+  void _internal_set_description(const std::string& value);
+  std::string* _internal_mutable_description();
+  public:
+
+  // .PBPostInteraction post_info = 9;
   bool has_post_info() const;
   private:
   bool _internal_has_post_info() const;
@@ -372,7 +424,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBPostInteraction* post_info);
   ::PBPostInteraction* unsafe_arena_release_post_info();
 
-  // .PBZoneAccessInteraction zone_access_info = 8;
+  // .PBZoneAccessInteraction zone_access_info = 10;
   bool has_zone_access_info() const;
   private:
   bool _internal_has_zone_access_info() const;
@@ -390,7 +442,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBZoneAccessInteraction* zone_access_info);
   ::PBZoneAccessInteraction* unsafe_arena_release_zone_access_info();
 
-  // .PBShopInteraction shop_info = 9;
+  // .PBShopInteraction shop_info = 11;
   bool has_shop_info() const;
   private:
   bool _internal_has_shop_info() const;
@@ -408,7 +460,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBShopInteraction* shop_info);
   ::PBShopInteraction* unsafe_arena_release_shop_info();
 
-  // .PBQuestInteraction quest_info = 10;
+  // .PBQuestInteraction quest_info = 12;
   bool has_quest_info() const;
   private:
   bool _internal_has_quest_info() const;
@@ -426,7 +478,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBQuestInteraction* quest_info);
   ::PBQuestInteraction* unsafe_arena_release_quest_info();
 
-  // .PBDialogInteraction dialog_info = 11;
+  // .PBDialogInteraction dialog_info = 13;
   bool has_dialog_info() const;
   private:
   bool _internal_has_dialog_info() const;
@@ -444,7 +496,7 @@ class PBInteraction PROTOBUF_FINAL :
       ::PBDialogInteraction* dialog_info);
   ::PBDialogInteraction* unsafe_arena_release_dialog_info();
 
-  // .PBCustomInteraction custom_info = 12;
+  // .PBCustomInteraction custom_info = 14;
   bool has_custom_info() const;
   private:
   bool _internal_has_custom_info() const;
@@ -471,7 +523,7 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_database_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 pos_x = 4;
+  // int32 pos_x = 6;
   void clear_pos_x();
   ::PROTOBUF_NAMESPACE_ID::int32 pos_x() const;
   void set_pos_x(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -480,7 +532,7 @@ class PBInteraction PROTOBUF_FINAL :
   void _internal_set_pos_x(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 pos_y = 5;
+  // int32 pos_y = 7;
   void clear_pos_y();
   ::PROTOBUF_NAMESPACE_ID::int32 pos_y() const;
   void set_pos_y(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -499,7 +551,9 @@ class PBInteraction PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> types_;
   mutable std::atomic<int> _types_cached_byte_size_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> map_icon_paths_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr interaction_list_name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr interaction_name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr description_;
   ::PBPostInteraction* post_info_;
   ::PBZoneAccessInteraction* zone_access_info_;
   ::PBShopInteraction* shop_info_;
@@ -2237,7 +2291,88 @@ inline void PBInteraction::set_database_id(::PROTOBUF_NAMESPACE_ID::int32 value)
   // @@protoc_insertion_point(field_set:PBInteraction.database_id)
 }
 
-// string interaction_name = 3;
+// string interaction_list_name = 3;
+inline void PBInteraction::clear_interaction_list_name() {
+  interaction_list_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PBInteraction::interaction_list_name() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.interaction_list_name)
+  return _internal_interaction_list_name();
+}
+inline void PBInteraction::set_interaction_list_name(const std::string& value) {
+  _internal_set_interaction_list_name(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.interaction_list_name)
+}
+inline std::string* PBInteraction::mutable_interaction_list_name() {
+  // @@protoc_insertion_point(field_mutable:PBInteraction.interaction_list_name)
+  return _internal_mutable_interaction_list_name();
+}
+inline const std::string& PBInteraction::_internal_interaction_list_name() const {
+  return interaction_list_name_.Get();
+}
+inline void PBInteraction::_internal_set_interaction_list_name(const std::string& value) {
+  
+  interaction_list_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PBInteraction::set_interaction_list_name(std::string&& value) {
+  
+  interaction_list_name_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:PBInteraction.interaction_list_name)
+}
+inline void PBInteraction::set_interaction_list_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  interaction_list_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:PBInteraction.interaction_list_name)
+}
+inline void PBInteraction::set_interaction_list_name(const char* value,
+    size_t size) {
+  
+  interaction_list_name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:PBInteraction.interaction_list_name)
+}
+inline std::string* PBInteraction::_internal_mutable_interaction_list_name() {
+  
+  return interaction_list_name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PBInteraction::release_interaction_list_name() {
+  // @@protoc_insertion_point(field_release:PBInteraction.interaction_list_name)
+  return interaction_list_name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PBInteraction::set_allocated_interaction_list_name(std::string* interaction_list_name) {
+  if (interaction_list_name != nullptr) {
+    
+  } else {
+    
+  }
+  interaction_list_name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), interaction_list_name,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:PBInteraction.interaction_list_name)
+}
+inline std::string* PBInteraction::unsafe_arena_release_interaction_list_name() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:PBInteraction.interaction_list_name)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return interaction_list_name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PBInteraction::unsafe_arena_set_allocated_interaction_list_name(
+    std::string* interaction_list_name) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (interaction_list_name != nullptr) {
+    
+  } else {
+    
+  }
+  interaction_list_name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      interaction_list_name, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBInteraction.interaction_list_name)
+}
+
+// string interaction_name = 4;
 inline void PBInteraction::clear_interaction_name() {
   interaction_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
@@ -2318,7 +2453,88 @@ inline void PBInteraction::unsafe_arena_set_allocated_interaction_name(
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBInteraction.interaction_name)
 }
 
-// int32 pos_x = 4;
+// string description = 5;
+inline void PBInteraction::clear_description() {
+  description_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& PBInteraction::description() const {
+  // @@protoc_insertion_point(field_get:PBInteraction.description)
+  return _internal_description();
+}
+inline void PBInteraction::set_description(const std::string& value) {
+  _internal_set_description(value);
+  // @@protoc_insertion_point(field_set:PBInteraction.description)
+}
+inline std::string* PBInteraction::mutable_description() {
+  // @@protoc_insertion_point(field_mutable:PBInteraction.description)
+  return _internal_mutable_description();
+}
+inline const std::string& PBInteraction::_internal_description() const {
+  return description_.Get();
+}
+inline void PBInteraction::_internal_set_description(const std::string& value) {
+  
+  description_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void PBInteraction::set_description(std::string&& value) {
+  
+  description_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:PBInteraction.description)
+}
+inline void PBInteraction::set_description(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  description_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:PBInteraction.description)
+}
+inline void PBInteraction::set_description(const char* value,
+    size_t size) {
+  
+  description_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:PBInteraction.description)
+}
+inline std::string* PBInteraction::_internal_mutable_description() {
+  
+  return description_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* PBInteraction::release_description() {
+  // @@protoc_insertion_point(field_release:PBInteraction.description)
+  return description_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void PBInteraction::set_allocated_description(std::string* description) {
+  if (description != nullptr) {
+    
+  } else {
+    
+  }
+  description_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), description,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:PBInteraction.description)
+}
+inline std::string* PBInteraction::unsafe_arena_release_description() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:PBInteraction.description)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return description_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void PBInteraction::unsafe_arena_set_allocated_description(
+    std::string* description) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (description != nullptr) {
+    
+  } else {
+    
+  }
+  description_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      description, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBInteraction.description)
+}
+
+// int32 pos_x = 6;
 inline void PBInteraction::clear_pos_x() {
   pos_x_ = 0;
 }
@@ -2338,7 +2554,7 @@ inline void PBInteraction::set_pos_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:PBInteraction.pos_x)
 }
 
-// int32 pos_y = 5;
+// int32 pos_y = 7;
 inline void PBInteraction::clear_pos_y() {
   pos_y_ = 0;
 }
@@ -2358,7 +2574,7 @@ inline void PBInteraction::set_pos_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:PBInteraction.pos_y)
 }
 
-// repeated string map_icon_paths = 6;
+// repeated string map_icon_paths = 8;
 inline int PBInteraction::_internal_map_icon_paths_size() const {
   return map_icon_paths_.size();
 }
@@ -2432,7 +2648,7 @@ PBInteraction::mutable_map_icon_paths() {
   return &map_icon_paths_;
 }
 
-// .PBPostInteraction post_info = 7;
+// .PBPostInteraction post_info = 9;
 inline bool PBInteraction::_internal_has_post_info() const {
   return this != internal_default_instance() && post_info_ != nullptr;
 }
@@ -2513,7 +2729,7 @@ inline void PBInteraction::set_allocated_post_info(::PBPostInteraction* post_inf
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.post_info)
 }
 
-// .PBZoneAccessInteraction zone_access_info = 8;
+// .PBZoneAccessInteraction zone_access_info = 10;
 inline bool PBInteraction::_internal_has_zone_access_info() const {
   return this != internal_default_instance() && zone_access_info_ != nullptr;
 }
@@ -2594,7 +2810,7 @@ inline void PBInteraction::set_allocated_zone_access_info(::PBZoneAccessInteract
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.zone_access_info)
 }
 
-// .PBShopInteraction shop_info = 9;
+// .PBShopInteraction shop_info = 11;
 inline bool PBInteraction::_internal_has_shop_info() const {
   return this != internal_default_instance() && shop_info_ != nullptr;
 }
@@ -2675,7 +2891,7 @@ inline void PBInteraction::set_allocated_shop_info(::PBShopInteraction* shop_inf
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.shop_info)
 }
 
-// .PBQuestInteraction quest_info = 10;
+// .PBQuestInteraction quest_info = 12;
 inline bool PBInteraction::_internal_has_quest_info() const {
   return this != internal_default_instance() && quest_info_ != nullptr;
 }
@@ -2756,7 +2972,7 @@ inline void PBInteraction::set_allocated_quest_info(::PBQuestInteraction* quest_
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.quest_info)
 }
 
-// .PBDialogInteraction dialog_info = 11;
+// .PBDialogInteraction dialog_info = 13;
 inline bool PBInteraction::_internal_has_dialog_info() const {
   return this != internal_default_instance() && dialog_info_ != nullptr;
 }
@@ -2837,7 +3053,7 @@ inline void PBInteraction::set_allocated_dialog_info(::PBDialogInteraction* dial
   // @@protoc_insertion_point(field_set_allocated:PBInteraction.dialog_info)
 }
 
-// .PBCustomInteraction custom_info = 12;
+// .PBCustomInteraction custom_info = 14;
 inline bool PBInteraction::_internal_has_custom_info() const {
   return this != internal_default_instance() && custom_info_ != nullptr;
 }

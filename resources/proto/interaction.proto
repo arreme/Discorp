@@ -6,19 +6,21 @@ import "location.proto";
 
 message PBInteraction 
 {
-    repeated PBInteractionType types            = 1;
-    int32 database_id                           = 2;
-    string interaction_name                     = 3;
-    int32 pos_x                                 = 4;
-    int32 pos_y                                 = 5;
-    repeated string map_icon_paths                = 6;
+    repeated PBInteractionType types                = 1;
+    int32 database_id                               = 2;
+    string interaction_list_name                    = 3;
+    string interaction_name                         = 4;
+    string description                              = 5;
+    int32 pos_x                                     = 6;
+    int32 pos_y                                     = 7;
+    repeated string map_icon_paths                  = 8;
 
-    PBPostInteraction post_info                     = 7;
-    PBZoneAccessInteraction zone_access_info        = 8;
-    PBShopInteraction shop_info                     = 9;
-    PBQuestInteraction quest_info                   = 10;
-    PBDialogInteraction dialog_info                 = 11;
-    PBCustomInteraction custom_info                 = 12;
+    PBPostInteraction post_info                     = 9;
+    PBZoneAccessInteraction zone_access_info        = 10;
+    PBShopInteraction shop_info                     = 11;
+    PBQuestInteraction quest_info                   = 12;
+    PBDialogInteraction dialog_info                 = 13;
+    PBCustomInteraction custom_info                 = 14;
 }
 
 message PBPostInteraction 
