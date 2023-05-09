@@ -1,6 +1,5 @@
 #include <img/renderer.hpp>
 
-
 Renderer::ImageRenderer::ImageRenderer(const std::string &base_image) 
 {
     std::ifstream in{base_image, std::ios::binary};
@@ -20,7 +19,8 @@ void Renderer::FreePointer(char * data)
 bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const PBLocation &location_data, const PBLocation &location_db) 
 {
     if (!m_image.good()) return false;
-#pragma region fill_location
+#pragma region fill_information
+    //Location Name
     size_t i = location_data.name().find(s_delimiter, 0);
     if (i != std::string::npos) 
     {
@@ -31,6 +31,11 @@ bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const PBLoc
     {
         m_image.AddImageText(s_black,m_location_1,12,location_data.name().substr(0),false);
     }
+
+    std::string health = std::to_string(player.stats().current_health()) + "/" + std::to_string(player.stats().max_health());
+    std::string gold = std::to_string(player.gold());
+    m_image.AddImageText(s_black,m_current_health,12,health,false);
+    m_image.AddImageText(s_black,m_gold,12,gold,false);
     
 #pragma endregion
 
@@ -42,15 +47,7 @@ bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const PBLoc
         GD::Size map_size{};
         map.GetSize(map_size);
         m_image.Copy(map, m_map_start,GD::Point{0,0},map_size);
-    }
-    
-#pragma endregion
-
-#pragma region fill_stats
-    std::string health = std::to_string(player.stats().current_health()) + "/" + std::to_string(player.stats().max_health());
-    std::string gold = std::to_string(player.gold());
-    m_image.AddImageText(s_black,m_current_health,12,health,false);
-    m_image.AddImageText(s_black,m_gold,12,gold,false);
+    }    
 #pragma endregion
     
 #pragma region interactions

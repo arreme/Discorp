@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 project(dcl_api VERSION 0.0.1 DESCRIPTION "DPP wrapper to manage actions from discord")
 
-add_library(${PROJECT_NAME} SHARED "src/command_bootstrap.cpp" "../img/src/gd_io_stream.cpp")
+add_library(${PROJECT_NAME} SHARED "src/command_bootstrap.cpp" "../img/src/gd_io_stream.cpp" "src/request.cpp")
 
 target_include_directories(
     ${PROJECT_NAME}

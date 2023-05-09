@@ -106,17 +106,18 @@ template<> ::PBZoneAccessInteraction* Arena::CreateMaybeMessage<::PBZoneAccessIn
 PROTOBUF_NAMESPACE_CLOSE
 
 enum PBInteractionType : int {
-  POST = 0,
-  ZONE_ACCESS = 1,
-  QUEST = 2,
-  SHOP = 3,
-  DIALOG = 4,
-  CUSTOM = 5,
+  NONE = 0,
+  POST = 1,
+  ZONE_ACCESS = 2,
+  QUEST = 3,
+  SHOP = 4,
+  DIALOG = 5,
+  CUSTOM = 6,
   PBInteractionType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PBInteractionType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PBInteractionType_IsValid(int value);
-constexpr PBInteractionType PBInteractionType_MIN = POST;
+constexpr PBInteractionType PBInteractionType_MIN = NONE;
 constexpr PBInteractionType PBInteractionType_MAX = CUSTOM;
 constexpr int PBInteractionType_ARRAYSIZE = PBInteractionType_MAX + 1;
 

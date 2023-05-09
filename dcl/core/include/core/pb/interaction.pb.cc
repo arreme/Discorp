@@ -401,11 +401,11 @@ const char descriptor_table_protodef_interaction_2eproto[] PROTOBUF_SECTION_VARI
   "\001(\010\022+\n\020response_options\030\004 \003(\0132\021.PBRespon"
   "seOption\"3\n\020PBResponseOption\022\014\n\004text\030\001 \001"
   "(\t\022\021\n\tnext_text\030\002 \001(\005\"\024\n\022PBQuestInteract"
-  "ion\"\025\n\023PBCustomInteraction*[\n\021PBInteract"
-  "ionType\022\010\n\004POST\020\000\022\017\n\013ZONE_ACCESS\020\001\022\t\n\005QU"
-  "EST\020\002\022\010\n\004SHOP\020\003\022\n\n\006DIALOG\020\004\022\n\n\006CUSTOM\020\005*"
-  ":\n\rPBUpgradeType\022\014\n\010CAPACITY\020\000\022\016\n\nGEN_SE"
-  "COND\020\001\022\013\n\007FORTUNE\020\002b\006proto3"
+  "ion\"\025\n\023PBCustomInteraction*e\n\021PBInteract"
+  "ionType\022\010\n\004NONE\020\000\022\010\n\004POST\020\001\022\017\n\013ZONE_ACCE"
+  "SS\020\002\022\t\n\005QUEST\020\003\022\010\n\004SHOP\020\004\022\n\n\006DIALOG\020\005\022\n\n"
+  "\006CUSTOM\020\006*:\n\rPBUpgradeType\022\014\n\010CAPACITY\020\000"
+  "\022\016\n\nGEN_SECOND\020\001\022\013\n\007FORTUNE\020\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_interaction_2eproto_deps[3] = {
   &::descriptor_table_item_2eproto,
@@ -427,7 +427,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_int
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_interaction_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_interaction_2eproto = {
-  false, false, descriptor_table_protodef_interaction_2eproto, "interaction.proto", 1587,
+  false, false, descriptor_table_protodef_interaction_2eproto, "interaction.proto", 1597,
   &descriptor_table_interaction_2eproto_once, descriptor_table_interaction_2eproto_sccs, descriptor_table_interaction_2eproto_deps, 11, 3,
   schemas, file_default_instances, TableStruct_interaction_2eproto::offsets,
   file_level_metadata_interaction_2eproto, 11, file_level_enum_descriptors_interaction_2eproto, file_level_service_descriptors_interaction_2eproto,
@@ -447,6 +447,7 @@ bool PBInteractionType_IsValid(int value) {
     case 3:
     case 4:
     case 5:
+    case 6:
       return true;
     default:
       return false;

@@ -25,10 +25,10 @@ namespace Renderer
 
     class BaseMapRenderer : public ImageRenderer 
     {
-    private:
+    protected:
         inline static constexpr int map_x_offset = 170;
         inline static constexpr int map_y_offset = 14;
-        inline static const std::string s_base_map_path = "resources/assets/UI/nothing_selected.png";
+        inline static const std::string s_base_map = "resources/assets/UI/nothing_selected.png";
         inline static const GD::Size s_map_icon_size{32,32};
         inline static const GD::Point m_map_start{170,14};
         inline static const GD::Point m_location_1{17,41};
@@ -36,10 +36,26 @@ namespace Renderer
         inline static const GD::Point m_current_health{17,314};
         inline static const GD::Point m_gold{17,330};
     public:
-        BaseMapRenderer() 
-        : ImageRenderer(s_base_map_path)
+        BaseMapRenderer(std::string path = s_base_map) 
+        : ImageRenderer(path)
         {};
 
-        bool FillContents(const PBPlayer &player, const PBLocation &location_data, const PBLocation &location_db);
+        virtual bool FillContents(const PBPlayer &player, const PBLocation &location_data, const PBLocation &location_db);
+    };
+
+    class PostMapRenderer : public BaseMapRenderer 
+    {
+    private:
+        inline static const std::string s_post_map = "resources/assets/UI/post_selected.png";
+    public:
+        PostMapRenderer() 
+        : BaseMapRenderer(s_post_map)
+        {};
+
+        virtual bool FillContents(const PBPlayer &player, const PBLocation &location_data, const PBLocation &location_db) override
+        {
+            BaseMapRenderer::FillContents(player, location_data,location_db);
+
+        };
     };
 }

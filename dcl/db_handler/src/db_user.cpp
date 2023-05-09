@@ -169,12 +169,10 @@ namespace db_handler
         db::AggregateOperation find_one{"users",std::move(p)};
         find_one.ExecuteOperation();
         auto result = find_one.GetResult();
-        std::cout << result.has_value() << std::endl;
         if (result) 
         {
             m_user->Clear();
             auto doc = result.value();
-            std::cout << bsoncxx::to_json(doc) << std::endl;
             try {
                 m_user->set_discord_id(static_cast<uint64_t>(doc["discord_id"].get_int64()));
                 m_user->set_user_name(bsoncxx::string::to_string(doc["user_name"].get_string().value));

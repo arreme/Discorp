@@ -15,7 +15,6 @@ TEST_CASE("User Database Handler Testing","[db_handler][db_handler_test_1]")
     auto now = std::chrono::system_clock::now();
     auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
     last_online->CopyFrom(google::protobuf::util::TimeUtil::SecondsToTimestamp(seconds));
-    std::cout << google::protobuf::util::TimeUtil::ToString(user.last_online()) << std::endl;
     auto player = user.add_players();
     player->set_version("0.0.1");
     player->set_guild_id(10);

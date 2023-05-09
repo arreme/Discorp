@@ -45,9 +45,7 @@ int main(int argc, char *argv[])
     });
 
     bot.on_select_click([&bot](const dpp::select_click_t & event) {
-        /* Select clicks are still interactions, and must be replied to in some form to
-         * prevent the "this interaction has failed" message from Discord to the user.
-         */
+        
         event.reply("You clicked " + event.custom_id + " and chose: " + event.values[0]);
     });
 
