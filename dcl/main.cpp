@@ -45,8 +45,15 @@ int main(int argc, char *argv[])
     });
 
     bot.on_select_click([&bot](const dpp::select_click_t & event) {
+        const auto &user = event.command.get_issuing_user();
+        if (std::to_string(user.id) == event.custom_id) 
+        {
+            PrintMapRequest map_request{user.id,std::stoi(event.values[0])};
+            dpp::message m;
+            map_request.FillRequest(m);
+            event.reply(dpp::interaction_response_type::ir_update_message,m);
+        }
         
-        event.reply("You clicked " + event.custom_id + " and chose: " + event.values[0]);
     });
 
 /*     bot.on_button_click([&bot,&button_bootstrap](const dpp::button_click_t & event) {

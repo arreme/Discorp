@@ -46,6 +46,7 @@ TEST_CASE("Inserting location","[db_handler][db_handler_test_2]")
     PBLocation loc;
     auto interaction_1 = loc.add_interactions();
     interaction_1->add_types(PBInteractionType::POST);
+    interaction_1->mutable_post_info()->set_capacity_upgrade(10);
     auto interaction_2 = loc.add_interactions();
     interaction_2->add_types(PBInteractionType::ZONE_ACCESS);
     interaction_2->add_types(PBInteractionType::DIALOG);
@@ -56,5 +57,7 @@ TEST_CASE("Inserting location","[db_handler][db_handler_test_2]")
     auto post_int = loc.interactions(0);
     REQUIRE(post_int.types_size() == 1);
     REQUIRE(post_int.types(0) == PBInteractionType::POST);
+    REQUIRE(post_int.post_info().capacity_upgrade() == 10);
+    std::cout << loc.DebugString() << std::endl;
 
 }

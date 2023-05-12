@@ -42,6 +42,34 @@
                                 ]
                             }
                         ]
+                    },
+                    {
+                        "upgradeType": "GEN_SECOND",
+                        "info": [
+                            {
+                                "currentStat": 10,
+                                "upgradeReq": [
+                                    {
+                                        "itemId": "STICK",
+                                        "quantity": 3
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "upgradeType": "FORTUNE",
+                        "info": [
+                            {
+                                "currentStat": 1,
+                                "upgradeReq": [
+                                    {
+                                        "itemId": "STICK",
+                                        "quantity": 3
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             },

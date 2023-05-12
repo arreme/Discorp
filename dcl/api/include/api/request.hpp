@@ -51,41 +51,9 @@ private:
     PBLocation m_location_db;
     db_handler::DBLocationHandler m_location_handler{&m_location_db};
     const PBLocation *m_location_data;
-    int m_selected = 0;
+    const int m_selected = 0;
 public:
-    PrintMapRequest(uint64_t discord_id, int selected) 
-    : BaseRequest(discord_id)
-    {
-        if (!m_user_created) return;
+    PrintMapRequest(uint64_t discord_id, int selected);
 
-        m_selected = selected;
-        m_location_data = DCLData::DCLMap::getInstance().GetLocationData(m_user_db.players(m_user_db.current_player_id()).current_location());
-        m_location_handler.FindPlayerCurrentLocation(m_user_db);
-    };
-
-    bool FillRequest(dpp::message &m) 
-    {
-        m.set_flags(dpp::m_ephemeral);
-        Renderer::BaseMapRenderer map_renderer{};
-        if (!m_location_data) 
-        {
-            m.set_content("Error! Please use command /repair to fix");
-            return false;
-        }
-        map_renderer.FillContents(m_user_db.players(0),*m_location_data, m_location_db);
-        int size = 0;
-        m.add_file("map.png",std::string{map_renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
-        auto list = dpp::component().set_type(dpp::cot_selectmenu).
-                    set_placeholder("Select Interaction").
-                    set_id("myselid");
-        int i = 0;
-        for(auto const &interaction : m_location_data->interactions()) 
-        {
-            list.add_select_option(dpp::select_option(interaction.interaction_list_name(),std::to_string(i),interaction.description())).set_emoji("sandwich");
-            i++;
-        }
-        m.add_component(
-            dpp::component().add_component(list)
-        );
-    };
+    bool FillRequest(dpp::message &m);
 };
