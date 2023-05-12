@@ -9,12 +9,12 @@
 namespace DCLData 
 {
     const std::string MAIN_MAP_DATA = "resources/data/locations";
-    const std::string ITEMS_DATA = "resources/data/items";
 
     class DCLLocation 
     {
     private:
         PBLocation m_location;
+        std::vector<std::unique_ptr<DCLInteractions::DCLInteraction>> m_interactions;
     public:
         DCLLocation(PBLocation &&location) 
         : m_location(location)

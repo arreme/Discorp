@@ -2,7 +2,7 @@
     "id": "MAIN_BASE",
     "databaseId": 0,
     "image": "resources/assets/Locations/0_main_base.png",
-    "name":"main|base",
+    "name":"main base",
     "interactions": [
         {
             "types": [

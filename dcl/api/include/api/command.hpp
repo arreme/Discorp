@@ -24,12 +24,11 @@ public:
     void HandleCommand(const dpp::slashcommand_t *event) 
     {
         dpp::user target = event->command.get_issuing_user();
-        CreateGameRequest request{target.id,target.username};
+        CreateGameRequest request{target.id,target.username,event->command.guild_id};
         dpp::message m;
         int retries = 0;
         while (!request.FillResponse(m)) 
         {
-            request.CreateGame(event->command.guild_id);
             retries++;
             if (retries >= 3) 
             {
