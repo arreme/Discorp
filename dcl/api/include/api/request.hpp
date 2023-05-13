@@ -100,3 +100,24 @@ public:
 
 
 };
+
+class UpgradePostRequest : public BaseRequest
+{
+private:
+
+public:
+    UpgradePostRequest(uint64_t discord_id, int selected)
+    :BaseRequest(discord_id)
+    {
+        if (!m_data.m_location_created) {
+            m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
+        }
+    };
+
+    bool FillRequest(dpp::message &m) 
+    {
+        m.set_flags(dpp::m_ephemeral);
+        m.set_content("Hello there");
+        return true;
+    }
+};

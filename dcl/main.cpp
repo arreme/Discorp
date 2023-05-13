@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <db/db_instance.hpp>
 #include <api/command_bootstrap.hpp>
-//#include <api/button_bootstrap.hpp>
+#include <api/button_bootstrap.hpp>
 
 const std::string BOT_TOKEN = "OTk5NjAyMDc1OTAwMDU1NjMz.GbkJI5.xcgdebavt3vZw827Z3dMnLg0m3fwSytJdi4COA";
 
@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     bot.on_log(dpp::utility::cout_logger());
     /* Register slash command here in on_ready */
     CommandBootstrap bootstrap = CommandBootstrap(&bot);
+    ButtonBootstrap button_bootstrap = ButtonBootstrap(&bot);
     //ButtonBootstrap button_bootstrap{&bot};
     bot.on_ready([&bot,&bootstrap,delete_commands](const dpp::ready_t& event) {
         if (delete_commands) 
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
         
     });
 
-/*     bot.on_button_click([&bot,&button_bootstrap](const dpp::button_click_t & event) {
+    bot.on_button_click([&bot,&button_bootstrap](const dpp::button_click_t & event) {
         std::vector<std::string> button_commands;
         size_t pos = 0;
         std::string token;
@@ -70,7 +71,7 @@ int main(int argc, char *argv[])
         button_commands.push_back(custom_id_mutable);
         auto button = button_bootstrap.Find(button_commands.at(0));
         button->HandleButton(event, button_commands);
-    }); */
+    });
 
     /* Start the bot */
     bot.start(false);

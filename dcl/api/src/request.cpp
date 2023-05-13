@@ -61,25 +61,40 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
         return false;
     }
     
-
     Renderer::BaseMapRenderer renderer = RenderMap(location_data);
     int size = 0;
     m.add_file("map.png",std::string{renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
     
-    
-    std::cout << m_selected << std::endl;
     if (m_selected != -1) 
     {
         auto buttons = dpp::component();
         for (auto const &type : location_data->interactions(m_selected).types())
         {
-            buttons.add_component(dpp::component().set_label(PBInteractionType_Name(type)).set_id(std::to_string(m_data.m_user_db.discord_id()) +"_"+PBInteractionType_Name(type)));
+            switch (type)
+            {
+            case PBInteractionType::POST:
+                buttons.add_component(dpp::component().set_label("UPGRADE POST").set_id("upgrade_post::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_success));
+                buttons.add_component(dpp::component().set_label("COLLECT POST").set_id("collect_post::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_primary));
+                break;
+            case PBInteractionType::ZONE_ACCESS:
+
+                if (location_data->interactions(m_selected).zone_access_info().unlock_info(m_data.m_location_db.interactions(location_data->interactions(m_selected).database_id()).zone_access_info().unlock_level()).current_stat() == 1) {
+                    buttons.add_component(dpp::component().set_label("CHANGE LOCATION").set_id("go_to_location::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_danger));
+                } else {
+                    buttons.add_component(dpp::component().set_label("UNLOCK LOCATION").set_id("unlock_zone::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_danger));
+                }
+                break;
+            case PBInteractionType::DIALOG:
+                buttons.add_component(dpp::component().set_label("INTERACT").set_id("interact::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_secondary));
+                break;
+            default:
+                break;
+            }
         }
         m.add_component(
             buttons
         );
     }
-    
     
     auto list = dpp::component().set_type(dpp::cot_selectmenu).
                     set_placeholder("Select Interaction").
@@ -87,11 +102,19 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
     int i = 0;
     for(auto const &interaction : location_data->interactions()) 
     {
-        list.add_select_option(dpp::select_option(interaction.interaction_list_name(),std::to_string(i),interaction.description())).set_emoji("sandwich");
+        list.add_select_option(dpp::select_option(interaction.interaction_list_name(),std::to_string(i),interaction.description()));
         i++;
     }
     m.add_component(
         dpp::component().add_component(list)
+    );
+
+    m.add_component(
+        dpp::component().add_component(
+            dpp::component().set_label("INVENTORY").set_id("inventory::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        ).add_component(
+            dpp::component().set_label("PROFILE").set_id("profile::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        )
     );
 
     return true;
