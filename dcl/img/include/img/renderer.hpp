@@ -86,7 +86,6 @@ namespace Renderer
             
             for(auto const &resource : post_info->GetResources()) 
             {
-                std::cout << resource.DebugString() << std::endl;
                 const std::string *item_name = item_info.GetItemName(resource.item_id());
                 m_image.AddImageText(s_white,{s_starting_resource_list.X(),s_starting_resource_list.Y() + (s_listy * i)},10,*item_name,false);
                 i++;

@@ -70,7 +70,6 @@ namespace DCLInteractions
 
         const google::protobuf::RepeatedPtrField<PBItemData> GetResources() const
         {
-            std::cout << m_post_info.DebugString() << std::endl;
             return m_post_info.resources();
         }
 

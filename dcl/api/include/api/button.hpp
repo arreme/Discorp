@@ -31,7 +31,6 @@ public:
         if (std::to_string(target.id) == commands.at(1)) 
         {
             UpgradePostRequest request{target.id,std::stoi(commands.at(2))};
-            std::cout << "HEY" << std::endl;
             dpp::message m;
             request.FillRequest(m);
             event.reply(m);

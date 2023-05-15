@@ -20,15 +20,11 @@ namespace DCLData
         DCLInteraction(PBInteraction &&interaction) 
         : m_interaction(std::move(interaction))
         {
-            std::cout << m_interaction.DebugString() << std::endl;
             for (auto const &type : m_interaction.types())
             {
-                std::cout << type << std::endl;
                 switch (type)
                 {
                 case PBInteractionType::POST:
-                    std::cout << "WHAT" << std::endl;
-                    std::cout << m_interaction.post_info().DebugString() << std::endl;
                     m_types.push_back(std::make_unique<DCLInteractions::DCLPostInteraction>(m_interaction.mutable_post_info()));
                     break;
                 case PBInteractionType::ZONE_ACCESS:
@@ -75,10 +71,8 @@ namespace DCLData
         {
             for(auto const &type : m_types) 
             {
-                std::cout << type->GetType() << std::endl;
                 if (type->GetType() == PBInteractionType::POST) 
                 {
-                    std::cout << "POST FOUND" << std::endl;
                     return static_cast<DCLInteractions::DCLPostInteraction *>(type.get());
                 }
             }
