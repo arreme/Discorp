@@ -26,6 +26,59 @@ const std::unordered_map<std::string,void (db_handler::DBLocationHandler::*)(PBI
      {"dialog_info",&db_handler::DBLocationHandler::BsonToDialog},
      {"zone_access_info",&db_handler::DBLocationHandler::BsonToZoneAccess}};
 
+
+bsoncxx::document::value db_handler::DBLocationHandler::PostToBson(const PBPostInteraction &post_info) const
+{
+    return make_document(
+                kvp("capacity_upgrade",b_int32{post_info.capacity_upgrade()}),
+                kvp("gen_second_upgrade",b_int32{post_info.gen_second_upgrade()}),
+                kvp("fortune_upgrade",b_int32{post_info.fortune_upgrade()}),
+                kvp("resource_stored",b_int64{post_info.resource_stored()}),
+                kvp("last_collected",b_date{std::chrono::seconds(google::protobuf::util::TimeUtil::TimestampToSeconds(post_info.last_collected()))})  
+            );
+}
+
+void db_handler::DBLocationHandler::BsonToPost(PBInteraction *interaction, bsoncxx::document::view doc) 
+{
+    auto post_info = interaction->mutable_post_info();
+    interaction->add_types(PBInteractionType::POST);
+    post_info->set_capacity_upgrade(doc["capacity_upgrade"].get_int32());
+    post_info->set_gen_second_upgrade(doc["gen_second_upgrade"].get_int32());
+    post_info->set_fortune_upgrade(doc["fortune_upgrade"].get_int32());
+    post_info->set_resource_stored(doc["resource_stored"].get_int64());
+    std::chrono::system_clock::time_point time = doc["last_collected"].get_date();
+    post_info->mutable_last_collected()->set_seconds(std::chrono::duration_cast<std::chrono::seconds>(time.time_since_epoch()).count());
+}
+
+bsoncxx::document::value db_handler::DBLocationHandler::ZoneAccessToBson(const PBZoneAccessInteraction &zone_access_info) const
+{
+    return make_document(
+                kvp("unlock_level",b_int32{zone_access_info.unlock_level()}) 
+            );
+}
+
+void db_handler::DBLocationHandler::BsonToZoneAccess(PBInteraction *interaction, bsoncxx::document::view doc) 
+{
+    interaction->add_types(PBInteractionType::ZONE_ACCESS);
+    auto zone_access_info = interaction->mutable_zone_access_info();
+    zone_access_info->set_unlock_level(doc["unlock_level"].get_int32());
+}
+
+bsoncxx::document::value db_handler::DBLocationHandler::DialogToBson(const PBDialogInteraction &dialog_info) const
+{
+    return make_document(
+                kvp("current_dialog",b_int32{dialog_info.current_dialog()}) 
+            );
+}
+
+void db_handler::DBLocationHandler::BsonToDialog(PBInteraction *interaction, bsoncxx::document::view doc) 
+{
+    interaction->add_types(PBInteractionType::DIALOG);
+    auto dialog_info = interaction->mutable_dialog_info();
+    dialog_info->set_current_dialog(doc["current_dialog"].get_int32());
+}
+
+
 bool db_handler::DBLocationHandler::InsertNewLocation(PBUser &user, db::Transaction *t) 
 {
     if (m_location->database_id() == -1) return false;

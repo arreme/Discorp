@@ -4,7 +4,6 @@
 #include <filesystem>
 #include <fstream>
 #include <google/protobuf/util/json_util.h>
-#include <core/interaction_wrappers.hpp>
 
 namespace DCLData 
 {
