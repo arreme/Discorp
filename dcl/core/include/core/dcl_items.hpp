@@ -42,9 +42,12 @@ namespace DCLData
             return &m_item_data.at(static_cast<PBItemType>(type)).data(id).image_path();
         }
 
+        //Caution can get segmentation fault
         const std::string *GetItemName(int32_t itemID) const
         {
+            std::cout << itemID << std::endl;
             if (!PBItemEnum_IsValid(itemID)) return nullptr;
+            
             int type = itemID / 1000;
             int id = itemID % 1000;
             return &m_item_data.at(static_cast<PBItemType>(type)).data(id).item_name();

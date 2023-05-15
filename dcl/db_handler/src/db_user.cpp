@@ -177,7 +177,8 @@ namespace db_handler
                 m_user->set_discord_id(static_cast<uint64_t>(doc["discord_id"].get_int64()));
                 m_user->set_user_name(bsoncxx::string::to_string(doc["user_name"].get_string().value));
                 m_user->set_current_player_id(static_cast<int32_t>(doc["current_player_id"].get_int32()));
-                m_user->mutable_last_online()->set_seconds(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
+                std::chrono::system_clock::time_point time = doc["last_online"].get_date();
+                m_user->mutable_last_online()->set_seconds(std::chrono::duration_cast<std::chrono::seconds>(time.time_since_epoch()).count());
                 auto temp = m_user->add_players();
                 auto player_doc = doc["players"].get_document().view();
                 BsonToPlayer(temp,player_doc);

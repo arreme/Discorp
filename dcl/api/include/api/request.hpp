@@ -5,6 +5,7 @@
 #include <db_handler/db_user.hpp>
 #include <db_handler/db_location.hpp>
 #include <db_handler/db_inventory.hpp>
+#include <core/interaction_wrappers.hpp>
 
 struct UserData 
 {
@@ -23,9 +24,12 @@ protected:
 public:
     BaseRequest(uint64_t discord_id) 
     {
-        m_data.m_user_db.set_discord_id(discord_id);
         
-        m_data.m_user_created = m_user_handler.FindUserCurrentPlayer();
+        if (!m_data.m_user_created) {
+            m_data.m_user_db.set_discord_id(discord_id);
+            m_data.m_user_created = m_user_handler.FindUserCurrentPlayer();
+        }
+        
         auto now = std::chrono::system_clock::now();
         auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
         m_data.m_user_db.mutable_last_online()->CopyFrom(google::protobuf::util::TimeUtil::SecondsToTimestamp(seconds));
@@ -63,11 +67,11 @@ class PrintMapRequest : public BaseRequest
 private:
     const int m_selected = -1;
 
-    Renderer::BaseMapRenderer RenderMap(const PBLocation* location_data) 
+    Renderer::BaseMapRenderer RenderMap(const DCLData::DCLLocation* location_data) 
     {
         if (m_selected >= 0)
         {
-            switch (location_data->interactions(m_selected).types(0))
+            switch (location_data->GetInteraction(m_selected)->GetMainType()->GetType())
             {
             case PBInteractionType::POST: 
             {
@@ -77,9 +81,9 @@ private:
             }
             case PBInteractionType::ZONE_ACCESS:
             {
-                auto zone_access_db = m_data.m_location_db.interactions(location_data->interactions(m_selected).database_id());
-                int current_stat = location_data->interactions(m_selected).zone_access_info().unlock_info(zone_access_db.zone_access_info().unlock_level()).current_stat();
-                Renderer::ZoneAccessRenderer renderer{m_selected,current_stat == 1};
+                auto zone_access_db = m_data.m_location_db.interactions(location_data->GetInteraction(m_selected)->GetDatabaseId());
+                bool is_unlocked = location_data->GetInteraction(m_selected)->TryGetZoneAccess()->IsUnlocked(zone_access_db.zone_access_info().unlock_level());
+                Renderer::ZoneAccessRenderer renderer{m_selected, is_unlocked};
                 renderer.FillContents(m_data.m_user_db.players(0),*location_data, m_data.m_location_db);
                 return renderer;
             } 
@@ -87,7 +91,6 @@ private:
                 break;
             }
         }
-
         Renderer::BaseMapRenderer renderer{};
         renderer.FillContents(m_data.m_user_db.players(0),*location_data, m_data.m_location_db);
         return renderer;
@@ -104,10 +107,10 @@ public:
 class UpgradePostRequest : public BaseRequest
 {
 private:
-
+    int m_selected;
 public:
     UpgradePostRequest(uint64_t discord_id, int selected)
-    :BaseRequest(discord_id)
+    : BaseRequest(discord_id), m_selected(selected)
     {
         if (!m_data.m_location_created) {
             m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
@@ -116,8 +119,28 @@ public:
 
     bool FillRequest(dpp::message &m) 
     {
+        const DCLData::DCLInteraction *location_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
+
         m.set_flags(dpp::m_ephemeral);
-        m.set_content("Hello there");
+        dpp::embed embed = dpp::embed().
+            set_color(dpp::colors::forest_green).
+            set_title("POST UPGRADE MENU").
+            set_description("Select the field you want to upgrade:").
+            set_author("Arreme","dwa","dwa").
+            add_field(
+                "Current Selected",
+                ""
+            ).add_field(
+                "Requirements",
+                "",
+                true
+            ).add_field(
+                "You have",
+                "",
+                true
+            );
+
+        m.add_embed(embed);
         return true;
     }
 };

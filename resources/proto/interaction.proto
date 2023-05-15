@@ -2,6 +2,7 @@ syntax = "proto3";
 import "player.proto";
 import "item.proto";
 import "location.proto";
+import "google/protobuf/timestamp.proto";
 
 
 message PBInteraction 
@@ -25,17 +26,19 @@ message PBInteraction
 
 message PBPostInteraction 
 {
-    repeated PBItemData resources           = 1;
-    PBPlayerSkills post_skill               = 2;
-    int32 interact_xp                       = 3;
-    bool needs_database                     = 4;
-    repeated PBUpgrades upgrades            = 5;
+    repeated PBItemData resources               = 1;
+    PBPlayerSkills post_skill                   = 2;
+    int32 interact_xp                           = 3;
+    bool needs_database                         = 4;
+    repeated PBUpgrades upgrades                = 5;
 
     //Database
-    int32 capacity_upgrade                  = 6;
-    int32 gen_second_upgrade                = 7;
-    int32 fortune_upgrade                   = 8;
-    int64 resource_stored                   = 9;
+    int32 capacity_upgrade                      = 6;
+    int32 gen_second_upgrade                    = 7;
+    int32 fortune_upgrade                       = 8;
+    int64 resource_stored                       = 9;
+    google.protobuf.Timestamp last_collected    = 10;
+
 }
 
 message PBUpgrades 

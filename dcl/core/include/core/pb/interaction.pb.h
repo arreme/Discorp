@@ -36,6 +36,7 @@
 #include "player.pb.h"
 #include "item.pb.h"
 #include "location.pb.h"
+#include <google/protobuf/timestamp.pb.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_interaction_2eproto
@@ -684,6 +685,7 @@ class PBPostInteraction PROTOBUF_FINAL :
   enum : int {
     kResourcesFieldNumber = 1,
     kUpgradesFieldNumber = 5,
+    kLastCollectedFieldNumber = 10,
     kPostSkillFieldNumber = 2,
     kInteractXpFieldNumber = 3,
     kNeedsDatabaseFieldNumber = 4,
@@ -727,6 +729,24 @@ class PBPostInteraction PROTOBUF_FINAL :
   ::PBUpgrades* add_upgrades();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades >&
       upgrades() const;
+
+  // .google.protobuf.Timestamp last_collected = 10;
+  bool has_last_collected() const;
+  private:
+  bool _internal_has_last_collected() const;
+  public:
+  void clear_last_collected();
+  const PROTOBUF_NAMESPACE_ID::Timestamp& last_collected() const;
+  PROTOBUF_NAMESPACE_ID::Timestamp* release_last_collected();
+  PROTOBUF_NAMESPACE_ID::Timestamp* mutable_last_collected();
+  void set_allocated_last_collected(PROTOBUF_NAMESPACE_ID::Timestamp* last_collected);
+  private:
+  const PROTOBUF_NAMESPACE_ID::Timestamp& _internal_last_collected() const;
+  PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_last_collected();
+  public:
+  void unsafe_arena_set_allocated_last_collected(
+      PROTOBUF_NAMESPACE_ID::Timestamp* last_collected);
+  PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_last_collected();
 
   // .PBPlayerSkills post_skill = 2;
   void clear_post_skill();
@@ -800,6 +820,7 @@ class PBPostInteraction PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBItemData > resources_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PBUpgrades > upgrades_;
+  PROTOBUF_NAMESPACE_ID::Timestamp* last_collected_;
   int post_skill_;
   ::PROTOBUF_NAMESPACE_ID::int32 interact_xp_;
   bool needs_database_;
@@ -3352,6 +3373,81 @@ inline void PBPostInteraction::_internal_set_resource_stored(::PROTOBUF_NAMESPAC
 inline void PBPostInteraction::set_resource_stored(::PROTOBUF_NAMESPACE_ID::int64 value) {
   _internal_set_resource_stored(value);
   // @@protoc_insertion_point(field_set:PBPostInteraction.resource_stored)
+}
+
+// .google.protobuf.Timestamp last_collected = 10;
+inline bool PBPostInteraction::_internal_has_last_collected() const {
+  return this != internal_default_instance() && last_collected_ != nullptr;
+}
+inline bool PBPostInteraction::has_last_collected() const {
+  return _internal_has_last_collected();
+}
+inline const PROTOBUF_NAMESPACE_ID::Timestamp& PBPostInteraction::_internal_last_collected() const {
+  const PROTOBUF_NAMESPACE_ID::Timestamp* p = last_collected_;
+  return p != nullptr ? *p : *reinterpret_cast<const PROTOBUF_NAMESPACE_ID::Timestamp*>(
+      &PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const PROTOBUF_NAMESPACE_ID::Timestamp& PBPostInteraction::last_collected() const {
+  // @@protoc_insertion_point(field_get:PBPostInteraction.last_collected)
+  return _internal_last_collected();
+}
+inline void PBPostInteraction::unsafe_arena_set_allocated_last_collected(
+    PROTOBUF_NAMESPACE_ID::Timestamp* last_collected) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(last_collected_);
+  }
+  last_collected_ = last_collected;
+  if (last_collected) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:PBPostInteraction.last_collected)
+}
+inline PROTOBUF_NAMESPACE_ID::Timestamp* PBPostInteraction::release_last_collected() {
+  auto temp = unsafe_arena_release_last_collected();
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline PROTOBUF_NAMESPACE_ID::Timestamp* PBPostInteraction::unsafe_arena_release_last_collected() {
+  // @@protoc_insertion_point(field_release:PBPostInteraction.last_collected)
+  
+  PROTOBUF_NAMESPACE_ID::Timestamp* temp = last_collected_;
+  last_collected_ = nullptr;
+  return temp;
+}
+inline PROTOBUF_NAMESPACE_ID::Timestamp* PBPostInteraction::_internal_mutable_last_collected() {
+  
+  if (last_collected_ == nullptr) {
+    auto* p = CreateMaybeMessage<PROTOBUF_NAMESPACE_ID::Timestamp>(GetArena());
+    last_collected_ = p;
+  }
+  return last_collected_;
+}
+inline PROTOBUF_NAMESPACE_ID::Timestamp* PBPostInteraction::mutable_last_collected() {
+  // @@protoc_insertion_point(field_mutable:PBPostInteraction.last_collected)
+  return _internal_mutable_last_collected();
+}
+inline void PBPostInteraction::set_allocated_last_collected(PROTOBUF_NAMESPACE_ID::Timestamp* last_collected) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(last_collected_);
+  }
+  if (last_collected) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(last_collected)->GetArena();
+    if (message_arena != submessage_arena) {
+      last_collected = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, last_collected, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  last_collected_ = last_collected;
+  // @@protoc_insertion_point(field_set_allocated:PBPostInteraction.last_collected)
 }
 
 // -------------------------------------------------------------------

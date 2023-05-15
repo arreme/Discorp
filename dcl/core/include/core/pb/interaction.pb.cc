@@ -18,13 +18,14 @@ extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::int
 extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBDialogInfo_interaction_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBDialogInteraction_interaction_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_item_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBItemData_item_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<2> scc_info_PBPostInteraction_interaction_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<3> scc_info_PBPostInteraction_interaction_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBQuestInteraction_interaction_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBResponseOption_interaction_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PBShopInteraction_interaction_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBUpgradeInfo_interaction_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBUpgrades_interaction_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_interaction_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_PBZoneAccessInteraction_interaction_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_google_2fprotobuf_2ftimestamp_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto;
 class PBInteractionDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PBInteraction> _instance;
@@ -144,10 +145,11 @@ static void InitDefaultsscc_info_PBPostInteraction_interaction_2eproto() {
   ::PBPostInteraction::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<2> scc_info_PBPostInteraction_interaction_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 2, 0, InitDefaultsscc_info_PBPostInteraction_interaction_2eproto}, {
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<3> scc_info_PBPostInteraction_interaction_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 3, 0, InitDefaultsscc_info_PBPostInteraction_interaction_2eproto}, {
       &scc_info_PBItemData_item_2eproto.base,
-      &scc_info_PBUpgrades_interaction_2eproto.base,}};
+      &scc_info_PBUpgrades_interaction_2eproto.base,
+      &scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto.base,}};
 
 static void InitDefaultsscc_info_PBQuestInteraction_interaction_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -274,6 +276,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_interaction_2eproto::offsets[]
   PROTOBUF_FIELD_OFFSET(::PBPostInteraction, gen_second_upgrade_),
   PROTOBUF_FIELD_OFFSET(::PBPostInteraction, fortune_upgrade_),
   PROTOBUF_FIELD_OFFSET(::PBPostInteraction, resource_stored_),
+  PROTOBUF_FIELD_OFFSET(::PBPostInteraction, last_collected_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::PBUpgrades, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -340,15 +343,15 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_interaction_2eproto::offsets[]
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::PBInteraction)},
   { 19, -1, sizeof(::PBPostInteraction)},
-  { 33, -1, sizeof(::PBUpgrades)},
-  { 40, -1, sizeof(::PBUpgradeInfo)},
-  { 47, -1, sizeof(::PBZoneAccessInteraction)},
-  { 56, -1, sizeof(::PBShopInteraction)},
-  { 61, -1, sizeof(::PBDialogInteraction)},
-  { 69, -1, sizeof(::PBDialogInfo)},
-  { 78, -1, sizeof(::PBResponseOption)},
-  { 85, -1, sizeof(::PBQuestInteraction)},
-  { 90, -1, sizeof(::PBCustomInteraction)},
+  { 34, -1, sizeof(::PBUpgrades)},
+  { 41, -1, sizeof(::PBUpgradeInfo)},
+  { 48, -1, sizeof(::PBZoneAccessInteraction)},
+  { 57, -1, sizeof(::PBShopInteraction)},
+  { 62, -1, sizeof(::PBDialogInteraction)},
+  { 70, -1, sizeof(::PBDialogInfo)},
+  { 79, -1, sizeof(::PBResponseOption)},
+  { 86, -1, sizeof(::PBQuestInteraction)},
+  { 91, -1, sizeof(::PBCustomInteraction)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -367,47 +370,51 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_interaction_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\021interaction.proto\032\014player.proto\032\nitem."
-  "proto\032\016location.proto\"\314\003\n\rPBInteraction\022"
-  "!\n\005types\030\001 \003(\0162\022.PBInteractionType\022\023\n\013da"
-  "tabase_id\030\002 \001(\005\022\035\n\025interaction_list_name"
-  "\030\003 \001(\t\022\030\n\020interaction_name\030\004 \001(\t\022\023\n\013desc"
-  "ription\030\005 \001(\t\022\r\n\005pos_x\030\006 \001(\005\022\r\n\005pos_y\030\007 "
-  "\001(\005\022\026\n\016map_icon_paths\030\010 \003(\t\022%\n\tpost_info"
-  "\030\t \001(\0132\022.PBPostInteraction\0222\n\020zone_acces"
-  "s_info\030\n \001(\0132\030.PBZoneAccessInteraction\022%"
-  "\n\tshop_info\030\013 \001(\0132\022.PBShopInteraction\022\'\n"
-  "\nquest_info\030\014 \001(\0132\023.PBQuestInteraction\022)"
-  "\n\013dialog_info\030\r \001(\0132\024.PBDialogInteractio"
-  "n\022)\n\013custom_info\030\016 \001(\0132\024.PBCustomInterac"
-  "tion\"\214\002\n\021PBPostInteraction\022\036\n\tresources\030"
-  "\001 \003(\0132\013.PBItemData\022#\n\npost_skill\030\002 \001(\0162\017"
-  ".PBPlayerSkills\022\023\n\013interact_xp\030\003 \001(\005\022\026\n\016"
-  "needs_database\030\004 \001(\010\022\035\n\010upgrades\030\005 \003(\0132\013"
-  ".PBUpgrades\022\030\n\020capacity_upgrade\030\006 \001(\005\022\032\n"
-  "\022gen_second_upgrade\030\007 \001(\005\022\027\n\017fortune_upg"
-  "rade\030\010 \001(\005\022\027\n\017resource_stored\030\t \001(\003\"P\n\nP"
-  "BUpgrades\022$\n\014upgrade_type\030\001 \001(\0162\016.PBUpgr"
-  "adeType\022\034\n\004info\030\002 \003(\0132\016.PBUpgradeInfo\"G\n"
-  "\rPBUpgradeInfo\022\024\n\014current_stat\030\003 \001(\002\022 \n\013"
-  "upgrade_req\030\004 \003(\0132\013.PBItemData\"\215\001\n\027PBZon"
-  "eAccessInteraction\022\037\n\010next_loc\030\001 \001(\0162\r.P"
-  "BLocationID\022\026\n\016needs_database\030\002 \001(\010\022#\n\013u"
-  "nlock_info\030\003 \003(\0132\016.PBUpgradeInfo\022\024\n\014unlo"
-  "ck_level\030\004 \001(\005\"\023\n\021PBShopInteraction\"b\n\023P"
-  "BDialogInteraction\022\026\n\016needs_database\030\001 \001"
-  "(\010\022\033\n\004info\030\002 \003(\0132\r.PBDialogInfo\022\026\n\016curre"
-  "nt_dialog\030\003 \001(\005\"o\n\014PBDialogInfo\022\014\n\004text\030"
-  "\001 \001(\t\022\021\n\tnpc_image\030\002 \001(\t\022\021\n\tmore_text\030\003 "
-  "\001(\010\022+\n\020response_options\030\004 \003(\0132\021.PBRespon"
-  "seOption\"3\n\020PBResponseOption\022\014\n\004text\030\001 \001"
-  "(\t\022\021\n\tnext_text\030\002 \001(\005\"\024\n\022PBQuestInteract"
-  "ion\"\025\n\023PBCustomInteraction*e\n\021PBInteract"
-  "ionType\022\010\n\004NONE\020\000\022\010\n\004POST\020\001\022\017\n\013ZONE_ACCE"
-  "SS\020\002\022\t\n\005QUEST\020\003\022\010\n\004SHOP\020\004\022\n\n\006DIALOG\020\005\022\n\n"
-  "\006CUSTOM\020\006*:\n\rPBUpgradeType\022\014\n\010CAPACITY\020\000"
-  "\022\016\n\nGEN_SECOND\020\001\022\013\n\007FORTUNE\020\002b\006proto3"
+  "proto\032\016location.proto\032\037google/protobuf/t"
+  "imestamp.proto\"\314\003\n\rPBInteraction\022!\n\005type"
+  "s\030\001 \003(\0162\022.PBInteractionType\022\023\n\013database_"
+  "id\030\002 \001(\005\022\035\n\025interaction_list_name\030\003 \001(\t\022"
+  "\030\n\020interaction_name\030\004 \001(\t\022\023\n\013description"
+  "\030\005 \001(\t\022\r\n\005pos_x\030\006 \001(\005\022\r\n\005pos_y\030\007 \001(\005\022\026\n\016"
+  "map_icon_paths\030\010 \003(\t\022%\n\tpost_info\030\t \001(\0132"
+  "\022.PBPostInteraction\0222\n\020zone_access_info\030"
+  "\n \001(\0132\030.PBZoneAccessInteraction\022%\n\tshop_"
+  "info\030\013 \001(\0132\022.PBShopInteraction\022\'\n\nquest_"
+  "info\030\014 \001(\0132\023.PBQuestInteraction\022)\n\013dialo"
+  "g_info\030\r \001(\0132\024.PBDialogInteraction\022)\n\013cu"
+  "stom_info\030\016 \001(\0132\024.PBCustomInteraction\"\300\002"
+  "\n\021PBPostInteraction\022\036\n\tresources\030\001 \003(\0132\013"
+  ".PBItemData\022#\n\npost_skill\030\002 \001(\0162\017.PBPlay"
+  "erSkills\022\023\n\013interact_xp\030\003 \001(\005\022\026\n\016needs_d"
+  "atabase\030\004 \001(\010\022\035\n\010upgrades\030\005 \003(\0132\013.PBUpgr"
+  "ades\022\030\n\020capacity_upgrade\030\006 \001(\005\022\032\n\022gen_se"
+  "cond_upgrade\030\007 \001(\005\022\027\n\017fortune_upgrade\030\010 "
+  "\001(\005\022\027\n\017resource_stored\030\t \001(\003\0222\n\016last_col"
+  "lected\030\n \001(\0132\032.google.protobuf.Timestamp"
+  "\"P\n\nPBUpgrades\022$\n\014upgrade_type\030\001 \001(\0162\016.P"
+  "BUpgradeType\022\034\n\004info\030\002 \003(\0132\016.PBUpgradeIn"
+  "fo\"G\n\rPBUpgradeInfo\022\024\n\014current_stat\030\003 \001("
+  "\002\022 \n\013upgrade_req\030\004 \003(\0132\013.PBItemData\"\215\001\n\027"
+  "PBZoneAccessInteraction\022\037\n\010next_loc\030\001 \001("
+  "\0162\r.PBLocationID\022\026\n\016needs_database\030\002 \001(\010"
+  "\022#\n\013unlock_info\030\003 \003(\0132\016.PBUpgradeInfo\022\024\n"
+  "\014unlock_level\030\004 \001(\005\"\023\n\021PBShopInteraction"
+  "\"b\n\023PBDialogInteraction\022\026\n\016needs_databas"
+  "e\030\001 \001(\010\022\033\n\004info\030\002 \003(\0132\r.PBDialogInfo\022\026\n\016"
+  "current_dialog\030\003 \001(\005\"o\n\014PBDialogInfo\022\014\n\004"
+  "text\030\001 \001(\t\022\021\n\tnpc_image\030\002 \001(\t\022\021\n\tmore_te"
+  "xt\030\003 \001(\010\022+\n\020response_options\030\004 \003(\0132\021.PBR"
+  "esponseOption\"3\n\020PBResponseOption\022\014\n\004tex"
+  "t\030\001 \001(\t\022\021\n\tnext_text\030\002 \001(\005\"\024\n\022PBQuestInt"
+  "eraction\"\025\n\023PBCustomInteraction*e\n\021PBInt"
+  "eractionType\022\010\n\004NONE\020\000\022\010\n\004POST\020\001\022\017\n\013ZONE"
+  "_ACCESS\020\002\022\t\n\005QUEST\020\003\022\010\n\004SHOP\020\004\022\n\n\006DIALOG"
+  "\020\005\022\n\n\006CUSTOM\020\006*:\n\rPBUpgradeType\022\014\n\010CAPAC"
+  "ITY\020\000\022\016\n\nGEN_SECOND\020\001\022\013\n\007FORTUNE\020\002b\006prot"
+  "o3"
   ;
-static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_interaction_2eproto_deps[3] = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_interaction_2eproto_deps[4] = {
+  &::descriptor_table_google_2fprotobuf_2ftimestamp_2eproto,
   &::descriptor_table_item_2eproto,
   &::descriptor_table_location_2eproto,
   &::descriptor_table_player_2eproto,
@@ -427,8 +434,8 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_int
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_interaction_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_interaction_2eproto = {
-  false, false, descriptor_table_protodef_interaction_2eproto, "interaction.proto", 1597,
-  &descriptor_table_interaction_2eproto_once, descriptor_table_interaction_2eproto_sccs, descriptor_table_interaction_2eproto_deps, 11, 3,
+  false, false, descriptor_table_protodef_interaction_2eproto, "interaction.proto", 1682,
+  &descriptor_table_interaction_2eproto_once, descriptor_table_interaction_2eproto_sccs, descriptor_table_interaction_2eproto_deps, 11, 4,
   schemas, file_default_instances, TableStruct_interaction_2eproto::offsets,
   file_level_metadata_interaction_2eproto, 11, file_level_enum_descriptors_interaction_2eproto, file_level_service_descriptors_interaction_2eproto,
 };
@@ -1174,13 +1181,26 @@ void PBInteraction::InternalSwap(PBInteraction* other) {
 // ===================================================================
 
 void PBPostInteraction::InitAsDefaultInstance() {
+  ::_PBPostInteraction_default_instance_._instance.get_mutable()->last_collected_ = const_cast< PROTOBUF_NAMESPACE_ID::Timestamp*>(
+      PROTOBUF_NAMESPACE_ID::Timestamp::internal_default_instance());
 }
 class PBPostInteraction::_Internal {
  public:
+  static const PROTOBUF_NAMESPACE_ID::Timestamp& last_collected(const PBPostInteraction* msg);
 };
 
+const PROTOBUF_NAMESPACE_ID::Timestamp&
+PBPostInteraction::_Internal::last_collected(const PBPostInteraction* msg) {
+  return *msg->last_collected_;
+}
 void PBPostInteraction::clear_resources() {
   resources_.Clear();
+}
+void PBPostInteraction::clear_last_collected() {
+  if (GetArena() == nullptr && last_collected_ != nullptr) {
+    delete last_collected_;
+  }
+  last_collected_ = nullptr;
 }
 PBPostInteraction::PBPostInteraction(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena),
@@ -1195,6 +1215,11 @@ PBPostInteraction::PBPostInteraction(const PBPostInteraction& from)
       resources_(from.resources_),
       upgrades_(from.upgrades_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_last_collected()) {
+    last_collected_ = new PROTOBUF_NAMESPACE_ID::Timestamp(*from.last_collected_);
+  } else {
+    last_collected_ = nullptr;
+  }
   ::memcpy(&post_skill_, &from.post_skill_,
     static_cast<size_t>(reinterpret_cast<char*>(&resource_stored_) -
     reinterpret_cast<char*>(&post_skill_)) + sizeof(resource_stored_));
@@ -1203,9 +1228,9 @@ PBPostInteraction::PBPostInteraction(const PBPostInteraction& from)
 
 void PBPostInteraction::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBPostInteraction_interaction_2eproto.base);
-  ::memset(&post_skill_, 0, static_cast<size_t>(
+  ::memset(&last_collected_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&resource_stored_) -
-      reinterpret_cast<char*>(&post_skill_)) + sizeof(resource_stored_));
+      reinterpret_cast<char*>(&last_collected_)) + sizeof(resource_stored_));
 }
 
 PBPostInteraction::~PBPostInteraction() {
@@ -1216,6 +1241,7 @@ PBPostInteraction::~PBPostInteraction() {
 
 void PBPostInteraction::SharedDtor() {
   GOOGLE_DCHECK(GetArena() == nullptr);
+  if (this != internal_default_instance()) delete last_collected_;
 }
 
 void PBPostInteraction::ArenaDtor(void* object) {
@@ -1241,6 +1267,10 @@ void PBPostInteraction::Clear() {
 
   resources_.Clear();
   upgrades_.Clear();
+  if (GetArena() == nullptr && last_collected_ != nullptr) {
+    delete last_collected_;
+  }
+  last_collected_ = nullptr;
   ::memset(&post_skill_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&resource_stored_) -
       reinterpret_cast<char*>(&post_skill_)) + sizeof(resource_stored_));
@@ -1326,6 +1356,13 @@ const char* PBPostInteraction::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
       case 9:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
           resource_stored_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp last_collected = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 82)) {
+          ptr = ctx->ParseMessage(_internal_mutable_last_collected(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1416,6 +1453,14 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(9, this->_internal_resource_stored(), target);
   }
 
+  // .google.protobuf.Timestamp last_collected = 10;
+  if (this->has_last_collected()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        10, _Internal::last_collected(this), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1444,6 +1489,13 @@ size_t PBPostInteraction::ByteSizeLong() const {
   for (const auto& msg : this->upgrades_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // .google.protobuf.Timestamp last_collected = 10;
+  if (this->has_last_collected()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *last_collected_);
   }
 
   // .PBPlayerSkills post_skill = 2;
@@ -1525,6 +1577,9 @@ void PBPostInteraction::MergeFrom(const PBPostInteraction& from) {
 
   resources_.MergeFrom(from.resources_);
   upgrades_.MergeFrom(from.upgrades_);
+  if (from.has_last_collected()) {
+    _internal_mutable_last_collected()->PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(from._internal_last_collected());
+  }
   if (from.post_skill() != 0) {
     _internal_set_post_skill(from._internal_post_skill());
   }
@@ -1574,9 +1629,9 @@ void PBPostInteraction::InternalSwap(PBPostInteraction* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PBPostInteraction, resource_stored_)
       + sizeof(PBPostInteraction::resource_stored_)
-      - PROTOBUF_FIELD_OFFSET(PBPostInteraction, post_skill_)>(
-          reinterpret_cast<char*>(&post_skill_),
-          reinterpret_cast<char*>(&other->post_skill_));
+      - PROTOBUF_FIELD_OFFSET(PBPostInteraction, last_collected_)>(
+          reinterpret_cast<char*>(&last_collected_),
+          reinterpret_cast<char*>(&other->last_collected_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PBPostInteraction::GetMetadata() const {

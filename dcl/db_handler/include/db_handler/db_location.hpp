@@ -9,6 +9,7 @@
 #include <bsoncxx/exception/exception.hpp>
 #include <bsoncxx/string/to_string.hpp>
 #include <functional>
+#include <google/protobuf/util/time_util.h>
 
 using namespace bsoncxx::builder::basic;
 using namespace bsoncxx::types;
@@ -30,7 +31,8 @@ namespace db_handler
                         kvp("capacity_upgrade",b_int32{post_info.capacity_upgrade()}),
                         kvp("gen_second_upgrade",b_int32{post_info.gen_second_upgrade()}),
                         kvp("fortune_upgrade",b_int32{post_info.fortune_upgrade()}),
-                        kvp("resource_stored",b_int64{post_info.resource_stored()})  
+                        kvp("resource_stored",b_int64{post_info.resource_stored()}),
+                        kvp("last_collected",b_date{std::chrono::seconds(google::protobuf::util::TimeUtil::TimestampToSeconds(post_info.last_collected()))})  
                     );
         }
 
@@ -42,6 +44,8 @@ namespace db_handler
             post_info->set_gen_second_upgrade(doc["gen_second_upgrade"].get_int32());
             post_info->set_fortune_upgrade(doc["fortune_upgrade"].get_int32());
             post_info->set_resource_stored(doc["resource_stored"].get_int64());
+            std::chrono::system_clock::time_point time = doc["last_collected"].get_date();
+            post_info->mutable_last_collected()->set_seconds(std::chrono::duration_cast<std::chrono::seconds>(time.time_since_epoch()).count());
         }
 
         bsoncxx::document::value ZoneAccessToBson(const PBZoneAccessInteraction &zone_access_info) const

@@ -42,7 +42,7 @@ PrintMapRequest::PrintMapRequest(uint64_t discord_id, int selected)
 };
 
 PrintMapRequest::PrintMapRequest(UserData &&data, int selected)
-: BaseRequest(std::move(data)) 
+: BaseRequest(std::move(data)), m_selected(selected) 
 {
     if (!m_data.m_location_created) {
         m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
@@ -54,7 +54,7 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
     if (!m_data.m_user_created) return false;
     m.set_flags(dpp::m_ephemeral);
 
-    const PBLocation *location_data = DCLData::DCLMap::getInstance().GetLocationData(m_data.m_user_db.players(m_data.m_user_db.current_player_id()).current_location());
+    const DCLData::DCLLocation *location_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location());
     if (!location_data) 
     {
         m.set_content("Error! Please use command /repair to fix");
@@ -68,9 +68,9 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
     if (m_selected != -1) 
     {
         auto buttons = dpp::component();
-        for (auto const &type : location_data->interactions(m_selected).types())
+        for (auto const &interaction : *location_data->GetInteraction(m_selected))
         {
-            switch (type)
+            switch (interaction->GetType())
             {
             case PBInteractionType::POST:
                 buttons.add_component(dpp::component().set_label("UPGRADE POST").set_id("upgrade_post::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_success));
@@ -78,7 +78,7 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
                 break;
             case PBInteractionType::ZONE_ACCESS:
 
-                if (location_data->interactions(m_selected).zone_access_info().unlock_info(m_data.m_location_db.interactions(location_data->interactions(m_selected).database_id()).zone_access_info().unlock_level()).current_stat() == 1) {
+                if (location_data->GetInteraction(m_selected)->TryGetZoneAccess()->IsUnlocked(m_data.m_location_db.interactions(location_data->GetInteraction(m_selected)->GetDatabaseId()).zone_access_info().unlock_level())) {
                     buttons.add_component(dpp::component().set_label("CHANGE LOCATION").set_id("go_to_location::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_danger));
                 } else {
                     buttons.add_component(dpp::component().set_label("UNLOCK LOCATION").set_id("unlock_zone::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_danger));
@@ -100,9 +100,9 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
                     set_placeholder("Select Interaction").
                     set_id(std::to_string(m_data.m_user_db.discord_id()));
     int i = 0;
-    for(auto const &interaction : location_data->interactions()) 
+    for(auto const &interaction : *location_data) 
     {
-        list.add_select_option(dpp::select_option(interaction.interaction_list_name(),std::to_string(i),interaction.description()));
+        list.add_select_option(dpp::select_option(interaction.GetListName(),std::to_string(i),interaction.GetDescription()));
         i++;
     }
     m.add_component(

@@ -16,20 +16,20 @@ void Renderer::FreePointer(char * data)
     gdFree((void *)data);
 }
 
-bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const PBLocation &location_data, const PBLocation &location_db) 
+bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const DCLData::DCLLocation &location_data, const PBLocation &location_db) 
 {
     if (!m_image.good()) return false;
 #pragma region fill_information
     //Location Name
-    size_t i = location_data.name().find(s_delimiter, 0);
+    size_t i = location_data.GetLocationName().find(s_delimiter, 0);
     if (i != std::string::npos) 
     {
-        m_image.AddImageText(s_black,m_location_1,12,location_data.name().substr(0,i),false);
+        m_image.AddImageText(s_black,m_location_1,12,location_data.GetLocationName().substr(0,i),false);
         i++; 
-        m_image.AddImageText(s_black,m_location_2,12,location_data.name().substr(i),false);
+        m_image.AddImageText(s_black,m_location_2,12,location_data.GetLocationName().substr(i),false);
     } else 
     {
-        m_image.AddImageText(s_black,m_location_1,12,location_data.name().substr(0),false);
+        m_image.AddImageText(s_black,m_location_1,12,location_data.GetLocationName().substr(0),false);
     }
 
     std::string health = std::to_string(player.stats().current_health()) + "/" + std::to_string(player.stats().max_health());
@@ -40,7 +40,7 @@ bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const PBLoc
 #pragma endregion
 
 #pragma region fill_map
-    std::ifstream map_in{location_data.image(),std::ios::binary};
+    std::ifstream map_in{location_data.GetLocationImage(),std::ios::binary};
     GD::Image map{map_in,GD::Png_tag{}};
     if (map.good()) 
     {
@@ -51,37 +51,12 @@ bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const PBLoc
 #pragma endregion
     
 #pragma region interactions
-    for (auto const &interaction : location_data.interactions()) 
+    for (auto const &interaction : location_data) 
     {
-        auto &interaction_db = location_db.interactions(interaction.database_id());
-        int index = 0;
-        switch(interaction.types(0)) 
-        {
-            case PBInteractionType::POST:
-            {
-                auto post_db = interaction_db.post_info();
-                index = (post_db.capacity_upgrade() + post_db.gen_second_upgrade() + post_db.fortune_upgrade()) / 3;
-                index = std::min(index, interaction.map_icon_paths().size() - 1);
-                break;
-            }
-            case PBInteractionType::ZONE_ACCESS:
-            {
-                index = interaction_db.zone_access_info().unlock_level();
-                break;
-            }
-            case PBInteractionType::DIALOG:
-            {
-                index = 0;
-                break;
-            }
-            default:
-                index = 0;
-                break;
-        }
-        std::ifstream interaction_in{interaction.map_icon_paths(index),std::ios::binary};
+        int index = interaction.GetMainType()->CalculateImageIndex(location_db.interactions(interaction.GetDatabaseId()));
+        std::ifstream interaction_in{interaction.GetIconMapPath(index),std::ios::binary};
         GD::Image interaction_img{interaction_in,GD::Png_tag{}};
-        m_image.Copy(interaction_img,GD::Point{map_x_offset + interaction.pos_x(),map_y_offset + interaction.pos_y()},GD::Point{0,0},s_map_icon_size);
-
+        m_image.Copy(interaction_img,GD::Point{map_x_offset + interaction.GetPosX(),map_y_offset + interaction.GetPosY()},GD::Point{0,0},s_map_icon_size);
     }
 #pragma endregion
 
