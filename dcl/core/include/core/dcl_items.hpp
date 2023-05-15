@@ -44,7 +44,6 @@ namespace DCLData
         //Caution can get segmentation fault
         const std::string *GetItemName(int32_t itemID) const
         {
-            std::cout << itemID << std::endl;
             if (!PBItemEnum_IsValid(itemID)) return nullptr;
             
             int type = itemID / 1000;

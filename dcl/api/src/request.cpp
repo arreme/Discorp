@@ -120,7 +120,7 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
     
     auto list = dpp::component().set_type(dpp::cot_selectmenu).
                     set_placeholder("Select Interaction").
-                    set_id(std::to_string(m_data.m_user_db.discord_id()));
+                    set_id("map_list::"+std::to_string(m_data.m_user_db.discord_id()));
     int i = 0;
     for(auto const &interaction : *location_data) 
     {

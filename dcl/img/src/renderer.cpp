@@ -96,13 +96,13 @@ bool Renderer::PostMapRenderer::FillContents(const PBPlayer &player, const DCLDa
     
     //REGENERATION
     std::stringstream stream_regen;
-    stream_regen << std::fixed << std::setprecision(2) << post_info->GetCurrentStat(PBUpgradeType::GEN_SECOND,post_info_db.gen_second_upgrade());;
+    stream_regen << std::fixed << std::setprecision(2) << post_info->GetCurrentStat(PBUpgradeType::GEN_SECOND,post_info_db.gen_second_upgrade());
     std::string text2 = stream_regen.str() + "/s";
     m_image.AddImageText(s_white,s_regeneration,9,text2,false);
     
     //FORTUNE
     std::stringstream stream_fortune;
-    stream_fortune << std::fixed << std::setprecision(2) << post_info->GetCurrentStat(PBUpgradeType::FORTUNE,post_info_db.fortune_upgrade());;
+    stream_fortune << std::fixed << std::setprecision(2) << post_info->GetCurrentStat(PBUpgradeType::FORTUNE,post_info_db.fortune_upgrade());
     std::string text3 = stream_fortune.str() + "%";
     m_image.AddImageText(s_white,s_fortune,9,text3,false);
     return true;

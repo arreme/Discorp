@@ -75,7 +75,17 @@ namespace DCLInteractions
 
         float GetCurrentStat(PBUpgradeType upgrade_type, int level) const
         {
+            if (!PBUpgradeType_IsValid(upgrade_type)) return -1;
+            if (level < 0 || level >= m_post_info.upgrades(upgrade_type).info().size()) return -1;
             return m_post_info.upgrades(upgrade_type).info(level).current_stat();
+        }
+
+        const google::protobuf::RepeatedPtrField<PBItemData> &GetUpgradeRequirements(PBUpgradeType type, int level) const
+        {
+            
+            if (!PBUpgradeType_IsValid(type)) type = PBUpgradeType::CAPACITY;
+            if (level < 0 || level >= m_post_info.upgrades(type).info_size()) level = 0;
+            return m_post_info.upgrades(type).info(level).upgrade_req();
         }
         
     };

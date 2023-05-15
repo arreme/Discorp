@@ -40,6 +40,18 @@
                                         "quantity": 3
                                     }
                                 ]
+                            },
+                            {
+                                "currentStat": 80,
+                                "upgradeReq": [
+                                    {
+                                        "itemId": "STICK",
+                                        "quantity": 3
+                                    }
+                                ]
+                            },
+                            {
+                                "currentStat": 150
                             }
                         ]
                     },
@@ -54,6 +66,18 @@
                                         "quantity": 3
                                     }
                                 ]
+                            },
+                            {
+                                "currentStat": 8,
+                                "upgradeReq": [
+                                    {
+                                        "itemId": "STICK",
+                                        "quantity": 3
+                                    }
+                                ]
+                            },
+                            {
+                                "currentStat": 6
                             }
                         ]
                     },
@@ -68,6 +92,18 @@
                                         "quantity": 3
                                     }
                                 ]
+                            },
+                            {
+                                "currentStat": 2,
+                                "upgradeReq": [
+                                    {
+                                        "itemId": "STICK",
+                                        "quantity": 3
+                                    }
+                                ]
+                            },
+                            {
+                                "currentStat": 4
                             }
                         ]
                     }
