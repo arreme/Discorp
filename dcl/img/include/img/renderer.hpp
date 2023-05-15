@@ -81,18 +81,16 @@ namespace Renderer
 
             const auto &post_info_db = location_db.interactions(interaction_data->GetDatabaseId()).post_info();
             const DCLInteractions::DCLPostInteraction *post_info = interaction_data->TryGetPost();
-            std::cout << "I'm here" << std::endl;
             auto const &item_info = DCLData::DCLItems::getInstance();
             int i = 0;
             
-            std::cout << post_info << std::endl;
-/*             for(auto const &resource : post_info->GetResources()) 
+            for(auto const &resource : post_info->GetResources()) 
             {
                 std::cout << resource.DebugString() << std::endl;
                 const std::string *item_name = item_info.GetItemName(resource.item_id());
                 m_image.AddImageText(s_white,{s_starting_resource_list.X(),s_starting_resource_list.Y() + (s_listy * i)},10,*item_name,false);
                 i++;
-            } */
+            }
             //CAPACITY
             int capacity = post_info->GetCurrentStat(PBUpgradeType::CAPACITY,post_info_db.capacity_upgrade());
             int stored_percent = post_info_db.resource_stored() / capacity;

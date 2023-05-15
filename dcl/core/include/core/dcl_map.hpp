@@ -15,23 +15,27 @@ namespace DCLData
     {
     private:
         PBInteraction m_interaction;
-        std::vector<std::unique_ptr<const DCLInteractions::DCLInteractionType>> m_types;
+        std::vector<std::unique_ptr<DCLInteractions::DCLInteractionType>> m_types;
     public:
         DCLInteraction(PBInteraction &&interaction) 
         : m_interaction(std::move(interaction))
         {
+            std::cout << m_interaction.DebugString() << std::endl;
             for (auto const &type : m_interaction.types())
             {
+                std::cout << type << std::endl;
                 switch (type)
                 {
                 case PBInteractionType::POST:
-                    m_types.push_back(std::make_unique<DCLInteractions::DCLPostInteraction>(interaction.mutable_post_info()));
+                    std::cout << "WHAT" << std::endl;
+                    std::cout << m_interaction.post_info().DebugString() << std::endl;
+                    m_types.push_back(std::make_unique<DCLInteractions::DCLPostInteraction>(m_interaction.mutable_post_info()));
                     break;
                 case PBInteractionType::ZONE_ACCESS:
-                    m_types.push_back(std::make_unique<DCLInteractions::DCLZoneAccessInteraction>(interaction.mutable_zone_access_info()));
+                    m_types.push_back(std::make_unique<DCLInteractions::DCLZoneAccessInteraction>(m_interaction.mutable_zone_access_info()));
                     break;
                 case PBInteractionType::DIALOG:
-                    m_types.push_back(std::make_unique<DCLInteractions::DCLDialogInteraction>(interaction.mutable_dialog_info()));
+                    m_types.push_back(std::make_unique<DCLInteractions::DCLDialogInteraction>(m_interaction.mutable_dialog_info()));
                     break;
                 default:
                     std::cout << "Invalid interaction detected!" << std::endl;
@@ -46,12 +50,12 @@ namespace DCLData
             return m_types.size();
         }
 
-        std::vector<std::unique_ptr<const DCLInteractions::DCLInteractionType>>::const_iterator begin() const
+        std::vector<std::unique_ptr<DCLInteractions::DCLInteractionType>>::const_iterator begin() const
         {
             return m_types.begin();
         }
 
-        std::vector<std::unique_ptr<const DCLInteractions::DCLInteractionType>>::const_iterator end() const
+        std::vector<std::unique_ptr<DCLInteractions::DCLInteractionType>>::const_iterator end() const
         {
             return m_types.end();
         }
@@ -74,7 +78,8 @@ namespace DCLData
                 std::cout << type->GetType() << std::endl;
                 if (type->GetType() == PBInteractionType::POST) 
                 {
-                    return static_cast<const DCLInteractions::DCLPostInteraction *>(type.get());
+                    std::cout << "POST FOUND" << std::endl;
+                    return static_cast<DCLInteractions::DCLPostInteraction *>(type.get());
                 }
             }
             return nullptr;
@@ -86,7 +91,7 @@ namespace DCLData
             {
                 if (type->GetType() == PBInteractionType::ZONE_ACCESS) 
                 {
-                    return static_cast<const DCLInteractions::DCLZoneAccessInteraction *>(type.get());
+                    return static_cast<DCLInteractions::DCLZoneAccessInteraction *>(type.get());
                 }
             }
             return nullptr;
@@ -98,7 +103,7 @@ namespace DCLData
             {
                 if (type->GetType() == PBInteractionType::DIALOG) 
                 {
-                    return static_cast<const DCLInteractions::DCLDialogInteraction *>(type.get());
+                    return static_cast<DCLInteractions::DCLDialogInteraction *>(type.get());
                 }
             }
             return nullptr;

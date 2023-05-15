@@ -39,8 +39,10 @@ namespace DCLInteractions
     private:
         PBPostInteraction m_post_info;
     public:
-        DCLPostInteraction(PBPostInteraction *post_info) : m_post_info(std::move(*post_info)) 
-        {}
+        DCLPostInteraction(PBPostInteraction *post_info) 
+        {
+            m_post_info.Swap(post_info);
+        }
 
         bool FillInteractionInfo(const PBInteraction *info) override 
         {
@@ -68,6 +70,7 @@ namespace DCLInteractions
 
         const google::protobuf::RepeatedPtrField<PBItemData> GetResources() const
         {
+            std::cout << m_post_info.DebugString() << std::endl;
             return m_post_info.resources();
         }
 
