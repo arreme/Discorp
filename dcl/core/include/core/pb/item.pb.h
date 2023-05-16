@@ -245,6 +245,7 @@ class PBItemData PROTOBUF_FINAL :
     kSellValueFieldNumber = 3,
     kItemIdFieldNumber = 4,
     kQuantityFieldNumber = 5,
+    kSubtractFieldNumber = 6,
   };
   // string image_path = 1;
   void clear_image_path();
@@ -323,6 +324,15 @@ class PBItemData PROTOBUF_FINAL :
   void _internal_set_quantity(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // bool subtract = 6;
+  void clear_subtract();
+  bool subtract() const;
+  void set_subtract(bool value);
+  private:
+  bool _internal_subtract() const;
+  void _internal_set_subtract(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:PBItemData)
  private:
   class _Internal;
@@ -335,6 +345,7 @@ class PBItemData PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::int32 sell_value_;
   int item_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 quantity_;
+  bool subtract_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_item_2eproto;
 };
@@ -726,6 +737,26 @@ inline void PBItemData::_internal_set_quantity(::PROTOBUF_NAMESPACE_ID::int32 va
 inline void PBItemData::set_quantity(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_quantity(value);
   // @@protoc_insertion_point(field_set:PBItemData.quantity)
+}
+
+// bool subtract = 6;
+inline void PBItemData::clear_subtract() {
+  subtract_ = false;
+}
+inline bool PBItemData::_internal_subtract() const {
+  return subtract_;
+}
+inline bool PBItemData::subtract() const {
+  // @@protoc_insertion_point(field_get:PBItemData.subtract)
+  return _internal_subtract();
+}
+inline void PBItemData::_internal_set_subtract(bool value) {
+  
+  subtract_ = value;
+}
+inline void PBItemData::set_subtract(bool value) {
+  _internal_set_subtract(value);
+  // @@protoc_insertion_point(field_set:PBItemData.subtract)
 }
 
 // -------------------------------------------------------------------

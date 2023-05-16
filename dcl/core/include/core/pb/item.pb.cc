@@ -67,6 +67,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_item_2eproto::offsets[] PROTOB
   PROTOBUF_FIELD_OFFSET(::PBItemData, sell_value_),
   PROTOBUF_FIELD_OFFSET(::PBItemData, item_id_),
   PROTOBUF_FIELD_OFFSET(::PBItemData, quantity_),
+  PROTOBUF_FIELD_OFFSET(::PBItemData, subtract_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::PBItemsDict, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -77,7 +78,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_item_2eproto::offsets[] PROTOB
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::PBItemData)},
-  { 10, -1, sizeof(::PBItemsDict)},
+  { 11, -1, sizeof(::PBItemsDict)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -86,17 +87,17 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_item_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nitem.proto\"w\n\nPBItemData\022\022\n\nimage_path"
-  "\030\001 \001(\t\022\021\n\titem_name\030\002 \001(\t\022\022\n\nsell_value\030"
-  "\003 \001(\005\022\034\n\007item_id\030\004 \001(\0162\013.PBItemEnum\022\020\n\010q"
-  "uantity\030\005 \001(\005\"H\n\013PBItemsDict\022\036\n\titem_typ"
-  "e\030\001 \001(\0162\013.PBItemType\022\031\n\004data\030\002 \003(\0132\013.PBI"
-  "temData*u\n\nPBItemEnum\022\t\n\005STICK\020\000\022\n\n\006PEBB"
-  "LE\020\001\022\010\n\004ROCK\020\002\022\010\n\004DIRT\020\003\022\n\n\005PUNCH\020\350\007\022\t\n\004"
-  "KICK\020\351\007\022\021\n\014WOODEN_SWORD\020\320\017\022\022\n\rWOODEN_HEL"
-  "MET\020\270\027*U\n\nPBItemType\022\r\n\tRESOURCES\020\000\022\013\n\007A"
-  "TTACKS\020\001\022\013\n\007WEAPONS\020\002\022\r\n\tEQUIPMENT\020\003\022\017\n\013"
-  "QUEST_ITEMS\020\004b\006proto3"
+  "\n\nitem.proto\"\211\001\n\nPBItemData\022\022\n\nimage_pat"
+  "h\030\001 \001(\t\022\021\n\titem_name\030\002 \001(\t\022\022\n\nsell_value"
+  "\030\003 \001(\005\022\034\n\007item_id\030\004 \001(\0162\013.PBItemEnum\022\020\n\010"
+  "quantity\030\005 \001(\005\022\020\n\010subtract\030\006 \001(\010\"H\n\013PBIt"
+  "emsDict\022\036\n\titem_type\030\001 \001(\0162\013.PBItemType\022"
+  "\031\n\004data\030\002 \003(\0132\013.PBItemData*u\n\nPBItemEnum"
+  "\022\t\n\005STICK\020\000\022\n\n\006PEBBLE\020\001\022\010\n\004ROCK\020\002\022\010\n\004DIR"
+  "T\020\003\022\n\n\005PUNCH\020\350\007\022\t\n\004KICK\020\351\007\022\021\n\014WOODEN_SWO"
+  "RD\020\320\017\022\022\n\rWOODEN_HELMET\020\270\027*U\n\nPBItemType\022"
+  "\r\n\tRESOURCES\020\000\022\013\n\007ATTACKS\020\001\022\013\n\007WEAPONS\020\002"
+  "\022\r\n\tEQUIPMENT\020\003\022\017\n\013QUEST_ITEMS\020\004b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_item_2eproto_deps[1] = {
 };
@@ -106,7 +107,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ite
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_item_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_item_2eproto = {
-  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 421,
+  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 440,
   &descriptor_table_item_2eproto_once, descriptor_table_item_2eproto_sccs, descriptor_table_item_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_item_2eproto::offsets,
   file_level_metadata_item_2eproto, 2, file_level_enum_descriptors_item_2eproto, file_level_service_descriptors_item_2eproto,
@@ -180,8 +181,8 @@ PBItemData::PBItemData(const PBItemData& from)
       GetArena());
   }
   ::memcpy(&sell_value_, &from.sell_value_,
-    static_cast<size_t>(reinterpret_cast<char*>(&quantity_) -
-    reinterpret_cast<char*>(&sell_value_)) + sizeof(quantity_));
+    static_cast<size_t>(reinterpret_cast<char*>(&subtract_) -
+    reinterpret_cast<char*>(&sell_value_)) + sizeof(subtract_));
   // @@protoc_insertion_point(copy_constructor:PBItemData)
 }
 
@@ -190,8 +191,8 @@ void PBItemData::SharedCtor() {
   image_path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   item_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&sell_value_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&quantity_) -
-      reinterpret_cast<char*>(&sell_value_)) + sizeof(quantity_));
+      reinterpret_cast<char*>(&subtract_) -
+      reinterpret_cast<char*>(&sell_value_)) + sizeof(subtract_));
 }
 
 PBItemData::~PBItemData() {
@@ -230,8 +231,8 @@ void PBItemData::Clear() {
   image_path_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   item_name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::memset(&sell_value_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&quantity_) -
-      reinterpret_cast<char*>(&sell_value_)) + sizeof(quantity_));
+      reinterpret_cast<char*>(&subtract_) -
+      reinterpret_cast<char*>(&sell_value_)) + sizeof(subtract_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -280,6 +281,13 @@ const char* PBItemData::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
           quantity_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bool subtract = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          subtract_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -350,6 +358,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_quantity(), target);
   }
 
+  // bool subtract = 6;
+  if (this->subtract() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(6, this->_internal_subtract(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -400,6 +414,11 @@ size_t PBItemData::ByteSizeLong() const {
         this->_internal_quantity());
   }
 
+  // bool subtract = 6;
+  if (this->subtract() != 0) {
+    total_size += 1 + 1;
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -446,6 +465,9 @@ void PBItemData::MergeFrom(const PBItemData& from) {
   if (from.quantity() != 0) {
     _internal_set_quantity(from._internal_quantity());
   }
+  if (from.subtract() != 0) {
+    _internal_set_subtract(from._internal_subtract());
+  }
 }
 
 void PBItemData::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -472,8 +494,8 @@ void PBItemData::InternalSwap(PBItemData* other) {
   image_path_.Swap(&other->image_path_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   item_name_.Swap(&other->item_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PBItemData, quantity_)
-      + sizeof(PBItemData::quantity_)
+      PROTOBUF_FIELD_OFFSET(PBItemData, subtract_)
+      + sizeof(PBItemData::subtract_)
       - PROTOBUF_FIELD_OFFSET(PBItemData, sell_value_)>(
           reinterpret_cast<char*>(&sell_value_),
           reinterpret_cast<char*>(&other->sell_value_));

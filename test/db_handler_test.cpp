@@ -2,6 +2,7 @@
 #include <core/pb/player.pb.h>
 #include <db_handler/db_user.hpp>
 #include <db_handler/db_location.hpp>
+#include <db_handler/db_inventory.hpp>
 
 TEST_CASE("User Database Handler Testing","[db_handler][db_handler_test_1]") 
 {   
@@ -60,4 +61,44 @@ TEST_CASE("Inserting location","[db_handler][db_handler_test_2]")
     REQUIRE(post_int.post_info().capacity_upgrade() == 10);
     std::cout << loc.DebugString() << std::endl;
 
+}
+
+TEST_CASE("ModifyItemsQuantity","[db_handler][db_handler_test_3]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"inventory", make_document()};
+    del_op_pla.ExecuteOperation();
+
+    std::vector<PBItemData> data;
+    db_handler::DBInventoryHandler inventory{&data};
+    PBUser user;
+    user.set_discord_id(2);
+    user.set_current_player_id(1);
+    inventory.InitializeInventory(user);
+    PBItemData item1;
+    item1.set_item_id(PBItemEnum::STICK);
+    item1.set_quantity(20);
+    item1.set_subtract(false);
+    data.push_back(item1);
+
+    PBItemData item2;
+    item2.set_item_id(PBItemEnum::PEBBLE);
+    item2.set_quantity(12);
+    item2.set_subtract(false);
+    data.push_back(item2);
+
+    PBItemData item3;
+    item3.set_item_id(PBItemEnum::DIRT);
+    item3.set_quantity(12);
+    item3.set_subtract(false);
+    data.push_back(item3);
+
+    REQUIRE(inventory.ModifyItemsQuantity(user.discord_id(),user.current_player_id()));
+    data.at(0).set_quantity(32);
+    data.erase(data.begin() + 2);
+    REQUIRE(inventory.GetItems(user.discord_id(),user.current_player_id(),PBItemType_Name(PBItemType::RESOURCES)));
+    REQUIRE(data.size() == 2);
+    REQUIRE(data.at(0).quantity() == 20);
+
+    REQUIRE(inventory.GetInventory(user.discord_id(),user.current_player_id(),PBItemType_Name(PBItemType::RESOURCES)));
+    REQUIRE(data.size() == 3);
 }

@@ -13,6 +13,8 @@ struct UserData
     PBUser m_user_db;
     bool m_location_created = false;
     PBLocation m_location_db;
+    bool m_item_resources_created = false;
+    std::vector<PBItemData> m_item_resources_db;
 };
 
 class BaseRequest 
@@ -67,16 +69,34 @@ public:
 class BuyableRequest : public BaseRequest 
 {
 private:
-    std::vector<PBItemData> m_items_db;
-    db_handler::DBInventoryHandler m_items_handler{&m_items_db};
+    db_handler::DBInventoryHandler m_items_handler{&m_data.m_item_resources_db};
+    PBItemType m_item_type;
 public:
-    BuyableRequest(uint64_t discord_id) 
-    : BaseRequest(discord_id)
-    {}
-
-    bool Buy() 
+    BuyableRequest(uint64_t discord_id, PBItemType item_type) 
+    : BaseRequest(discord_id), m_item_type(item_type)
     {
-        return false;
+        if (m_data.m_item_resources_created) 
+        {
+            m_items_handler.GetItems(m_data.m_user_db.discord_id(),m_data.m_user_db.current_player_id(),PBItemType_Name(m_item_type));
+        }
+    }
+
+    bool Buy(const google::protobuf::RepeatedPtrField<PBItemData> item_data) 
+    {
+        if (m_data.m_item_resources_db.size() != item_data.size() ) return false;
+        for (auto const &item_req : item_data)
+        {
+
+            for (auto const & item_db : m_data.m_item_resources_db)
+            {
+                if (item_db.item_id() == item_req.item_id()) 
+                {
+                    
+                }
+            }
+            
+            
+        }
     }
 };
 
@@ -87,7 +107,7 @@ private:
     PBUpgradeType m_type;
 public:
     UpgradePostRequest(uint64_t discord_id, int selected, PBUpgradeType type)
-    : BuyableRequest(discord_id), m_selected(selected), m_type(type)
+    : BuyableRequest(discord_id, PBItemType::RESOURCES), m_selected(selected), m_type(type)
     {
         if (!m_data.m_location_created) {
             m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
@@ -99,7 +119,24 @@ public:
     bool ConfirmRequest() 
     {
         if (!m_data.m_user_created) return false;
-
-        return false;
+        const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
+        auto const &post_info_db = m_data.m_location_db.interactions(interaction_data->GetDatabaseId()).post_info();
+        const auto *post_info_data = interaction_data->TryGetPost();
+        int current = 0;
+        switch (m_type)
+        {
+        case PBUpgradeType::CAPACITY:
+            current = post_info_db.capacity_upgrade();
+            break;
+        case PBUpgradeType::GEN_SECOND:
+            current = post_info_db.gen_second_upgrade();
+            break;
+        case PBUpgradeType::FORTUNE:
+            current = post_info_db.fortune_upgrade();
+            break;
+        default:
+            break;
+        }
+        return Buy(post_info_data->GetUpgradeRequirements(m_type,current));
     }
 };
