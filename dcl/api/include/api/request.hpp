@@ -64,90 +64,42 @@ public:
     bool FillRequest(dpp::message &m);
 };
 
-class UpgradePostRequest : public BaseRequest
+class BuyableRequest : public BaseRequest 
+{
+private:
+    std::vector<PBItemData> m_items_db;
+    db_handler::DBInventoryHandler m_items_handler{&m_items_db};
+public:
+    BuyableRequest(uint64_t discord_id) 
+    : BaseRequest(discord_id)
+    {}
+
+    bool Buy() 
+    {
+        return false;
+    }
+};
+
+class UpgradePostRequest : public BuyableRequest
 {
 private:
     int m_selected;
     PBUpgradeType m_type;
 public:
     UpgradePostRequest(uint64_t discord_id, int selected, PBUpgradeType type)
-    : BaseRequest(discord_id), m_selected(selected), m_type(type)
+    : BuyableRequest(discord_id), m_selected(selected), m_type(type)
     {
         if (!m_data.m_location_created) {
             m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
         }
     };
 
-    bool FillRequest(dpp::message &m) 
+    bool FillRequest(dpp::message &m);
+
+    bool ConfirmRequest() 
     {
         if (!m_data.m_user_created) return false;
-        const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
-        auto const &post_info_db = m_data.m_location_db.interactions(interaction_data->GetDatabaseId()).post_info();
-        const auto *post_info_data = interaction_data->TryGetPost();
-        int current = 0;
-        switch (m_type)
-        {
-        case PBUpgradeType::CAPACITY:
-            current = post_info_db.capacity_upgrade();
-            break;
-        case PBUpgradeType::GEN_SECOND:
-            current = post_info_db.gen_second_upgrade();
-            break;
-        case PBUpgradeType::FORTUNE:
-            current = post_info_db.fortune_upgrade();
-            break;
-        default:
-            break;
-        }
-        
-        std::string result = "";
-        for (auto const &item : post_info_data->GetUpgradeRequirements(m_type,current))
-        {
-            const std::string *item_name = DCLData::DCLItems::getInstance().GetItemName(item.item_id());
-            result +=  *item_name+" - "+std::to_string(item.quantity())+"\n";
-        }
-        std::stringstream stream_current_stat;
-        stream_current_stat << std::fixed << std::setprecision(2) << post_info_data->GetCurrentStat(m_type,current);
-        std::string next_stat_str;
-        float next_stat = post_info_data->GetCurrentStat(m_type,current+1);
-        if (next_stat == -1)
-        {
-            next_stat_str = "---";
-        } else 
-        {
-            std::stringstream stream_next_stat;
-            stream_next_stat << std::fixed << std::setprecision(2) << next_stat;
-            next_stat_str = stream_next_stat.str();
-        }
-        
-        m.set_flags(dpp::m_ephemeral);
-        dpp::embed embed = dpp::embed().
-            set_color(dpp::colors::forest_green).
-            set_title("["+interaction_data->GetInteractionName()+"] Upgrade Menu").
-            set_description("You have now selected: "+PBUpgradeType_Name(m_type)).
-            add_field(
-                "Current Level Stat",
-                stream_current_stat.str(),
-                true
-            ).add_field(
-                "Next Level Stat",
-                next_stat_str,
-                true
-            ).add_field(
-                "Upgrade Requirements",
-                result
-            );
 
-        m.add_embed(embed);
-        auto list = dpp::component().set_type(dpp::cot_selectmenu).
-                    set_placeholder("Select Upgrade").
-                    set_id("upgrade_post_list::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).
-                    add_select_option(dpp::select_option("[CAPACITY]",std::to_string(PBUpgradeType::CAPACITY),"Do you want to save more resources?")).
-                    add_select_option(dpp::select_option("[GENERATION]",std::to_string(PBUpgradeType::GEN_SECOND),"To Generate even more resources per second?")).
-                    add_select_option(dpp::select_option("[FORTUNE]",std::to_string(PBUpgradeType::FORTUNE),"If you are not feeling lucky, improve this!"));
-        m.add_component(
-            dpp::component().add_component(list)
-        );
-        return true;
+        return false;
     }
 };

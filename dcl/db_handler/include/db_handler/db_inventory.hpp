@@ -18,9 +18,10 @@ namespace db_handler
     class DBInventoryHandler 
     {
     private:
-        std::vector<PBItemData> *items;
+        std::vector<PBItemData> *m_items;
     public:
-        DBInventoryHandler() 
+        DBInventoryHandler(std::vector<PBItemData> *items) 
+        : m_items(items)
         {
 
         }
