@@ -13,7 +13,6 @@ struct UserData
     PBUser m_user_db;
     bool m_location_created = false;
     PBLocation m_location_db;
-    bool m_item_resources_created = false;
     std::vector<PBItemData> m_item_resources_db;
 };
 
@@ -75,28 +74,31 @@ public:
     BuyableRequest(uint64_t discord_id, PBItemType item_type) 
     : BaseRequest(discord_id), m_item_type(item_type)
     {
-        if (m_data.m_item_resources_created) 
-        {
-            m_items_handler.GetItems(m_data.m_user_db.discord_id(),m_data.m_user_db.current_player_id(),PBItemType_Name(m_item_type));
-        }
+        m_items_handler.GetItems(m_data.m_user_db.discord_id(),m_data.m_user_db.current_player_id(),PBItemType_Name(m_item_type));
     }
 
     bool Buy(const google::protobuf::RepeatedPtrField<PBItemData> item_data) 
     {
         if (m_data.m_item_resources_db.size() != item_data.size() ) return false;
+        
         for (auto const &item_req : item_data)
         {
-
-            for (auto const & item_db : m_data.m_item_resources_db)
+            for (auto item_db : m_data.m_item_resources_db)
             {
-                if (item_db.item_id() == item_req.item_id()) 
+                if ((item_db.item_id() == item_req.item_id()) && item_db.quantity() < item_req.item_id()) 
                 {
-                    
+                    return false;
+                } else if(item_db.item_id() == item_req.item_id()) 
+                {
+                    std::cout << "Can Buy!" << std::endl;
+                    item_db.set_quantity( item_db.quantity() - item_req.quantity() );
+                    //You can stop looking as item already has more quantity
+                    break;
                 }
             }
-            
-            
         }
+        m_items_handler.UpdateItems(m_data.m_user_db.discord_id(),m_data.m_user_db.current_player_id());
+        return true;
     }
 };
 
@@ -137,6 +139,11 @@ public:
         default:
             break;
         }
-        return Buy(post_info_data->GetUpgradeRequirements(m_type,current));
+        if (Buy(post_info_data->GetUpgradeRequirements(m_type,current))) 
+        {
+            std::cout << "YEah!" << std::endl;
+            return true;
+        }
+        return false;
     }
 };

@@ -54,7 +54,7 @@ namespace db_handler
             }
         }
 
-        bool ModifyItemsQuantity(uint64_t discord_id, int32_t player_id) 
+        bool UpdateItems(uint64_t discord_id, int32_t player_id) 
         {
 
             bsoncxx::builder::basic::document set_doc{};
@@ -74,7 +74,7 @@ namespace db_handler
                 ),
                 make_document(
                     kvp("$set", set_doc.extract()),
-                    kvp("$inc", inc_doc.extract())
+                    kvp("$set", inc_doc.extract())
                 )
             };
 

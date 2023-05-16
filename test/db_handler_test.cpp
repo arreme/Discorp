@@ -92,7 +92,7 @@ TEST_CASE("ModifyItemsQuantity","[db_handler][db_handler_test_3]")
     item3.set_subtract(false);
     data.push_back(item3);
 
-    REQUIRE(inventory.ModifyItemsQuantity(user.discord_id(),user.current_player_id()));
+    REQUIRE(inventory.UpdateItems(user.discord_id(),user.current_player_id()));
     data.at(0).set_quantity(32);
     data.erase(data.begin() + 2);
     REQUIRE(inventory.GetItems(user.discord_id(),user.current_player_id(),PBItemType_Name(PBItemType::RESOURCES)));
@@ -101,4 +101,6 @@ TEST_CASE("ModifyItemsQuantity","[db_handler][db_handler_test_3]")
 
     REQUIRE(inventory.GetInventory(user.discord_id(),user.current_player_id(),PBItemType_Name(PBItemType::RESOURCES)));
     REQUIRE(data.size() == 3);
+    data.at(0).set_quantity(200);
+    REQUIRE(inventory.UpdateItems(user.discord_id(),user.current_player_id()));
 }
