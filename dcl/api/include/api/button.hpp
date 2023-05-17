@@ -89,3 +89,75 @@ public:
         }
     }
 };
+
+class UnlockLocation : public Button 
+{
+public:
+    UnlockLocation(dpp::cluster *bot)
+    : Button(bot)
+    {
+
+    };
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            UnlockLocationRequest request{target.id,std::stoi(commands.at(2))};
+            if (request.ConfirmRequest()) 
+            {
+                dpp::message m;
+                PrintMapRequest map_request{target.id,std::stoi(commands.at(2))};
+                map_request.FillRequest(m);
+                event.reply(dpp::interaction_response_type::ir_update_message, m);
+            } else {
+                event.reply("You don't have enough materials!");
+            }
+            
+        }
+    }
+};
+
+class GoToLocation : public Button 
+{
+public:
+    GoToLocation(dpp::cluster *bot)
+    : Button(bot)
+    {
+
+    };
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            GoToLocationRequest request{target.id,std::stoi(commands.at(2))};
+            request.ConfirmRequest();
+            PrintMapRequest map_request{target.id,std::stoi(commands.at(2))};
+            dpp::message m;
+            map_request.FillRequest(m);
+            event.reply(dpp::interaction_response_type::ir_update_message, m);
+        }
+    }
+};
+
+class CollectPost : public Button 
+{
+public:
+    CollectPost(dpp::cluster *bot)
+    : Button(bot)
+    {
+
+    };
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            CollectPostRequest request{target.id,std::stoi(commands.at(2))};
+        }
+    }
+};

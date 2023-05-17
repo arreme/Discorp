@@ -129,6 +129,17 @@ namespace DCLInteractions
         {
             return m_zone_access_info.unlock_info(level).current_stat() == 1;
         }
+
+        const google::protobuf::RepeatedPtrField<PBItemData> &GetUpgradeRequirements(int level) const
+        {
+            if (level < 0 || level >= m_zone_access_info.unlock_info_size()) level = 0;
+            return m_zone_access_info.unlock_info(level).upgrade_req();
+        }
+
+        PBLocationID GetNextLocation() const
+        {
+            return m_zone_access_info.next_loc();
+        }
     };
 
     class DCLDialogInteraction : public DCLInteractionType 

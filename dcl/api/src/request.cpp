@@ -101,9 +101,9 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
             case PBInteractionType::ZONE_ACCESS:
 
                 if (location_data->GetInteraction(m_selected)->TryGetZoneAccess()->IsUnlocked(m_data.m_location_db.interactions(location_data->GetInteraction(m_selected)->GetDatabaseId()).zone_access_info().unlock_level())) {
-                    buttons.add_component(dpp::component().set_label("CHANGE LOCATION").set_id("go_to_location::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_danger));
+                    buttons.add_component(dpp::component().set_label("CHANGE LOCATION").set_id("go_to_location::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_success));
                 } else {
-                    buttons.add_component(dpp::component().set_label("UNLOCK LOCATION").set_id("unlock_zone::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_danger));
+                    buttons.add_component(dpp::component().set_label("UNLOCK LOCATION").set_id("unlock_location::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_danger));
                 }
                 break;
             case PBInteractionType::DIALOG:
@@ -279,6 +279,77 @@ bool UpgradePostRequest::FillRequest(dpp::message &m)
         );
     }
     
+
+    return true;
+}
+
+bool UpgradePostRequest::ConfirmRequest() 
+{
+    if (!m_data.m_user_created) return false;
+    const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
+    auto const &post_info_db = m_data.m_location_db.interactions(interaction_data->GetDatabaseId()).post_info();
+    const auto *post_info_data = interaction_data->TryGetPost();
+    int current = 0;
+    switch (m_type)
+    {
+    case PBUpgradeType::CAPACITY:
+        current = post_info_db.capacity_upgrade();
+        break;
+    case PBUpgradeType::GEN_SECOND:
+        current = post_info_db.gen_second_upgrade();
+        break;
+    case PBUpgradeType::FORTUNE:
+        current = post_info_db.fortune_upgrade();
+        break;
+    default:
+        break;
+    }
+    PBUpgradeType pb_type = static_cast<PBUpgradeType>(m_type);
+    if (Buy(post_info_data->GetUpgradeRequirements(pb_type,current))) 
+    {
+        m_location_handler.ImprovePost(m_data.m_user_db,interaction_data->GetDatabaseId(),pb_type);
+        return true;
+    }
+    return false;
+}
+
+/*******************************/
+/****UNLOCK LOCATION REQUEST****/
+/*******************************/
+
+bool UnlockLocationRequest::ConfirmRequest() 
+{
+    if (!m_data.m_user_created) return false;
+    const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
+    auto const &zone_access_db = m_data.m_location_db.interactions(interaction_data->GetDatabaseId()).zone_access_info();
+    const auto *zone_access_data = interaction_data->TryGetZoneAccess();
+    int current = 0;
+    if (Buy(zone_access_data->GetUpgradeRequirements(current))) 
+    {
+        m_location_handler.UnlockLocation(m_data.m_user_db,interaction_data->GetDatabaseId());
+        return true;
+    }
+    return false;
+}
+/****************************/
+/****COLLECT POST REQUEST****/
+/****************************/
+bool CollectPostRequest::FillRequest(dpp::message &m) 
+{
+    return false;
+}
+
+
+/******************************/
+/****GO TO LOCATION REQUEST****/
+/******************************/
+
+bool GoToLocationRequest::ConfirmRequest() 
+{
+    if (!m_data.m_user_created) return false;
+    const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
+    const auto *zone_access_data = interaction_data->TryGetZoneAccess();
+    PBLocationID next_loc = zone_access_data->GetNextLocation();
 
     return true;
 }

@@ -29,9 +29,9 @@ ButtonBootstrap::ButtonBootstrap(dpp::cluster *bot)
     button_list.insert({"upgrade_post",std::make_unique<UpgradePostButton>(bot)});
     button_list.insert({"cancel_button",std::make_unique<CancelButton>(bot)});
     button_list.insert({"confirm_upgrade_post",std::make_unique<ConfirmPostButton>(bot)});
-    //button_list.insert({"collect_post",});
-    //button_list.insert({"go_to_location",});
-    //button_list.insert({"unlock_zone",});
+    button_list.insert({"unlock_location",std::make_unique<UnlockLocation>(bot)});
+    button_list.insert({"go_to_location",std::make_unique<GoToLocation>(bot)});
+    button_list.insert({"collect_post",std::make_unique<CollectPost>(bot)});
     //button_list.insert({"interact",});
     //button_list.insert({"inventory",});
     //button_list.insert({"profile",});

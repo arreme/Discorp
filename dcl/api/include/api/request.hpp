@@ -1,5 +1,8 @@
 #pragma once
-#include <api/api_interactions.hpp>
+#include <img/renderer.hpp>
+#include <core/dcl_map.hpp>
+#include <core/dcl_items.hpp>
+#include <dpp.h>
 #include <ostream>
 #include <core/pb/player.pb.h>
 #include <db_handler/db_user.hpp>
@@ -121,33 +124,51 @@ public:
 
     bool FillRequest(dpp::message &m);
 
-    bool ConfirmRequest() 
+    bool ConfirmRequest();
+};
+
+class UnlockLocationRequest : public BuyableRequest
+{
+private:
+    int m_selected;
+public:
+    UnlockLocationRequest(uint64_t discord_id, int selected)
+    : BuyableRequest(discord_id, PBItemType::RESOURCES), m_selected(selected)
     {
-        if (!m_data.m_user_created) return false;
-        const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
-        auto const &post_info_db = m_data.m_location_db.interactions(interaction_data->GetDatabaseId()).post_info();
-        const auto *post_info_data = interaction_data->TryGetPost();
-        int current = 0;
-        switch (m_type)
-        {
-        case PBUpgradeType::CAPACITY:
-            current = post_info_db.capacity_upgrade();
-            break;
-        case PBUpgradeType::GEN_SECOND:
-            current = post_info_db.gen_second_upgrade();
-            break;
-        case PBUpgradeType::FORTUNE:
-            current = post_info_db.fortune_upgrade();
-            break;
-        default:
-            break;
+        if (!m_data.m_location_created) {
+            m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
         }
-        PBUpgradeType pb_type = static_cast<PBUpgradeType>(m_type);
-        if (Buy(post_info_data->GetUpgradeRequirements(pb_type,current))) 
-        {
-            m_location_handler.ImprovePost(m_data.m_user_db,interaction_data->GetDatabaseId(),pb_type);
-            return true;
+    };
+
+    bool FillRequest(dpp::message &m);
+
+    bool ConfirmRequest();
+};
+
+class CollectPostRequest : public BaseRequest
+{
+private:
+    int m_selected;
+public:
+    CollectPostRequest(uint64_t discord_id, int selected)
+    : BaseRequest(discord_id), m_selected(selected)
+    {
+        if (!m_data.m_location_created) {
+            m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
         }
-        return false;
-    }
+    };
+
+    bool FillRequest(dpp::message &m);
+};
+
+class GoToLocationRequest : public BaseRequest
+{
+private:
+    int m_selected;
+public:
+    GoToLocationRequest(uint64_t discord_id, int selected)
+    : BaseRequest(discord_id), m_selected(selected)
+    {};
+
+    bool ConfirmRequest();
 };

@@ -91,5 +91,23 @@ namespace db_handler
 
             return update_op.GetState() == db::OperationState::SUCCESS;
         }
+
+        bool UnlockLocation(PBUser &user, int32_t interaction_id)
+        {
+            std::string array_update_query = "locations."+std::to_string(user.players(0).current_location())+"." + std::to_string(interaction_id) + ".zone_access_info.unlock_level";
+            db::UpdateOneOperation update_op{"game_state",
+                make_document(
+                    kvp("discord_id",b_int64{static_cast<int64_t>(user.discord_id())}),
+                    kvp("player_id",b_int32{user.current_player_id()})
+                ),
+                make_document(kvp("$inc",make_document(
+                    kvp(array_update_query, 1)
+                )))
+            };
+
+            update_op.ExecuteOperation();
+
+            return update_op.GetState() == db::OperationState::SUCCESS;
+        }
     };
 }
