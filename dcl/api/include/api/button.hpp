@@ -30,7 +30,7 @@ public:
         auto target = event.command.get_issuing_user();
         if (std::to_string(target.id) == commands.at(1)) 
         {
-            UpgradePostRequest request{target.id,std::stoi(commands.at(2)),PBUpgradeType::CAPACITY};
+            UpgradePostRequest request{target.id,std::stoi(commands.at(2)),-1};
             dpp::message m;
             request.FillRequest(m);
             event.reply(m);

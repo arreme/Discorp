@@ -13,7 +13,6 @@ struct UserData
     PBUser m_user_db;
     bool m_location_created = false;
     PBLocation m_location_db;
-    std::vector<PBItemData> m_item_resources_db;
 };
 
 class BaseRequest 
@@ -68,34 +67,38 @@ public:
 class BuyableRequest : public BaseRequest 
 {
 private:
-    db_handler::DBInventoryHandler m_items_handler{&m_data.m_item_resources_db};
+    std::vector<PBItemData> m_items_db;
+    db_handler::DBInventoryHandler m_items_handler{&m_items_db};
     PBItemType m_item_type;
 public:
     BuyableRequest(uint64_t discord_id, PBItemType item_type) 
     : BaseRequest(discord_id), m_item_type(item_type)
-    {
-        m_items_handler.GetItems(m_data.m_user_db.discord_id(),m_data.m_user_db.current_player_id(),PBItemType_Name(m_item_type));
-    }
+    {}
 
     bool Buy(const google::protobuf::RepeatedPtrField<PBItemData> item_data) 
     {
-        if (m_data.m_item_resources_db.size() != item_data.size() ) return false;
-        
         for (auto const &item_req : item_data)
         {
-            for (auto item_db : m_data.m_item_resources_db)
+            PBItemData temp;
+            temp.set_item_id(item_req.item_id());
+            m_items_db.push_back(temp);
+        }
+        m_items_handler.GetItems(m_data.m_user_db.discord_id(),m_data.m_user_db.current_player_id(),PBItemType_Name(m_item_type));
+        
+        if (m_items_db.size() != item_data.size() ) return false;
+        
+        for (int i = 0; i < item_data.size(); i++)
+        {
+            if (m_items_db.at(i).item_id() == item_data.at(i).item_id())
             {
-                if ((item_db.item_id() == item_req.item_id()) && item_db.quantity() < item_req.item_id()) 
+                if (m_items_db.at(i).quantity() >= item_data.at(i).quantity())
+                {
+                    m_items_db.at(i).set_quantity( m_items_db.at(i).quantity() - item_data.at(i).quantity() );
+                } else 
                 {
                     return false;
-                } else if(item_db.item_id() == item_req.item_id()) 
-                {
-                    std::cout << "Can Buy!" << std::endl;
-                    item_db.set_quantity( item_db.quantity() - item_req.quantity() );
-                    //You can stop looking as item already has more quantity
-                    break;
                 }
-            }
+            }   
         }
         m_items_handler.UpdateItems(m_data.m_user_db.discord_id(),m_data.m_user_db.current_player_id());
         return true;
@@ -106,9 +109,9 @@ class UpgradePostRequest : public BuyableRequest
 {
 private:
     int m_selected;
-    PBUpgradeType m_type;
+    int32_t m_type;
 public:
-    UpgradePostRequest(uint64_t discord_id, int selected, PBUpgradeType type)
+    UpgradePostRequest(uint64_t discord_id, int selected, int32_t type)
     : BuyableRequest(discord_id, PBItemType::RESOURCES), m_selected(selected), m_type(type)
     {
         if (!m_data.m_location_created) {
@@ -139,9 +142,10 @@ public:
         default:
             break;
         }
-        if (Buy(post_info_data->GetUpgradeRequirements(m_type,current))) 
+        PBUpgradeType pb_type = static_cast<PBUpgradeType>(m_type);
+        if (Buy(post_info_data->GetUpgradeRequirements(pb_type,current))) 
         {
-            std::cout << "YEah!" << std::endl;
+            m_location_handler.ImprovePost(m_data.m_user_db,interaction_data->GetDatabaseId(),pb_type);
             return true;
         }
         return false;

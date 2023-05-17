@@ -178,10 +178,31 @@ Renderer::BaseMapRenderer PrintMapRequest::RenderMap(const DCLData::DCLLocation*
 bool UpgradePostRequest::FillRequest(dpp::message &m) 
 {
     if (!m_data.m_user_created) return false;
+    m.set_flags(dpp::m_ephemeral);
+    
     const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
+    if (m_type == -1) 
+    {
+        dpp::embed embed = dpp::embed().
+            set_color(dpp::colors::forest_green).
+            set_title("["+interaction_data->GetInteractionName()+"] Upgrade Menu").
+            set_description("Please select an upgrade");
+        m.add_embed(embed);
+        auto list = dpp::component().set_type(dpp::cot_selectmenu).
+                    set_placeholder("Select Upgrade").
+                    set_id("upgrade_post_list::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).
+                    add_select_option(dpp::select_option("[CAPACITY]",std::to_string(PBUpgradeType::CAPACITY),"Do you want to save more resources?")).
+                    add_select_option(dpp::select_option("[GENERATION]",std::to_string(PBUpgradeType::GEN_SECOND),"To Generate even more resources per second?")).
+                    add_select_option(dpp::select_option("[FORTUNE]",std::to_string(PBUpgradeType::FORTUNE),"If you are not feeling lucky, improve this!"));
+        m.add_component(
+            dpp::component().add_component(list)
+        );
+        return true;
+    }
     auto const &post_info_db = m_data.m_location_db.interactions(interaction_data->GetDatabaseId()).post_info();
     const auto *post_info_data = interaction_data->TryGetPost();
     int current = 0;
+    
     switch (m_type)
     {
     case PBUpgradeType::CAPACITY:
@@ -194,19 +215,20 @@ bool UpgradePostRequest::FillRequest(dpp::message &m)
         current = post_info_db.fortune_upgrade();
         break;
     default:
-        break;
+        return false;
     }
     
     std::string result = "";
-    for (auto const &item : post_info_data->GetUpgradeRequirements(m_type,current))
+    auto pb_type = static_cast<PBUpgradeType>(m_type);
+    for (auto const &item : post_info_data->GetUpgradeRequirements(pb_type,current))
     {
         const std::string *item_name = DCLData::DCLItems::getInstance().GetItemName(item.item_id());
         result +=  *item_name+" - "+std::to_string(item.quantity())+"\n";
     }
     std::stringstream stream_current_stat;
-    stream_current_stat << std::fixed << std::setprecision(2) << post_info_data->GetCurrentStat(m_type,current);
+    stream_current_stat << std::fixed << std::setprecision(2) << post_info_data->GetCurrentStat(pb_type,current);
     std::string next_stat_str;
-    float next_stat = post_info_data->GetCurrentStat(m_type,current+1);
+    float next_stat = post_info_data->GetCurrentStat(pb_type,current+1);
     if (next_stat == -1)
     {
         next_stat_str = "---";
@@ -217,7 +239,7 @@ bool UpgradePostRequest::FillRequest(dpp::message &m)
         next_stat_str = stream_next_stat.str();
     }
     
-    m.set_flags(dpp::m_ephemeral);
+    
     dpp::embed embed = dpp::embed().
         set_color(dpp::colors::forest_green).
         set_title("["+interaction_data->GetInteractionName()+"] Upgrade Menu").
@@ -252,7 +274,7 @@ bool UpgradePostRequest::FillRequest(dpp::message &m)
             dpp::component().add_component(
                 dpp::component().set_label("CANCEL").set_id("cancel_button::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_danger)
             ).add_component(
-                dpp::component().set_label("CONFIRM").set_id("confirm_upgrade_post::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_danger)
+                dpp::component().set_label("CONFIRM").set_id("confirm_upgrade_post::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_success)
             )
         );
     }

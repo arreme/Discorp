@@ -35,6 +35,7 @@ ButtonBootstrap::ButtonBootstrap(dpp::cluster *bot)
     //button_list.insert({"interact",});
     //button_list.insert({"inventory",});
     //button_list.insert({"profile",});
+
 }
 
 Button *ButtonBootstrap::Find(std::string button_name) 

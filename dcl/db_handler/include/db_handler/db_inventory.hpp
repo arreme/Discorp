@@ -118,17 +118,19 @@ namespace db_handler
                 std::move(find_options)
             };
             find_op.ExecuteOperation();
-            m_items->clear();
             if (find_op.m_result) 
             {
                 auto item_array = find_op.m_result.value()[category].get_array().value;
                 
                 for (auto const &current : item_array)
                 {
-                    PBItemData temp;
-                    temp.set_item_id(static_cast<PBItemEnum>(static_cast<int32_t>(current["item_id"].get_int32())));
-                    temp.set_quantity(current["quantity"].get_int32());
-                    m_items->push_back(temp);
+                    for(auto &item : *m_items) 
+                    {
+                        if (current["item_id"].get_int32() == item.item_id()) 
+                        {
+                            item.set_quantity(current["quantity"].get_int32());
+                        }
+                    }
                 }
                 return true;  
             }

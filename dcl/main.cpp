@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    db::MongoDBInstance::GetInstance()->createPool("mongodb://192.168.1.33:27017");
+    db::MongoDBInstance::GetInstance()->createPool("mongodb://192.168.32.179:27017");
     
     uint64_t intents = dpp::i_default_intents | dpp::i_message_content;
     dpp::cluster bot(BOT_TOKEN,intents);
