@@ -77,7 +77,6 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
     m.set_flags(dpp::m_ephemeral);
 
     const DCLData::DCLLocation *location_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location());
-    std::cout << location_data << std::endl;
     if (!location_data) 
     {
         m.set_content("Error! Please use command /repair to fix");
@@ -87,7 +86,6 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
     Renderer::BaseMapRenderer renderer = RenderMap(location_data);
     int size = 0;
     m.add_file("map.png",std::string{renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
-    std::cout << m_selected << std::endl;
     if (m_selected != -1) 
     {
         auto buttons = dpp::component();
@@ -100,8 +98,7 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
                 buttons.add_component(dpp::component().set_label("COLLECT POST").set_id("collect_post::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_primary));
                 break;
             case PBInteractionType::ZONE_ACCESS:
-
-                if (location_data->GetInteraction(m_selected)->TryGetZoneAccess()->IsUnlocked(m_data.m_location_db.interactions(location_data->GetInteraction(m_selected)->GetDatabaseId()).zone_access_info().unlock_level())) {
+                if (location_data->GetInteraction(m_selected)->GetDatabaseId() == -1 || location_data->GetInteraction(m_selected)->TryGetZoneAccess()->IsUnlocked(m_data.m_location_db.interactions(location_data->GetInteraction(m_selected)->GetDatabaseId()).zone_access_info().unlock_level())) {
                     buttons.add_component(dpp::component().set_label("CHANGE LOCATION").set_id("go_to_location::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_success));
                 } else {
                     buttons.add_component(dpp::component().set_label("UNLOCK LOCATION").set_id("unlock_location::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_danger));
@@ -157,8 +154,13 @@ Renderer::BaseMapRenderer PrintMapRequest::RenderMap(const DCLData::DCLLocation*
         }
         case PBInteractionType::ZONE_ACCESS:
         {
-            auto zone_access_db = m_data.m_location_db.interactions(location_data->GetInteraction(m_selected)->GetDatabaseId());
-            bool is_unlocked = location_data->GetInteraction(m_selected)->TryGetZoneAccess()->IsUnlocked(zone_access_db.zone_access_info().unlock_level());
+            bool is_unlocked = true;
+            if (location_data->GetInteraction(m_selected)->GetDatabaseId() != -1) 
+            {
+                auto zone_access_db = m_data.m_location_db.interactions(location_data->GetInteraction(m_selected)->GetDatabaseId());
+                is_unlocked = location_data->GetInteraction(m_selected)->TryGetZoneAccess()->IsUnlocked(zone_access_db.zone_access_info().unlock_level());
+                
+            }
             Renderer::ZoneAccessRenderer renderer{m_selected, is_unlocked};
             renderer.FillContents(m_data.m_user_db.players(0),*location_data, m_data.m_location_db);
             return renderer;
@@ -275,7 +277,7 @@ bool UpgradePostRequest::FillRequest(dpp::message &m)
             dpp::component().add_component(
                 dpp::component().set_label("CANCEL").set_id("cancel_button::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_danger)
             ).add_component(
-                dpp::component().set_label("CONFIRM").set_id("confirm_upgrade_post::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)).set_style(dpp::cos_success)
+                dpp::component().set_label("CONFIRM").set_id("confirm_upgrade_post::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_selected)+"::"+std::to_string(static_cast<int32_t>(m_type))).set_style(dpp::cos_success)
             )
         );
     }
@@ -347,17 +349,13 @@ bool CollectPostRequest::FillRequest(dpp::message &m)
 
 bool GoToLocationRequest::ConfirmRequest() 
 {
-    std::cout << "Hey?" << std::endl;
     if (!m_data.m_user_created) return false;
     const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
     const auto *zone_access_data = interaction_data->TryGetZoneAccess();
     PBLocationID next_loc = zone_access_data->GetNextLocation();
-    std::cout << next_loc << std::endl;
     if (db_handler::DBLocationHandler::PlayerFirstTimeToLocation(m_data.m_user_db,next_loc)) 
     {
-        std::cout << "New Loc!" << std::endl;
         m_data.m_location_db = DCLData::DCLMap::getInstance().GetLocation(next_loc)->GetLocationDB();
-        std::cout << m_data.m_location_db.DebugString() << std::endl;
         m_location_handler.InsertNewLocation(m_data.m_user_db);
     }
     return db_handler::DBUserHandler::GoToLocation(m_data.m_user_db,next_loc);

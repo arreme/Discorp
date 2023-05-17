@@ -127,22 +127,25 @@ bool Renderer::ZoneAccessRenderer::FillContents(const PBPlayer &player, const DC
         m_image.AddImageText(s_black,s_zone_access_name1,12,interaction_data->GetInteractionName().substr(0),false);
     }
 
-    const auto &posX = interaction_data->GetPosX();
-    const auto &posY = interaction_data->GetPosY();
+    auto const &posX = interaction_data->GetPosX();
+    auto const &posY = interaction_data->GetPosY();
     GD::Point selectedPos{posX + map_x_offset,posY + map_y_offset};
     std::ifstream in_selected{s_selected};
     GD::Image selected_img{in_selected};
     m_image.Copy(selected_img,selectedPos,{0,0},s_map_icon_size);
-
-    const auto &zone_access_info_db = location_db.interactions(interaction_data->GetDatabaseId()).zone_access_info();
-    const auto &zone_access_info_data = interaction_data->TryGetZoneAccess();
-    auto const &item_info = DCLData::DCLItems::getInstance();
-    int j = 0;
-    for(auto const &resource : zone_access_info_data->GetRequirements(zone_access_info_db.unlock_level())) 
+    if (!m_unlocked) 
     {
-        std::string item_name = (*item_info.GetItemName(resource.item_id())) +" - "+ std::to_string(resource.quantity());
-        m_image.AddImageText(s_white,{s_required_list.X(), s_required_list.Y() + static_cast<int>(s_increment_y * j)},10,item_name,false);
-        j++;
+        auto const &zone_access_info_db = location_db.interactions(interaction_data->GetDatabaseId()).zone_access_info();
+        auto const &zone_access_info_data = interaction_data->TryGetZoneAccess();
+        auto const &item_info = DCLData::DCLItems::getInstance();
+        int j = 0;
+        for(auto const &resource : zone_access_info_data->GetRequirements(zone_access_info_db.unlock_level())) 
+        {
+            std::string item_name = (*item_info.GetItemName(resource.item_id())) +" - "+ std::to_string(resource.quantity());
+            m_image.AddImageText(s_white,{s_required_list.X(), s_required_list.Y() + static_cast<int>(s_increment_y * j)},10,item_name,false);
+            j++;
+        }
     }
+    
     return true;
 };

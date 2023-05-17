@@ -77,7 +77,7 @@ public:
         auto target = event.command.get_issuing_user();
         if (std::to_string(target.id) == commands.at(1)) 
         {
-            UpgradePostRequest request{target.id,std::stoi(commands.at(2)),PBUpgradeType::CAPACITY};
+            UpgradePostRequest request{target.id,std::stoi(commands.at(2)),std::stoi(commands.at(3))};
             std::string response;
             if (request.ConfirmRequest()) 
             {
