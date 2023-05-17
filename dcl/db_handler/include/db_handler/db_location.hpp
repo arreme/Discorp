@@ -58,7 +58,7 @@ namespace db_handler
         */
         bool FindPlayerCurrentLocation(PBUser &user);
         
-        bool ImprovePost(PBUser &user, int32_t interaction_id, PBUpgradeType type)
+        static bool ImprovePost(PBUser &user, int32_t interaction_id, PBUpgradeType type)
         {
             std::string upgrade_name;
             switch (type)
@@ -92,7 +92,7 @@ namespace db_handler
             return update_op.GetState() == db::OperationState::SUCCESS;
         }
 
-        bool UnlockLocation(PBUser &user, int32_t interaction_id)
+        static bool UnlockLocation(PBUser &user, int32_t interaction_id)
         {
             std::string array_update_query = "locations."+std::to_string(user.players(0).current_location())+"." + std::to_string(interaction_id) + ".zone_access_info.unlock_level";
             db::UpdateOneOperation update_op{"game_state",
@@ -109,5 +109,31 @@ namespace db_handler
 
             return update_op.GetState() == db::OperationState::SUCCESS;
         }
+
+        static bool PlayerFirstTimeToLocation(PBUser &user, int32_t location_id) 
+        {
+            mongocxx::options::find find_opt{};
+            find_opt.projection(
+                make_document(
+                    kvp("_id",1)
+                )
+            );
+            db::FindOneOperation find_one_op{"game_state", 
+                make_document(
+                    kvp("discord_id",b_int64{static_cast<int64_t>(user.discord_id())}),
+                    kvp("player_id",b_int32{user.current_player_id()}),
+                    kvp("locations."+std::to_string(location_id),
+                        make_document(
+                            kvp("$type","array")
+                        )
+                    )
+                ),
+                std::move(find_opt)
+            };
+
+            find_one_op.ExecuteOperation();
+
+            return !find_one_op.m_result.has_value();
+        };
     };
 }

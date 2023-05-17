@@ -3,6 +3,8 @@
 PBLocation DCLData::DCLLocation::GetLocationDB() const
 {
     PBLocation location;
+    location.set_id(m_location.id());
+    location.set_database_id(m_location.database_id());
     for (const auto &interaction : m_location.interactions()) 
     {
         if (interaction.database_id() == -1) continue;

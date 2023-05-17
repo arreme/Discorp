@@ -55,14 +55,14 @@ namespace db_handler
         */
         bool FindUserCurrentPlayer() noexcept;
 
-        bool GoToLocation(PBUser &user, int32_t new_location) 
+        static bool GoToLocation(PBUser &user, int32_t new_location) 
         {
             db::UpdateOneOperation update_op{"users",
                 make_document(
                     kvp("discord_id",b_int64{static_cast<int64_t>(user.discord_id())})
                 ),
                 make_document(kvp("$set",make_document(
-                    kvp(std::to_string(user.current_player_id())+".current_loc",b_int32{new_location})
+                    kvp("players."+std::to_string(user.current_player_id())+".current_location",b_int32{new_location})
                 )))
             };
             update_op.ExecuteOperation();

@@ -77,6 +77,7 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
     m.set_flags(dpp::m_ephemeral);
 
     const DCLData::DCLLocation *location_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location());
+    std::cout << location_data << std::endl;
     if (!location_data) 
     {
         m.set_content("Error! Please use command /repair to fix");
@@ -86,7 +87,7 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
     Renderer::BaseMapRenderer renderer = RenderMap(location_data);
     int size = 0;
     m.add_file("map.png",std::string{renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
-    
+    std::cout << m_selected << std::endl;
     if (m_selected != -1) 
     {
         auto buttons = dpp::component();
@@ -346,10 +347,18 @@ bool CollectPostRequest::FillRequest(dpp::message &m)
 
 bool GoToLocationRequest::ConfirmRequest() 
 {
+    std::cout << "Hey?" << std::endl;
     if (!m_data.m_user_created) return false;
     const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
     const auto *zone_access_data = interaction_data->TryGetZoneAccess();
     PBLocationID next_loc = zone_access_data->GetNextLocation();
-
-    return true;
+    std::cout << next_loc << std::endl;
+    if (db_handler::DBLocationHandler::PlayerFirstTimeToLocation(m_data.m_user_db,next_loc)) 
+    {
+        std::cout << "New Loc!" << std::endl;
+        m_data.m_location_db = DCLData::DCLMap::getInstance().GetLocation(next_loc)->GetLocationDB();
+        std::cout << m_data.m_location_db.DebugString() << std::endl;
+        m_location_handler.InsertNewLocation(m_data.m_user_db);
+    }
+    return db_handler::DBUserHandler::GoToLocation(m_data.m_user_db,next_loc);
 }

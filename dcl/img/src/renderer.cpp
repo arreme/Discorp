@@ -53,7 +53,11 @@ bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const DCLDa
 #pragma region interactions
     for (auto const &interaction : location_data) 
     {
-        int index = interaction.GetMainType()->CalculateImageIndex(location_db.interactions(interaction.GetDatabaseId()));
+        int index = 0;
+        if (interaction.GetDatabaseId() != -1) 
+        {
+            index = interaction.GetMainType()->CalculateImageIndex(location_db.interactions(interaction.GetDatabaseId()));
+        }
         std::ifstream interaction_in{interaction.GetIconMapPath(index),std::ios::binary};
         GD::Image interaction_img{interaction_in,GD::Png_tag{}};
         m_image.Copy(interaction_img,GD::Point{map_x_offset + interaction.GetPosX(),map_y_offset + interaction.GetPosY()},GD::Point{0,0},s_map_icon_size);

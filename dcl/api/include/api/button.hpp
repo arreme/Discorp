@@ -135,7 +135,7 @@ public:
         {
             GoToLocationRequest request{target.id,std::stoi(commands.at(2))};
             request.ConfirmRequest();
-            PrintMapRequest map_request{target.id,std::stoi(commands.at(2))};
+            PrintMapRequest map_request{target.id,-1};
             dpp::message m;
             map_request.FillRequest(m);
             event.reply(dpp::interaction_response_type::ir_update_message, m);

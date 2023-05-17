@@ -191,6 +191,11 @@ namespace DCLData
         {
             return m_location.image();
         }
+
+        const int GetLocationDBID() const 
+        {
+            return m_location.database_id();
+        }
     };
 
     class DCLMap 

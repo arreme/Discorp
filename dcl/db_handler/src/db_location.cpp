@@ -108,7 +108,9 @@ bool db_handler::DBLocationHandler::InsertNewLocation(PBUser &user, db::Transact
         }
         array.append(doc.extract());
     }
-
+    std::cout << m_location->id() << std::endl;
+    std::cout << "Aqui" << std::endl;
+    std::cout << m_location->database_id() << std::endl;
     if (m_location->id() == PBLocationID::MAIN_BASE) 
     {
         //First Time, we need to build the entire document
@@ -165,7 +167,7 @@ bool db_handler::DBLocationHandler::FindPlayerCurrentLocation(PBUser &user)
         kvp("locations", make_document(
             kvp("$arrayElemAt", make_array(
                 "$locations",
-                b_int32{m_location->database_id()}
+                b_int32{DCLData::DCLMap::getInstance().GetLocation(user.players(0).current_location())->GetLocationDBID()}
             ))
         ))
     ));

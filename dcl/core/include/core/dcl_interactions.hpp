@@ -117,6 +117,7 @@ namespace DCLInteractions
 
         int CalculateImageIndex(const PBInteraction &interaction_db) const override 
         {
+            std::cout << interaction_db.zone_access_info().unlock_level() << std::endl;
             return interaction_db.zone_access_info().unlock_level();
         }
 
