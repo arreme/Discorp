@@ -325,7 +325,7 @@ bool UnlockLocationRequest::ConfirmRequest()
     if (!m_data.m_user_created) return false;
     const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
     auto const &zone_access_db = m_data.m_location_db.interactions(interaction_data->GetDatabaseId()).zone_access_info();
-    const auto *zone_access_data = interaction_data->TryGetZoneAccess();
+    auto const *zone_access_data = interaction_data->TryGetZoneAccess();
     int current = 0;
     if (Buy(zone_access_data->GetUpgradeRequirements(current))) 
     {
@@ -337,6 +337,15 @@ bool UnlockLocationRequest::ConfirmRequest()
 /****************************/
 /****COLLECT POST REQUEST****/
 /****************************/
+
+bool CollectPostRequest::ConfirmRequest() 
+{
+    if (!m_data.m_user_created) return false;
+    const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
+    auto post_info_db = m_data.m_location_db.mutable_interactions(interaction_data->GetDatabaseId())->mutable_post_info();
+    
+}
+
 bool CollectPostRequest::FillRequest(dpp::message &m) 
 {
     return false;

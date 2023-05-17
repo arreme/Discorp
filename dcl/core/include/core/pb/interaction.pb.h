@@ -802,13 +802,13 @@ class PBPostInteraction PROTOBUF_FINAL :
   void _internal_set_fortune_upgrade(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int64 resource_stored = 9;
+  // int32 resource_stored = 9;
   void clear_resource_stored();
-  ::PROTOBUF_NAMESPACE_ID::int64 resource_stored() const;
-  void set_resource_stored(::PROTOBUF_NAMESPACE_ID::int64 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 resource_stored() const;
+  void set_resource_stored(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int64 _internal_resource_stored() const;
-  void _internal_set_resource_stored(::PROTOBUF_NAMESPACE_ID::int64 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_resource_stored() const;
+  void _internal_set_resource_stored(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:PBPostInteraction)
@@ -827,7 +827,7 @@ class PBPostInteraction PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::int32 capacity_upgrade_;
   ::PROTOBUF_NAMESPACE_ID::int32 gen_second_upgrade_;
   ::PROTOBUF_NAMESPACE_ID::int32 fortune_upgrade_;
-  ::PROTOBUF_NAMESPACE_ID::int64 resource_stored_;
+  ::PROTOBUF_NAMESPACE_ID::int32 resource_stored_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_interaction_2eproto;
 };
@@ -3355,22 +3355,22 @@ inline void PBPostInteraction::set_fortune_upgrade(::PROTOBUF_NAMESPACE_ID::int3
   // @@protoc_insertion_point(field_set:PBPostInteraction.fortune_upgrade)
 }
 
-// int64 resource_stored = 9;
+// int32 resource_stored = 9;
 inline void PBPostInteraction::clear_resource_stored() {
-  resource_stored_ = PROTOBUF_LONGLONG(0);
+  resource_stored_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int64 PBPostInteraction::_internal_resource_stored() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBPostInteraction::_internal_resource_stored() const {
   return resource_stored_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int64 PBPostInteraction::resource_stored() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBPostInteraction::resource_stored() const {
   // @@protoc_insertion_point(field_get:PBPostInteraction.resource_stored)
   return _internal_resource_stored();
 }
-inline void PBPostInteraction::_internal_set_resource_stored(::PROTOBUF_NAMESPACE_ID::int64 value) {
+inline void PBPostInteraction::_internal_set_resource_stored(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   resource_stored_ = value;
 }
-inline void PBPostInteraction::set_resource_stored(::PROTOBUF_NAMESPACE_ID::int64 value) {
+inline void PBPostInteraction::set_resource_stored(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_resource_stored(value);
   // @@protoc_insertion_point(field_set:PBPostInteraction.resource_stored)
 }

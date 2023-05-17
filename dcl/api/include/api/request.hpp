@@ -157,6 +157,8 @@ public:
             m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
         }
     };
+    
+    bool ConfirmRequest();
 
     bool FillRequest(dpp::message &m);
 };

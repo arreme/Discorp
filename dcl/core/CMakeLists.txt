@@ -10,6 +10,7 @@ add_library(${PROJECT_NAME} SHARED
     "include/core/pb/player.pb.cc"
     "include/core/pb/interaction.pb.cc"
     "src/dcl_map.cpp"
+    "src/game_logic.cpp"
 )
 
 target_include_directories(
