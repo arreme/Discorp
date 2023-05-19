@@ -135,5 +135,45 @@ namespace db_handler
 
             return !find_one_op.m_result.has_value();
         };
+
+        bool UpdateInteraction(int loc_id, int interaction_id, PBUser &user, PBInteractionType target =  PBInteractionType::NONE) 
+        {
+            std::string post_target;
+            bsoncxx::document::view_or_value interaction_document;
+            switch (target)
+            {
+            case PBInteractionType::POST:
+                post_target = "post_info";
+                interaction_document = PostToBson(m_location->interactions(interaction_id).post_info());
+                break;
+            case PBInteractionType::ZONE_ACCESS:
+                post_target = "zone_access_info";
+                interaction_document = ZoneAccessToBson(m_location->interactions(interaction_id).zone_access_info());
+                break;
+            case PBInteractionType::DIALOG:
+                post_target = "dialog_info";
+                interaction_document = DialogToBson(m_location->interactions(interaction_id).dialog_info());
+                break;
+            
+            default:
+                break;
+            }
+            std::cout << post_target << std::endl;
+            std::cout << bsoncxx::to_json(interaction_document) << std::endl;
+            std::string array_update_query = "locations."+std::to_string(loc_id)+"." + std::to_string(interaction_id) + "."+ post_target;
+            db::UpdateOneOperation update_op{"game_state",
+                make_document(
+                    kvp("discord_id",b_int64{static_cast<int64_t>(user.discord_id())}),
+                    kvp("player_id",b_int32{user.current_player_id()})
+                ),
+                make_document(kvp("$set",make_document(
+                    kvp(array_update_query, interaction_document)
+                )))
+            };
+
+            update_op.ExecuteOperation();
+            std::cout << static_cast<int32_t>(update_op.GetState()) << std::endl;
+            return update_op.GetState() == db::OperationState::SUCCESS;
+        };
     };
 }

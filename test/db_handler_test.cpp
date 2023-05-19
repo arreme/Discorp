@@ -104,3 +104,38 @@ TEST_CASE("ModifyItemsQuantity","[db_handler][db_handler_test_3]")
     data.at(0).set_quantity(200);
     REQUIRE(inventory.UpdateItems(user.discord_id(),user.current_player_id()));
 }
+
+TEST_CASE("Update post","[db_handler][db_handler_test_4]")
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"game_state", make_document()};
+    del_op_pla.ExecuteOperation();
+
+    auto const *location_data = DCLData::DCLMap::getInstance().GetLocation(PBLocationID::MAIN_BASE);
+    auto const *interaction_data = location_data->GetInteraction(0);
+    auto const *post_interaction = interaction_data->TryGetPost();
+    PBUser user_db;
+    user_db.add_players();
+    PBPlayer *player = user_db.mutable_players(0);
+
+    PBLocation loc_db;
+    db_handler::DBLocationHandler location_handler{&loc_db};
+    auto *interaction_db = loc_db.add_interactions();
+    interaction_db->add_types(PBInteractionType::POST);
+    auto *post_db = interaction_db->mutable_post_info();
+    location_handler.InsertNewLocation(user_db);
+    
+    auto last_collected = post_db->mutable_last_collected();
+    auto now = std::chrono::system_clock::now();
+    now -= std::chrono::hours(10);
+    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
+    
+    last_collected->CopyFrom(google::protobuf::util::TimeUtil::SecondsToTimestamp(seconds));
+
+    std::vector<PBItemData> item_data = post_interaction->CalculatePostRewards(player,post_db);
+    for (auto const &item : item_data)
+    {
+        std::cout << item.quantity() << std::endl;
+    }
+    
+    REQUIRE(location_handler.UpdateInteraction(0,0,user_db,PBInteractionType::POST));
+}

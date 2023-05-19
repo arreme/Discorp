@@ -22,6 +22,7 @@ TEST_CASE("Load Map Correctly from data folder","[core][core_test_1]")
 
 TEST_CASE("Collecting a post", "[core][core_test_2]") 
 {
+    
     auto main_base = DCLData::DCLMap::getInstance().GetLocation(PBLocationID::MAIN_BASE);
     auto post_info = main_base->GetInteraction(0)->TryGetPost();
     PBUser user_db;
@@ -32,16 +33,17 @@ TEST_CASE("Collecting a post", "[core][core_test_2]")
     auto seconds = std::chrono::duration_cast<std::chrono::seconds>(time.time_since_epoch()).count();
     last_collected->CopyFrom(google::protobuf::util::TimeUtil::SecondsToTimestamp(seconds));
 
-    auto result = post_info->CalculatePostRewards(&user_db,&post_db);
+    auto result = post_info->CalculatePostRewards(user_db.mutable_players(0),&post_db);
     REQUIRE(result.size() == 1);
     REQUIRE(result.at(0).item_id() == PBItemEnum::STICK);
     std::cout << "SKILL: ";
     std::cout << player->skills().foraging_xp() << std::endl;
     player->mutable_stats()->set_speed(10);
-    auto result2 = post_info->CalculatePostRewards(&user_db,&post_db);
+    auto result2 = post_info->CalculatePostRewards(user_db.mutable_players(0),&post_db);
     std::cout << "SKILL: ";
     std::cout << player->skills().foraging_xp() << std::endl;
-    for(auto const &item : result2) {
+    for(auto const &item : result2) 
+    {
         std::cout << "what" << std::endl;
         std::cout << item.quantity() << std::endl;
     }

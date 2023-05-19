@@ -341,9 +341,15 @@ bool UnlockLocationRequest::ConfirmRequest()
 bool CollectPostRequest::ConfirmRequest() 
 {
     if (!m_data.m_user_created) return false;
-    const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
+    const DCLData::DCLLocation *location_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location());
+    const DCLData::DCLInteraction *interaction_data = location_data->GetInteraction(m_selected);
     auto post_info_db = m_data.m_location_db.mutable_interactions(interaction_data->GetDatabaseId())->mutable_post_info();
-    
+    const DCLInteractions::DCLPostInteraction *post_data = interaction_data->TryGetPost();
+    m_items_collected = post_data->CalculatePostRewards(m_data.m_user_db.mutable_players(0),post_info_db);
+    //UpdatePost
+    m_location_handler.UpdateInteraction(location_data->GetLocationDBID(), interaction_data->GetDatabaseId(), m_data.m_user_db, PBInteractionType::POST);
+    //UpdateUser
+    //UpdateMap with new items
 }
 
 bool CollectPostRequest::FillRequest(dpp::message &m) 

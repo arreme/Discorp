@@ -89,34 +89,28 @@ namespace DCLInteractions
             return m_post_info.upgrades(type).info(level).upgrade_req();
         }
 
-        std::vector<PBItemData> CalculatePostRewards(PBUser *user_db, PBPostInteraction *post_db) const 
+        std::vector<PBItemData> CalculatePostRewards(PBPlayer *player_db, PBPostInteraction *post_db) const 
         {
             std::vector<PBItemData> resources_to_add;
             std::chrono::time_point<std::chrono::system_clock> dt(std::chrono::seconds(google::protobuf::util::TimeUtil::TimestampToSeconds(post_db->last_collected())));
             auto seconds = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - dt).count());
-
             int max_capacity = m_post_info.upgrades(PBUpgradeType::CAPACITY).info(post_db->capacity_upgrade()).current_stat();
             auto gen_second = m_post_info.upgrades(PBUpgradeType::GEN_SECOND).info(post_db->gen_second_upgrade()).current_stat();
             auto fortune = m_post_info.upgrades(PBUpgradeType::FORTUNE).info(post_db->fortune_upgrade()).current_stat();
             int added = std::floor(seconds / gen_second);
             if (added != 0) 
             {
-                auto last_online = user_db->mutable_last_online();
-                auto now = std::chrono::system_clock::now();
-                auto seconds = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
-                last_online->CopyFrom(google::protobuf::util::TimeUtil::SecondsToTimestamp(seconds));
+                auto last_collected = post_db->mutable_last_collected();
+                auto now = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+                last_collected->CopyFrom(google::protobuf::util::TimeUtil::SecondsToTimestamp(now));
             }
             auto total = std::min(added + post_db->resource_stored(), max_capacity);
-            auto modifier = GameLogic::CalculateModifier(m_post_info.post_skill(), user_db->players(0));
-            std::cout << "MODIFIED: ";
-            std::cout << modifier << std::endl;
+            auto modifier = GameLogic::CalculateModifier(m_post_info.post_skill(), *player_db);
             auto gathered = std::min(total, 1 + modifier);
-            std::cout << "GATHERED: ";
-            std::cout << gathered << std::endl;
             post_db->set_resource_stored(std::max(total - gathered, 0));
-            GameLogic::CalculateLevel(m_post_info.post_skill(), gathered, m_post_info.interact_xp(), user_db->mutable_players(0));
+            GameLogic::CalculateLevel(m_post_info.post_skill(), gathered, m_post_info.interact_xp(), player_db);
             auto prob = rand() % 100;
-            if (prob <= (user_db->players(0).stats().luck() + fortune)) gathered += 1 + gathered*0.2f;
+            if (prob <= (player_db->stats().luck() + fortune)) gathered += 1 + gathered*0.2f;
 
             for(auto const &item_data : m_post_info.resources()) 
             {

@@ -149,6 +149,7 @@ class CollectPostRequest : public BaseRequest
 {
 private:
     int m_selected;
+    std::vector<PBItemData> m_items_collected;
 public:
     CollectPostRequest(uint64_t discord_id, int selected)
     : BaseRequest(discord_id), m_selected(selected)
