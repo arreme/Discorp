@@ -88,14 +88,24 @@ bool Renderer::PostMapRenderer::FillContents(const PBPlayer &player, const DCLDa
     for(auto const &resource : post_info->GetResources()) 
     {
         const std::string *item_name = item_info.GetItemName(resource.item_id());
+
         m_image.AddImageText(s_white,{s_starting_resource_list.X(),s_starting_resource_list.Y() + (s_listy * i)},10,*item_name,false);
+        if (m_notify_items)
+            for (auto const& item: m_items)
+            {
+                if (resource.item_id() == item.item_id()) 
+                {
+                    m_image.AddImageText(s_white,{s_starting_resource_list.X() + 80,s_starting_resource_list.Y() + (s_listy * i)},10,"+ "+std::to_string(item.quantity()),false);
+                }
+            }
+        
         i++;
     }
     //CAPACITY
-    int capacity = post_info->GetCurrentStat(PBUpgradeType::CAPACITY,post_info_db.capacity_upgrade());
-    int stored_percent = post_info_db.resource_stored() / capacity;
-    m_image.FilledRectangle(s_start_meter,GD::Point{s_end_meter.X(),s_start_meter.Y() + static_cast<int>(66*stored_percent)},s_white.Int());
-    std::string text = std::to_string(capacity) + "u";
+    float capacity = post_info->GetCurrentStat(PBUpgradeType::CAPACITY,post_info_db.capacity_upgrade());
+    float stored_percent = post_info_db.resource_stored() / capacity;
+    m_image.FilledRectangle(s_start_meter,GD::Point{s_end_meter.X(),s_start_meter.Y() - static_cast<int>(66*stored_percent)},s_white.Int());
+    std::string text = std::to_string(static_cast<int>(capacity)) + "u";
     m_image.AddImageText(s_white,s_capacity,9,text,false);
     
     //REGENERATION

@@ -124,6 +124,17 @@ namespace DCLInteractions
             }
             return resources_to_add;
         }
+
+        void CalculatePostResources(PBInteraction *interaction_db) const 
+        {
+            std::chrono::time_point<std::chrono::system_clock> dt(std::chrono::seconds(google::protobuf::util::TimeUtil::TimestampToSeconds(interaction_db->post_info().last_collected())));
+            auto seconds = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - dt).count());
+            int max_capacity = m_post_info.upgrades(PBUpgradeType::CAPACITY).info(interaction_db->post_info().capacity_upgrade()).current_stat();
+            auto gen_second = m_post_info.upgrades(PBUpgradeType::GEN_SECOND).info(interaction_db->post_info().gen_second_upgrade()).current_stat();
+            int added = std::floor(seconds / gen_second);
+            
+            interaction_db->mutable_post_info()->set_resource_stored(std::min(added + interaction_db->post_info().resource_stored(), max_capacity));
+        }
         
     };
 

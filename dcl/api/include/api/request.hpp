@@ -58,12 +58,13 @@ class PrintMapRequest : public BaseRequest
 {
 private:
     const int m_selected = -1;
-
+    std::vector<PBItemData> m_new_items;
     Renderer::BaseMapRenderer RenderMap(const DCLData::DCLLocation* location_data);
 
 public:
     PrintMapRequest(uint64_t discord_id, int selected);
-    PrintMapRequest(UserData &&data, int selected = -1);
+    PrintMapRequest(UserData &&data, int selected);
+    PrintMapRequest(UserData &&data, int selected, std::vector<PBItemData> new_items);
     bool FillRequest(dpp::message &m);
 };
 

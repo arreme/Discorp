@@ -68,6 +68,20 @@ namespace db_handler
             update_op.ExecuteOperation();
             return update_op.GetState() == db::OperationState::SUCCESS;
         };
+
+        bool UpdateUserPlayer() 
+        {
+            db::UpdateOneOperation update_op{"users",
+                make_document(
+                    kvp("discord_id",b_int64{static_cast<int64_t>(m_user->discord_id())})
+                ),
+                make_document(kvp("$set",make_document(
+                    kvp("players."+std::to_string(m_user->current_player_id()),b_document{PlayerToBson(m_user->players(0))})
+                )))
+            };
+            update_op.ExecuteOperation();
+            return update_op.GetState() == db::OperationState::SUCCESS;
+        }
     };
 
     

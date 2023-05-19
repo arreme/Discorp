@@ -47,7 +47,7 @@ bool CreateGameRequest::FillResponse(dpp::message &m)
         CreateGame();
         return false;
     }
-    PrintMapRequest print_map{std::move(m_data)};
+    PrintMapRequest print_map{std::move(m_data),-1};
     print_map.FillRequest(m);
     return true;
 }
@@ -68,7 +68,14 @@ PrintMapRequest::PrintMapRequest(UserData &&data, int selected)
 {
     if (!m_data.m_location_created) {
         m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
+        
     }
+}
+
+PrintMapRequest::PrintMapRequest(UserData &&data, int selected, std::vector<PBItemData> new_items) 
+: PrintMapRequest(std::move(data),selected)
+{
+    m_new_items = new_items;
 }
 
 bool PrintMapRequest::FillRequest(dpp::message &m) 
@@ -83,6 +90,15 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
         return false;
     }
     
+    
+    if (m_selected != -1) 
+    {
+        auto post_data = location_data->GetInteraction(m_selected)->TryGetPost();
+        if (post_data) 
+        {
+            post_data->CalculatePostResources(m_data.m_location_db.mutable_interactions(location_data->GetInteraction(m_selected)->GetDatabaseId()));
+        }
+    }
     Renderer::BaseMapRenderer renderer = RenderMap(location_data);
     int size = 0;
     m.add_file("map.png",std::string{renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
@@ -149,7 +165,13 @@ Renderer::BaseMapRenderer PrintMapRequest::RenderMap(const DCLData::DCLLocation*
         case PBInteractionType::POST: 
         {
             Renderer::PostMapRenderer renderer{m_selected};
+            if (m_new_items.size() >= 1) 
+            {
+                renderer.NotifyNewItems(m_new_items);
+            }
+            
             renderer.FillContents(m_data.m_user_db.players(0),*location_data, m_data.m_location_db);
+            
             return renderer;
         }
         case PBInteractionType::ZONE_ACCESS:
@@ -346,15 +368,20 @@ bool CollectPostRequest::ConfirmRequest()
     auto post_info_db = m_data.m_location_db.mutable_interactions(interaction_data->GetDatabaseId())->mutable_post_info();
     const DCLInteractions::DCLPostInteraction *post_data = interaction_data->TryGetPost();
     m_items_collected = post_data->CalculatePostRewards(m_data.m_user_db.mutable_players(0),post_info_db);
+    db_handler::DBInventoryHandler inventory_handler{&m_items_collected};
     //UpdatePost
     m_location_handler.UpdateInteraction(location_data->GetLocationDBID(), interaction_data->GetDatabaseId(), m_data.m_user_db, PBInteractionType::POST);
     //UpdateUser
+    m_user_handler.UpdateUserPlayer();
     //UpdateMap with new items
+    inventory_handler.ModifyItemsQuantity(m_data.m_user_db.discord_id(),m_data.m_user_db.current_player_id());
+    return true;
 }
 
 bool CollectPostRequest::FillRequest(dpp::message &m) 
 {
-    return false;
+    PrintMapRequest print_request{std::move(m_data),m_selected,m_items_collected};
+    return print_request.FillRequest(m);
 }
 
 

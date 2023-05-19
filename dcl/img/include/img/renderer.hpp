@@ -60,11 +60,19 @@ namespace Renderer
         inline static const GD::Point s_regeneration{49,264};
         inline static const GD::Point s_fortune{49,295};
         inline static const std::string s_post_map = "resources/assets/UI/post_selected.png";
-        const int m_selected;
+        const int m_selected = -1;
+        std::vector<PBItemData> m_items;
+        bool m_notify_items = false;;
     public:
         PostMapRenderer(int selected) 
         : BaseMapRenderer(s_post_map), m_selected(selected)
         {};
+
+        void NotifyNewItems(std::vector<PBItemData> &items) 
+        {
+            m_items = items;
+            m_notify_items = true;
+        }
 
         bool FillContents(const PBPlayer &player, const DCLData::DCLLocation &location_data, const PBLocation &location_db) override;
     };
