@@ -159,3 +159,22 @@ bool Renderer::ZoneAccessRenderer::FillContents(const PBPlayer &player, const DC
     
     return true;
 };
+
+
+
+std::unique_ptr<Renderer::BaseInventoryRenderer> Renderer::InventoryRendererFactory::CreateRenderer(int type) 
+{
+
+    switch (type)
+    {
+    case PBItemType::RESOURCES:
+        return std::make_unique<Renderer::ResourceInventoryRenderer>();
+    case PBItemType::ATTACKS:
+        return std::make_unique<Renderer::ResourceInventoryRenderer>();
+    case PBItemType::WEAPONS:
+        return std::make_unique<Renderer::ResourceInventoryRenderer>();
+    
+    default:
+        return std::make_unique<Renderer::ResourceInventoryRenderer>();
+    }
+}

@@ -165,3 +165,26 @@ public:
         }
     }
 };
+
+
+class InventoryButton : public Button 
+{
+public:
+    InventoryButton(dpp::cluster *bot)
+    : Button(bot)
+    {
+
+    };
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            PrintInventoryRequest request{target.id,0,0};
+            dpp::message m;
+            request.FillRequest(m);
+            event.reply(dpp::interaction_response_type::ir_update_message, m);
+        }
+    }
+};

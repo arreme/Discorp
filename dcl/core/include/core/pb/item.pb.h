@@ -103,12 +103,13 @@ enum PBItemType : int {
   WEAPONS = 2,
   EQUIPMENT = 3,
   QUEST_ITEMS = 4,
+  BUILDS = 5,
   PBItemType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PBItemType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PBItemType_IsValid(int value);
 constexpr PBItemType PBItemType_MIN = RESOURCES;
-constexpr PBItemType PBItemType_MAX = QUEST_ITEMS;
+constexpr PBItemType PBItemType_MAX = BUILDS;
 constexpr int PBItemType_ARRAYSIZE = PBItemType_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBItemType_descriptor();

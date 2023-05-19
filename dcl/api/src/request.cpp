@@ -402,3 +402,17 @@ bool GoToLocationRequest::ConfirmRequest()
     }
     return db_handler::DBUserHandler::GoToLocation(m_data.m_user_db,next_loc);
 }
+
+/*******************************/
+/****PRINT INVENTORY REQUEST****/
+/*******************************/
+
+bool PrintInventoryRequest::FillRequest(dpp::message &m) 
+{
+    auto renderer = Renderer::InventoryRendererFactory::CreateRenderer(m_item_type);
+    m_item_handler.GetInventory(m_data.m_user_db.discord_id(), m_data.m_user_db.current_player_id(),PBItemType_Name(m_item_type));
+    renderer->FillContent(m_item_db, 0);
+    int size = 0;
+    m.add_file("map.png",std::string{renderer->RenderImage(&size).get(),static_cast<size_t>(size)});
+    return true;
+}

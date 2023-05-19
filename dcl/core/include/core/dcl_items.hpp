@@ -51,6 +51,15 @@ namespace DCLData
             return &m_item_data.at(static_cast<PBItemType>(type)).data(id).item_name();
         }
 
+        int GetItemGold(int32_t itemID) const 
+        {
+            if (!PBItemEnum_IsValid(itemID)) return -1;
+
+            int type = itemID / 1000;
+            int id = itemID % 1000;
+            return m_item_data.at(static_cast<PBItemType>(type)).data(id).sell_value();
+        }
+
         DCLItems(DCLItems const&)        = delete;
         void operator=(DCLItems const&)  = delete;
     };

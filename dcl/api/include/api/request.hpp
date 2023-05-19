@@ -176,3 +176,18 @@ public:
 
     bool ConfirmRequest();
 };
+
+class PrintInventoryRequest : public BaseRequest
+{
+private:
+    int m_item_type;
+    int m_page;
+    std::vector<PBItemData> m_item_db;
+    db_handler::DBInventoryHandler m_item_handler{&m_item_db};
+public:
+    PrintInventoryRequest(uint64_t discord_id, int item_type, int page)
+    : BaseRequest(discord_id), m_item_type(item_type), m_page(page)
+    {}
+
+    bool FillRequest(dpp::message &m);
+};

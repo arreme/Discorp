@@ -11,7 +11,8 @@ bool db_handler::DBInventoryHandler::InitializeInventory(PBUser &user, db::Trans
             kvp(PBItemType_Name(PBItemType::ATTACKS),b_document{}),
             kvp(PBItemType_Name(PBItemType::WEAPONS),b_document{}),
             kvp(PBItemType_Name(PBItemType::EQUIPMENT),b_document{}),
-            kvp(PBItemType_Name(PBItemType::QUEST_ITEMS),b_document{})
+            kvp(PBItemType_Name(PBItemType::QUEST_ITEMS),b_document{}),
+            kvp(PBItemType_Name(PBItemType::BUILDS),b_document{})
         )
     };
 

@@ -94,9 +94,9 @@ const char descriptor_table_protodef_item_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "temData*u\n\nPBItemEnum\022\t\n\005STICK\020\000\022\n\n\006PEBB"
   "LE\020\001\022\010\n\004ROCK\020\002\022\010\n\004DIRT\020\003\022\n\n\005PUNCH\020\350\007\022\t\n\004"
   "KICK\020\351\007\022\021\n\014WOODEN_SWORD\020\320\017\022\022\n\rWOODEN_HEL"
-  "MET\020\270\027*U\n\nPBItemType\022\r\n\tRESOURCES\020\000\022\013\n\007A"
+  "MET\020\270\027*a\n\nPBItemType\022\r\n\tRESOURCES\020\000\022\013\n\007A"
   "TTACKS\020\001\022\013\n\007WEAPONS\020\002\022\r\n\tEQUIPMENT\020\003\022\017\n\013"
-  "QUEST_ITEMS\020\004b\006proto3"
+  "QUEST_ITEMS\020\004\022\n\n\006BUILDS\020\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_item_2eproto_deps[1] = {
 };
@@ -106,7 +106,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ite
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_item_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_item_2eproto = {
-  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 421,
+  false, false, descriptor_table_protodef_item_2eproto, "item.proto", 433,
   &descriptor_table_item_2eproto_once, descriptor_table_item_2eproto_sccs, descriptor_table_item_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_item_2eproto::offsets,
   file_level_metadata_item_2eproto, 2, file_level_enum_descriptors_item_2eproto, file_level_service_descriptors_item_2eproto,
@@ -145,6 +145,7 @@ bool PBItemType_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+    case 5:
       return true;
     default:
       return false;

@@ -37,5 +37,6 @@ enum PBItemType {
     WEAPONS   = 2;
     EQUIPMENT = 3;
     QUEST_ITEMS = 4;
+    BUILDS = 5;
 }
 

@@ -94,4 +94,79 @@ namespace Renderer
 
         bool FillContents(const PBPlayer &player, const DCLData::DCLLocation &location_data, const PBLocation &location_db) override;
     };
+
+
+    class BaseInventoryRenderer : public ImageRenderer 
+    {
+    protected:
+
+        inline static const std::string s_uis[PBItemType_ARRAYSIZE] = 
+            {
+                "resources/assets/UI/inventory_resources.png",
+                "resources/assets/UI/inventory_attacks.png",
+                "resources/assets/UI/inventory_weapons.png",
+                "resources/assets/UI/inventory_armor.png",
+                "resources/assets/UI/inventory_quest_items.png",
+                "resources/assets/UI/inventory_buids.png"
+            };
+        PBItemType m_selected;
+
+        inline static const GD::Point s_initial_name{175,50};
+        inline static const GD::Point s_initial_quantity{174,31};
+        inline static const GD::Point s_initial_image{140,21};
+        inline static const GD::Point s_initial_gold{220,31};
+
+        inline static const GD::Size s_inv_image_size{32,32};
+        inline static const int x_displace = 179;
+        inline static const int y_displace = 43;
+
+    public:
+        BaseInventoryRenderer(PBItemType selected) 
+        : ImageRenderer(s_uis[selected]), m_selected(selected)
+        {}
+
+        virtual ~BaseInventoryRenderer(){ }
+        
+        virtual void FillContent(std::vector<PBItemData> &item_db, int page) = 0;
+    };
+
+    class ResourceInventoryRenderer : public BaseInventoryRenderer 
+    {
+    public:
+
+        ResourceInventoryRenderer() 
+        : BaseInventoryRenderer(PBItemType::RESOURCES)
+        {}
+
+        void FillContent(std::vector<PBItemData> &items_db, int page) override
+        {
+            auto const &item_data = DCLData::DCLItems::getInstance();
+            int index = page * 8;
+            for(int x = index; x < items_db.size() && x < 8; x++) 
+            {
+                int i = x % 4;
+                int j = x / 4;
+                PBItemEnum item_id = items_db.at(x).item_id();
+                const std::string *item_name = item_data.GetItemName(item_id);
+                
+                m_image.AddImageText(s_white,{s_initial_name.X() + (x_displace * j),s_initial_name.Y() + (y_displace * i)},12,*item_name,true);
+                m_image.AddImageText(s_white,{s_initial_quantity.X() + (x_displace * j),s_initial_quantity.Y() + (y_displace * i)},10,std::to_string(items_db.at(x).quantity()),true);
+                m_image.AddImageText(s_black,{s_initial_gold.X() + (x_displace * j),s_initial_gold.Y() + (y_displace * i)},10,std::to_string(item_data.GetItemGold(item_id)),true);
+                
+                const std::string *item_path = item_data.GetItemPath(item_id);
+
+                std::ifstream img_path{*item_path};
+                GD::Image item_image{img_path};
+                if (item_image.good())
+                    m_image.Copy(item_image,{s_initial_image.X() + (x_displace * j),s_initial_image.Y() + (y_displace * i)},{0,0},s_inv_image_size);
+            }
+        }
+        
+    };
+
+    class InventoryRendererFactory
+    {
+    public:
+        static std::unique_ptr<BaseInventoryRenderer> CreateRenderer(int type);
+    };
 }

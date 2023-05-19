@@ -2,20 +2,24 @@
     "itemType":"RESOURCES",
     "data" : [
         {
-            "imagePath":"resources/assets/items/stick.png",
-            "itemName":"Stick"
+            "imagePath":"resources/assets/Items/Resources/stick.png",
+            "itemName":"Stick",
+            "sellValue":1
         },
         {
-            "imagePath":"resources/assets/items/pebble.png",
-            "itemName":"Pebble"
+            "imagePath":"resources/assets/Items/Resources/pebbles.png",
+            "itemName":"Pebble",
+            "sellValue":1
         },
         {
-            "imagePath":"resources/assets/items/rock.png",
-            "itemName":"Rock"
+            "imagePath":"resources/assets/Items/Resources/rock.png",
+            "itemName":"Rock",
+            "sellValue":2
         },
         {
-            "imagePath":"resources/assets/items/dirt.png",
-            "itemName":"Dirt"
+            "imagePath":"resources/assets/Items/Resources/dirt.png",
+            "itemName":"Dirt",
+            "sellValue":0
         }
     ]
 }
