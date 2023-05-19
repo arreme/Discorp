@@ -158,8 +158,6 @@ namespace db_handler
             default:
                 break;
             }
-            std::cout << post_target << std::endl;
-            std::cout << bsoncxx::to_json(interaction_document) << std::endl;
             std::string array_update_query = "locations."+std::to_string(loc_id)+"." + std::to_string(interaction_id) + "."+ post_target;
             db::UpdateOneOperation update_op{"game_state",
                 make_document(
@@ -172,7 +170,6 @@ namespace db_handler
             };
 
             update_op.ExecuteOperation();
-            std::cout << static_cast<int32_t>(update_op.GetState()) << std::endl;
             return update_op.GetState() == db::OperationState::SUCCESS;
         };
     };

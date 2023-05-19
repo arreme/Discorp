@@ -174,13 +174,16 @@ bool db_handler::DBLocationHandler::FindPlayerCurrentLocation(PBUser &user)
     m_location->clear_interactions();
     if (agg_op.GetState() == db::OperationState::SUCCESS) 
     {
+        std::cout << "WHAT" << std::endl;
         auto result = agg_op.GetResult();
         if (result.has_value()) 
         {
             auto doc = result.value();
             for (auto const &interaction_element : doc["locations"].get_array().value)
             {
+                
                 auto interaction = interaction_element.get_document().value;
+                std::cout << bsoncxx::to_json(interaction) << std::endl;
                 auto temp_interaction = m_location->add_interactions();
                 for (auto const &element : interaction)
                 {

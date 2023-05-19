@@ -36,16 +36,10 @@ TEST_CASE("Collecting a post", "[core][core_test_2]")
     auto result = post_info->CalculatePostRewards(user_db.mutable_players(0),&post_db);
     REQUIRE(result.size() == 1);
     REQUIRE(result.at(0).item_id() == PBItemEnum::STICK);
-    std::cout << "SKILL: ";
-    std::cout << player->skills().foraging_xp() << std::endl;
     player->mutable_stats()->set_speed(10);
     auto result2 = post_info->CalculatePostRewards(user_db.mutable_players(0),&post_db);
-    std::cout << "SKILL: ";
-    std::cout << player->skills().foraging_xp() << std::endl;
-    for(auto const &item : result2) 
-    {
-        std::cout << "what" << std::endl;
-        std::cout << item.quantity() << std::endl;
-    }
+    
+    REQUIRE(result2.size() == 1);
+    REQUIRE(result2.at(0).quantity() == 1);
 }
 

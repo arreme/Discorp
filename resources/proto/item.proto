@@ -9,7 +9,6 @@ message PBItemData
 
     PBItemEnum item_id                          = 4;
     int32 quantity                              = 5;
-    bool subtract                               = 6;
 }
 
 message PBItemsDict {

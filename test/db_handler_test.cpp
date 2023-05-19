@@ -44,6 +44,7 @@ TEST_CASE("Inserting location","[db_handler][db_handler_test_2]")
     PBUser user;
     user.set_discord_id(0);
     user.set_current_player_id(1);
+    user.add_players()->set_current_location(PBLocationID::MAIN_BASE);
     PBLocation loc;
     auto interaction_1 = loc.add_interactions();
     interaction_1->add_types(PBInteractionType::POST);
@@ -59,7 +60,6 @@ TEST_CASE("Inserting location","[db_handler][db_handler_test_2]")
     REQUIRE(post_int.types_size() == 1);
     REQUIRE(post_int.types(0) == PBInteractionType::POST);
     REQUIRE(post_int.post_info().capacity_upgrade() == 10);
-    std::cout << loc.DebugString() << std::endl;
 
 }
 
@@ -77,19 +77,16 @@ TEST_CASE("ModifyItemsQuantity","[db_handler][db_handler_test_3]")
     PBItemData item1;
     item1.set_item_id(PBItemEnum::STICK);
     item1.set_quantity(20);
-    item1.set_subtract(false);
     data.push_back(item1);
 
     PBItemData item2;
     item2.set_item_id(PBItemEnum::PEBBLE);
     item2.set_quantity(12);
-    item2.set_subtract(false);
     data.push_back(item2);
 
     PBItemData item3;
     item3.set_item_id(PBItemEnum::DIRT);
     item3.set_quantity(12);
-    item3.set_subtract(false);
     data.push_back(item3);
 
     REQUIRE(inventory.UpdateItems(user.discord_id(),user.current_player_id()));
@@ -103,6 +100,18 @@ TEST_CASE("ModifyItemsQuantity","[db_handler][db_handler_test_3]")
     REQUIRE(data.size() == 3);
     data.at(0).set_quantity(200);
     REQUIRE(inventory.UpdateItems(user.discord_id(),user.current_player_id()));
+    std::vector<PBItemData> dataset2;
+    PBItemData mod_item;
+    mod_item.set_item_id(PBItemEnum::ROCK);
+    mod_item.set_quantity(20);
+
+    PBItemData mod_item2;
+    mod_item2.set_item_id(PBItemEnum::STICK);
+    mod_item2.set_quantity(-4);
+    dataset2.push_back(mod_item);
+    dataset2.push_back(mod_item2);
+
+    REQUIRE(db_handler::DBInventoryHandler::ModifyItemsQuantity(user.discord_id(),user.current_player_id(),dataset2));
 }
 
 TEST_CASE("Update post","[db_handler][db_handler_test_4]")
@@ -132,10 +141,9 @@ TEST_CASE("Update post","[db_handler][db_handler_test_4]")
     last_collected->CopyFrom(google::protobuf::util::TimeUtil::SecondsToTimestamp(seconds));
 
     std::vector<PBItemData> item_data = post_interaction->CalculatePostRewards(player,post_db);
-    for (auto const &item : item_data)
-    {
-        std::cout << item.quantity() << std::endl;
-    }
+    
+    REQUIRE(item_data.size() == 1);
+    REQUIRE(item_data.at(0).quantity() == 1);
     
     REQUIRE(location_handler.UpdateInteraction(0,0,user_db,PBInteractionType::POST));
 }
