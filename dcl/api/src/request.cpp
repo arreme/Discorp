@@ -186,7 +186,13 @@ Renderer::BaseMapRenderer PrintMapRequest::RenderMap(const DCLData::DCLLocation*
             Renderer::ZoneAccessRenderer renderer{m_selected, is_unlocked};
             renderer.FillContents(m_data.m_user_db.players(0),*location_data, m_data.m_location_db);
             return renderer;
-        } 
+        }
+        case PBInteractionType::DIALOG:
+        {
+            Renderer::DialogRender renderer{m_selected};
+            renderer.FillContents(m_data.m_user_db.players(0),*location_data, m_data.m_location_db);
+            return renderer;
+        }
         default:
             break;
         }
@@ -414,5 +420,34 @@ bool PrintInventoryRequest::FillRequest(dpp::message &m)
     renderer->FillContent(m_item_db, 0);
     int size = 0;
     m.add_file("map.png",std::string{renderer->RenderImage(&size).get(),static_cast<size_t>(size)});
+    m.add_component(
+        dpp::component().add_component(
+            dpp::component().set_label("PROFILE").set_id("profile::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        ).add_component(
+            dpp::component().set_label("MAP").set_id("map::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        )
+    );
+    return true;
+}
+
+
+/*****************************/
+/****PRINT PROFILE REQUEST****/
+/*****************************/
+
+bool PrintProfileRequest::FillRequest(dpp::message &m) 
+{
+    auto renderer = Renderer::ProfileRenderer{};
+    renderer.FillContent(m_data.m_user_db);
+    int size = 0;
+    m.add_file("map.png",std::string{renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
+    
+    m.add_component(
+        dpp::component().add_component(
+            dpp::component().set_label("MAP").set_id("map::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        ).add_component(
+            dpp::component().set_label("INVENTORY").set_id("inventory::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        )
+    );
     return true;
 }

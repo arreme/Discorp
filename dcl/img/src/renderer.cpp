@@ -160,6 +160,35 @@ bool Renderer::ZoneAccessRenderer::FillContents(const PBPlayer &player, const DC
     return true;
 };
 
+bool Renderer::DialogRender::FillContents(const PBPlayer &player, const DCLData::DCLLocation &location_data, const PBLocation &location_db)
+{
+    BaseMapRenderer::FillContents(player, location_data,location_db);
+    const DCLData::DCLInteraction *interaction_data =location_data.GetInteraction(m_selected);
+    size_t i = interaction_data->GetInteractionName().find(s_delimiter, 0);
+    if (i != std::string::npos) 
+    {
+        m_image.AddImageText(s_black,s_dialog_name1,12,interaction_data->GetInteractionName().substr(0,i),false);
+        i++; 
+        m_image.AddImageText(s_black,s_dialog_name2,12,interaction_data->GetInteractionName().substr(i),false);
+    } else 
+    {
+        m_image.AddImageText(s_black,s_dialog_name1,12,interaction_data->GetInteractionName().substr(0),false);
+    }
+
+    auto const &posX = interaction_data->GetPosX();
+    auto const &posY = interaction_data->GetPosY();
+    GD::Point selectedPos{posX + map_x_offset,posY + map_y_offset};
+    std::ifstream in_selected{s_selected};
+    GD::Image selected_img{in_selected};
+    m_image.Copy(selected_img,selectedPos,{0,0},s_map_icon_size);
+    auto const *dialog_info = interaction_data->TryGetDialog();
+    std::ifstream if_npc_image{dialog_info->GetFirstDialogImage()};
+    GD::Image npc_image{if_npc_image};
+    m_image.Copy(npc_image,s_dialog_image,{0,0},GD::Size{64,64});
+    
+    return true;
+};
+
 
 
 std::unique_ptr<Renderer::BaseInventoryRenderer> Renderer::InventoryRendererFactory::CreateRenderer(int type) 

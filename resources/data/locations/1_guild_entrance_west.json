@@ -33,7 +33,7 @@
                     {
                         "text": "This can bring me back to my base",
                         "more_text": false,
-                        "npcImage": "resources/assets/",
+                        "npcImage": "resources/assets/Portraits/bergo.png",
                         "response_options": [
                             {
                                 "text": "Sweet!",
@@ -83,7 +83,7 @@
                     {
                         "text": "This can bring me back to my base",
                         "more_text": false,
-                        "npcImage": "resources/assets/",
+                        "npcImage": "resources/assets/Portraits/bergo.png",
                         "response_options": [
                             {
                                 "text": "Sweet!",
@@ -113,7 +113,7 @@
                     {
                         "text": "This can bring me back to my base",
                         "more_text": false,
-                        "npcImage": "resources/assets/",
+                        "npcImage": "resources/assets/Portraits/bergo.png",
                         "response_options": [
                             {
                                 "text": "Sweet!",

@@ -33,9 +33,9 @@ ButtonBootstrap::ButtonBootstrap(dpp::cluster *bot)
     button_list.insert({"go_to_location",std::make_unique<GoToLocation>(bot)});
     button_list.insert({"collect_post",std::make_unique<CollectPost>(bot)});
     button_list.insert({"inventory",std::make_unique<InventoryButton>(bot)});
-    //button_list.insert({"interact",});
-    //button_list.insert({"profile",});
-
+    button_list.insert({"profile",std::make_unique<ProfileButton>(bot)});
+    button_list.insert({"map",std::make_unique<PrintMap>(bot)});
+    button_list.insert({"interact",std::make_unique<DialogInteraction>(bot)});
 }
 
 Button *ButtonBootstrap::Find(std::string button_name) 

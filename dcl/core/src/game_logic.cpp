@@ -4,7 +4,7 @@ int GameLogic::CheckLevel(int lvl)
 {
     float exponent = 1.2f;
     float baseXP = 20;
-    return baseXP * (pow(lvl,exponent));
+    return (baseXP * (pow(lvl,exponent)))+1;
 }
 
 int GameLogic::CalculateModifier(PBPlayerSkills id, const PBPlayer &player) 

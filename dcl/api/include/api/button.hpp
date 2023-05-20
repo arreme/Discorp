@@ -188,3 +188,69 @@ public:
         }
     }
 };
+
+class ProfileButton : public Button 
+{
+public:
+    ProfileButton(dpp::cluster *bot)
+    : Button(bot)
+    {
+
+    };
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            PrintProfileRequest request{target.id};
+            dpp::message m;
+            request.FillRequest(m);
+            event.reply(dpp::interaction_response_type::ir_update_message, m);
+        }
+    }
+};
+
+class PrintMap : public Button 
+{
+public:
+    PrintMap(dpp::cluster *bot)
+    : Button(bot)
+    {
+
+    };
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            PrintMapRequest map_request{target.id,-1};
+            dpp::message m;
+            map_request.FillRequest(m);
+            event.reply(dpp::interaction_response_type::ir_update_message, m);
+        }
+    }
+};
+
+class DialogInteraction : public Button 
+{
+public:
+    DialogInteraction(dpp::cluster *bot)
+    : Button(bot)
+    {
+
+    };
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            PrintMapRequest request{target.id,std::stoi(commands.at(2))};
+            dpp::message m;
+            request.FillRequest(m);
+            event.reply(dpp::interaction_response_type::ir_update_message, m);
+        }
+    }
+};

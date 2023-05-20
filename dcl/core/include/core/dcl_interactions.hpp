@@ -219,5 +219,15 @@ namespace DCLInteractions
         {
             return 0;
         }
+
+        const std::string &GetFirstDialogImage() const
+        {
+            return m_dialog_info.info(0).npc_image();
+        }
+
+        const std::string &GetFirstDialogText() const
+        {
+            return m_dialog_info.info(0).text();
+        }
     };
 }

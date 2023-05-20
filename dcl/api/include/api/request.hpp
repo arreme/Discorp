@@ -191,3 +191,13 @@ public:
 
     bool FillRequest(dpp::message &m);
 };
+
+class PrintProfileRequest : public BaseRequest
+{
+public:
+    PrintProfileRequest(uint64_t discord_id)
+    : BaseRequest(discord_id)
+    {}
+
+    bool FillRequest(dpp::message &m);
+};

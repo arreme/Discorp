@@ -114,7 +114,7 @@
                 "info": [
                     {
                         "text": "This bush seems to give me STICKS",
-                        "npcImage": "resources/assets/",
+                        "npcImage": "resources/assets/Portraits/bergo.png",
                         "moreText": false,
                         "responseOptions": [
                             {
@@ -165,7 +165,7 @@
                     {
                         "text": "With this road I can go to the town!",
                         "more_text": false,
-                        "npcImage": "resources/assets/",
+                        "npcImage": "resources/assets/Portraits/bergo.png",
                         "response_options": [
                             {
                                 "text": "Sweet!",
