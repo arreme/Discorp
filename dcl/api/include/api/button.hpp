@@ -247,10 +247,10 @@ public:
         auto target = event.command.get_issuing_user();
         if (std::to_string(target.id) == commands.at(1)) 
         {
-            PrintMapRequest request{target.id,std::stoi(commands.at(2))};
+            ConversationRequest request{target.id,std::stoi(commands.at(2))};
             dpp::message m;
             request.FillRequest(m);
-            event.reply(dpp::interaction_response_type::ir_update_message, m);
+            event.reply(m);
         }
     }
 };

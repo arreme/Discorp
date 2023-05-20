@@ -451,3 +451,22 @@ bool PrintProfileRequest::FillRequest(dpp::message &m)
     );
     return true;
 }
+
+/****************************/
+/****CONVERSATION REQUEST****/
+/****************************/
+
+bool ConversationRequest::FillRequest(dpp::message &m) 
+{
+    const DCLData::DCLInteraction *interaction_data = DCLData::DCLMap::getInstance().GetLocation(m_data.m_user_db.players(0).current_location())->GetInteraction(m_selected);
+    const auto *dialog_data = interaction_data->TryGetDialog();
+    m.set_flags(dpp::m_ephemeral);
+    m.add_file("image.png", dpp::utility::read_file(dialog_data->GetFirstDialogImage()));
+    dpp::embed embed = dpp::embed().
+        set_color(dpp::colors::yellow).
+        set_title(interaction_data->GetInteractionName()).
+        set_description(dialog_data->GetFirstDialogText()).
+        set_thumbnail("attachment://image.png");
+    m.add_embed(embed);
+    return true;
+}

@@ -201,3 +201,20 @@ public:
 
     bool FillRequest(dpp::message &m);
 };
+
+class ConversationRequest : public BaseRequest
+{
+private:
+    int m_selected = -1;
+    int m_dialog_node = 0;
+public:
+    ConversationRequest(uint64_t discord_id, int selected, int dialog_node = 0)
+    : BaseRequest(discord_id), m_selected(selected), m_dialog_node(dialog_node)
+    {
+        if (!m_data.m_location_created) {
+            m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
+        }
+    }
+
+    bool FillRequest(dpp::message &m);
+};
