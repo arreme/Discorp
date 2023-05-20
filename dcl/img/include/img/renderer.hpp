@@ -127,18 +127,7 @@ namespace Renderer
 
         virtual ~BaseInventoryRenderer(){ }
         
-        virtual void FillContent(std::vector<PBItemData> &item_db, int page) = 0;
-    };
-
-    class ResourceInventoryRenderer : public BaseInventoryRenderer 
-    {
-    public:
-
-        ResourceInventoryRenderer() 
-        : BaseInventoryRenderer(PBItemType::RESOURCES)
-        {}
-
-        void FillContent(std::vector<PBItemData> &items_db, int page) override
+        virtual void FillContent(std::vector<PBItemData> &items_db, int page)
         {
             auto const &item_data = DCLData::DCLItems::getInstance();
             int index = page * 8;
@@ -160,6 +149,20 @@ namespace Renderer
                 if (item_image.good())
                     m_image.Copy(item_image,{s_initial_image.X() + (x_displace * j),s_initial_image.Y() + (y_displace * i)},{0,0},s_inv_image_size);
             }
+        };
+    };
+
+    class ResourceInventoryRenderer : public BaseInventoryRenderer 
+    {
+    public:
+
+        ResourceInventoryRenderer() 
+        : BaseInventoryRenderer(PBItemType::RESOURCES)
+        {}
+
+        void FillContent(std::vector<PBItemData> &items_db, int page) override
+        {
+            BaseInventoryRenderer::FillContent(items_db,page);
         }
         
     };
