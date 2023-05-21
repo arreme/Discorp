@@ -254,3 +254,24 @@ public:
         }
     }
 };
+
+class AcceptDuel : public Button 
+{
+public:
+    AcceptDuel(dpp::cluster *bot)
+    : Button(bot)
+    {
+
+    };
+
+    void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
+    {
+        auto target = event.command.get_issuing_user();
+        if (std::to_string(target.id) == commands.at(3)) 
+        {
+            dpp::message m;
+            
+            event.reply(dpp::interaction_response_type::ir_update_message, m);
+        }
+    }
+};

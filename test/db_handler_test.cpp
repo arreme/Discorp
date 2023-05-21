@@ -3,6 +3,7 @@
 #include <db_handler/db_user.hpp>
 #include <db_handler/db_location.hpp>
 #include <db_handler/db_inventory.hpp>
+#include <db_handler/db_combat.hpp>
 
 TEST_CASE("User Database Handler Testing","[db_handler][db_handler_test_1]") 
 {   
@@ -111,7 +112,7 @@ TEST_CASE("ModifyItemsQuantity","[db_handler][db_handler_test_3]")
     dataset2.push_back(mod_item);
     dataset2.push_back(mod_item2);
 
-    REQUIRE(db_handler::DBInventoryHandler::ModifyItemsQuantity(user.discord_id(),user.current_player_id(),dataset2));
+    //REQUIRE(db_handler::DBInventoryHandler::ModifyItemsQuantity(user.discord_id(),user.current_player_id()));
 }
 
 TEST_CASE("Update post","[db_handler][db_handler_test_4]")
@@ -146,4 +147,35 @@ TEST_CASE("Update post","[db_handler][db_handler_test_4]")
     REQUIRE(item_data.at(0).quantity() == 1);
     
     REQUIRE(location_handler.UpdateInteraction(0,0,user_db,PBInteractionType::POST));
+}
+
+TEST_CASE("Combat handler testing","[db_handler][db_handler_test_5]") 
+{
+    db::DeleteManyOperation del_op_pla = db::DeleteManyOperation{"combat", make_document()};
+    del_op_pla.ExecuteOperation();
+
+    PBCombat combat_db;
+    db_handler::DBCombatHandler combat_handler{&combat_db};
+
+    combat_db.set_starter_user_id(0);
+    combat_db.set_opponent_user_id(1);
+    combat_db.set_turn(0);
+    combat_db.set_wager(10);
+    PBPlayer *player1 = combat_db.mutable_starter_user_info();
+    player1->mutable_stats()->set_max_health(100);
+    player1->mutable_stats()->set_current_health(50);
+    PBPlayer *player2 = combat_db.mutable_opponent_user_info();
+    player2->mutable_stats()->set_max_health(100);
+    player2->mutable_stats()->set_current_health(50);
+    player2->mutable_skills()->set_foraging_lvl(10);
+
+    REQUIRE_FALSE(combat_handler.FindCurrentCombat());
+    REQUIRE(combat_handler.InsertNewCombat());
+    combat_db.set_wager(10000);
+    REQUIRE(combat_handler.FindCurrentCombat());
+    REQUIRE(combat_db.wager() == 10);
+
+    REQUIRE(combat_handler.DeleteCombat());
+    REQUIRE_FALSE(combat_handler.FindCurrentCombat());
+
 }

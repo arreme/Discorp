@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "player.proto";
+
+enum PBCombatActions 
+{
+    NONE            = 0;
+    ATTACK          = 1;
+    DODGE           = 2;
+    BLOCK           = 3;
+    SURRENDER       = 4;
+}
+
+message PBCombat 
+{
+    int64 starter_user_id       = 1;
+    int64 opponent_user_id      = 2;
+    int32 wager                 = 3;
+    int32 turn                  = 4;
+    PBPlayer starter_user_info  = 5;
+    PBPlayer opponent_user_info = 6;
+}

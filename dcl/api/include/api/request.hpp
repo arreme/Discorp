@@ -9,6 +9,7 @@
 #include <db_handler/db_location.hpp>
 #include <db_handler/db_inventory.hpp>
 #include <core/dcl_interactions.hpp>
+#include <core/pb/combat.pb.h>
 
 struct UserData 
 {
@@ -214,6 +215,20 @@ public:
         if (!m_data.m_location_created) {
             m_data.m_location_created = m_location_handler.FindPlayerCurrentLocation(m_data.m_user_db);
         }
+    }
+
+    bool FillRequest(dpp::message &m);
+};
+
+class CombatRequest
+{
+private:
+    PBCombat combat_db;
+    
+public:
+    CombatRequest(uint64_t starter_user, uint64_t opponent_user, int32_t wager, PBCombatActions action)
+    {
+        
     }
 
     bool FillRequest(dpp::message &m);

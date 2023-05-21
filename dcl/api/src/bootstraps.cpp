@@ -4,6 +4,7 @@ CommandBootstrap::CommandBootstrap(dpp::cluster *bot)
 {
     this->bot = bot;
     command_list.insert({"start",new StartCommand(bot->me.id)});
+    command_list.insert({"duel",new DuelCommand(bot->me.id)});
 }
 
 void CommandBootstrap::RegisterCommands() 
@@ -36,6 +37,7 @@ ButtonBootstrap::ButtonBootstrap(dpp::cluster *bot)
     button_list.insert({"profile",std::make_unique<ProfileButton>(bot)});
     button_list.insert({"map",std::make_unique<PrintMap>(bot)});
     button_list.insert({"interact",std::make_unique<DialogInteraction>(bot)});
+    button_list.insert({"accept_duel",std::make_unique<AcceptDuel>(bot)});
 }
 
 Button *ButtonBootstrap::Find(std::string button_name) 
