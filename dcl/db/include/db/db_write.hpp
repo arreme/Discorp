@@ -2,6 +2,7 @@
 #include <iostream>
 #include <mongocxx/database.hpp>
 #include <mongocxx/exception/bulk_write_exception.hpp>
+#include <mongocxx/exception/logic_error.hpp>
 #include <bsoncxx/json.hpp>
 #include <db/db_operation.hpp>
 #include <db/db_instance.hpp>

@@ -4,19 +4,21 @@ import "player.proto";
 
 enum PBCombatActions 
 {
-    NONE            = 0;
-    ATTACK          = 1;
-    DODGE           = 2;
-    BLOCK           = 3;
-    SURRENDER       = 4;
+    CA_NONE            = 0;
+    CA_ATTACK          = 1;
+    CA_DODGE           = 2;
+    CA_BLOCK           = 3;
+    CA_SURRENDER       = 4;
 }
 
 message PBCombat 
 {
-    int64 starter_user_id       = 1;
-    int64 opponent_user_id      = 2;
-    int32 wager                 = 3;
-    int32 turn                  = 4;
-    PBPlayer starter_user_info  = 5;
-    PBPlayer opponent_user_info = 6;
+    int64 starter_user_id               = 1;
+    int64 opponent_user_id              = 2;
+    int32 wager                         = 3;
+    int32 turn                          = 4;
+    PBCombatActions starter_action      = 5;
+    PBCombatActions opponent_action     = 6;
+    PBPlayer starter_user_info          = 7;
+    PBPlayer opponent_user_info         = 8;
 }

@@ -72,11 +72,9 @@ public:
         );
         m.add_component(
             dpp::component().add_component(
-                dpp::component().set_label("ACCEPT").set_id("accept_duel::"+std::to_string(wager)+"::"+std::to_string(target.id)+"::"+std::to_string(opponent_id)).set_style(dpp::cos_success)
+                dpp::component().set_label("ACCEPT").set_id("accept_duel::"+std::to_string(target.id)+"::"+std::to_string(opponent_id)+"::"+std::to_string(wager)).set_style(dpp::cos_success)
             )
         );
-        std::vector<dpp::snowflake> mentions = {opponent_id};
-        m.set_allowed_mentions(false,false,false,false,mentions,{});
         event->reply(m);
     }
 };

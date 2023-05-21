@@ -470,3 +470,92 @@ bool ConversationRequest::FillRequest(dpp::message &m)
     m.add_embed(embed);
     return true;
 }
+
+/**********************/
+/****COMBAT REQUEST****/
+/**********************/
+
+std::string CombatRequest::StatsToString(const PBStats &stats,const PBCombatActions current) 
+{
+    std::string action_parse;
+    switch (current)
+    {
+    case PBCombatActions::CA_NONE:
+        action_parse = "Doing nothing";
+        break;
+    case PBCombatActions::CA_ATTACK:
+        action_parse = "Has attacked!";
+        break;
+    case PBCombatActions::CA_BLOCK:
+        action_parse = "Is blocking";
+        break;
+    case PBCombatActions::CA_DODGE:
+        action_parse = "Has prepared to dodge";
+        break;
+    };
+
+    return  "Health:     "+std::to_string(stats.current_health())+"/"+std::to_string(stats.max_health())+"\n"+
+            "Currently:   "+action_parse+"\n"+
+            "Strength:   "+std::to_string(stats.strength())+"\n"+
+            "Defense:    "+std::to_string(stats.defense())+"\n"+
+            "Precision:  "+std::to_string(stats.precision())+"\n"+
+            "Speed:      "+std::to_string(stats.speed())+"\n"+
+            "Luck:       "+std::to_string(stats.luck());
+}
+
+bool CombatRequest::FillRequest(dpp::message &m) 
+{
+    if (m_abort_combat) 
+    {
+        m.set_flags(dpp::m_ephemeral);
+        m.set_content("Some of you are not registered to Disland! You can't start the combat with them!");
+        return false;
+    }
+
+    if (m_not_your_turn)
+    {
+        m.set_flags(dpp::m_ephemeral);
+        m.set_content("Not your turn!");
+        return false;
+    }
+    
+
+    if (m_action != PBCombatActions::CA_NONE) 
+    {
+        if (m_combat_db.turn() == CombatRequest::OPPONENT_TURN) 
+        {
+            std::cout << "Opponent has selected:"+PBCombatActions_Name(m_action) << std::endl;
+        } else 
+        {
+            std::cout << "Starter has selected:"+PBCombatActions_Name(m_action) << std::endl;
+        }
+    }
+
+    m_combat_db.set_turn((m_combat_db.turn() == 1) ? 0 : 1);
+    uint64_t your_turn_id = static_cast<uint64_t>(m_combat_db.turn() == CombatRequest::STARTER_TURN ? m_combat_db.starter_user_id() : m_combat_db.opponent_user_id());
+    uint64_t not_your_turn_id = static_cast<uint64_t>(m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.starter_user_id() : m_combat_db.opponent_user_id());
+    std::cout << "Turn: ";
+    std::cout << m_combat_db.turn() << std::endl;
+    auto not_your_turn_action = m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.starter_action() : m_combat_db.opponent_action();
+    const PBPlayer &your_turn = m_combat_db.turn() == CombatRequest::STARTER_TURN ? m_combat_db.starter_user_info() : m_combat_db.opponent_user_info();
+    const PBPlayer &not_your_turn = m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.starter_user_info() : m_combat_db.opponent_user_info();
+
+    dpp::embed embed;
+    embed.set_title("Disland Combat Window");
+    embed.set_description("It's <@"+std::to_string(your_turn_id)+"> turn!");
+    embed.add_field("Your stats:",StatsToString(your_turn.stats(),PBCombatActions::CA_NONE),true);
+    embed.add_field("Your enemy stats:",StatsToString(not_your_turn.stats(),not_your_turn_action),true);
+    embed.set_color(dpp::colors::red);
+    m.add_embed(embed);
+    m_combat_handler.UpdateCombatForPlayer(true, true);
+    m.add_component(
+        dpp::component().add_component(
+            dpp::component().set_label("ATTACK").set_id("accept_duel::"+std::to_string(m_combat_db.starter_user_id())+"::"+std::to_string(m_combat_db.opponent_user_id())+"::0::"+PBCombatActions_Name(PBCombatActions::CA_ATTACK)).set_style(dpp::cos_danger)
+        ).add_component(
+            dpp::component().set_label("BLOCK").set_id("accept_duel::"+std::to_string(m_combat_db.starter_user_id())+"::"+std::to_string(m_combat_db.opponent_user_id())+"::0::"+PBCombatActions_Name(PBCombatActions::CA_BLOCK)).set_style(dpp::cos_success)
+        ).add_component(
+            dpp::component().set_label("DODGE").set_id("accept_duel::"+std::to_string(m_combat_db.starter_user_id())+"::"+std::to_string(m_combat_db.opponent_user_id())+"::0::"+PBCombatActions_Name(PBCombatActions::CA_DODGE)).set_style(dpp::cos_secondary)
+        )
+    );
+    return true;
+}

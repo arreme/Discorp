@@ -267,11 +267,22 @@ public:
     void HandleButton(const dpp::button_click_t & event, std::vector<std::string> &commands) override 
     {
         auto target = event.command.get_issuing_user();
-        if (std::to_string(target.id) == commands.at(3)) 
+        if (std::to_string(target.id) == commands.at(2) || std::to_string(target.id) == commands.at(1)) 
         {
             dpp::message m;
+            PBCombatActions action = PBCombatActions::CA_NONE;
+            if (commands.size() == 5) 
+            {
+                PBCombatActions_Parse(commands.at(4),&action); 
+            }
+            CombatRequest request{std::stoull(commands.at(1).data()),std::stoull(commands.at(2).data()),std::atoi(commands.at(3).data()),action,target.id};
+            if (!request.FillRequest(m)) 
+            {
+                event.reply(m);
+            } else {
+                event.reply(dpp::interaction_response_type::ir_update_message, m);
+            }
             
-            event.reply(dpp::interaction_response_type::ir_update_message, m);
         }
     }
 };

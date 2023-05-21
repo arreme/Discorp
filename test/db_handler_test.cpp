@@ -175,6 +175,7 @@ TEST_CASE("Combat handler testing","[db_handler][db_handler_test_5]")
     REQUIRE(combat_handler.FindCurrentCombat());
     REQUIRE(combat_db.wager() == 10);
 
+    REQUIRE(combat_handler.UpdateCombatForPlayer(true,true));
     REQUIRE(combat_handler.DeleteCombat());
     REQUIRE_FALSE(combat_handler.FindCurrentCombat());
 

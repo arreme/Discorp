@@ -124,6 +124,8 @@ bool DBCombatHandler::FindCurrentCombat()
         auto const doc = find_one.m_result.value().view();
         m_combat_db->set_wager(doc["wager"].get_int32());
         m_combat_db->set_turn(doc["turn"].get_int32());
+        m_combat_db->set_starter_action(static_cast<PBCombatActions>(static_cast<int32_t>(doc["starter_action"].get_int32())));
+        m_combat_db->set_opponent_action(static_cast<PBCombatActions>(static_cast<int32_t>(doc["opponent_action"].get_int32())));
         BsonToPlayer(m_combat_db->mutable_starter_user_info(),doc["starter_user_info"].get_document().view());
         BsonToPlayer(m_combat_db->mutable_opponent_user_info(),doc["opponent_user_info"].get_document().view());
         return true;
@@ -139,6 +141,8 @@ bool DBCombatHandler::InsertNewCombat()
         kvp("opponent_user_id",b_int64{static_cast<int64_t>(m_combat_db->opponent_user_id())}),
         kvp("wager", b_int32{m_combat_db->wager()}),
         kvp("turn", b_int32{m_combat_db->turn()}),
+        kvp("starter_action", b_int32{m_combat_db->starter_action()}),
+        kvp("opponent_action", b_int32{m_combat_db->opponent_action()}),
         kvp("starter_user_info",b_document{PlayerToBson(m_combat_db->starter_user_info())}),
         kvp("opponent_user_info",b_document{PlayerToBson(m_combat_db->opponent_user_info())})
     )};
@@ -150,7 +154,7 @@ bool DBCombatHandler::InsertNewCombat()
 bool DBCombatHandler::UpdateCombatForPlayer(bool starting_player, bool opponent_player) 
 {
     bsoncxx::builder::basic::document doc{};
-    doc.append(kvp("turn",m_combat_db->turn()));
+    doc.append(kvp("turn",b_int32{m_combat_db->turn()}));
     if (starting_player) {
         doc.append(kvp("starter_user_info",b_document{PlayerToBson(m_combat_db->starter_user_info())}));
     }
@@ -160,8 +164,8 @@ bool DBCombatHandler::UpdateCombatForPlayer(bool starting_player, bool opponent_
 
     db::UpdateOneOperation update_one{"combat",make_document(
         kvp("starter_user_id",b_int64{static_cast<int64_t>(m_combat_db->starter_user_id())}),
-        kvp("opponent_user_id",b_int64{static_cast<int64_t>(m_combat_db->starter_user_id())})
-    ), doc.extract()};
+        kvp("opponent_user_id",b_int64{static_cast<int64_t>(m_combat_db->opponent_user_id())})
+    ), make_document(kvp("$set",b_document{doc.extract()}))};
     
     update_one.ExecuteOperation();
     return update_one.GetState() == db::OperationState::SUCCESS;

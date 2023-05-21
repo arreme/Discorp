@@ -10,6 +10,7 @@
 #include <db_handler/db_inventory.hpp>
 #include <core/dcl_interactions.hpp>
 #include <core/pb/combat.pb.h>
+#include <db_handler/db_combat.hpp>
 
 struct UserData 
 {
@@ -223,12 +224,69 @@ public:
 class CombatRequest
 {
 private:
-    PBCombat combat_db;
-    
+    inline static const int STARTER_TURN = 0;
+    inline static const int OPPONENT_TURN = 1;
+    bool m_abort_combat = false;
+    bool m_not_your_turn = false;
+    PBCombat m_combat_db;
+    db_handler::DBCombatHandler m_combat_handler{&m_combat_db};
+    PBCombatActions m_action = PBCombatActions::CA_NONE;
+
+    std::string StatsToString(const PBStats &stats, const PBCombatActions current);
 public:
-    CombatRequest(uint64_t starter_user, uint64_t opponent_user, int32_t wager, PBCombatActions action)
+    CombatRequest(uint64_t starter_user, uint64_t opponent_user, int32_t wager, PBCombatActions action, uint64_t current_user)
+    : m_action(action)
     {
-        
+        m_combat_db.set_starter_user_id(starter_user);
+        m_combat_db.set_opponent_user_id(opponent_user);
+        if (!m_combat_handler.FindCurrentCombat()) 
+        {
+            if (starter_user == current_user) 
+            {
+                m_not_your_turn = true;
+                return;
+            }
+            //Initialize Combat
+            //1.- Get the information
+            PBUser starter_user_db;
+            starter_user_db.set_discord_id(starter_user);
+            db_handler::DBUserHandler user_handler1{&starter_user_db};
+            if (!user_handler1.FindUserCurrentPlayer()) 
+            {
+                m_abort_combat = true;
+                return;
+            };
+            PBUser opponent_user_db;
+            opponent_user_db.set_discord_id(opponent_user);
+            db_handler::DBUserHandler user_handler2{&opponent_user_db};
+            if (!user_handler2.FindUserCurrentPlayer()) 
+            {
+                m_abort_combat = true;
+                return;
+            };
+            //2.- Fill Information
+            m_combat_db.mutable_starter_user_info()->CopyFrom(starter_user_db.players(0));
+            m_combat_db.mutable_opponent_user_info()->CopyFrom(opponent_user_db.players(0));
+            //(0 is starter turn, 1 is opponent turn)
+            m_combat_db.set_turn(starter_user_db.players(0).stats().speed() > opponent_user_db.players(0).stats().speed() ? OPPONENT_TURN : STARTER_TURN);
+            m_combat_db.set_wager(wager);
+            m_combat_handler.InsertNewCombat();
+        } else if(m_action != PBCombatActions::CA_NONE) {
+
+            if (m_combat_db.turn() == OPPONENT_TURN) {
+                if (current_user != opponent_user)
+                {
+                    m_not_your_turn = true;
+                    return;
+                }
+            } else {
+                if (current_user != starter_user)
+                {
+                    m_not_your_turn = true;
+                    return;
+                }
+            }
+        }
     }
 
     bool FillRequest(dpp::message &m);

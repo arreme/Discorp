@@ -184,6 +184,8 @@ void UpdateOneOperation::ExecuteOperation() noexcept
     }
     catch(const mongocxx::bulk_write_exception e) {
         m_db_state = OperationState::BULK_WRITE_ERROR;
+    } catch (const std::logic_error e) {
+        m_db_state = OperationState::GENERAL_ERROR;
     } catch (const std::exception e) {
         m_db_state = OperationState::GENERAL_ERROR;
     }
