@@ -50,6 +50,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_combat_2eproto::offsets[] PROT
   PROTOBUF_FIELD_OFFSET(::PBCombat, turn_),
   PROTOBUF_FIELD_OFFSET(::PBCombat, starter_action_),
   PROTOBUF_FIELD_OFFSET(::PBCombat, opponent_action_),
+  PROTOBUF_FIELD_OFFSET(::PBCombat, starter_player_id_),
+  PROTOBUF_FIELD_OFFSET(::PBCombat, opponent_player_id_),
   PROTOBUF_FIELD_OFFSET(::PBCombat, starter_user_info_),
   PROTOBUF_FIELD_OFFSET(::PBCombat, opponent_user_info_),
 };
@@ -62,16 +64,17 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_combat_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\014combat.proto\032\014player.proto\"\374\001\n\010PBComba"
+  "\n\014combat.proto\032\014player.proto\"\263\002\n\010PBComba"
   "t\022\027\n\017starter_user_id\030\001 \001(\003\022\030\n\020opponent_u"
   "ser_id\030\002 \001(\003\022\r\n\005wager\030\003 \001(\005\022\014\n\004turn\030\004 \001("
   "\005\022(\n\016starter_action\030\005 \001(\0162\020.PBCombatActi"
   "ons\022)\n\017opponent_action\030\006 \001(\0162\020.PBCombatA"
-  "ctions\022$\n\021starter_user_info\030\007 \001(\0132\t.PBPl"
-  "ayer\022%\n\022opponent_user_info\030\010 \001(\0132\t.PBPla"
-  "yer*[\n\017PBCombatActions\022\013\n\007CA_NONE\020\000\022\r\n\tC"
-  "A_ATTACK\020\001\022\014\n\010CA_DODGE\020\002\022\014\n\010CA_BLOCK\020\003\022\020"
-  "\n\014CA_SURRENDER\020\004b\006proto3"
+  "ctions\022\031\n\021starter_player_id\030\007 \001(\005\022\032\n\022opp"
+  "onent_player_id\030\010 \001(\005\022$\n\021starter_user_in"
+  "fo\030\t \001(\0132\t.PBPlayer\022%\n\022opponent_user_inf"
+  "o\030\n \001(\0132\t.PBPlayer*[\n\017PBCombatActions\022\013\n"
+  "\007CA_NONE\020\000\022\r\n\tCA_ATTACK\020\001\022\014\n\010CA_DODGE\020\002\022"
+  "\014\n\010CA_BLOCK\020\003\022\020\n\014CA_SURRENDER\020\004b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_combat_2eproto_deps[1] = {
   &::descriptor_table_player_2eproto,
@@ -81,7 +84,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_com
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_combat_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_combat_2eproto = {
-  false, false, descriptor_table_protodef_combat_2eproto, "combat.proto", 384,
+  false, false, descriptor_table_protodef_combat_2eproto, "combat.proto", 439,
   &descriptor_table_combat_2eproto_once, descriptor_table_combat_2eproto_sccs, descriptor_table_combat_2eproto_deps, 1, 1,
   schemas, file_default_instances, TableStruct_combat_2eproto::offsets,
   file_level_metadata_combat_2eproto, 1, file_level_enum_descriptors_combat_2eproto, file_level_service_descriptors_combat_2eproto,
@@ -161,16 +164,16 @@ PBCombat::PBCombat(const PBCombat& from)
     opponent_user_info_ = nullptr;
   }
   ::memcpy(&starter_user_id_, &from.starter_user_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&opponent_action_) -
-    reinterpret_cast<char*>(&starter_user_id_)) + sizeof(opponent_action_));
+    static_cast<size_t>(reinterpret_cast<char*>(&opponent_player_id_) -
+    reinterpret_cast<char*>(&starter_user_id_)) + sizeof(opponent_player_id_));
   // @@protoc_insertion_point(copy_constructor:PBCombat)
 }
 
 void PBCombat::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_PBCombat_combat_2eproto.base);
   ::memset(&starter_user_info_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&opponent_action_) -
-      reinterpret_cast<char*>(&starter_user_info_)) + sizeof(opponent_action_));
+      reinterpret_cast<char*>(&opponent_player_id_) -
+      reinterpret_cast<char*>(&starter_user_info_)) + sizeof(opponent_player_id_));
 }
 
 PBCombat::~PBCombat() {
@@ -215,8 +218,8 @@ void PBCombat::Clear() {
   }
   opponent_user_info_ = nullptr;
   ::memset(&starter_user_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&opponent_action_) -
-      reinterpret_cast<char*>(&starter_user_id_)) + sizeof(opponent_action_));
+      reinterpret_cast<char*>(&opponent_player_id_) -
+      reinterpret_cast<char*>(&starter_user_id_)) + sizeof(opponent_player_id_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -272,16 +275,30 @@ const char* PBCombat::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
           _internal_set_opponent_action(static_cast<::PBCombatActions>(val));
         } else goto handle_unusual;
         continue;
-      // .PBPlayer starter_user_info = 7;
+      // int32 starter_player_id = 7;
       case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          starter_player_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 opponent_player_id = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
+          opponent_player_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .PBPlayer starter_user_info = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74)) {
           ptr = ctx->ParseMessage(_internal_mutable_starter_user_info(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .PBPlayer opponent_user_info = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 66)) {
+      // .PBPlayer opponent_user_info = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 82)) {
           ptr = ctx->ParseMessage(_internal_mutable_opponent_user_info(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
@@ -352,20 +369,32 @@ failure:
       6, this->_internal_opponent_action(), target);
   }
 
-  // .PBPlayer starter_user_info = 7;
+  // int32 starter_player_id = 7;
+  if (this->starter_player_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(7, this->_internal_starter_player_id(), target);
+  }
+
+  // int32 opponent_player_id = 8;
+  if (this->opponent_player_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(8, this->_internal_opponent_player_id(), target);
+  }
+
+  // .PBPlayer starter_user_info = 9;
   if (this->has_starter_user_info()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        7, _Internal::starter_user_info(this), target, stream);
+        9, _Internal::starter_user_info(this), target, stream);
   }
 
-  // .PBPlayer opponent_user_info = 8;
+  // .PBPlayer opponent_user_info = 10;
   if (this->has_opponent_user_info()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        8, _Internal::opponent_user_info(this), target, stream);
+        10, _Internal::opponent_user_info(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -384,14 +413,14 @@ size_t PBCombat::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .PBPlayer starter_user_info = 7;
+  // .PBPlayer starter_user_info = 9;
   if (this->has_starter_user_info()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *starter_user_info_);
   }
 
-  // .PBPlayer opponent_user_info = 8;
+  // .PBPlayer opponent_user_info = 10;
   if (this->has_opponent_user_info()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -436,6 +465,20 @@ size_t PBCombat::ByteSizeLong() const {
   if (this->opponent_action() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_opponent_action());
+  }
+
+  // int32 starter_player_id = 7;
+  if (this->starter_player_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_starter_player_id());
+  }
+
+  // int32 opponent_player_id = 8;
+  if (this->opponent_player_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_opponent_player_id());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -493,6 +536,12 @@ void PBCombat::MergeFrom(const PBCombat& from) {
   if (from.opponent_action() != 0) {
     _internal_set_opponent_action(from._internal_opponent_action());
   }
+  if (from.starter_player_id() != 0) {
+    _internal_set_starter_player_id(from._internal_starter_player_id());
+  }
+  if (from.opponent_player_id() != 0) {
+    _internal_set_opponent_player_id(from._internal_opponent_player_id());
+  }
 }
 
 void PBCombat::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -517,8 +566,8 @@ void PBCombat::InternalSwap(PBCombat* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PBCombat, opponent_action_)
-      + sizeof(PBCombat::opponent_action_)
+      PROTOBUF_FIELD_OFFSET(PBCombat, opponent_player_id_)
+      + sizeof(PBCombat::opponent_player_id_)
       - PROTOBUF_FIELD_OFFSET(PBCombat, starter_user_info_)>(
           reinterpret_cast<char*>(&starter_user_info_),
           reinterpret_cast<char*>(&other->starter_user_info_));

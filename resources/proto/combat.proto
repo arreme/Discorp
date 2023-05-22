@@ -19,6 +19,8 @@ message PBCombat
     int32 turn                          = 4;
     PBCombatActions starter_action      = 5;
     PBCombatActions opponent_action     = 6;
-    PBPlayer starter_user_info          = 7;
-    PBPlayer opponent_user_info         = 8;
+    int32 starter_player_id             = 7;
+    int32 opponent_player_id            = 8;
+    PBPlayer starter_user_info          = 9;
+    PBPlayer opponent_user_info         = 10;
 }

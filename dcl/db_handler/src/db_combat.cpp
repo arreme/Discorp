@@ -126,6 +126,8 @@ bool DBCombatHandler::FindCurrentCombat()
         m_combat_db->set_turn(doc["turn"].get_int32());
         m_combat_db->set_starter_action(static_cast<PBCombatActions>(static_cast<int32_t>(doc["starter_action"].get_int32())));
         m_combat_db->set_opponent_action(static_cast<PBCombatActions>(static_cast<int32_t>(doc["opponent_action"].get_int32())));
+        m_combat_db->set_starter_player_id(doc["starter_player_id"].get_int32());
+        m_combat_db->set_opponent_player_id(doc["opponent_player_id"].get_int32());
         BsonToPlayer(m_combat_db->mutable_starter_user_info(),doc["starter_user_info"].get_document().view());
         BsonToPlayer(m_combat_db->mutable_opponent_user_info(),doc["opponent_user_info"].get_document().view());
         return true;
@@ -143,6 +145,8 @@ bool DBCombatHandler::InsertNewCombat()
         kvp("turn", b_int32{m_combat_db->turn()}),
         kvp("starter_action", b_int32{m_combat_db->starter_action()}),
         kvp("opponent_action", b_int32{m_combat_db->opponent_action()}),
+        kvp("starter_player_id", b_int32{m_combat_db->starter_player_id()}),
+        kvp("opponent_player_id", b_int32{m_combat_db->opponent_player_id()}),
         kvp("starter_user_info",b_document{PlayerToBson(m_combat_db->starter_user_info())}),
         kvp("opponent_user_info",b_document{PlayerToBson(m_combat_db->opponent_user_info())})
     )};
@@ -155,6 +159,8 @@ bool DBCombatHandler::UpdateCombatForPlayer(bool starting_player, bool opponent_
 {
     bsoncxx::builder::basic::document doc{};
     doc.append(kvp("turn",b_int32{m_combat_db->turn()}));
+    doc.append(kvp("starter_action",b_int32{m_combat_db->starter_action()}));
+    doc.append(kvp("opponent_action",b_int32{m_combat_db->opponent_action()}));
     if (starting_player) {
         doc.append(kvp("starter_user_info",b_document{PlayerToBson(m_combat_db->starter_user_info())}));
     }

@@ -233,6 +233,7 @@ private:
     PBCombatActions m_action = PBCombatActions::CA_NONE;
 
     std::string StatsToString(const PBStats &stats, const PBCombatActions current);
+    bool Calculate();
 public:
     CombatRequest(uint64_t starter_user, uint64_t opponent_user, int32_t wager, PBCombatActions action, uint64_t current_user)
     : m_action(action)
@@ -265,6 +266,8 @@ public:
                 return;
             };
             //2.- Fill Information
+            m_combat_db.set_starter_player_id(starter_user_db.current_player_id());
+            m_combat_db.set_opponent_player_id(opponent_user_db.current_player_id());
             m_combat_db.mutable_starter_user_info()->CopyFrom(starter_user_db.players(0));
             m_combat_db.mutable_opponent_user_info()->CopyFrom(opponent_user_db.players(0));
             //(0 is starter turn, 1 is opponent turn)

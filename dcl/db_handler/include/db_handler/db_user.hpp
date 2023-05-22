@@ -55,6 +55,35 @@ namespace db_handler
         */
         bool FindUserCurrentPlayer() noexcept;
 
+        bool UpdateGold(db::Transaction *t = nullptr) 
+        {
+            if (t) 
+            {
+                t->AddOperation(std::make_unique<db::UpdateOneOperation>("users",
+                        make_document(
+                            kvp("discord_id",b_int64{static_cast<int64_t>(m_user->discord_id())})
+                        ),
+                        make_document(kvp("$set",make_document(
+                            kvp("players."+std::to_string(m_user->current_player_id())+".gold",b_int64{m_user->players(0).gold()})))
+                        )
+                    )
+                );
+                return true;
+            } else 
+            {
+                db::UpdateOneOperation insert_op{"users",
+                    make_document(
+                        kvp("discord_id",b_int64{static_cast<int64_t>(m_user->discord_id())})
+                    ),
+                    make_document(kvp("$inc",make_document(
+                        kvp("players."+std::to_string(m_user->current_player_id())+".gold",b_int64{m_user->players(0).gold()})))
+                    )
+                };
+                insert_op.ExecuteOperation();
+                return insert_op.GetState() == db::OperationState::SUCCESS;
+            }
+        }
+
         static bool GoToLocation(PBUser &user, int32_t new_location) 
         {
             db::UpdateOneOperation update_op{"users",

@@ -206,16 +206,18 @@ class PBCombat PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kStarterUserInfoFieldNumber = 7,
-    kOpponentUserInfoFieldNumber = 8,
+    kStarterUserInfoFieldNumber = 9,
+    kOpponentUserInfoFieldNumber = 10,
     kStarterUserIdFieldNumber = 1,
     kOpponentUserIdFieldNumber = 2,
     kWagerFieldNumber = 3,
     kTurnFieldNumber = 4,
     kStarterActionFieldNumber = 5,
     kOpponentActionFieldNumber = 6,
+    kStarterPlayerIdFieldNumber = 7,
+    kOpponentPlayerIdFieldNumber = 8,
   };
-  // .PBPlayer starter_user_info = 7;
+  // .PBPlayer starter_user_info = 9;
   bool has_starter_user_info() const;
   private:
   bool _internal_has_starter_user_info() const;
@@ -233,7 +235,7 @@ class PBCombat PROTOBUF_FINAL :
       ::PBPlayer* starter_user_info);
   ::PBPlayer* unsafe_arena_release_starter_user_info();
 
-  // .PBPlayer opponent_user_info = 8;
+  // .PBPlayer opponent_user_info = 10;
   bool has_opponent_user_info() const;
   private:
   bool _internal_has_opponent_user_info() const;
@@ -305,6 +307,24 @@ class PBCombat PROTOBUF_FINAL :
   void _internal_set_opponent_action(::PBCombatActions value);
   public:
 
+  // int32 starter_player_id = 7;
+  void clear_starter_player_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 starter_player_id() const;
+  void set_starter_player_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_starter_player_id() const;
+  void _internal_set_starter_player_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 opponent_player_id = 8;
+  void clear_opponent_player_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 opponent_player_id() const;
+  void set_opponent_player_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_opponent_player_id() const;
+  void _internal_set_opponent_player_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:PBCombat)
  private:
   class _Internal;
@@ -320,6 +340,8 @@ class PBCombat PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::int32 turn_;
   int starter_action_;
   int opponent_action_;
+  ::PROTOBUF_NAMESPACE_ID::int32 starter_player_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 opponent_player_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_combat_2eproto;
 };
@@ -454,7 +476,47 @@ inline void PBCombat::set_opponent_action(::PBCombatActions value) {
   // @@protoc_insertion_point(field_set:PBCombat.opponent_action)
 }
 
-// .PBPlayer starter_user_info = 7;
+// int32 starter_player_id = 7;
+inline void PBCombat::clear_starter_player_id() {
+  starter_player_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBCombat::_internal_starter_player_id() const {
+  return starter_player_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBCombat::starter_player_id() const {
+  // @@protoc_insertion_point(field_get:PBCombat.starter_player_id)
+  return _internal_starter_player_id();
+}
+inline void PBCombat::_internal_set_starter_player_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  starter_player_id_ = value;
+}
+inline void PBCombat::set_starter_player_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_starter_player_id(value);
+  // @@protoc_insertion_point(field_set:PBCombat.starter_player_id)
+}
+
+// int32 opponent_player_id = 8;
+inline void PBCombat::clear_opponent_player_id() {
+  opponent_player_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBCombat::_internal_opponent_player_id() const {
+  return opponent_player_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 PBCombat::opponent_player_id() const {
+  // @@protoc_insertion_point(field_get:PBCombat.opponent_player_id)
+  return _internal_opponent_player_id();
+}
+inline void PBCombat::_internal_set_opponent_player_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  opponent_player_id_ = value;
+}
+inline void PBCombat::set_opponent_player_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_opponent_player_id(value);
+  // @@protoc_insertion_point(field_set:PBCombat.opponent_player_id)
+}
+
+// .PBPlayer starter_user_info = 9;
 inline bool PBCombat::_internal_has_starter_user_info() const {
   return this != internal_default_instance() && starter_user_info_ != nullptr;
 }
@@ -529,7 +591,7 @@ inline void PBCombat::set_allocated_starter_user_info(::PBPlayer* starter_user_i
   // @@protoc_insertion_point(field_set_allocated:PBCombat.starter_user_info)
 }
 
-// .PBPlayer opponent_user_info = 8;
+// .PBPlayer opponent_user_info = 10;
 inline bool PBCombat::_internal_has_opponent_user_info() const {
   return this != internal_default_instance() && opponent_user_info_ != nullptr;
 }

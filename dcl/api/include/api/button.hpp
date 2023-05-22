@@ -283,6 +283,11 @@ public:
                 event.reply(dpp::interaction_response_type::ir_update_message, m);
             }
             
+        } else {
+            dpp::message m;
+            m.set_flags(dpp::m_ephemeral);
+            m.set_content("Not your combat!");
+            event.reply(m);
         }
     }
 };

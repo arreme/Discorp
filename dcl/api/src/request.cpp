@@ -481,7 +481,7 @@ std::string CombatRequest::StatsToString(const PBStats &stats,const PBCombatActi
     switch (current)
     {
     case PBCombatActions::CA_NONE:
-        action_parse = "Doing nothing";
+        action_parse = "Selecting...";
         break;
     case PBCombatActions::CA_ATTACK:
         action_parse = "Has attacked!";
@@ -501,6 +501,32 @@ std::string CombatRequest::StatsToString(const PBStats &stats,const PBCombatActi
             "Precision:  "+std::to_string(stats.precision())+"\n"+
             "Speed:      "+std::to_string(stats.speed())+"\n"+
             "Luck:       "+std::to_string(stats.luck());
+}
+
+bool CombatRequest::Calculate() 
+{
+    auto not_your_turn_action = m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.starter_action() : m_combat_db.opponent_action();
+    PBPlayer *your_turn = m_combat_db.turn() == CombatRequest::STARTER_TURN ? m_combat_db.mutable_starter_user_info() : m_combat_db.mutable_opponent_user_info();
+    PBPlayer *not_your_turn = m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.mutable_starter_user_info() : m_combat_db.mutable_opponent_user_info();
+
+    switch (not_your_turn_action)
+    {
+    case PBCombatActions::CA_DODGE:
+        not_your_turn->mutable_stats()->set_current_health(not_your_turn->stats().current_health() - 1);
+        break;
+    case PBCombatActions::CA_BLOCK:
+        not_your_turn->mutable_stats()->set_current_health(not_your_turn->stats().current_health() - 2);
+        break;
+    default:
+        not_your_turn->mutable_stats()->set_current_health(not_your_turn->stats().current_health() - 3);
+        break;
+    }
+
+    if (not_your_turn->stats().current_health() <= 0) 
+    {
+        return true;
+    }
+    return false;
 }
 
 bool CombatRequest::FillRequest(dpp::message &m) 
@@ -524,18 +550,57 @@ bool CombatRequest::FillRequest(dpp::message &m)
     {
         if (m_combat_db.turn() == CombatRequest::OPPONENT_TURN) 
         {
-            std::cout << "Opponent has selected:"+PBCombatActions_Name(m_action) << std::endl;
+            m_combat_db.set_opponent_action(m_action);
         } else 
         {
-            std::cout << "Starter has selected:"+PBCombatActions_Name(m_action) << std::endl;
+            m_combat_db.set_starter_action(m_action);
         }
+
+        //Calculate Outcome
+        if (m_action == PBCombatActions::CA_ATTACK) 
+        {
+            if (Calculate()) 
+            {
+                //End game, wins current player turn
+                dpp::embed embed;
+                embed.set_title("Disland Combat Window");
+                std::string win_id;
+                PBUser won;
+                db_handler::DBUserHandler won_handler{&won};
+                PBUser lost;
+                db_handler::DBUserHandler lost_handler{&lost};
+                if (m_combat_db.turn() == CombatRequest::OPPONENT_TURN) 
+                {
+                    win_id = std::to_string(m_combat_db.opponent_user_id());
+                    won.set_discord_id(m_combat_db.opponent_user_id());
+                    lost.set_discord_id(m_combat_db.starter_user_id());
+                    won.set_current_player_id(m_combat_db.opponent_player_id());
+                    lost.set_current_player_id(m_combat_db.starter_player_id());
+                } else 
+                {
+                    win_id = std::to_string(m_combat_db.starter_user_id());
+                    lost.set_discord_id(m_combat_db.opponent_user_id());
+                    won.set_discord_id(m_combat_db.starter_user_id());
+                    lost.set_current_player_id(m_combat_db.opponent_player_id());
+                    won.set_current_player_id(m_combat_db.starter_player_id());
+                    
+                }
+                won.add_players()->set_gold(m_combat_db.wager());
+                lost.add_players()->set_gold(-m_combat_db.wager());
+                embed.set_description("<@"+win_id+"> has won!");
+                db::Transaction t;
+                won_handler.UpdateGold(&t);
+                lost_handler.UpdateGold(&t);
+                t.ExecuteTransaction();
+            }
+        }
+        
     }
 
     m_combat_db.set_turn((m_combat_db.turn() == 1) ? 0 : 1);
     uint64_t your_turn_id = static_cast<uint64_t>(m_combat_db.turn() == CombatRequest::STARTER_TURN ? m_combat_db.starter_user_id() : m_combat_db.opponent_user_id());
     uint64_t not_your_turn_id = static_cast<uint64_t>(m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.starter_user_id() : m_combat_db.opponent_user_id());
-    std::cout << "Turn: ";
-    std::cout << m_combat_db.turn() << std::endl;
+    
     auto not_your_turn_action = m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.starter_action() : m_combat_db.opponent_action();
     const PBPlayer &your_turn = m_combat_db.turn() == CombatRequest::STARTER_TURN ? m_combat_db.starter_user_info() : m_combat_db.opponent_user_info();
     const PBPlayer &not_your_turn = m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.starter_user_info() : m_combat_db.opponent_user_info();
