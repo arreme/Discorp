@@ -63,7 +63,7 @@ namespace db_handler
                         make_document(
                             kvp("discord_id",b_int64{static_cast<int64_t>(m_user->discord_id())})
                         ),
-                        make_document(kvp("$set",make_document(
+                        make_document(kvp("$inc",make_document(
                             kvp("players."+std::to_string(m_user->current_player_id())+".gold",b_int64{m_user->players(0).gold()})))
                         )
                     )

@@ -588,10 +588,14 @@ bool CombatRequest::FillRequest(dpp::message &m)
                 won.add_players()->set_gold(m_combat_db.wager());
                 lost.add_players()->set_gold(-m_combat_db.wager());
                 embed.set_description("<@"+win_id+"> has won!");
+                embed.add_field("Gold earned",std::to_string(m_combat_db.wager()));
+                m.add_embed(embed);
                 db::Transaction t;
                 won_handler.UpdateGold(&t);
                 lost_handler.UpdateGold(&t);
+                m_combat_handler.DeleteCombat();
                 t.ExecuteTransaction();
+                return true;
             }
         }
         
