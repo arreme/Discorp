@@ -417,9 +417,46 @@ bool PrintInventoryRequest::FillRequest(dpp::message &m)
 {
     auto renderer = Renderer::InventoryRendererFactory::CreateRenderer(m_item_type);
     m_item_handler.GetInventory(m_data.m_user_db.discord_id(), m_data.m_user_db.current_player_id(),PBItemType_Name(m_item_type));
-    renderer->FillContent(m_item_db, 0);
+    renderer->FillContent(m_item_db, m_page);
     int size = 0;
+    m.set_flags(dpp::m_ephemeral);
     m.add_file("map.png",std::string{renderer->RenderImage(&size).get(),static_cast<size_t>(size)});
+    auto page_components = dpp::component();
+    bool added = false;
+    if (m_page > 0) 
+    {
+        page_components.add_component(
+            dpp::component().set_type(dpp::component_type::cot_button).set_label("<").set_id("inventory::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_item_type)+"::"+std::to_string(m_page-1)).set_style(dpp::cos_primary)
+        );
+        added = true;
+    }
+
+    if (((m_item_db.size() - 1) / 8) > m_page)
+    {
+        page_components.add_component(
+            dpp::component().set_type(dpp::component_type::cot_button).set_label(">").set_id("inventory::"+std::to_string(m_data.m_user_db.discord_id())+"::"+std::to_string(m_item_type)+"::"+std::to_string(m_page+1)).set_style(dpp::cos_primary)
+        );
+        added = true;
+    }
+
+    if (added) 
+    {
+        m.add_component(
+            page_components
+        );
+    }
+    // m.add_component(
+    //     dpp::component().add_component(
+    //         dpp::component().set_type(dpp::component_type::cot_selectmenu).set_placeholder("Select another inventory page").
+    //             set_id("inventory_type_list::"+std::to_string(m_data.m_user_db.discord_id())).
+    //             add_select_option(dpp::select_option("[RESOURCES]",std::to_string(PBItemType::RESOURCES),"Basic items to craft and buy things")).
+    //             add_select_option(dpp::select_option("[ATTACKS]",std::to_string(PBItemType::ATTACKS),"Just like pokemon!")).
+    //             add_select_option(dpp::select_option("[WEAPONS]",std::to_string(PBItemType::WEAPONS),"Equip this to deal more damage or collect even more")).
+    //             add_select_option(dpp::select_option("[ARMOR]",std::to_string(PBItemType::EQUIPMENT),"You are so fancy!")).
+    //             add_select_option(dpp::select_option("[QUEST ITEMS]",std::to_string(PBItemType::QUEST_ITEMS),"Important Stuff")).
+    //             add_select_option(dpp::select_option("[BUILDS]",std::to_string(PBItemType::BUILDS),"Build your world!"))
+    //     )
+    // );
     m.add_component(
         dpp::component().add_component(
             dpp::component().set_label("PROFILE").set_id("profile::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)

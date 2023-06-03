@@ -147,10 +147,12 @@ namespace Renderer
         {
             auto const &item_data = DCLData::DCLItems::getInstance();
             int index = page * 8;
-            for(int x = index; x < items_db.size() && x < 8; x++) 
+            for(int x = index; x < items_db.size() && x < (index + 8); x++) 
             {
-                int i = x % 4;
-                int j = x / 4;
+                int i = (x - (page * 8)) % 4;
+                int j = (x - (page * 8)) / 4;
+                std::cout << "x: "+std::to_string(x) << std::endl;
+                std::cout << "i: "+std::to_string(i) << std::endl;
                 PBItemEnum item_id = items_db.at(x).item_id();
                 const std::string *item_name = item_data.GetItemName(item_id);
                 

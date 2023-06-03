@@ -55,3 +55,24 @@ public:
         }
     }
 };
+
+class InventoryList : public List 
+{
+public:
+    InventoryList(dpp::cluster *bot)
+    : List(bot)
+    {}
+
+    void HandleList(const dpp::select_click_t & event, std::vector<std::string> &commands) 
+    {
+        auto target = event.command.get_issuing_user();
+        if (std::to_string(target.id) == commands.at(1)) 
+        {
+            std::cout << event.values[0] << std::endl;
+            PrintInventoryRequest request{target.id,std::stoi(event.values[0]),0};
+            dpp::message m;
+            request.FillRequest(m);
+            event.reply(dpp::interaction_response_type::ir_update_message, m);
+        }
+    }
+};

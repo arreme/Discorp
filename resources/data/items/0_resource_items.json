@@ -20,6 +20,31 @@
             "imagePath":"resources/assets/Items/Resources/dirt.png",
             "itemName":"Dirt",
             "sellValue":0
+        },
+        {
+            "imagePath":"resources/assets/Items/Resources/dirt.png",
+            "itemName":"Iron",
+            "sellValue":8
+        },
+        {
+            "imagePath":"resources/assets/Items/Resources/dirt.png",
+            "itemName":"Coal",
+            "sellValue":3
+        },
+        {
+            "imagePath":"resources/assets/Items/Resources/dirt.png",
+            "itemName":"Wood",
+            "sellValue":2
+        },
+        {
+            "imagePath":"resources/assets/Items/Resources/dirt.png",
+            "itemName":"Clay",
+            "sellValue":2
+        },
+        {
+            "imagePath":"resources/assets/Items/Resources/dirt.png",
+            "itemName":"Bone",
+            "sellValue":5
         }
     ]
 }

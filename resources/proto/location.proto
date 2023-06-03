@@ -7,4 +7,6 @@ enum PBLocationID
     GUILD                           = 2;
     MINES_ENTRANCE                  = 3;
     START_ROUTE                     = 4;
+    MINES_MAIN                      = 5;
+    MINES_MAIN_INTERIOR             = 6;
 }

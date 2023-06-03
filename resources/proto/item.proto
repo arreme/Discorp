@@ -22,6 +22,11 @@ enum PBItemEnum
     PEBBLE                  = 1;
     ROCK                    = 2;
     DIRT                    = 3;
+    IRON                    = 4;
+    COAL                    = 5;
+    WOOD                    = 6;
+    CLAY                    = 7;
+    BONE                    = 8;
 
     PUNCH                   = 1000;
     KICK                    = 1001;

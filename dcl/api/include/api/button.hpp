@@ -181,7 +181,15 @@ public:
         auto target = event.command.get_issuing_user();
         if (std::to_string(target.id) == commands.at(1)) 
         {
-            PrintInventoryRequest request{target.id,0,0};
+            int item_type = 0;
+            int page = 0;
+            if (commands.size() == 4) 
+            {
+                item_type = commands.size() < 3 ? 0 : std::stoi(commands.at(2));
+                page = commands.size() < 3 ? 0 : std::stoi(commands.at(3));
+            }
+            
+            PrintInventoryRequest request{target.id,item_type,page};
             dpp::message m;
             request.FillRequest(m);
             event.reply(dpp::interaction_response_type::ir_update_message, m);

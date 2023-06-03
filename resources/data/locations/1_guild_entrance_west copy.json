@@ -1,0 +1,178 @@
+{
+    "id": "GUILD",
+    "databaseId": -1,
+    "image": "resources/assets/Locations/1_west_entrance.png",
+    "name":"guild entrance|west",
+    "interactions": [
+        {
+            "types": [
+                "ZONE_ACCESS",
+                "DIALOG"
+            ],
+            "databaseId": -1,
+            "interactionName": "go to main base",
+            "interactionListName": "[ZONE ACCESS] Go to Main Base",
+            "description": "Going back to your base was never that easy",
+            "posX": 0,
+            "posY": 224,
+            "mapIconPaths": [
+                "resources/assets/MapIcons/zone_access_1.png"
+            ],
+            "zoneAccessInfo": {
+                "nextLoc": "MAIN_BASE",
+                "needsDatabase": false,
+                "unlockInfo": [
+                    {
+                        "currentStat": 1
+                    }
+                ]
+            },
+            "dialogInfo": {
+                "needsDatabase": false,
+                "info": [
+                    {
+                        "text": "This can bring me back to my base",
+                        "more_text": false,
+                        "npcImage": "resources/assets/Portraits/bergo.png",
+                        "response_options": [
+                            {
+                                "text": "Sweet!",
+                                "next_text": 0
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "types": [
+                "ZONE_ACCESS",
+                "DIALOG"
+            ],
+            "databaseId": 0,
+            "interactionName": "go to guild",
+            "interactionListName": "[ZONE ACCESS] Entry to the guild",
+            "description": "The big city awaits",
+            "posX": 288,
+            "posY": 96,
+            "mapIconPaths": [
+                "resources/assets/MapIcons/zone_access_0.png",
+                "resources/assets/MapIcons/zone_access_1.png"
+            ],
+            "zoneAccessInfo": {
+                "nextLoc": "GUILD",
+                "needsDatabase": true,
+                "unlockInfo": [
+                    {
+                        "currentStat": 0,
+                        "upgradeReq": [
+                            {
+                                "itemId": "STICK",
+                                "quantity": 3
+                            }
+                        ]
+                    },
+                    {
+                        "currentStat": 1
+                    }
+                ]
+            },
+            "dialogInfo": {
+                "needsDatabase": false,
+                "info": [
+                    {
+                        "text": "This can bring me back to my base",
+                        "more_text": false,
+                        "npcImage": "resources/assets/Portraits/bergo.png",
+                        "response_options": [
+                            {
+                                "text": "Sweet!",
+                                "next_text": 0
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "types": [
+                "DIALOG"
+            ],
+            "databaseId": -1,
+            "interactionName": "Bergo",
+            "interactionListName": "[DIALOG] Talk to Bergo",
+            "description": "A soldier from Guild Town",
+            "posX": 224,
+            "posY": 32,
+            "mapIconPaths": [
+                "resources/assets/MapIcons/dialog.png"
+            ],
+            "dialogInfo": {
+                "needsDatabase": false,
+                "info": [
+                    {
+                        "text": "This can bring me back to my base",
+                        "more_text": false,
+                        "npcImage": "resources/assets/Portraits/bergo.png",
+                        "response_options": [
+                            {
+                                "text": "Sweet!",
+                                "next_text": 0
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "types": [
+                "ZONE_ACCESS",
+                "DIALOG"
+            ],
+            "databaseId": 1,
+            "interactionName": "go to mines entrance",
+            "interactionListName": "[ZONE ACCESS] Mines access",
+            "description": "A completely new zone! Adventures await",
+            "posX": 128,
+            "posY": 0,
+            "mapIconPaths": [
+                "resources/assets/MapIcons/zone_access_0.png",
+                "resources/assets/MapIcons/zone_access_1.png"
+            ],
+            "zoneAccessInfo": {
+                "nextLoc": "MINES_ENTRANCE",
+                "needsDatabase": true,
+                "unlockInfo": [
+                    {
+                        "currentStat": 0,
+                        "upgradeReq": [
+                            {
+                                "itemId": "STICK",
+                                "quantity": 3
+                            }
+                        ]
+                    },
+                    {
+                        "currentStat": 1
+                    }
+                ]
+            },
+            "dialogInfo": {
+                "needsDatabase": false,
+                "info": [
+                    {
+                        "text": "Entrance to the mines!",
+                        "more_text": false,
+                        "npcImage": "resources/assets/",
+                        "response_options": [
+                            {
+                                "text": "Sweet!",
+                                "next_text": 0
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

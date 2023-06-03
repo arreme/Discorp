@@ -49,6 +49,7 @@ ListBootstrap::ListBootstrap(dpp::cluster *bot)
 {
     m_list_list.insert({"map_list",std::make_unique<MapList>(bot)});
     m_list_list.insert({"upgrade_post_list",std::make_unique<UpgradePostList>(bot)});
+    m_list_list.insert({"inventory_type_list",std::make_unique<InventoryList>(bot)});
 }
 
 List *ListBootstrap::Find(std::string list_name) 
