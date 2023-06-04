@@ -1,0 +1,107 @@
+{
+    "databaseId": -1,
+    "id": "GUILD",
+    "image": "resources/assets/Locations/2_guild.png",
+    "interactions": [
+        {
+            "databaseId": -1,
+            "description": "Let me out!",
+            "interactionListName": "[ZONE ACCESS] Exit The Guild",
+            "interactionName": "Exit The Guild",
+            "mapIconPaths": [
+                "resources/assets/MapIcons/zone_access_1.png"
+            ],
+            "posX": 0,
+            "posY": 96,
+            "types": [
+                "ZONE_ACCESS"
+            ],
+            "zoneAccessInfo": {
+                "needsDatabase": false,
+                "nextLoc": "GUILD_ENTRANCE_WEST",
+                "unlockInfo": [
+                    {
+                        "currentStat": 1
+                    }
+                ]
+            }
+        },
+        {
+            "databaseId": -1,
+            "description": "A citizen of The Guild",
+            "dialogInfo": {
+                "info": [
+                    {
+                        "more_text": false,
+                        "npcImage": "resources/assets/Portraits/bergo.png",
+                        "response_options": [
+                            {
+                                "next_text": 0,
+                                "text": "Sweet!"
+                            }
+                        ],
+                        "text": "Are you new in here? It's the first time I see you!"
+                    }
+                ],
+                "needsDatabase": false
+            },
+            "interactionListName": "[DIALOG] Talk to Lisa",
+            "interactionName": "Lisa",
+            "mapIconPaths": [
+                "resources/assets/MapIcons/dialog.png"
+            ],
+            "posX": 160,
+            "posY": 160,
+            "types": [
+                "DIALOG"
+            ]
+        },
+        {
+            "databaseId": -1,
+            "description": "Want to buy something?",
+            "interactionListName": "[ZONE ACCESS] To Guild Market",
+            "interactionName": "Go to Market",
+            "mapIconPaths": [
+                "resources/assets/MapIcons/zone_access_1.png"
+            ],
+            "posX": 192,
+            "posY": 0,
+            "types": [
+                "ZONE_ACCESS"
+            ],
+            "zoneAccessInfo": {
+                "needsDatabase": false,
+                "nextLoc": "MAIN_BASE",
+                "unlockInfo": [
+                    {
+                        "currentStat": 1
+                    }
+                ]
+            }
+        },
+        {
+            "databaseId": -1,
+            "description": "The center of all",
+            "interactionListName": "[ZONE ACCESS] Go to town center",
+            "interactionName": "Go to Town Center",
+            "mapIconPaths": [
+                "resources/assets/MapIcons/zone_access_1.png"
+            ],
+            "posX": 288,
+            "posY": 128,
+            "types": [
+                "ZONE_ACCESS"
+            ],
+            "zoneAccessInfo": {
+                "needsDatabase": false,
+                "nextLoc": "MAIN_BASE",
+                "unlockInfo": [
+                    {
+                        "currentStat": 1
+                    }
+                ]
+            }
+        }
+    ],
+    "name": "The Guild"
+}

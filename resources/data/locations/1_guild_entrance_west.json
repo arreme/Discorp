@@ -68,7 +68,7 @@
                         "upgradeReq": [
                             {
                                 "itemId": "STICK",
-                                "quantity": 3
+                                "quantity": 5
                             }
                         ]
                     },
@@ -81,7 +81,7 @@
                 "needsDatabase": false,
                 "info": [
                     {
-                        "text": "This can bring me back to my base",
+                        "text": "Stop! You are violating the law!",
                         "more_text": false,
                         "npcImage": "resources/assets/Portraits/bergo.png",
                         "response_options": [
@@ -148,7 +148,7 @@
                         "upgradeReq": [
                             {
                                 "itemId": "STICK",
-                                "quantity": 3
+                                "quantity": 10
                             }
                         ]
                     },

@@ -11,6 +11,7 @@
 #include <core/dcl_interactions.hpp>
 #include <core/pb/combat.pb.h>
 #include <db_handler/db_combat.hpp>
+#include <random>
 
 struct UserData 
 {

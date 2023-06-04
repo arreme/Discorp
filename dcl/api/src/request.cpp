@@ -546,16 +546,26 @@ bool CombatRequest::Calculate()
     PBPlayer *your_turn = m_combat_db.turn() == CombatRequest::STARTER_TURN ? m_combat_db.mutable_starter_user_info() : m_combat_db.mutable_opponent_user_info();
     PBPlayer *not_your_turn = m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.mutable_starter_user_info() : m_combat_db.mutable_opponent_user_info();
 
+    int damage = your_turn->stats().strength() + your_turn->skills().combat_lvl();
     switch (not_your_turn_action)
     {
     case PBCombatActions::CA_DODGE:
-        not_your_turn->mutable_stats()->set_current_health(not_your_turn->stats().current_health() - 1);
+        {
+            int speed_dif = (not_your_turn->stats().speed() + not_your_turn->skills().foraging_lvl()) - (your_turn->stats().speed() + your_turn->skills().foraging_lvl());
+            speed_dif = std::min(std::max(speed_dif,-10),10) + 10;
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> distr(0, 20);
+            if (speed_dif <= distr(gen))
+                not_your_turn->mutable_stats()->set_current_health(not_your_turn->stats().current_health() - damage);
+        }
         break;
     case PBCombatActions::CA_BLOCK:
-        not_your_turn->mutable_stats()->set_current_health(not_your_turn->stats().current_health() - 2);
+        damage = std::max(0,damage - (not_your_turn->stats().defense() + not_your_turn->skills().mining_lvl()));
+        not_your_turn->mutable_stats()->set_current_health(not_your_turn->stats().current_health() - damage);
         break;
     default:
-        not_your_turn->mutable_stats()->set_current_health(not_your_turn->stats().current_health() - 3);
+        not_your_turn->mutable_stats()->set_current_health(not_your_turn->stats().current_health() - damage);
         break;
     }
 
