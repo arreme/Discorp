@@ -4,8 +4,6 @@
 #include <db/db_instance.hpp>
 #include <api/bootstraps.hpp>
 
-const std::string BOT_TOKEN = "OTk5NjAyMDc1OTAwMDU1NjMz.GbkJI5.xcgdebavt3vZw827Z3dMnLg0m3fwSytJdi4COA";
-
 int main(int argc, char *argv[])
 {
     bool delete_commands = false;
@@ -16,9 +14,13 @@ int main(int argc, char *argv[])
         }
     }
 
-    db::MongoDBInstance::GetInstance()->createPool("mongodb://192.168.1.33:27017");
+    std::ifstream token_file("token.txt"); 
+
+    db::MongoDBInstance::GetInstance()->createPool("mongodb://192.168.40.196:27017");
     
     uint64_t intents = dpp::i_default_intents | dpp::i_message_content;
+    std::string BOT_TOKEN;
+    token_file >> BOT_TOKEN;
     dpp::cluster bot(BOT_TOKEN,intents);
 
     /* Output simple log messages to stdout */
