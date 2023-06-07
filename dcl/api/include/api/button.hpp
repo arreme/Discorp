@@ -79,13 +79,15 @@ public:
         {
             UpgradePostRequest request{target.id,std::stoi(commands.at(2)),std::stoi(commands.at(3))};
             std::string response;
+            dpp::message m;
+            m.set_flags(dpp::m_ephemeral);
             if (request.ConfirmRequest()) 
             {
-                response = "Post upgraded!";
+                m.set_content("Post upgraded!");
             } else {
-                response = "You don't have enough materials!";
+                m.set_content("You don't have enough materials!");
             }
-            event.reply(dpp::interaction_response_type::ir_update_message, response);
+            event.reply(dpp::interaction_response_type::ir_update_message, m);
         }
     }
 };
