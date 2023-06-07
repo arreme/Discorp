@@ -61,15 +61,15 @@ enum PBLocationID : int {
   GUILD_ENTRANCE_WEST = 1,
   GUILD = 2,
   MINES_ENTRANCE = 3,
-  START_ROUTE = 4,
-  MINES_MAIN = 5,
-  MINES_MAIN_INTERIOR = 6,
+  MINES_1_EXTERIOR = 4,
+  GUILD_ENTRANCE_NORTH = 5,
+  MINES_1_INTERIOR = 6,
   PBLocationID_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PBLocationID_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PBLocationID_IsValid(int value);
 constexpr PBLocationID PBLocationID_MIN = MAIN_BASE;
-constexpr PBLocationID PBLocationID_MAX = MINES_MAIN_INTERIOR;
+constexpr PBLocationID PBLocationID_MAX = MINES_1_INTERIOR;
 constexpr int PBLocationID_ARRAYSIZE = PBLocationID_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PBLocationID_descriptor();

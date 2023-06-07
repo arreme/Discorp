@@ -22,11 +22,11 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = n
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_location_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\016location.proto*\217\001\n\014PBLocationID\022\r\n\tMAI"
+  "\n\016location.proto*\233\001\n\014PBLocationID\022\r\n\tMAI"
   "N_BASE\020\000\022\027\n\023GUILD_ENTRANCE_WEST\020\001\022\t\n\005GUI"
-  "LD\020\002\022\022\n\016MINES_ENTRANCE\020\003\022\017\n\013START_ROUTE\020"
-  "\004\022\016\n\nMINES_MAIN\020\005\022\027\n\023MINES_MAIN_INTERIOR"
-  "\020\006b\006proto3"
+  "LD\020\002\022\022\n\016MINES_ENTRANCE\020\003\022\024\n\020MINES_1_EXTE"
+  "RIOR\020\004\022\030\n\024GUILD_ENTRANCE_NORTH\020\005\022\024\n\020MINE"
+  "S_1_INTERIOR\020\006b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_location_2eproto_deps[1] = {
 };
@@ -34,7 +34,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_loc
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_location_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_location_2eproto = {
-  false, false, descriptor_table_protodef_location_2eproto, "location.proto", 170,
+  false, false, descriptor_table_protodef_location_2eproto, "location.proto", 182,
   &descriptor_table_location_2eproto_once, descriptor_table_location_2eproto_sccs, descriptor_table_location_2eproto_deps, 0, 0,
   schemas, file_default_instances, TableStruct_location_2eproto::offsets,
   file_level_metadata_location_2eproto, 0, file_level_enum_descriptors_location_2eproto, file_level_service_descriptors_location_2eproto,

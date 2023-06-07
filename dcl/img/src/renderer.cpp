@@ -52,7 +52,7 @@ bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const DCLDa
     
 #pragma region interactions
     for (auto const &interaction : location_data) 
-    {
+    {   
         int index = 0;
         if (interaction.GetDatabaseId() != -1) 
         {

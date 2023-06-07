@@ -102,10 +102,10 @@
             "interactionName": "Bergo",
             "interactionListName": "[DIALOG] Talk to Bergo",
             "description": "A soldier from Guild Town",
-            "posX": 224,
-            "posY": 32,
+            "posX": 256,
+            "posY": 64,
             "mapIconPaths": [
-                "resources/assets/MapIcons/dialog.png"
+                "resources/assets/MapIcons/bergo.png"
             ],
             "dialogInfo": {
                 "needsDatabase": false,

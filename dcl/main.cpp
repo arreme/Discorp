@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     std::ifstream token_file("token.txt"); 
 
-    db::MongoDBInstance::GetInstance()->createPool("");
+    db::MongoDBInstance::GetInstance()->createPool("mongodb://192.168.1.33:27017");
     
     uint64_t intents = dpp::i_default_intents | dpp::i_message_content;
     std::string BOT_TOKEN;

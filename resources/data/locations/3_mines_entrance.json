@@ -1,31 +1,58 @@
 {
-    "id": "MAIN_BASE",
-    "databaseId": 0,
-    "image": "resources/assets/Locations/0_main_base.png",
-    "name":"main base",
+    "id": "MINES_ENTRANCE",
+    "databaseId": 2,
+    "image": "resources/assets/Locations/3_mines_entrance.png",
+    "name": "mines entrance",
     "interactions": [
+        {
+            "databaseId": -1,
+            "description": "Go back",
+            "interactionListName": "[ZONE ACCESS] To Guild Entrance West",
+            "interactionName": "to guild entrance|west",
+            "mapIconPaths": [
+                "resources/assets/MapIcons/zone_access_1.png"
+            ],
+            "posX": 98,
+            "posY": 288,
+            "types": [
+                "ZONE_ACCESS"
+            ],
+            "zoneAccessInfo": {
+                "needsDatabase": false,
+                "nextLoc": "GUILD_ENTRANCE_WEST",
+                "unlockInfo": [
+                    {
+                        "currentStat": 1
+                    }
+                ]
+            }
+        },
         {
             "types": [
                 "POST",
                 "DIALOG"
             ],
             "databaseId": 0,
-            "interactionListName": "[POST] Bush",
-            "interactionName": "bush",
-            "description": "Hey! I can get some sticks from here!",
-            "posX": 96,
-            "posY": 192,
+            "interactionListName": "[POST] Infinite Tree",
+            "interactionName": "mega tree",
+            "description": "This tree gives me a lot of wood!",
+            "posX": 160,
+            "posY": 128,
             "mapIconPaths": [
-                "resources/assets/MapIcons/bush_0.png"
+                "resources/assets/MapIcons/post_wood.png"
             ],
             "postInfo": {
                 "resources": [
                     {
-                        "itemId": "STICK",
+                        "itemId": "WOOD",
                         "quantity": 100
+                    },
+                    {
+                        "itemId":"STICK",
+                        "quantity":50
                     }
                 ],
-                "postSkill": "FORAGE",
+                "postSkill": "COMBAT",
                 "interactXp": 2,
                 "needsDatabase": true,
                 "upgrades": [
@@ -33,25 +60,33 @@
                         "upgradeType": "CAPACITY",
                         "info": [
                             {
-                                "currentStat": 40,
+                                "currentStat": 20,
                                 "upgradeReq": [
                                     {
                                         "itemId": "STICK",
+                                        "quantity": 10
+                                    },
+                                    {
+                                        "itemId": "WOOD",
                                         "quantity": 10
                                     }
                                 ]
                             },
                             {
-                                "currentStat": 80,
+                                "currentStat": 60,
                                 "upgradeReq": [
                                     {
                                         "itemId": "STICK",
-                                        "quantity": 3
+                                        "quantity": 25
+                                    },
+                                    {
+                                        "itemId": "WOOD",
+                                        "quantity": 10
                                     }
                                 ]
                             },
                             {
-                                "currentStat": 150
+                                "currentStat": 100
                             }
                         ]
                     },
@@ -59,7 +94,7 @@
                         "upgradeType": "GEN_SECOND",
                         "info": [
                             {
-                                "currentStat": 10,
+                                "currentStat": 20,
                                 "upgradeReq": [
                                     {
                                         "itemId": "STICK",
@@ -68,7 +103,7 @@
                                 ]
                             },
                             {
-                                "currentStat": 8,
+                                "currentStat": 16,
                                 "upgradeReq": [
                                     {
                                         "itemId": "STICK",
@@ -77,7 +112,7 @@
                                 ]
                             },
                             {
-                                "currentStat": 6
+                                "currentStat": 15
                             }
                         ]
                     },
@@ -85,7 +120,7 @@
                         "upgradeType": "FORTUNE",
                         "info": [
                             {
-                                "currentStat": 1,
+                                "currentStat": 4,
                                 "upgradeReq": [
                                     {
                                         "itemId": "STICK",
@@ -94,7 +129,7 @@
                                 ]
                             },
                             {
-                                "currentStat": 2,
+                                "currentStat": 7,
                                 "upgradeReq": [
                                     {
                                         "itemId": "STICK",
@@ -103,7 +138,7 @@
                                 ]
                             },
                             {
-                                "currentStat": 4
+                                "currentStat": 10
                             }
                         ]
                     }
@@ -113,7 +148,7 @@
                 "needsDatabase": false,
                 "info": [
                     {
-                        "text": "This bush seems to give me STICKS",
+                        "text": "This tree has infinite wood! It can give me WOOD and STICKS",
                         "npcImage": "resources/assets/Portraits/bergo.png",
                         "moreText": false,
                         "responseOptions": [
@@ -127,23 +162,22 @@
             }
         },
         {
-            "types": [
-                "ZONE_ACCESS",
-                "DIALOG"
-            ],
             "databaseId": 1,
-            "interactionName": "to guild entrance|west",
-            "interactionListName": "[ZONE ACCESS] Go to Guild Entrance (West)",
-            "description": "By unlocking this you can go to new places! What adventures are yet to come?",
-            "posX": 288,
-            "posY": 128,
+            "description": "full of rocks!",
+            "interactionListName": "[ZONE ACCESS] The Mines!",
+            "interactionName": "enter mines",
             "mapIconPaths": [
                 "resources/assets/MapIcons/zone_access_0.png",
                 "resources/assets/MapIcons/zone_access_1.png"
             ],
+            "posX": 64,
+            "posY": 0,
+            "types": [
+                "ZONE_ACCESS"
+            ],
             "zoneAccessInfo": {
-                "nextLoc": "GUILD_ENTRANCE_WEST",
                 "needsDatabase": true,
+                "nextLoc": "MINES_1_EXTERIOR",
                 "unlockInfo": [
                     {
                         "currentStat": 0,
@@ -158,23 +192,41 @@
                         "currentStat": 1
                     }
                 ]
-            },
-            "dialogInfo": {
-                "needsDatabase": false,
-                "info": [
+            }
+        },
+        {
+            "databaseId": 2,
+            "description": "A new path to explore!",
+            "interactionListName": "[ZONE ACCESS] [NO] Guild Entrance North",
+            "interactionName": "to guild entrance|north",
+            "mapIconPaths": [
+                "resources/assets/MapIcons/zone_access_0.png",
+                "resources/assets/MapIcons/zone_access_1.png"
+            ],
+            "posX": 288,
+            "posY": 160,
+            "types": [
+                "ZONE_ACCESS"
+            ],
+            "zoneAccessInfo": {
+                "needsDatabase": true,
+                "nextLoc": "MAIN_BASE",
+                "unlockInfo": [
                     {
-                        "text": "With this road I can go to the town!",
-                        "more_text": false,
-                        "npcImage": "resources/assets/Portraits/bergo.png",
-                        "response_options": [
+                        "currentStat": 0,
+                        "upgradeReq": [
                             {
-                                "text": "Sweet!",
-                                "next_text": 0
+                                "itemId": "STICK",
+                                "quantity": 3
                             }
                         ]
+                    },
+                    {
+                        "currentStat": 1
                     }
                 ]
             }
         }
+
     ]
 }

@@ -102,6 +102,33 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
     Renderer::BaseMapRenderer renderer = RenderMap(location_data);
     int size = 0;
     m.add_file("map.png",std::string{renderer.RenderImage(&size).get(),static_cast<size_t>(size)});
+    
+    
+    
+    int i = 0;
+
+    m.add_component(
+        dpp::component().add_component(
+            dpp::component().set_label("INVENTORY").set_id("inventory::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        ).add_component(
+            dpp::component().set_label("PROFILE").set_id("profile::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        )
+    );
+    
+    auto list = dpp::component().set_type(dpp::cot_selectmenu).
+                    set_placeholder("Select Interaction").
+                    set_id("map_list::"+std::to_string(m_data.m_user_db.discord_id()));
+
+    for(auto const &interaction : *location_data) 
+    {
+        list.add_select_option(dpp::select_option(interaction.GetListName(),std::to_string(i),interaction.GetDescription()));
+        i++;
+    }
+
+    m.add_component(
+        dpp::component().add_component(list)
+    );
+
     if (m_selected != -1) 
     {
         auto buttons = dpp::component();
@@ -131,27 +158,6 @@ bool PrintMapRequest::FillRequest(dpp::message &m)
             buttons
         );
     }
-    
-    auto list = dpp::component().set_type(dpp::cot_selectmenu).
-                    set_placeholder("Select Interaction").
-                    set_id("map_list::"+std::to_string(m_data.m_user_db.discord_id()));
-    int i = 0;
-    for(auto const &interaction : *location_data) 
-    {
-        list.add_select_option(dpp::select_option(interaction.GetListName(),std::to_string(i),interaction.GetDescription()));
-        i++;
-    }
-    m.add_component(
-        dpp::component().add_component(list)
-    );
-
-    m.add_component(
-        dpp::component().add_component(
-            dpp::component().set_label("INVENTORY").set_id("inventory::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
-        ).add_component(
-            dpp::component().set_label("PROFILE").set_id("profile::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
-        )
-    );
 
     return true;
 };
@@ -423,6 +429,13 @@ bool PrintInventoryRequest::FillRequest(dpp::message &m)
     m.add_file("map.png",std::string{renderer->RenderImage(&size).get(),static_cast<size_t>(size)});
     auto page_components = dpp::component();
     bool added = false;
+    m.add_component(
+        dpp::component().add_component(
+            dpp::component().set_label("PROFILE").set_id("profile::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        ).add_component(
+            dpp::component().set_label("MAP").set_id("map::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
+        )
+    );
     if (m_page > 0) 
     {
         page_components.add_component(
@@ -457,13 +470,7 @@ bool PrintInventoryRequest::FillRequest(dpp::message &m)
     //             add_select_option(dpp::select_option("[BUILDS]",std::to_string(PBItemType::BUILDS),"Build your world!"))
     //     )
     // );
-    m.add_component(
-        dpp::component().add_component(
-            dpp::component().set_label("PROFILE").set_id("profile::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
-        ).add_component(
-            dpp::component().set_label("MAP").set_id("map::"+std::to_string(m_data.m_user_db.discord_id())).set_style(dpp::cos_secondary)
-        )
-    );
+    
     return true;
 }
 

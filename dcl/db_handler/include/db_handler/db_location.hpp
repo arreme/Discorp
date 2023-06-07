@@ -58,7 +58,7 @@ namespace db_handler
         */
         bool FindPlayerCurrentLocation(PBUser &user);
         
-        static bool ImprovePost(PBUser &user, int32_t interaction_id, PBUpgradeType type)
+        bool ImprovePost(PBUser &user, int32_t interaction_id, PBUpgradeType type)
         {
             std::string upgrade_name;
             switch (type)
@@ -76,7 +76,7 @@ namespace db_handler
             default:
                 break;
             }
-            std::string array_update_query = "locations."+std::to_string(user.players(0).current_location())+"." + std::to_string(interaction_id) + ".post_info."+ upgrade_name;
+            std::string array_update_query = "locations."+std::to_string(DCLData::DCLMap::getInstance().GetLocation(user.players(0).current_location())->GetLocationDBID())+"." + std::to_string(interaction_id) + ".post_info."+ upgrade_name;
             db::UpdateOneOperation update_op{"game_state",
                 make_document(
                     kvp("discord_id",b_int64{static_cast<int64_t>(user.discord_id())}),

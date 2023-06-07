@@ -68,7 +68,6 @@ public:
         auto target = event.command.get_issuing_user();
         if (std::to_string(target.id) == commands.at(1)) 
         {
-            std::cout << event.values[0] << std::endl;
             PrintInventoryRequest request{target.id,std::stoi(event.values[0]),0};
             dpp::message m;
             request.FillRequest(m);

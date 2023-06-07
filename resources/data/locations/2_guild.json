@@ -48,7 +48,7 @@
             "interactionListName": "[DIALOG] Talk to Lisa",
             "interactionName": "Lisa",
             "mapIconPaths": [
-                "resources/assets/MapIcons/dialog.png"
+                "resources/assets/MapIcons/lisa.png"
             ],
             "posX": 160,
             "posY": 160,
