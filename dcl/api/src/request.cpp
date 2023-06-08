@@ -519,7 +519,7 @@ bool ConversationRequest::FillRequest(dpp::message &m)
 /****COMBAT REQUEST****/
 /**********************/
 
-std::string CombatRequest::StatsToString(const PBStats &stats,const PBCombatActions current) 
+std::string CombatRequest::StatsToString(const PBStats &stats, const PBSkills &skills, const PBCombatActions current) 
 {
     std::string action_parse;
     switch (current)
@@ -540,10 +540,10 @@ std::string CombatRequest::StatsToString(const PBStats &stats,const PBCombatActi
 
     return  "Health:     "+std::to_string(stats.current_health())+"/"+std::to_string(stats.max_health())+"\n"+
             "Currently:   "+action_parse+"\n"+
-            "Strength:   "+std::to_string(stats.strength())+"\n"+
-            "Defense:    "+std::to_string(stats.defense())+"\n"+
-            "Precision:  "+std::to_string(stats.precision())+"\n"+
-            "Speed:      "+std::to_string(stats.speed())+"\n"+
+            "Strength:   "+std::to_string(stats.strength() + skills.combat_lvl())+"\n"+
+            "Defense:    "+std::to_string(stats.defense() + skills.mining_lvl())+"\n"+
+            "Precision:  "+std::to_string(stats.precision() + skills.foraging_lvl())+"\n"+
+            "Speed:      "+std::to_string(stats.speed() + skills.athletics_lvl())+"\n"+
             "Luck:       "+std::to_string(stats.luck());
 }
 
@@ -553,7 +553,8 @@ bool CombatRequest::Calculate()
     PBPlayer *your_turn = m_combat_db.turn() == CombatRequest::STARTER_TURN ? m_combat_db.mutable_starter_user_info() : m_combat_db.mutable_opponent_user_info();
     PBPlayer *not_your_turn = m_combat_db.turn() == CombatRequest::OPPONENT_TURN ? m_combat_db.mutable_starter_user_info() : m_combat_db.mutable_opponent_user_info();
 
-    int damage = your_turn->stats().strength() + your_turn->skills().combat_lvl();
+    int damage = 1 + your_turn->stats().strength() + your_turn->skills().combat_lvl();
+    std::cout << damage << std::endl;
     switch (not_your_turn_action)
     {
     case PBCombatActions::CA_DODGE:
@@ -588,7 +589,7 @@ bool CombatRequest::FillRequest(dpp::message &m)
     if (m_abort_combat) 
     {
         m.set_flags(dpp::m_ephemeral);
-        m.set_content("Some of you are not registered to Disland! You can't start the combat with them!");
+        m.set_content("Some of you are not registered to Disland or don't have enough money! You can't start the combat with them!");
         return false;
     }
 
@@ -599,7 +600,7 @@ bool CombatRequest::FillRequest(dpp::message &m)
         return false;
     }
     
-
+    std::cout << m_combat_db.DebugString() << std::endl;
     if (m_action != PBCombatActions::CA_NONE) 
     {
         if (m_combat_db.turn() == CombatRequest::OPPONENT_TURN) 
@@ -666,8 +667,8 @@ bool CombatRequest::FillRequest(dpp::message &m)
     dpp::embed embed;
     embed.set_title("Disland Combat Window");
     embed.set_description("It's <@"+std::to_string(your_turn_id)+"> turn!");
-    embed.add_field("Your stats:",StatsToString(your_turn.stats(),PBCombatActions::CA_NONE),true);
-    embed.add_field("Your enemy stats:",StatsToString(not_your_turn.stats(),not_your_turn_action),true);
+    embed.add_field("Your stats:",StatsToString(your_turn.stats(), your_turn.skills(), PBCombatActions::CA_NONE),true);
+    embed.add_field("Your enemy stats:",StatsToString(not_your_turn.stats(), not_your_turn.skills(),not_your_turn_action),true);
     embed.set_color(dpp::colors::red);
     m.add_embed(embed);
     m_combat_handler.UpdateCombatForPlayer(true, true);

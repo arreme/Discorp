@@ -233,7 +233,7 @@ private:
     db_handler::DBCombatHandler m_combat_handler{&m_combat_db};
     PBCombatActions m_action = PBCombatActions::CA_NONE;
 
-    std::string StatsToString(const PBStats &stats, const PBCombatActions current);
+    std::string StatsToString(const PBStats &stats, const PBSkills &skills, const PBCombatActions current);
     bool Calculate();
 public:
     CombatRequest(uint64_t starter_user, uint64_t opponent_user, int32_t wager, PBCombatActions action, uint64_t current_user)
@@ -267,16 +267,22 @@ public:
                 return;
             };
             //2.- Fill Information
+            if (starter_user_db.players(starter_user_db.current_player_id()).gold() < wager || opponent_user_db.players(opponent_user_db.current_player_id()).gold() < wager) {
+                m_abort_combat = true;
+                return;
+            }
             m_combat_db.set_starter_player_id(starter_user_db.current_player_id());
             m_combat_db.set_opponent_player_id(opponent_user_db.current_player_id());
-            m_combat_db.mutable_starter_user_info()->CopyFrom(starter_user_db.players(0));
-            m_combat_db.mutable_opponent_user_info()->CopyFrom(opponent_user_db.players(0));
-            //(0 is starter turn, 1 is opponent turn)
-            m_combat_db.set_turn(starter_user_db.players(0).stats().speed() > opponent_user_db.players(0).stats().speed() ? OPPONENT_TURN : STARTER_TURN);
+            m_combat_db.mutable_starter_user_info()->CopyFrom(starter_user_db.players(starter_user_db.current_player_id()));
+            m_combat_db.mutable_opponent_user_info()->CopyFrom(opponent_user_db.players(opponent_user_db.current_player_id()));
+            //(1 is starter turn, 0 is opponent turn)
+            m_combat_db.set_turn(starter_user_db.players(starter_user_db.current_player_id()).stats().speed() > opponent_user_db.players(opponent_user_db.current_player_id()).stats().speed() ? STARTER_TURN : OPPONENT_TURN);
+            //Inverse turn because the combat first stars inversing them again
+            m_combat_db.set_turn((m_combat_db.turn() == 1) ? 0 : 1);
             m_combat_db.set_wager(wager);
             m_combat_handler.InsertNewCombat();
         } else if(m_action != PBCombatActions::CA_NONE) {
-
+            
             if (m_combat_db.turn() == OPPONENT_TURN) {
                 if (current_user != opponent_user)
                 {

@@ -2,6 +2,7 @@
 #include <core/pb/interaction.pb.h>
 #include <core/game_logic.hpp>
 #include <google/protobuf/util/time_util.h>
+#include <random>
 
 namespace DCLInteractions 
 {
@@ -109,14 +110,17 @@ namespace DCLInteractions
             auto gathered = std::min(total, 1 + modifier);
             post_db->set_resource_stored(std::max(total - gathered, 0));
             GameLogic::CalculateLevel(m_post_info.post_skill(), gathered, m_post_info.interact_xp(), player_db);
-            auto prob = rand() % 100;
-            if (prob <= (player_db->stats().luck() + fortune)) gathered += 1 + gathered*0.2f;
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> distr(0, 100);
+            auto prob = distr(gen);
+            if (prob <= (player_db->stats().luck() + fortune)) gathered *= 2;
 
             for(auto const &item_data : m_post_info.resources()) 
             {
                 PBItemData temp;
                 temp.set_item_id(item_data.item_id());
-                auto result = gathered * (item_data.quantity()/100);
+                auto result = static_cast<int>(gathered * (item_data.quantity()/100.0f));
                 if (result >= 1) {
                     temp.set_quantity(result);
                     resources_to_add.push_back(temp);

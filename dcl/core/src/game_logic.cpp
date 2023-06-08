@@ -15,6 +15,10 @@ int GameLogic::CalculateModifier(PBPlayerSkills id, const PBPlayer &player)
         return player.skills().foraging_lvl() + player.stats().speed();
     case PBPlayerSkills::MINING:
         return player.skills().mining_lvl() + player.stats().precision();
+    case PBPlayerSkills::COMBAT:
+        return player.skills().combat_lvl() + player.stats().strength();
+    case PBPlayerSkills::ATHLETICS:
+        return player.skills().athletics_lvl() + player.stats().speed();
     default:
         break;
     }
@@ -53,6 +57,15 @@ void GameLogic::CalculateLevel(PBPlayerSkills id, int gathered, int resourceXp, 
         {
             skills->set_athletics_xp(skills->athletics_xp() - requiredXP);
             skills->set_athletics_lvl(skills->athletics_lvl() + 1);
+        }
+        break;
+    case PBPlayerSkills::COMBAT:
+        skills->set_combat_xp(skills->combat_xp() + (gathered * resourceXp));
+        requiredXP = GameLogic::CheckLevel(skills->combat_lvl());
+        if (skills->combat_xp() >= requiredXP) 
+        {
+            skills->set_combat_xp(skills->combat_xp() - requiredXP);
+            skills->set_combat_lvl(skills->combat_lvl() + 1);
         }
         break;
     default:

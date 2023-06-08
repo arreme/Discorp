@@ -244,6 +244,7 @@ namespace Renderer
             m_image.AddImageText(s_white,s_guild_name,10,"guild_test",true);
 
             PBStats stats = player.stats();
+            PBSkills skills = player.skills();
             //Health
             std::string current_health = std::to_string(stats.current_health());
             std::string max_health = std::to_string(stats.current_health());
@@ -251,13 +252,11 @@ namespace Renderer
             float percent = stats.current_health() / stats.current_health();
             m_image.FilledRectangle(s_health_percent_start,GD::Point{s_health_percent_start.X() + static_cast<int>(s_stat_length*percent), s_health_percent_end.Y() },s_white.Int());
 
-            m_image.AddImageText(s_white,s_strength_stat,10,std::to_string(stats.strength()),true);
-            m_image.AddImageText(s_white,s_defense_stat,10,std::to_string(stats.defense()),true);
-            m_image.AddImageText(s_white,s_precision_stat,10,std::to_string(stats.precision()),true);
-            m_image.AddImageText(s_white,s_speed_stat,10,std::to_string(stats.speed()),true);
+            m_image.AddImageText(s_white,s_strength_stat,10,std::to_string(stats.strength() + skills.combat_lvl()),true);
+            m_image.AddImageText(s_white,s_defense_stat,10,std::to_string(stats.defense() + skills.mining_lvl()),true);
+            m_image.AddImageText(s_white,s_precision_stat,10,std::to_string(stats.precision() + skills.foraging_lvl()),true);
+            m_image.AddImageText(s_white,s_speed_stat,10,std::to_string(stats.speed() + skills.athletics_lvl()),true);
             m_image.AddImageText(s_white,s_luck_stat,10,std::to_string(stats.luck()),true);
-
-            PBSkills skills = player.skills();
 
             m_image.AddImageText(s_black,s_athletics_skill,10,std::to_string(skills.athletics_lvl()),true);
             float xp = GameLogic::CheckLevel(skills.athletics_lvl());
