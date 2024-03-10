@@ -1,5 +1,5 @@
 #pragma once
-#include <img/gdpp.hpp>
+#include <gdpp.h>
 #include <fstream>
 #include <memory>
 #include <math.h>
@@ -147,6 +147,7 @@ namespace Renderer
         {
             auto const &item_data = DCLData::DCLItems::getInstance();
             int index = page * 8;
+            std::string bold_rsrc = "resources/fonts/consolab.ttf";
             for(int x = index; x < items_db.size() && x < (index + 8); x++) 
             {
                 int i = (x - (page * 8)) % 4;
@@ -154,9 +155,9 @@ namespace Renderer
                 PBItemEnum item_id = items_db.at(x).item_id();
                 const std::string *item_name = item_data.GetItemName(item_id);
                 
-                m_image.AddImageText(s_white,{s_initial_name.X() + (x_displace * j),s_initial_name.Y() + (y_displace * i)},12,*item_name,true);
-                m_image.AddImageText(s_white,{s_initial_quantity.X() + (x_displace * j),s_initial_quantity.Y() + (y_displace * i)},10,std::to_string(items_db.at(x).quantity()),true);
-                m_image.AddImageText(s_black,{s_initial_gold.X() + (x_displace * j),s_initial_gold.Y() + (y_displace * i)},10,std::to_string(item_data.GetItemGold(item_id)),true);
+                m_image.AddImageText(s_white,{s_initial_name.X() + (x_displace * j),s_initial_name.Y() + (y_displace * i)},12,*item_name,bold_rsrc);
+                m_image.AddImageText(s_white,{s_initial_quantity.X() + (x_displace * j),s_initial_quantity.Y() + (y_displace * i)},10,std::to_string(items_db.at(x).quantity()),bold_rsrc);
+                m_image.AddImageText(s_black,{s_initial_gold.X() + (x_displace * j),s_initial_gold.Y() + (y_displace * i)},10,std::to_string(item_data.GetItemGold(item_id)),bold_rsrc);
                 
                 const std::string *item_path = item_data.GetItemPath(item_id);
 
@@ -238,42 +239,43 @@ namespace Renderer
         {
             std::string name_copy = user_db.user_name();
             name_copy.resize(20);
-            m_image.AddImageText(s_white,s_name,10,name_copy,true);
+            std::string bold_rsrc = "resources/fonts/consolab.ttf";
+            m_image.AddImageText(s_white,s_name,10,name_copy,bold_rsrc);
             const PBPlayer player =  user_db.players(0);
             //std::string name_copy = player.guild_id();
-            m_image.AddImageText(s_white,s_guild_name,10,"guild_test",true);
+            m_image.AddImageText(s_white,s_guild_name,10,"guild_test",bold_rsrc);
 
             PBStats stats = player.stats();
             PBSkills skills = player.skills();
             //Health
             std::string current_health = std::to_string(stats.current_health());
             std::string max_health = std::to_string(stats.current_health());
-            m_image.AddImageText(s_white,s_health_stat,10,current_health +"/"+ max_health,true);
+            m_image.AddImageText(s_white,s_health_stat,10,current_health +"/"+ max_health,bold_rsrc);
             float percent = stats.current_health() / stats.current_health();
             m_image.FilledRectangle(s_health_percent_start,GD::Point{s_health_percent_start.X() + static_cast<int>(s_stat_length*percent), s_health_percent_end.Y() },s_white.Int());
 
-            m_image.AddImageText(s_white,s_strength_stat,10,std::to_string(stats.strength() + skills.combat_lvl()),true);
-            m_image.AddImageText(s_white,s_defense_stat,10,std::to_string(stats.defense() + skills.mining_lvl()),true);
-            m_image.AddImageText(s_white,s_precision_stat,10,std::to_string(stats.precision() + skills.foraging_lvl()),true);
-            m_image.AddImageText(s_white,s_speed_stat,10,std::to_string(stats.speed() + skills.athletics_lvl()),true);
-            m_image.AddImageText(s_white,s_luck_stat,10,std::to_string(stats.luck()),true);
+            m_image.AddImageText(s_white,s_strength_stat,10,std::to_string(stats.strength() + skills.combat_lvl()),bold_rsrc);
+            m_image.AddImageText(s_white,s_defense_stat,10,std::to_string(stats.defense() + skills.mining_lvl()),bold_rsrc);
+            m_image.AddImageText(s_white,s_precision_stat,10,std::to_string(stats.precision() + skills.foraging_lvl()),bold_rsrc);
+            m_image.AddImageText(s_white,s_speed_stat,10,std::to_string(stats.speed() + skills.athletics_lvl()),bold_rsrc);
+            m_image.AddImageText(s_white,s_luck_stat,10,std::to_string(stats.luck()),bold_rsrc);
 
-            m_image.AddImageText(s_black,s_athletics_skill,10,std::to_string(skills.athletics_lvl()),true);
+            m_image.AddImageText(s_black,s_athletics_skill,10,std::to_string(skills.athletics_lvl()),bold_rsrc);
             float xp = GameLogic::CheckLevel(skills.athletics_lvl());
             percent = skills.athletics_xp() / xp;
             m_image.FilledRectangle(s_athletics_percent_start,GD::Point{s_athletics_percent_start.X() + static_cast<int>(s_skill_length*percent), s_athletics_percent_end.Y() },s_white.Int());
 
-            m_image.AddImageText(s_black,s_combat_skill,10,std::to_string(skills.combat_lvl()),true);
+            m_image.AddImageText(s_black,s_combat_skill,10,std::to_string(skills.combat_lvl()),bold_rsrc);
             xp = GameLogic::CheckLevel(skills.combat_lvl());
             percent = skills.combat_xp() / xp;
             m_image.FilledRectangle(s_combat_percent_start,GD::Point{s_combat_percent_start.X() + static_cast<int>(s_skill_length*percent), s_combat_percent_end.Y() },s_white.Int());
 
-            m_image.AddImageText(s_black,s_foraging_skill,10,std::to_string(skills.foraging_lvl()),true);
+            m_image.AddImageText(s_black,s_foraging_skill,10,std::to_string(skills.foraging_lvl()),bold_rsrc);
             xp = GameLogic::CheckLevel(skills.foraging_lvl());
             percent = skills.foraging_xp() / xp;
             m_image.FilledRectangle(s_foraging_percent_start,GD::Point{s_foraging_percent_start.X() + static_cast<int>(s_skill_length*percent), s_foraging_percent_end.Y() },s_white.Int());
 
-            m_image.AddImageText(s_black,s_mining_skill,10,std::to_string(skills.mining_lvl()),true);
+            m_image.AddImageText(s_black,s_mining_skill,10,std::to_string(skills.mining_lvl()),bold_rsrc);
             xp = GameLogic::CheckLevel(skills.mining_lvl());
             percent = skills.mining_xp() / xp;
             m_image.FilledRectangle(s_mining_percent_start,GD::Point{s_mining_percent_start.X() + static_cast<int>(s_skill_length*percent), s_mining_percent_end.Y() },s_white.Int());

@@ -42,7 +42,7 @@ if(BUILD_TESTS)
 else()
     project(dcl_main VERSION 1.0.0 DESCRIPTION "Main Bot For DiscLand")
     add_executable(${PROJECT_NAME} "dcl/main.cpp")
-    add_subdirectory(libs/DPP)
+
     add_subdirectory(dcl/db)
     add_subdirectory(dcl/db_handler)
     add_subdirectory(dcl/core)
@@ -62,7 +62,7 @@ else()
 
     target_include_directories(
         ${PROJECT_NAME}
-        PRIVATE "libs/DPP/include"
+        PRIVATE "/usr/local/include"
         PRIVATE "dcl/api/include"
     )
 

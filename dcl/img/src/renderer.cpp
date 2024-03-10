@@ -22,20 +22,21 @@ bool Renderer::BaseMapRenderer::FillContents(const PBPlayer &player, const DCLDa
 #pragma region fill_information
     //Location Name
     size_t i = location_data.GetLocationName().find(s_delimiter, 0);
+    std::string normal_txt_rscr = "resources/fonts/consola.ttf";
     if (i != std::string::npos) 
     {
-        m_image.AddImageText(s_black,m_location_1,12,location_data.GetLocationName().substr(0,i),false);
+        m_image.AddImageText(s_black,m_location_1,12,location_data.GetLocationName().substr(0,i),normal_txt_rscr);
         i++; 
-        m_image.AddImageText(s_black,m_location_2,12,location_data.GetLocationName().substr(i),false);
+        m_image.AddImageText(s_black,m_location_2,12,location_data.GetLocationName().substr(i),normal_txt_rscr);
     } else 
     {
-        m_image.AddImageText(s_black,m_location_1,12,location_data.GetLocationName().substr(0),false);
+        m_image.AddImageText(s_black,m_location_1,12,location_data.GetLocationName().substr(0),normal_txt_rscr);
     }
 
     std::string health = std::to_string(player.stats().current_health()) + "/" + std::to_string(player.stats().max_health());
     std::string gold = std::to_string(player.gold());
-    m_image.AddImageText(s_black,m_current_health,12,health,false);
-    m_image.AddImageText(s_black,m_gold,12,gold,false);
+    m_image.AddImageText(s_black,m_current_health,12,health,normal_txt_rscr);
+    m_image.AddImageText(s_black,m_gold,12,gold,normal_txt_rscr);
     
 #pragma endregion
 
@@ -71,7 +72,9 @@ bool Renderer::PostMapRenderer::FillContents(const PBPlayer &player, const DCLDa
 {
     BaseMapRenderer::FillContents(player, location_data,location_db);
     const DCLData::DCLInteraction *interaction_data = location_data.GetInteraction(m_selected);
-    m_image.AddImageText(s_black,s_post_selected,10,interaction_data->GetInteractionName(),true);
+    std::string bold_rsrc = "resources/fonts/consolab.ttf";
+    std::string normal_txt_rscr = "resources/fonts/consola.ttf";
+    m_image.AddImageText(s_black,s_post_selected,10,interaction_data->GetInteractionName(),bold_rsrc);
 
     const auto &posX = interaction_data->GetPosX();
     const auto &posY = interaction_data->GetPosY();
@@ -89,13 +92,13 @@ bool Renderer::PostMapRenderer::FillContents(const PBPlayer &player, const DCLDa
     {
         const std::string *item_name = item_info.GetItemName(resource.item_id());
 
-        m_image.AddImageText(s_white,{s_starting_resource_list.X(),s_starting_resource_list.Y() + (s_listy * i)},10,*item_name,false);
+        m_image.AddImageText(s_white,{s_starting_resource_list.X(),s_starting_resource_list.Y() + (s_listy * i)},10,*item_name,normal_txt_rscr);
         if (m_notify_items)
             for (auto const& item: m_items)
             {
                 if (resource.item_id() == item.item_id()) 
                 {
-                    m_image.AddImageText(s_white,{s_starting_resource_list.X() + 80,s_starting_resource_list.Y() + (s_listy * i)},10,"+ "+std::to_string(item.quantity()),false);
+                    m_image.AddImageText(s_white,{s_starting_resource_list.X() + 80,s_starting_resource_list.Y() + (s_listy * i)},10,"+ "+std::to_string(item.quantity()),normal_txt_rscr);
                 }
             }
         
@@ -106,35 +109,36 @@ bool Renderer::PostMapRenderer::FillContents(const PBPlayer &player, const DCLDa
     float stored_percent = post_info_db.resource_stored() / capacity;
     m_image.FilledRectangle(s_start_meter,GD::Point{s_end_meter.X(),s_start_meter.Y() - static_cast<int>(66*stored_percent)},s_white.Int());
     std::string text = std::to_string(static_cast<int>(capacity)) + "u";
-    m_image.AddImageText(s_white,s_capacity,9,text,false);
+    m_image.AddImageText(s_white,s_capacity,9,text,normal_txt_rscr);
     
     //REGENERATION
     std::stringstream stream_regen;
     stream_regen << std::fixed << std::setprecision(2) << post_info->GetCurrentStat(PBUpgradeType::GEN_SECOND,post_info_db.gen_second_upgrade());
     std::string text2 = stream_regen.str() + "/s";
-    m_image.AddImageText(s_white,s_regeneration,9,text2,false);
+    m_image.AddImageText(s_white,s_regeneration,9,text2,normal_txt_rscr);
     
     //FORTUNE
     std::stringstream stream_fortune;
     stream_fortune << std::fixed << std::setprecision(2) << post_info->GetCurrentStat(PBUpgradeType::FORTUNE,post_info_db.fortune_upgrade());
     std::string text3 = stream_fortune.str() + "%";
-    m_image.AddImageText(s_white,s_fortune,9,text3,false);
+    m_image.AddImageText(s_white,s_fortune,9,text3,normal_txt_rscr);
     return true;
 }
 
 bool Renderer::ZoneAccessRenderer::FillContents(const PBPlayer &player, const DCLData::DCLLocation &location_data, const PBLocation &location_db)
 {
+    std::string normal_txt_rscr = "resources/fonts/consola.ttf";
     BaseMapRenderer::FillContents(player, location_data,location_db);
     const DCLData::DCLInteraction *interaction_data =location_data.GetInteraction(m_selected);
     size_t i = interaction_data->GetInteractionName().find(s_delimiter, 0);
     if (i != std::string::npos) 
     {
-        m_image.AddImageText(s_black,s_zone_access_name1,12,interaction_data->GetInteractionName().substr(0,i),false);
+        m_image.AddImageText(s_black,s_zone_access_name1,12,interaction_data->GetInteractionName().substr(0,i),normal_txt_rscr);
         i++; 
-        m_image.AddImageText(s_black,s_zone_access_name2,12,interaction_data->GetInteractionName().substr(i),false);
+        m_image.AddImageText(s_black,s_zone_access_name2,12,interaction_data->GetInteractionName().substr(i),normal_txt_rscr);
     } else 
     {
-        m_image.AddImageText(s_black,s_zone_access_name1,12,interaction_data->GetInteractionName().substr(0),false);
+        m_image.AddImageText(s_black,s_zone_access_name1,12,interaction_data->GetInteractionName().substr(0),normal_txt_rscr);
     }
 
     auto const &posX = interaction_data->GetPosX();
@@ -152,7 +156,7 @@ bool Renderer::ZoneAccessRenderer::FillContents(const PBPlayer &player, const DC
         for(auto const &resource : zone_access_info_data->GetRequirements(zone_access_info_db.unlock_level())) 
         {
             std::string item_name = (*item_info.GetItemName(resource.item_id())) +" - "+ std::to_string(resource.quantity());
-            m_image.AddImageText(s_white,{s_required_list.X(), s_required_list.Y() + static_cast<int>(s_increment_y * j)},10,item_name,false);
+            m_image.AddImageText(s_white,{s_required_list.X(), s_required_list.Y() + static_cast<int>(s_increment_y * j)},10,item_name,normal_txt_rscr);
             j++;
         }
     }
@@ -162,17 +166,18 @@ bool Renderer::ZoneAccessRenderer::FillContents(const PBPlayer &player, const DC
 
 bool Renderer::DialogRender::FillContents(const PBPlayer &player, const DCLData::DCLLocation &location_data, const PBLocation &location_db)
 {
+    std::string normal_txt_rscr = "resources/fonts/consola.ttf";
     BaseMapRenderer::FillContents(player, location_data,location_db);
     const DCLData::DCLInteraction *interaction_data =location_data.GetInteraction(m_selected);
     size_t i = interaction_data->GetInteractionName().find(s_delimiter, 0);
     if (i != std::string::npos) 
     {
-        m_image.AddImageText(s_black,s_dialog_name1,12,interaction_data->GetInteractionName().substr(0,i),false);
+        m_image.AddImageText(s_black,s_dialog_name1,12,interaction_data->GetInteractionName().substr(0,i),normal_txt_rscr);
         i++; 
-        m_image.AddImageText(s_black,s_dialog_name2,12,interaction_data->GetInteractionName().substr(i),false);
+        m_image.AddImageText(s_black,s_dialog_name2,12,interaction_data->GetInteractionName().substr(i),normal_txt_rscr);
     } else 
     {
-        m_image.AddImageText(s_black,s_dialog_name1,12,interaction_data->GetInteractionName().substr(0),false);
+        m_image.AddImageText(s_black,s_dialog_name1,12,interaction_data->GetInteractionName().substr(0),normal_txt_rscr);
     }
 
     auto const &posX = interaction_data->GetPosX();
